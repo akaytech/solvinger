@@ -26,15 +26,18 @@ export default function Navbar({ onOpenProjects }: { onOpenProjects: () => void 
       className={clsx(
         "relative flex h-full flex-col bg-white border-r border-slate-200 transition-all duration-300 z-50",
         !isExpanded && "cursor-pointer hover:bg-slate-50",
-        isExpanded ? "w-64" : "w-20"
+        isExpanded ? "w-64" : "w-36"
       )}
     >
       {/* Toggle Button */}
       <button
-        onClick={() => setIsExpanded(!isExpanded)}
-        className="absolute -right-3 top-8 flex h-6 w-6 items-center justify-center rounded-full bg-white border border-slate-200 shadow-sm hover:bg-slate-50 z-10 text-slate-500"
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsExpanded(!isExpanded);
+        }}
+        className="absolute -right-5 top-8 flex h-10 w-10 items-center justify-center rounded-full bg-white border-2 border-slate-200 shadow-md hover:bg-slate-50 z-10 text-slate-500 transition-transform hover:scale-110 active:scale-95"
       >
-        {isExpanded ? <ChevronLeft size={14} /> : <ChevronRight size={14} />}
+        {isExpanded ? <ChevronLeft size={24} /> : <ChevronRight size={24} />}
       </button>
 
       {/* Logo Area */}
@@ -45,7 +48,7 @@ export default function Navbar({ onOpenProjects }: { onOpenProjects: () => void 
           className="flex h-12 w-auto px-3 shrink-0 items-center justify-center rounded-xl bg-[#ff6666] shadow-lg shadow-[#ff6666]/30 transition-transform hover:scale-105 active:scale-95"
         >
           <span className="text-sm font-black tracking-widest text-white">
-            {isExpanded ? "SOLVINGER" : "S"}
+            SOLVINGER
           </span>
         </button>
         
