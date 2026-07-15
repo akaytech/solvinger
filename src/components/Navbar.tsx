@@ -3,6 +3,7 @@ import { useReactFlow } from '@xyflow/react';
 import { useRoadmapStore } from '../store/useRoadmapStore';
 import { ChevronRight, ChevronLeft, Folder, LogOut, User } from 'lucide-react';
 import clsx from 'clsx';
+import packageJson from '../../package.json';
 
 export default function Navbar({ onOpenProjects }: { onOpenProjects: () => void }) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -105,6 +106,13 @@ export default function Navbar({ onOpenProjects }: { onOpenProjects: () => void 
           )}
         </div>
       )}
+
+      {/* Version Info */}
+      <div className="py-3 text-center opacity-50">
+        <span className={clsx("text-[10px] font-bold text-slate-400", !isExpanded && "text-[8px]")}>
+          v{packageJson.version}
+        </span>
+      </div>
     </div>
   );
 }
