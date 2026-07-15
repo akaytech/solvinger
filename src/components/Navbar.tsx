@@ -20,8 +20,12 @@ export default function Navbar({ onOpenProjects }: { onOpenProjects: () => void 
 
   return (
     <div
+      onClick={() => {
+        if (!isExpanded) setIsExpanded(true);
+      }}
       className={clsx(
         "relative flex h-full flex-col bg-white border-r border-slate-200 transition-all duration-300 z-50",
+        !isExpanded && "cursor-pointer hover:bg-slate-50",
         isExpanded ? "w-64" : "w-20"
       )}
     >
@@ -45,11 +49,7 @@ export default function Navbar({ onOpenProjects }: { onOpenProjects: () => void 
           </span>
         </button>
         
-        {isExpanded && (
-          <span className="overflow-hidden whitespace-nowrap text-xl font-black text-slate-800 transition-all">
-            Solvinger
-          </span>
-        )}
+
       </div>
 
       {/* Navigation Items */}

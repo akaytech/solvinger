@@ -71,6 +71,48 @@ const getDirectChildren = (parentId: string, edges: Edge[]): string[] => {
   return edges.filter((e) => e.source === parentId).map((e) => e.target);
 };
 
+const cascadeStatus = (nodes: GoalNode[], edges: Edge[], changedId: string): GoalNode[] => {
+  let currentNodes = [...nodes];
+  let currentId: string | undefined = changedId;
+
+  while (currentId) {
+    const parentId = edges.find((e) => e.target === currentId)?.source;
+    if (!parentId) break;
+
+    const parentIndex = currentNodes.findIndex((n) => n.id === parentId);
+    if (parentIndex === -1) break;
+
+    const childrenIds = getDirectChildren(parentId, edges);
+    const childrenNodes = childrenIds.map(cid => currentNodes.find(n => n.id === cid)).filter(Boolean) as GoalNode[];
+
+    const allDone = childrenNodes.length > 0 && childrenNodes.every(n => n.data.status === 'Done');
+    const anyInProgressOrDone = childrenNodes.some(n => n.data.status === 'In Progress' || n.data.status === 'Done');
+
+    let newStatus = currentNodes[parentIndex].data.status;
+    if (allDone) {
+      newStatus = 'Done';
+    } else if (anyInProgressOrDone && currentNodes[parentIndex].data.status === 'To Do') {
+      newStatus = 'In Progress';
+    } else if (!anyInProgressOrDone && currentNodes[parentIndex].data.status === 'Done') {
+      newStatus = 'To Do';
+    } else if (anyInProgressOrDone && !allDone && currentNodes[parentIndex].data.status === 'Done') {
+      newStatus = 'In Progress';
+    }
+
+    if (newStatus !== currentNodes[parentIndex].data.status) {
+      currentNodes[parentIndex] = {
+        ...currentNodes[parentIndex],
+        data: { ...currentNodes[parentIndex].data, status: newStatus }
+      };
+      currentId = parentId;
+    } else {
+      break;
+    }
+  }
+
+  return currentNodes;
+};
+
 let saveTimeout: any;
 
 const syncProject = (state: RoadmapState): Partial<RoadmapState> => {
@@ -274,9 +316,14 @@ export const useRoadmapStore = create<RoadmapState>()(
 
       updateGoal: (id, data) => {
         set((state) => {
-          const nextNodes = state.nodes.map((node) =>
+          let nextNodes = state.nodes.map((node) =>
             node.id === id ? { ...node, data: { ...node.data, ...data } } : node
           );
+          
+          if (data.status) {
+            nextNodes = cascadeStatus(nextNodes, state.edges, id);
+          }
+          
           const next = { ...state, nodes: nextNodes };
           return { ...next, ...syncProject(next) };
         });
