@@ -121,11 +121,18 @@ export default function RoadmapCanvas({ onNodeSelect }: { onNodeSelect: (id: str
     []
   );
 
-  const onPaneClick = useCallback(() => {
+  const onPaneClick = useCallback((event: React.MouseEvent) => {
+    if (event.ctrlKey || event.metaKey) {
+       const pos = screenToFlowPosition({
+         x: event.clientX,
+         y: event.clientY,
+       });
+       addGoal(null, t('new_project'), pos);
+    }
     setMenu(null);
     setPaneMenu(null);
     onNodeSelect(null);
-  }, [onNodeSelect]);
+  }, [onNodeSelect, screenToFlowPosition, addGoal, t]);
 
   return (
     <div className="h-full w-full relative bg-slate-50 dark:bg-slate-900 transition-colors" ref={reactFlowWrapper} onContextMenu={onPaneContextMenu as any}>

@@ -1,14 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { ReactFlowProvider } from '@xyflow/react';
 import RoadmapCanvas from './components/RoadmapCanvas';
 import Navbar from './components/Navbar';
 import AuthModal from './components/AuthModal';
-import ProjectsPanel from './components/ProjectsPanel';
+import TopRightUserMenu from './components/TopRightUserMenu';
+import TopRightProjectsMenu from './components/TopRightProjectsMenu';
 import { useRoadmapStore } from './store/useRoadmapStore';
 
 function App() {
   const { user, fetchProjects, currentProjectId, loadProject } = useRoadmapStore();
-  const [isProjectsOpen, setIsProjectsOpen] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -27,11 +27,12 @@ function App() {
       
       {user && (
         <ReactFlowProvider>
-          <Navbar onOpenProjects={() => setIsProjectsOpen(true)} />
+          <Navbar />
           <div className="relative flex-1">
+            <TopRightUserMenu />
+            <TopRightProjectsMenu />
             <RoadmapCanvas onNodeSelect={() => {}} />
           </div>
-          <ProjectsPanel isOpen={isProjectsOpen} onClose={() => setIsProjectsOpen(false)} />
         </ReactFlowProvider>
       )}
     </div>

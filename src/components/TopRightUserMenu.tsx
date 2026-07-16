@@ -1,0 +1,91 @@
+import { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useRoadmapStore } from '../store/useRoadmapStore';
+import { LogOut, Sun, Moon, User } from 'lucide-react';
+
+export default function TopRightUserMenu() {
+  const { t, i18n } = useTranslation();
+  const { user, logout } = useRoadmapStore();
+  const [isHovered, setIsHovered] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(() => document.documentElement.classList.contains('dark'));
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+      setIsDarkMode(true);
+    }
+  }, []);
+
+  const toggleDarkMode = () => {
+    const next = !isDarkMode;
+    setIsDarkMode(next);
+    if (next) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  };
+
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+  };
+
+  if (!user) return null;
+
+  return (
+    <div 
+      className="absolute top-4 right-4 z-50 flex flex-col items-end"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 shadow-md hover:scale-105 transition-transform text-indigo-500">
+        <User size={24} />
+      </div>
+
+      <div 
+        className={`absolute top-14 right-0 w-64 origin-top-right rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-2 shadow-2xl transition-all duration-300 ${isHovered ? 'scale-100 opacity-100' : 'scale-95 opacity-0 pointer-events-none'}`}
+      >
+        <div className="px-3 py-2 border-b border-slate-100 dark:border-slate-700 mb-2">
+          <p className="truncate text-sm font-bold text-slate-800 dark:text-slate-100">{user.name}</p>
+          <p className="truncate text-xs text-slate-500 dark:text-slate-400">{user.email}</p>
+        </div>
+
+        <button
+          onClick={toggleDarkMode}
+          className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+        >
+          {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
+          {isDarkMode ? t('light_mode') : t('dark_mode')}
+        </button>
+
+        <div className="mt-2 mb-2">
+           <div className="px-3 py-1 text-xs font-bold uppercase tracking-wider text-slate-400">Language</div>
+           <div className="grid grid-cols-2 gap-1 px-1 mt-1">
+             {['tr','en','es','fr','de','pt','ru','ar','zh','ja'].map(lng => (
+                <button
+                  key={lng}
+                  onClick={() => changeLanguage(lng)}
+                  className={`rounded-lg px-2 py-1.5 text-xs font-bold uppercase text-center transition-colors ${i18n.language === lng ? 'bg-indigo-100 text-indigo-600 dark:bg-indigo-900/50 dark:text-indigo-400' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'}`}
+                >
+                  {lng}
+                </button>
+             ))}
+           </div>
+        </div>
+
+        <div className="my-2 h-px w-full bg-slate-100 dark:bg-slate-700" />
+
+        <button
+          onClick={logout}
+          className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-bold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors"
+        >
+          <LogOut size={18} />
+          {t('logout')}
+        </button>
+      </div>
+    </div>
+  );
+}

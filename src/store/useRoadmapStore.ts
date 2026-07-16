@@ -9,6 +9,7 @@ import type { Edge, NodeChange, EdgeChange, Connection, Node } from '@xyflow/rea
 import { v4 as uuidv4 } from 'uuid';
 import { doc, setDoc, deleteDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
+import dagre from 'dagre';
 
 export type GoalStatus = 'To Do' | 'In Progress' | 'Done' | 'Failed';
 
@@ -100,6 +101,39 @@ const computeVisibility = (nodes: GoalNode[], edges: Edge[]) => {
     nodes: nodes.map(n => ({ ...n, hidden: !visibleNodeIds.has(n.id) })),
     edges: edges.map(e => ({ ...e, hidden: !visibleNodeIds.has(e.source) || !visibleNodeIds.has(e.target) }))
   };
+};
+
+const getLayoutedElements = (nodes: GoalNode[], edges: Edge[], direction = 'TB') => {
+  const dagreGraph = new dagre.graphlib.Graph();
+  dagreGraph.setDefaultEdgeLabel(() => ({}));
+  dagreGraph.setGraph({ rankdir: direction, nodesep: 150, ranksep: 200 });
+
+  const visibleNodes = nodes.filter(n => !n.hidden);
+  const visibleEdges = edges.filter(e => !e.hidden);
+
+  visibleNodes.forEach((node) => {
+    dagreGraph.setNode(node.id, { width: 440, height: 110 });
+  });
+
+  visibleEdges.forEach((edge) => {
+    dagreGraph.setEdge(edge.source, edge.target);
+  });
+
+  dagre.layout(dagreGraph);
+
+  return nodes.map((node) => {
+    if (node.hidden) return node;
+    const nodeWithPosition = dagreGraph.node(node.id);
+    return {
+      ...node,
+      position: {
+        x: nodeWithPosition.x - 220,
+        y: nodeWithPosition.y - 55,
+      },
+      targetPosition: 'top',
+      sourcePosition: 'bottom',
+    };
+  }) as GoalNode[];
 };
 
 const cascadeStatus = (nodes: GoalNode[], edges: Edge[], changedId: string): GoalNode[] => {
@@ -344,7 +378,10 @@ export const useRoadmapStore = create<RoadmapState>()(
           : state.edges;
 
         set((s) => {
-          const next = { ...s, nodes: [...s.nodes, newNode], edges: newEdges };
+          let nextNodes = [...s.nodes, newNode];
+          const { nodes: updatedNodes, edges: updatedEdges } = computeVisibility(nextNodes, newEdges);
+          nextNodes = getLayoutedElements(updatedNodes, updatedEdges);
+          const next = { ...s, nodes: nextNodes, edges: updatedEdges };
           return { ...next, ...syncProject(next) };
         });
 
@@ -364,8 +401,9 @@ export const useRoadmapStore = create<RoadmapState>()(
           }
           
           const { nodes: updatedNodes, edges: updatedEdges } = computeVisibility(nextNodes, state.edges);
+          const finalNodes = getLayoutedElements(updatedNodes, updatedEdges);
           
-          const next = { ...state, nodes: updatedNodes, edges: updatedEdges };
+          const next = { ...state, nodes: finalNodes, edges: updatedEdges };
           return { ...next, ...syncProject(next) };
         });
       },
@@ -378,7 +416,9 @@ export const useRoadmapStore = create<RoadmapState>()(
           const nextEdges = state.edges.filter(
             (edge) => !toDelete.includes(edge.source) && !toDelete.includes(edge.target)
           );
-          const next = { ...state, nodes: nextNodes, edges: nextEdges };
+          const { nodes: updatedNodes, edges: updatedEdges } = computeVisibility(nextNodes, nextEdges);
+          const finalNodes = getLayoutedElements(updatedNodes, updatedEdges);
+          const next = { ...state, nodes: finalNodes, edges: updatedEdges };
           return { ...next, ...syncProject(next) };
         });
       },
@@ -394,8 +434,8 @@ export const useRoadmapStore = create<RoadmapState>()(
           );
           
           const { nodes: updatedNodes, edges: updatedEdges } = computeVisibility(nextNodes, state.edges);
-
-          const next = { ...state, nodes: updatedNodes, edges: updatedEdges };
+          const finalNodes = getLayoutedElements(updatedNodes, updatedEdges);
+          const next = { ...state, nodes: finalNodes, edges: updatedEdges };
           return { ...next, ...syncProject(next) };
         });
       },
@@ -411,8 +451,8 @@ export const useRoadmapStore = create<RoadmapState>()(
           );
           
           const { nodes: updatedNodes, edges: updatedEdges } = computeVisibility(nextNodes, state.edges);
-
-          const next = { ...state, nodes: updatedNodes, edges: updatedEdges };
+          const finalNodes = getLayoutedElements(updatedNodes, updatedEdges);
+          const next = { ...state, nodes: finalNodes, edges: updatedEdges };
           return { ...next, ...syncProject(next) };
         });
       },

@@ -33,7 +33,17 @@ const resources = {
       "hide_completed": "Tamamlananları Gizle",
       "show_hidden": "Gizlenenleri Göster",
       "hero_title": "Problemleri Sistematik Çöz",
-      "hero_subtitle": "Solvinger ile karmaşık iş süreçlerini haritalandır, kök nedenleri bul ve ekibinle birlikte verimliliği zirveye taşı."
+      "hero_subtitle": "Solvinger ile karmaşık iş süreçlerini haritalandır, kök nedenleri bul ve ekibinle birlikte verimliliği zirveye taşı.",
+      "goal_name": "Görev İsmi",
+      "read_edit_desc": "Açıklamayı Oku / Düzenle",
+      "add_desc": "Açıklama Ekle",
+      "todo_status": "Yapılacak",
+      "in_progress_status": "Devam Ediyor",
+      "done_status": "Tamamlandı",
+      "failed_status": "Başarısız",
+      "map_operations": "Harita İşlemleri",
+      "new_root_goal": "Yeni Ana Görev",
+      "close": "Kapat"
     }
   },
   en: {
@@ -66,7 +76,17 @@ const resources = {
       "hide_completed": "Hide Completed",
       "show_hidden": "Show Hidden",
       "hero_title": "Solve Problems Systematically",
-      "hero_subtitle": "Map out complex workflows, find root causes, and maximize productivity with Solvinger."
+      "hero_subtitle": "Map out complex workflows, find root causes, and maximize productivity with Solvinger.",
+      "goal_name": "Goal Name",
+      "read_edit_desc": "Read / Edit Description",
+      "add_desc": "Add Description",
+      "todo_status": "To Do",
+      "in_progress_status": "In Progress",
+      "done_status": "Done",
+      "failed_status": "Failed",
+      "map_operations": "Map Operations",
+      "new_root_goal": "New Root Goal",
+      "close": "Close"
     }
   },
   es: {
@@ -99,7 +119,17 @@ const resources = {
       "hide_completed": "Ocultar Completados",
       "show_hidden": "Mostrar Ocultos",
       "hero_title": "Resuelve Problemas Sistemáticamente",
-      "hero_subtitle": "Mapea flujos de trabajo complejos, encuentra causas raíz y maximiza la productividad con Solvinger."
+      "hero_subtitle": "Mapea flujos de trabajo complejos, encuentra causas raíz y maximiza la productividad con Solvinger.",
+      "goal_name": "Nombre del Objetivo",
+      "read_edit_desc": "Leer / Editar Descripción",
+      "add_desc": "Añadir Descripción",
+      "todo_status": "Por Hacer",
+      "in_progress_status": "En Progreso",
+      "done_status": "Hecho",
+      "failed_status": "Fallido",
+      "map_operations": "Operaciones del Mapa",
+      "new_root_goal": "Nuevo Objetivo Raíz",
+      "close": "Cerrar"
     }
   },
   fr: {
@@ -132,7 +162,17 @@ const resources = {
       "hide_completed": "Masquer Terminé",
       "show_hidden": "Afficher Masqué",
       "hero_title": "Résoudre les problèmes",
-      "hero_subtitle": "Cartographiez des flux de travail complexes avec Solvinger."
+      "hero_subtitle": "Cartographiez des flux de travail complexes avec Solvinger.",
+      "goal_name": "Nom de l'objectif",
+      "read_edit_desc": "Lire / Éditer la description",
+      "add_desc": "Ajouter une description",
+      "todo_status": "À Faire",
+      "in_progress_status": "En Cours",
+      "done_status": "Terminé",
+      "failed_status": "Échoué",
+      "map_operations": "Opérations de la carte",
+      "new_root_goal": "Nouvel objectif principal",
+      "close": "Fermer"
     }
   },
   de: {
@@ -165,7 +205,17 @@ const resources = {
       "hide_completed": "Abgeschlossene ausblenden",
       "show_hidden": "Ausgeblendete anzeigen",
       "hero_title": "Probleme systematisch lösen",
-      "hero_subtitle": "Komplexe Arbeitsabläufe mit Solvinger abbilden."
+      "hero_subtitle": "Komplexe Arbeitsabläufe mit Solvinger abbilden.",
+      "goal_name": "Zielname",
+      "read_edit_desc": "Beschreibung lesen / bearbeiten",
+      "add_desc": "Beschreibung hinzufügen",
+      "todo_status": "Zu tun",
+      "in_progress_status": "In Bearbeitung",
+      "done_status": "Erledigt",
+      "failed_status": "Fehlgeschlagen",
+      "map_operations": "Kartenoperationen",
+      "new_root_goal": "Neues Hauptziel",
+      "close": "Schließen"
     }
   },
   pt: {
@@ -198,7 +248,17 @@ const resources = {
       "hide_completed": "Ocultar Concluídos",
       "show_hidden": "Mostrar Ocultos",
       "hero_title": "Resolva Problemas",
-      "hero_subtitle": "Mapeie fluxos complexos com o Solvinger."
+      "hero_subtitle": "Mapeie fluxos complexos com o Solvinger.",
+      "goal_name": "Nome do Objetivo",
+      "read_edit_desc": "Ler / Editar Descrição",
+      "add_desc": "Adicionar Descrição",
+      "todo_status": "A Fazer",
+      "in_progress_status": "Em Progresso",
+      "done_status": "Concluído",
+      "failed_status": "Falhou",
+      "map_operations": "Operações do Mapa",
+      "new_root_goal": "Novo Objetivo Raiz",
+      "close": "Fechar"
     }
   },
   ru: {
@@ -231,7 +291,17 @@ const resources = {
       "hide_completed": "Скрыть завершенные",
       "show_hidden": "Показать скрытые",
       "hero_title": "Решайте проблемы",
-      "hero_subtitle": "Картируйте сложные процессы с Solvinger."
+      "hero_subtitle": "Картируйте сложные процессы с Solvinger.",
+      "goal_name": "Название цели",
+      "read_edit_desc": "Читать / Редактировать описание",
+      "add_desc": "Добавить описание",
+      "todo_status": "Сделать",
+      "in_progress_status": "В процессе",
+      "done_status": "Готово",
+      "failed_status": "Провалено",
+      "map_operations": "Операции с картой",
+      "new_root_goal": "Новая главная цель",
+      "close": "Закрыть"
     }
   },
   ar: {
@@ -264,7 +334,17 @@ const resources = {
       "hide_completed": "إخفاء المكتمل",
       "show_hidden": "إظهار المخفي",
       "hero_title": "حل المشكلات بشكل منهجي",
-      "hero_subtitle": "تخطيط سير العمل المعقد مع Solvinger."
+      "hero_subtitle": "تخطيط سير العمل المعقد مع Solvinger.",
+      "goal_name": "اسم الهدف",
+      "read_edit_desc": "قراءة / تعديل الوصف",
+      "add_desc": "إضافة وصف",
+      "todo_status": "للقيام به",
+      "in_progress_status": "قيد التقدم",
+      "done_status": "مكتمل",
+      "failed_status": "فشل",
+      "map_operations": "عمليات الخريطة",
+      "new_root_goal": "هدف رئيسي جديد",
+      "close": "إغلاق"
     }
   },
   zh: {
@@ -297,7 +377,17 @@ const resources = {
       "hide_completed": "隐藏已完成",
       "show_hidden": "显示隐藏",
       "hero_title": "系统地解决问题",
-      "hero_subtitle": "使用 Solvinger 映射复杂的工作流程。"
+      "hero_subtitle": "使用 Solvinger 映射复杂的工作流程。",
+      "goal_name": "目标名称",
+      "read_edit_desc": "阅读/编辑描述",
+      "add_desc": "添加描述",
+      "todo_status": "待办",
+      "in_progress_status": "进行中",
+      "done_status": "已完成",
+      "failed_status": "失败",
+      "map_operations": "地图操作",
+      "new_root_goal": "新的根目标",
+      "close": "关闭"
     }
   },
   ja: {
@@ -330,7 +420,17 @@ const resources = {
       "hide_completed": "完了を非表示",
       "show_hidden": "非表示を表示",
       "hero_title": "問題を体系的に解決する",
-      "hero_subtitle": "Solvinger で複雑なワークフローをマップします。"
+      "hero_subtitle": "Solvinger で複雑なワークフローをマップします。",
+      "goal_name": "目標名",
+      "read_edit_desc": "説明を読​​む / 編集する",
+      "add_desc": "説明を追加",
+      "todo_status": "予定",
+      "in_progress_status": "進行中",
+      "done_status": "完了",
+      "failed_status": "失敗",
+      "map_operations": "マップ操作",
+      "new_root_goal": "新しいルート目標",
+      "close": "閉じる"
     }
   }
 };
