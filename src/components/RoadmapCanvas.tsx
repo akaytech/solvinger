@@ -24,13 +24,18 @@ export default function RoadmapCanvas({ onNodeSelect }: { onNodeSelect: (id: str
   const [descriptionModalNodeId, setDescriptionModalNodeId] = useState<string | null>(null);
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
 
-  const onNodeClick: NodeMouseHandler = useCallback((_, node) => {
+  const onNodeClick: NodeMouseHandler = useCallback((event, node) => {
+    if (event.ctrlKey || event.metaKey) {
+       addGoal(node.id, 'Yeni Alt Görev');
+       return;
+    }
+    
     onNodeSelect(node.id);
     toggleExpand(node.id);
     
     // Smooth pan to clicked node like a daisy focusing
-    setCenter(node.position.x, node.position.y, { zoom: getZoom(), duration: 800 });
-  }, [onNodeSelect, toggleExpand, setCenter, getZoom]);
+    setCenter(node.position.x + 220, node.position.y + 55, { zoom: getZoom(), duration: 800 });
+  }, [addGoal, onNodeSelect, toggleExpand, setCenter, getZoom]);
 
   const onNodeContextMenu = useCallback(
     (event: React.MouseEvent, node: any) => {

@@ -14,19 +14,15 @@ export default function Navbar({ onOpenProjects }: { onOpenProjects: () => void 
     // Find a root node (prefer 'root' or first node)
     const rootNode = nodes.find((n) => n.id === 'root') || nodes[0];
     if (rootNode) {
-      setCenter(rootNode.position.x, rootNode.position.y, { zoom: Math.max(getZoom(), 0.8), duration: 800 });
+      setCenter(rootNode.position.x + 220, rootNode.position.y + 55, { zoom: Math.max(getZoom(), 0.8), duration: 800 });
     }
   };
 
   return (
     <div
-      onClick={() => {
-        if (!isExpanded) setIsExpanded(true);
-      }}
       className={clsx(
-        "relative flex h-full flex-col bg-white border-r border-slate-200 transition-all duration-300 z-50",
-        !isExpanded && "cursor-pointer hover:bg-slate-50",
-        isExpanded ? "w-64" : "w-36"
+        "relative flex h-full flex-col bg-white transition-all duration-300 z-50",
+        isExpanded ? "w-64 border-r border-slate-200" : "w-0 border-0"
       )}
     >
       {/* Toggle Button */}
@@ -40,6 +36,7 @@ export default function Navbar({ onOpenProjects }: { onOpenProjects: () => void 
         {isExpanded ? <ChevronLeft size={24} /> : <ChevronRight size={24} />}
       </button>
 
+      <div className={clsx("flex h-full flex-col w-64 overflow-hidden transition-opacity duration-300", isExpanded ? "opacity-100" : "opacity-0 pointer-events-none")}>
       {/* Logo Area */}
       <div className={clsx("flex p-4 items-center", isExpanded ? "justify-start gap-3" : "justify-center")}>
         <button
@@ -115,6 +112,7 @@ export default function Navbar({ onOpenProjects }: { onOpenProjects: () => void 
         <span className={clsx("text-[10px] font-bold text-slate-400", !isExpanded && "text-[8px]")}>
           v{packageJson.version}
         </span>
+      </div>
       </div>
     </div>
   );

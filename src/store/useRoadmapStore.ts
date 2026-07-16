@@ -19,6 +19,7 @@ export type GoalNodeData = {
   targetDate?: string;
   status: GoalStatus;
   isExpanded: boolean;
+  hideCompleted?: boolean;
 };
 
 export type GoalNode = Node<GoalNodeData>;
@@ -57,6 +58,7 @@ interface RoadmapState {
   updateGoal: (id: string, data: Partial<GoalNodeData>) => void;
   deleteGoal: (id: string) => void;
   toggleExpand: (id: string) => void;
+  toggleHideCompleted: (id: string) => void;
   loadData: (nodes: GoalNode[], edges: Edge[]) => void;
 }
 
@@ -69,6 +71,35 @@ const getDescendants = (parentId: string, edges: Edge[]): string[] => {
 
 const getDirectChildren = (parentId: string, edges: Edge[]): string[] => {
   return edges.filter((e) => e.source === parentId).map((e) => e.target);
+};
+
+const computeVisibility = (nodes: GoalNode[], edges: Edge[]) => {
+  const rootNodes = nodes.filter(n => !edges.some(e => e.target === n.id));
+  const visibleNodeIds = new Set<string>();
+  rootNodes.forEach(n => visibleNodeIds.add(n.id));
+
+  const queue = [...rootNodes];
+  while (queue.length > 0) {
+    const current = queue.shift()!;
+    if (current.data.isExpanded) {
+      const childrenIds = edges.filter(e => e.source === current.id).map(e => e.target);
+      const children = childrenIds.map(cid => nodes.find(n => n.id === cid)).filter(Boolean) as GoalNode[];
+      
+      children.forEach(child => {
+        if (current.data.hideCompleted && child.data.status === 'Done') {
+           // do not show
+        } else {
+           visibleNodeIds.add(child.id);
+           queue.push(child);
+        }
+      });
+    }
+  }
+
+  return {
+    nodes: nodes.map(n => ({ ...n, hidden: !visibleNodeIds.has(n.id) })),
+    edges: edges.map(e => ({ ...e, hidden: !visibleNodeIds.has(e.source) || !visibleNodeIds.has(e.target) }))
+  };
 };
 
 const cascadeStatus = (nodes: GoalNode[], edges: Edge[], changedId: string): GoalNode[] => {
@@ -324,7 +355,9 @@ export const useRoadmapStore = create<RoadmapState>()(
             nextNodes = cascadeStatus(nextNodes, state.edges, id);
           }
           
-          const next = { ...state, nodes: nextNodes };
+          const { nodes: updatedNodes, edges: updatedEdges } = computeVisibility(nextNodes, state.edges);
+          
+          const next = { ...state, nodes: updatedNodes, edges: updatedEdges };
           return { ...next, ...syncProject(next) };
         });
       },
@@ -348,31 +381,28 @@ export const useRoadmapStore = create<RoadmapState>()(
           if (!parentNode) return state;
 
           const newExpandedState = !parentNode.data.isExpanded;
-          let updatedNodes = state.nodes.map((node) =>
+          const nextNodes = state.nodes.map((node) =>
             node.id === id ? { ...node, data: { ...node.data, isExpanded: newExpandedState } } : node
           );
-          let updatedEdges = [...state.edges];
+          
+          const { nodes: updatedNodes, edges: updatedEdges } = computeVisibility(nextNodes, state.edges);
 
-          const directChildrenIds = getDirectChildren(id, state.edges);
+          const next = { ...state, nodes: updatedNodes, edges: updatedEdges };
+          return { ...next, ...syncProject(next) };
+        });
+      },
 
-          if (newExpandedState) {
-            updatedNodes = updatedNodes.map((node) =>
-              directChildrenIds.includes(node.id) ? { ...node, hidden: false } : node
-            );
-            updatedEdges = updatedEdges.map((edge) =>
-              edge.source === id ? { ...edge, hidden: false } : edge
-            );
-          } else {
-            const allDescendants = getDescendants(id, state.edges);
-            updatedNodes = updatedNodes.map((node) =>
-              allDescendants.includes(node.id)
-                ? { ...node, hidden: true, data: { ...node.data, isExpanded: false } }
-                : node
-            );
-            updatedEdges = updatedEdges.map((edge) =>
-              allDescendants.includes(edge.target) ? { ...edge, hidden: true } : edge
-            );
-          }
+      toggleHideCompleted: (id) => {
+        set((state) => {
+          const parentNode = state.nodes.find((n) => n.id === id);
+          if (!parentNode) return state;
+
+          const newHideState = !parentNode.data.hideCompleted;
+          const nextNodes = state.nodes.map((node) =>
+            node.id === id ? { ...node, data: { ...node.data, hideCompleted: newHideState } } : node
+          );
+          
+          const { nodes: updatedNodes, edges: updatedEdges } = computeVisibility(nextNodes, state.edges);
 
           const next = { ...state, nodes: updatedNodes, edges: updatedEdges };
           return { ...next, ...syncProject(next) };
