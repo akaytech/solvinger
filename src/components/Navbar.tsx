@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useReactFlow } from '@xyflow/react';
 import { useRoadmapStore } from '../store/useRoadmapStore';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
@@ -11,6 +11,19 @@ export default function Navbar() {
   const [isExpanded, setIsExpanded] = useState(false);
   const { setCenter, getZoom } = useReactFlow();
   const { nodes } = useRoadmapStore();
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsExpanded(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const focusRoot = () => {
     // Find a root node (prefer 'root' or first node)
@@ -22,6 +35,7 @@ export default function Navbar() {
 
   return (
     <div
+      ref={menuRef}
       className={clsx(
         "relative flex h-full flex-col bg-white dark:bg-slate-900 transition-all duration-300 z-50",
         isExpanded ? "w-64 border-r border-slate-200 dark:border-slate-800" : "w-0 border-0"
