@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useRef, useState, useEffect } from 'react';
 import {
   ReactFlow,
   Background,
@@ -6,17 +6,19 @@ import {
 } from '@xyflow/react';
 import type { NodeMouseHandler } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import { useRoadmapStore } from '../store/useRoadmapStore';
+import { useRoadmapStore, getDescendants } from '../store/useRoadmapStore';
 import GoalNode from './GoalNode';
 import ContextMenu from './ContextMenu';
 import PaneContextMenu from './PaneContextMenu';
 import DescriptionModal from './DescriptionModal';
+import { useTranslation } from 'react-i18next';
 
 const nodeTypes = {
   goalNode: GoalNode,
 };
 
 export default function RoadmapCanvas({ onNodeSelect }: { onNodeSelect: (id: string | null) => void }) {
+  const { t } = useTranslation();
   const { nodes, edges, onNodesChange, onEdgesChange, onConnect, toggleExpand, addGoal, updateGoal, deleteGoal } = useRoadmapStore();
   const { setCenter, getZoom, screenToFlowPosition } = useReactFlow();
   const [menu, setMenu] = useState<{ id: string; top: number; left: number } | null>(null);
@@ -24,9 +26,22 @@ export default function RoadmapCanvas({ onNodeSelect }: { onNodeSelect: (id: str
   const [descriptionModalNodeId, setDescriptionModalNodeId] = useState<string | null>(null);
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
 
+  const [isShiftPressed, setIsShiftPressed] = useState(false);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => { if (e.key === 'Shift') setIsShiftPressed(true); };
+    const handleKeyUp = (e: KeyboardEvent) => { if (e.key === 'Shift') setIsShiftPressed(false); };
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
+    };
+  }, []);
+
   const onNodeClick: NodeMouseHandler = useCallback((event, node) => {
     if (event.ctrlKey || event.metaKey) {
-       addGoal(node.id, 'Yeni Alt Görev');
+       addGoal(node.id, t('add_subgoal'));
        return;
     }
     
@@ -35,7 +50,17 @@ export default function RoadmapCanvas({ onNodeSelect }: { onNodeSelect: (id: str
     
     // Smooth pan to clicked node like a daisy focusing
     setCenter(node.position.x + 220, node.position.y + 55, { zoom: getZoom(), duration: 800 });
-  }, [addGoal, onNodeSelect, toggleExpand, setCenter, getZoom]);
+  }, [addGoal, onNodeSelect, toggleExpand, setCenter, getZoom, t]);
+
+  const onNodeDragStart = useCallback((_event: any, node: any) => {
+    if (isShiftPressed) {
+      const descendants = getDescendants(node.id, edges);
+      const changes: any[] = descendants.map(id => ({ id, type: 'select', selected: true }));
+      // Also select the node itself just in case
+      changes.push({ id: node.id, type: 'select', selected: true });
+      onNodesChange(changes);
+    }
+  }, [edges, isShiftPressed, onNodesChange]);
 
   const onNodeContextMenu = useCallback(
     (event: React.MouseEvent, node: any) => {
@@ -103,7 +128,7 @@ export default function RoadmapCanvas({ onNodeSelect }: { onNodeSelect: (id: str
   }, [onNodeSelect]);
 
   return (
-    <div className="h-full w-full relative bg-slate-50" ref={reactFlowWrapper} onContextMenu={onPaneContextMenu as any}>
+    <div className="h-full w-full relative bg-slate-50 dark:bg-slate-900 transition-colors" ref={reactFlowWrapper} onContextMenu={onPaneContextMenu as any}>
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -112,6 +137,7 @@ export default function RoadmapCanvas({ onNodeSelect }: { onNodeSelect: (id: str
         onConnect={onConnect}
         nodeTypes={nodeTypes}
         onNodeClick={onNodeClick}
+        onNodeDragStart={onNodeDragStart}
         onNodeContextMenu={onNodeContextMenu}
         onPaneClick={onPaneClick}
         fitView
@@ -133,7 +159,7 @@ export default function RoadmapCanvas({ onNodeSelect }: { onNodeSelect: (id: str
           y={menu.top}
           node={nodes.find((n) => n.id === menu.id)!}
           onClose={() => setMenu(null)}
-          onAddSubGoal={() => addGoal(menu.id, 'Yeni Alt Görev')}
+          onAddSubGoal={() => addGoal(menu.id, t('add_subgoal'))}
           onUpdate={(data) => updateGoal(menu.id, data)}
           onOpenDescription={() => setDescriptionModalNodeId(menu.id)}
           onDelete={() => deleteGoal(menu.id)}
@@ -150,7 +176,7 @@ export default function RoadmapCanvas({ onNodeSelect }: { onNodeSelect: (id: str
               x: paneMenu.clientX,
               y: paneMenu.clientY,
             });
-            addGoal(null, 'Yeni Ana Görev', pos);
+            addGoal(null, t('new_project'), pos);
             setPaneMenu(null);
           }}
         />

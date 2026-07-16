@@ -62,7 +62,7 @@ interface RoadmapState {
   loadData: (nodes: GoalNode[], edges: Edge[]) => void;
 }
 
-const getDescendants = (parentId: string, edges: Edge[]): string[] => {
+export const getDescendants = (parentId: string, edges: Edge[]): string[] => {
   const children = edges.filter((e) => e.source === parentId).map((e) => e.target);
   return children.reduce((acc, childId) => {
     return [...acc, childId, ...getDescendants(childId, edges)];

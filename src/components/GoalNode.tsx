@@ -4,8 +4,10 @@ import clsx from 'clsx';
 import type { GoalNodeData } from '../store/useRoadmapStore';
 import { useRoadmapStore } from '../store/useRoadmapStore';
 import { useState, useRef, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export default function GoalNode({ data, selected }: { data: GoalNodeData; selected: boolean }) {
+  const { t } = useTranslation();
   const isDone = data.status === 'Done';
   const isInProgress = data.status === 'In Progress';
 
@@ -44,8 +46,8 @@ export default function GoalNode({ data, selected }: { data: GoalNodeData; selec
     <div
       className={clsx(
         'group relative flex w-[440px] min-h-[110px] items-center rounded-[2rem] p-5 shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl',
-        selected ? 'ring-4 ring-white/50 shadow-black/20' : '',
-        isDone ? 'bg-blue-500 text-white' : isInProgress ? 'bg-emerald-500 text-white' : 'bg-[#ffff00] text-slate-800'
+        selected ? 'ring-4 ring-white/50 dark:ring-slate-500/50 shadow-black/20 dark:shadow-black/50' : '',
+        isDone ? 'bg-blue-500 dark:bg-blue-600 text-white' : isInProgress ? 'bg-emerald-500 dark:bg-emerald-600 text-white' : 'bg-[#ffff00] dark:bg-yellow-500 text-slate-800'
       )}
     >
       {hasCompletedChildren && (
@@ -57,10 +59,10 @@ export default function GoalNode({ data, selected }: { data: GoalNodeData; selec
           className={clsx(
             "absolute -top-3 right-4 flex h-7 items-center justify-center gap-1 rounded-full px-3 shadow-md border transition-all text-xs font-bold z-10",
             data.hideCompleted 
-              ? "bg-slate-100 border-slate-200 text-slate-500 hover:bg-slate-200" 
-              : "bg-white border-blue-100 text-blue-500 hover:bg-blue-50"
+              ? "bg-slate-100 dark:bg-slate-700 border-slate-200 dark:border-slate-600 text-slate-500 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600" 
+              : "bg-white dark:bg-slate-800 border-blue-100 dark:border-slate-700 text-blue-500 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-slate-700"
           )}
-          title={data.hideCompleted ? "Gizlenenleri Göster" : "Tamamlananları Gizle"}
+          title={data.hideCompleted ? t('show_hidden') : t('hide_completed')}
         >
           {data.hideCompleted ? <EyeOff size={14} /> : <Eye size={14} />}
           <span>{completedChildrenCount}</span>
@@ -91,11 +93,11 @@ export default function GoalNode({ data, selected }: { data: GoalNodeData; selec
                 if (e.key === 'Enter') handleSave();
                 if (e.key === 'Escape') setIsEditing(false);
               }}
-              className="w-full bg-white/20 text-sm font-bold leading-snug outline-none placeholder-white/50 px-2 py-1 rounded text-inherit"
-              placeholder="Görev Adı"
+              className="w-full bg-white/20 dark:bg-black/20 text-sm font-bold leading-snug outline-none placeholder-white/50 dark:placeholder-black/30 px-2 py-1 rounded text-inherit"
+              placeholder={t('double_click_edit')}
             />
           ) : (
-            <h3 className="text-sm font-bold leading-snug line-clamp-3 cursor-text select-none" title="Düzenlemek için çift tıkla">{data.label}</h3>
+            <h3 className="text-sm font-bold leading-snug line-clamp-3 cursor-text select-none" title={t('double_click_edit')}>{data.label}</h3>
           )}
         </div>
       </div>
@@ -103,9 +105,9 @@ export default function GoalNode({ data, selected }: { data: GoalNodeData; selec
       {/* Yaprakların açılıp kapandığını gösteren tatlı animasyonlu buton */}
       <div
         className={clsx(
-          'absolute -bottom-3 left-1/2 flex h-7 w-7 -translate-x-1/2 items-center justify-center rounded-full bg-white shadow-lg transition-transform duration-500 ease-in-out',
-          data.isExpanded ? 'rotate-45 text-slate-800' : 'rotate-0 text-slate-400',
-          isDone ? 'text-blue-600' : isInProgress ? 'text-emerald-600' : 'text-yellow-600'
+          'absolute -bottom-3 left-1/2 flex h-7 w-7 -translate-x-1/2 items-center justify-center rounded-full bg-white dark:bg-slate-800 shadow-lg transition-transform duration-500 ease-in-out',
+          data.isExpanded ? 'rotate-45 text-slate-800 dark:text-slate-100' : 'rotate-0 text-slate-400 dark:text-slate-500',
+          isDone ? 'text-blue-600 dark:text-blue-400' : isInProgress ? 'text-emerald-600 dark:text-emerald-400' : 'text-yellow-600 dark:text-yellow-500'
         )}
       >
         <Plus size={18} className="stroke-[3]" />

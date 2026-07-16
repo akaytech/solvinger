@@ -22,7 +22,7 @@ function App() {
   }, [user?.uid]);
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-slate-50 font-sans text-slate-800">
+    <div className="flex h-screen w-screen overflow-hidden bg-slate-50 dark:bg-slate-900 font-sans text-slate-800 dark:text-slate-100 transition-colors">
       {!user && <AuthModal />}
       
       {user && (
