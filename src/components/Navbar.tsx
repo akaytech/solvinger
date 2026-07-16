@@ -69,7 +69,7 @@ export default function Navbar({ onOpenProjects }: { onOpenProjects: () => void 
         {isExpanded ? <ChevronLeft size={24} /> : <ChevronRight size={24} />}
       </button>
 
-      <div className={clsx("flex h-full flex-col w-64 overflow-hidden transition-opacity duration-300", isExpanded ? "opacity-100" : "opacity-0 pointer-events-none")}>
+      <div className={clsx("flex h-full flex-col w-64 transition-opacity duration-300", isExpanded ? "opacity-100" : "opacity-0 pointer-events-none")}>
       {/* Logo Area */}
       <div className="flex p-4 items-center justify-center">
         <button

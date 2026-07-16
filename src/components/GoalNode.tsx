@@ -1,5 +1,5 @@
 import { Handle, Position, useNodeId } from '@xyflow/react';
-import { CheckCircle2, CircleDashed, PlayCircle, Plus, Eye, EyeOff } from 'lucide-react';
+import { CheckCircle2, CircleDashed, PlayCircle, Plus, Eye, EyeOff, XCircle } from 'lucide-react';
 import clsx from 'clsx';
 import type { GoalNodeData } from '../store/useRoadmapStore';
 import { useRoadmapStore } from '../store/useRoadmapStore';
@@ -10,6 +10,7 @@ export default function GoalNode({ data, selected }: { data: GoalNodeData; selec
   const { t } = useTranslation();
   const isDone = data.status === 'Done';
   const isInProgress = data.status === 'In Progress';
+  const isFailed = data.status === 'Failed';
 
   const nodeId = useNodeId()!;
   const edges = useRoadmapStore((s) => s.edges);
@@ -47,7 +48,7 @@ export default function GoalNode({ data, selected }: { data: GoalNodeData; selec
       className={clsx(
         'group relative flex w-[440px] min-h-[110px] items-center rounded-[2rem] p-5 shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl',
         selected ? 'ring-4 ring-white/50 dark:ring-slate-500/50 shadow-black/20 dark:shadow-black/50' : '',
-        isDone ? 'bg-blue-500 dark:bg-blue-600 text-white' : isInProgress ? 'bg-emerald-500 dark:bg-emerald-600 text-white' : 'bg-[#ffff00] dark:bg-yellow-500 text-slate-800'
+        isFailed ? 'bg-red-500 dark:bg-red-600 text-white' : isDone ? 'bg-blue-500 dark:bg-blue-600 text-white' : isInProgress ? 'bg-emerald-500 dark:bg-emerald-600 text-white' : 'bg-[#ffff00] dark:bg-yellow-500 text-slate-800'
       )}
     >
       {hasCompletedChildren && (
@@ -80,7 +81,7 @@ export default function GoalNode({ data, selected }: { data: GoalNodeData; selec
             'flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/20 shadow-inner'
           )}
         >
-          {isDone ? <CheckCircle2 size={26} /> : isInProgress ? <PlayCircle size={26} /> : <CircleDashed size={26} />}
+          {isFailed ? <XCircle size={26} /> : isDone ? <CheckCircle2 size={26} /> : isInProgress ? <PlayCircle size={26} /> : <CircleDashed size={26} />}
         </div>
         <div className="flex-1" onDoubleClick={() => setIsEditing(true)}>
           {isEditing ? (
@@ -107,7 +108,7 @@ export default function GoalNode({ data, selected }: { data: GoalNodeData; selec
         className={clsx(
           'absolute -bottom-3 left-1/2 flex h-7 w-7 -translate-x-1/2 items-center justify-center rounded-full bg-white dark:bg-slate-800 shadow-lg transition-transform duration-500 ease-in-out',
           data.isExpanded ? 'rotate-45 text-slate-800 dark:text-slate-100' : 'rotate-0 text-slate-400 dark:text-slate-500',
-          isDone ? 'text-blue-600 dark:text-blue-400' : isInProgress ? 'text-emerald-600 dark:text-emerald-400' : 'text-yellow-600 dark:text-yellow-500'
+          isFailed ? 'text-red-600 dark:text-red-400' : isDone ? 'text-blue-600 dark:text-blue-400' : isInProgress ? 'text-emerald-600 dark:text-emerald-400' : 'text-yellow-600 dark:text-yellow-500'
         )}
       >
         <Plus size={18} className="stroke-[3]" />
