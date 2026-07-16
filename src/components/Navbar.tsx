@@ -19,9 +19,9 @@ export default function Navbar() {
         setIsExpanded(false);
       }
     }
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside, { capture: true });
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside, { capture: true });
     };
   }, []);
 
