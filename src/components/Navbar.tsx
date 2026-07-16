@@ -19,9 +19,13 @@ export default function Navbar() {
         setIsExpanded(false);
       }
     }
+    const forceClose = () => setIsExpanded(false);
+    
     document.addEventListener("mousedown", handleClickOutside, { capture: true });
+    document.addEventListener("close-menus", forceClose);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside, { capture: true });
+      document.removeEventListener("close-menus", forceClose);
     };
   }, []);
 

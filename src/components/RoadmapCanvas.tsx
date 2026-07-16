@@ -40,6 +40,7 @@ export default function RoadmapCanvas({ onNodeSelect }: { onNodeSelect: (id: str
   }, []);
 
   const onNodeClick: NodeMouseHandler = useCallback((event, node) => {
+    document.dispatchEvent(new Event('close-menus'));
     if (event.ctrlKey || event.metaKey) {
        addGoal(node.id, t('add_subgoal'));
        return;
@@ -122,6 +123,7 @@ export default function RoadmapCanvas({ onNodeSelect }: { onNodeSelect: (id: str
   );
 
   const onPaneClick = useCallback((event: React.MouseEvent) => {
+    document.dispatchEvent(new Event('close-menus'));
     if (event.ctrlKey || event.metaKey) {
        const pos = screenToFlowPosition({
          x: event.clientX,

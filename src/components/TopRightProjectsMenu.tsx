@@ -17,9 +17,13 @@ export default function TopRightProjectsMenu() {
         setIsOpen(false);
       }
     }
+    const forceClose = () => setIsOpen(false);
+
     document.addEventListener("mousedown", handleClickOutside, { capture: true });
+    document.addEventListener("close-menus", forceClose);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside, { capture: true });
+      document.removeEventListener("close-menus", forceClose);
     };
   }, []);
 
