@@ -34,7 +34,7 @@ export default function Navbar() {
           setIsExpanded(!isExpanded);
         }}
         className={clsx(
-          "absolute top-8 flex h-10 w-10 items-center justify-center rounded-full bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 shadow-md hover:bg-slate-50 dark:hover:bg-slate-700 z-10 text-slate-500 dark:text-slate-400 transition-all hover:scale-110 active:scale-95",
+          "absolute top-8 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 shadow-md hover:bg-slate-50 dark:hover:bg-slate-700 z-10 text-slate-500 dark:text-slate-400 transition-all hover:scale-110 active:scale-95",
           isExpanded ? "-right-5" : "left-4"
         )}
       >

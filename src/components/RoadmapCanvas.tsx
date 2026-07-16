@@ -148,6 +148,7 @@ export default function RoadmapCanvas({ onNodeSelect }: { onNodeSelect: (id: str
         onNodeContextMenu={onNodeContextMenu}
         onPaneClick={onPaneClick}
         fitView
+        deleteKeyCode={['Delete']}
         fitViewOptions={{ duration: 1000 }}
         minZoom={0.1}
         defaultEdgeOptions={{

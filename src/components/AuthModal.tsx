@@ -14,7 +14,7 @@ export default function AuthModal() {
   const { login, fetchProjects, createProject, loadProject } = useRoadmapStore();
 
   const handleSuccess = async (user: any) => {
-    login(user.uid, user.email || '', user.displayName || 'Kullanıcı');
+    login(user.uid, user.email || '', user.displayName || 'Kullanıcı', user.photoURL);
     await fetchProjects(user.uid);
     
     // Auto-create or load after fetching projects

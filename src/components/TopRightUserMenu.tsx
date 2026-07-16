@@ -6,7 +6,7 @@ import { LogOut, Sun, Moon, User } from 'lucide-react';
 export default function TopRightUserMenu() {
   const { t, i18n } = useTranslation();
   const { user, logout } = useRoadmapStore();
-  const [isHovered, setIsHovered] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(() => document.documentElement.classList.contains('dark'));
 
   useEffect(() => {
@@ -38,15 +38,20 @@ export default function TopRightUserMenu() {
   return (
     <div 
       className="absolute top-4 right-4 z-50 flex flex-col items-end"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 shadow-md hover:scale-105 transition-transform text-indigo-500">
-        <User size={24} />
-      </div>
+      <button 
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 shadow-md hover:scale-105 transition-transform text-indigo-500 overflow-hidden"
+      >
+        {user.photoURL ? (
+          <img src={user.photoURL} alt={user.name} className="h-full w-full object-cover" />
+        ) : (
+          <User size={24} />
+        )}
+      </button>
 
       <div 
-        className={`absolute top-14 right-0 w-64 origin-top-right rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-2 shadow-2xl transition-all duration-300 ${isHovered ? 'scale-100 opacity-100' : 'scale-95 opacity-0 pointer-events-none'}`}
+        className={`absolute top-14 right-0 w-64 origin-top-right rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-2 shadow-2xl transition-all duration-300 ${isOpen ? 'scale-100 opacity-100' : 'scale-95 opacity-0 pointer-events-none'}`}
       >
         <div className="px-3 py-2 border-b border-slate-100 dark:border-slate-700 mb-2">
           <p className="truncate text-sm font-bold text-slate-800 dark:text-slate-100">{user.name}</p>

@@ -36,8 +36,8 @@ export interface Project {
 
 interface RoadmapState {
   // Auth
-  user: { uid: string; email: string; name: string } | null;
-  login: (uid: string, email: string, name: string) => void;
+  user: { uid: string; email: string; name: string; photoURL?: string } | null;
+  login: (uid: string, email: string, name: string, photoURL?: string) => void;
   logout: () => void;
 
   // Projects
@@ -121,14 +121,38 @@ const getLayoutedElements = (nodes: GoalNode[], edges: Edge[], direction = 'TB')
 
   dagre.layout(dagreGraph);
 
+  // Find root nodes (nodes with no incoming edges)
+  const rootNodes = visibleNodes.filter(n => !visibleEdges.some(e => e.target === n.id));
+
+  // Map to store offsets for each node
+  const offsets = new Map<string, { dx: number; dy: number }>();
+
+  rootNodes.forEach(root => {
+    const dagreNode = dagreGraph.node(root.id);
+    if (!dagreNode) return;
+    // Calculate how much we need to shift this entire tree so the root stays at its original position
+    const dx = root.position.x - (dagreNode.x - 220);
+    const dy = root.position.y - (dagreNode.y - 55);
+
+    // Apply this offset to root and all its descendants
+    const descendants = [root.id, ...getDescendants(root.id, visibleEdges)];
+    descendants.forEach(id => {
+      offsets.set(id, { dx, dy });
+    });
+  });
+
   return nodes.map((node) => {
     if (node.hidden) return node;
     const nodeWithPosition = dagreGraph.node(node.id);
+    if (!nodeWithPosition) return node;
+
+    const offset = offsets.get(node.id) || { dx: 0, dy: 0 };
+
     return {
       ...node,
       position: {
-        x: nodeWithPosition.x - 220,
-        y: nodeWithPosition.y - 55,
+        x: (nodeWithPosition.x - 220) + offset.dx,
+        y: (nodeWithPosition.y - 55) + offset.dy,
       },
       targetPosition: 'top',
       sourcePosition: 'bottom',
@@ -156,13 +180,9 @@ const cascadeStatus = (nodes: GoalNode[], edges: Edge[], changedId: string): Goa
 
     let newStatus = currentNodes[parentIndex].data.status;
     
-    // If any child failed, we could technically mark parent as failed or in progress. Let's keep it simple: 
     // Status cascade logic: If all done, done. If any in progress or done, in progress. 
-    // If any failed, maybe keep it in progress unless user manually sets to failed. 
-    // User requested manually setting it. So I won't auto-cascade 'Failed' unless desired.
-    if (anyFailed && newStatus !== 'Failed') {
-       newStatus = 'Failed';
-    } else if (allDone && !anyFailed) {
+    // "Failed" is intentionally excluded so it doesn't infect other nodes.
+    if (allDone && !anyFailed) {
       newStatus = 'Done';
     } else if (anyInProgressOrDone && currentNodes[parentIndex].data.status === 'To Do') {
       newStatus = 'In Progress';
@@ -234,7 +254,7 @@ export const useRoadmapStore = create<RoadmapState>()(
   persist(
     (set, get) => ({
       user: null,
-      login: (uid, email, name) => set({ user: { uid, email, name } }),
+      login: (uid, email, name, photoURL) => set({ user: { uid, email, name, photoURL } }),
       logout: () => set({ user: null, projects: [], currentProjectId: null, nodes: [], edges: [] }),
 
       projects: [],
