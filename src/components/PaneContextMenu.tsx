@@ -1,5 +1,4 @@
 import { PlusCircle } from 'lucide-react';
-import { useRoadmapStore } from '../store/useRoadmapStore';
 
 export default function PaneContextMenu({
   x,
@@ -12,7 +11,6 @@ export default function PaneContextMenu({
   onClose: () => void;
   onAddRootGoal: () => void;
 }) {
-  const { nodes, edges, loadData } = useRoadmapStore();
 
 
   return (
