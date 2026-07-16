@@ -31,25 +31,24 @@ export default function Navbar({ onOpenProjects }: { onOpenProjects: () => void 
           e.stopPropagation();
           setIsExpanded(!isExpanded);
         }}
-        className="absolute -right-5 top-8 flex h-10 w-10 items-center justify-center rounded-full bg-white border-2 border-slate-200 shadow-md hover:bg-slate-50 z-10 text-slate-500 transition-transform hover:scale-110 active:scale-95"
+        className={clsx(
+          "absolute top-8 flex h-10 w-10 items-center justify-center rounded-full bg-white border-2 border-slate-200 shadow-md hover:bg-slate-50 z-10 text-slate-500 transition-all hover:scale-110 active:scale-95",
+          isExpanded ? "-right-5" : "left-4"
+        )}
       >
         {isExpanded ? <ChevronLeft size={24} /> : <ChevronRight size={24} />}
       </button>
 
       <div className={clsx("flex h-full flex-col w-64 overflow-hidden transition-opacity duration-300", isExpanded ? "opacity-100" : "opacity-0 pointer-events-none")}>
       {/* Logo Area */}
-      <div className={clsx("flex p-4 items-center", isExpanded ? "justify-start gap-3" : "justify-center")}>
+      <div className="flex p-4 items-center justify-center">
         <button
           onClick={focusRoot}
           title="Ana Göreve Git"
-          className="flex h-12 w-auto px-3 shrink-0 items-center justify-center rounded-xl bg-[#ff6666] shadow-lg shadow-[#ff6666]/30 transition-transform hover:scale-105 active:scale-95"
+          className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white shadow-md border border-slate-100 transition-transform hover:scale-105 active:scale-95 overflow-hidden p-1"
         >
-          <span className="text-sm font-black tracking-widest text-white">
-            SOLVINGER
-          </span>
+          <img src="/logo.jpg" alt="Solvinger Logo" className="h-full w-full object-contain rounded-xl" />
         </button>
-        
-
       </div>
 
       {/* Navigation Items */}
