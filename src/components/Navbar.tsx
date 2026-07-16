@@ -47,7 +47,7 @@ export default function Navbar({ onOpenProjects }: { onOpenProjects: () => void 
           title="Ana Göreve Git"
           className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white shadow-md border border-slate-100 transition-transform hover:scale-105 active:scale-95 overflow-hidden p-1"
         >
-          <img src="/logo.jpg" alt="Solvinger Logo" className="h-full w-full object-contain rounded-xl" />
+          <img src={`${import.meta.env.BASE_URL}logo.jpg`} alt="Solvinger Logo" className="h-full w-full object-contain rounded-xl" />
         </button>
       </div>
 
