@@ -7,8 +7,8 @@ export default function WelcomeScreen() {
   const { t } = useTranslation();
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center bg-slate-50 dark:bg-slate-900 p-8">
-      <div className="max-w-2xl text-center">
+    <div className="flex h-full w-full flex-col items-center bg-slate-50 dark:bg-slate-900 p-8 overflow-y-auto custom-scrollbar">
+      <div className="max-w-2xl text-center my-auto py-8">
         <div className="mb-8 flex justify-center gap-6">
           <div className="flex h-24 w-24 items-center justify-center rounded-3xl bg-indigo-100 text-indigo-600 dark:bg-indigo-900/40 dark:text-indigo-400 shadow-xl shadow-indigo-500/10 transition-transform hover:scale-105">
             <Network size={48} />
