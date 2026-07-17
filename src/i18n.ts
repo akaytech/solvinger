@@ -5,6 +5,8 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 const resources = {
   tr: {
     translation: {
+      "new_task": "Yeni Görev",
+      "new_subtask": "Yeni Alt Görev",
       "welcome_msg": "Projelerini buluta kaydetmek için giriş yap.",
       "email": "E-mail Adresi",
       "password": "Şifre",
@@ -119,6 +121,8 @@ const resources = {
   },
   en: {
     translation: {
+      "new_task": "New Task",
+      "new_subtask": "New Subtask",
       "welcome_msg": "Log in to save your projects to the cloud.",
       "email": "Email Address",
       "password": "Password",
@@ -233,6 +237,8 @@ const resources = {
   },
   es: {
     translation: {
+      "new_task": "Nueva Tarea",
+      "new_subtask": "Nueva Subtarea",
       "welcome_msg": "Inicia sesión para guardar tus proyectos.",
       "email": "Correo Electrónico",
       "password": "Contraseña",
@@ -347,6 +353,8 @@ const resources = {
   },
   fr: {
     translation: {
+      "new_task": "Nouvelle Tâche",
+      "new_subtask": "Nouvelle Sous-tâche",
       "welcome_msg": "Connectez-vous pour enregistrer vos projets.",
       "email": "Adresse E-mail",
       "password": "Mot de passe",
@@ -461,6 +469,8 @@ const resources = {
   },
   de: {
     translation: {
+      "new_task": "Neue Aufgabe",
+      "new_subtask": "Neue Unteraufgabe",
       "welcome_msg": "Melden Sie sich an, um Projekte zu speichern.",
       "email": "E-Mail-Adresse",
       "password": "Passwort",
@@ -575,6 +585,8 @@ const resources = {
   },
   pt: {
     translation: {
+      "new_task": "Nova Tarefa",
+      "new_subtask": "Nova Subtarefa",
       "welcome_msg": "Faça login para salvar seus projetos.",
       "email": "Endereço de E-mail",
       "password": "Senha",
@@ -689,6 +701,8 @@ const resources = {
   },
   ru: {
     translation: {
+      "new_task": "Новая задача",
+      "new_subtask": "Новая подзадача",
       "welcome_msg": "Войдите, чтобы сохранить проекты.",
       "email": "Электронная почта",
       "password": "Пароль",
@@ -803,6 +817,8 @@ const resources = {
   },
   ar: {
     translation: {
+      "new_task": "مهمة جديدة",
+      "new_subtask": "مهمة فرعية جديدة",
       "welcome_msg": "تسجيل الدخول لحفظ مشاريعك.",
       "email": "البريد الإلكتروني",
       "password": "كلمة المرور",
@@ -917,6 +933,8 @@ const resources = {
   },
   zh: {
     translation: {
+      "new_task": "新任务",
+      "new_subtask": "新子任务",
       "welcome_msg": "登录以保存您的项目。",
       "email": "电子邮件地址",
       "password": "密码",
@@ -1031,6 +1049,8 @@ const resources = {
   },
   ja: {
     translation: {
+      "new_task": "新しいタスク",
+      "new_subtask": "新しいサブタスク",
       "welcome_msg": "プロジェクトを保存するにはログインしてください。",
       "email": "メールアドレス",
       "password": "パスワード",
