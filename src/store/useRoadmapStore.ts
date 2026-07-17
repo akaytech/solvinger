@@ -500,6 +500,7 @@ export const useRoadmapStore = create<RoadmapState>()(
           return {
             projects: newProjects,
             currentProjectId: isCurrent ? null : state.currentProjectId,
+            activeTool: newProjects.length === 0 ? null : state.activeTool,
             nodes: isCurrent ? [] : state.nodes,
             edges: isCurrent ? [] : state.edges,
             fiveWhys: isCurrent ? [] : state.fiveWhys,

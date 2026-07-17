@@ -1,12 +1,30 @@
 import { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRoadmapStore } from '../store/useRoadmapStore';
-import { Folder, Plus, Trash2, ChevronDown, ChevronRight, GitCommit, Target, HelpCircle, Fish, RefreshCcw, Layers } from 'lucide-react';
+import { Folder, Plus, Trash2, ChevronDown, ChevronRight, GitCommit, Target, HelpCircle, Fish, RefreshCcw, Layers, Pencil } from 'lucide-react';
 import type { Project } from '../store/useRoadmapStore';
 
 function ProjectTreeItem({ project, isCurrent, onClose }: { project: Project; isCurrent: boolean; onClose: () => void }) {
-  const { loadProject, setActiveTool, deleteProject } = useRoadmapStore();
+  const { loadProject, setActiveTool, deleteProject, updateProjectName } = useRoadmapStore();
   const [isExpanded, setIsExpanded] = useState(isCurrent);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editName, setEditName] = useState(project.name);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (isEditing && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isEditing]);
+
+  const handleRename = () => {
+    if (editName.trim() && editName.trim() !== project.name) {
+      updateProjectName(project.id, editName.trim());
+    } else {
+      setEditName(project.name);
+    }
+    setIsEditing(false);
+  };
 
   const handleToolClick = (tool: any) => {
     if (!isCurrent) {
@@ -19,23 +37,64 @@ function ProjectTreeItem({ project, isCurrent, onClose }: { project: Project; is
   return (
     <div className="flex flex-col border-b border-slate-100 dark:border-slate-700/50 last:border-0 pb-1 mb-1">
       <div className={`group flex items-center justify-between rounded-xl px-2 py-1.5 transition-colors ${isCurrent ? 'bg-indigo-50/50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300' : 'hover:bg-slate-50 dark:hover:bg-slate-700/50 text-slate-700 dark:text-slate-300'}`}>
-        <button 
-          className="flex flex-1 items-center gap-2 text-left text-sm font-bold truncate"
-          onClick={() => setIsExpanded(!isExpanded)}
-        >
-          {isExpanded ? <ChevronDown size={14} className="text-slate-400" /> : <ChevronRight size={14} className="text-slate-400" />}
-          {project.name}
-        </button>
-        <button 
-          onClick={(e) => {
-             e.stopPropagation();
-             deleteProject(project.id);
-          }}
-          className="hidden group-hover:block p-1 text-slate-400 hover:text-red-500 transition-colors"
-          title="Projeyi Sil"
-        >
-          <Trash2 size={14} />
-        </button>
+        <div className="flex flex-1 items-center gap-2 overflow-hidden">
+          <button onClick={() => setIsExpanded(!isExpanded)} className="shrink-0 p-0.5">
+            {isExpanded ? <ChevronDown size={14} className="text-slate-400" /> : <ChevronRight size={14} className="text-slate-400" />}
+          </button>
+          
+          {isEditing ? (
+            <input
+              ref={inputRef}
+              type="text"
+              value={editName}
+              onChange={(e) => setEditName(e.target.value)}
+              onBlur={handleRename}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') handleRename();
+                if (e.key === 'Escape') {
+                  setEditName(project.name);
+                  setIsEditing(false);
+                }
+              }}
+              className="flex-1 min-w-0 bg-white dark:bg-slate-800 border border-indigo-300 dark:border-indigo-500 rounded px-1.5 py-0.5 text-sm font-bold text-slate-800 dark:text-slate-100 outline-none"
+            />
+          ) : (
+            <span 
+              className="flex-1 truncate text-left text-sm font-bold cursor-pointer"
+              onDoubleClick={() => setIsEditing(true)}
+              onClick={() => {
+                if (!isCurrent) loadProject(project.id);
+              }}
+            >
+              {project.name}
+            </span>
+          )}
+        </div>
+        
+        {!isEditing && (
+          <div className="hidden group-hover:flex items-center gap-1 shrink-0 ml-2">
+            <button 
+              onClick={(e) => {
+                 e.stopPropagation();
+                 setIsEditing(true);
+              }}
+              className="p-1 text-slate-400 hover:text-indigo-500 transition-colors"
+              title="Yeniden Adlandır"
+            >
+              <Pencil size={14} />
+            </button>
+            <button 
+              onClick={(e) => {
+                 e.stopPropagation();
+                 deleteProject(project.id);
+              }}
+              className="p-1 text-slate-400 hover:text-red-500 transition-colors"
+              title="Çalışmayı Sil"
+            >
+              <Trash2 size={14} />
+            </button>
+          </div>
+        )}
       </div>
 
       {isExpanded && (

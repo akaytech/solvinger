@@ -3,8 +3,15 @@ import { useTranslation } from 'react-i18next';
 import { useRoadmapStore } from '../store/useRoadmapStore';
 
 export default function WelcomeScreen() {
-  const { setActiveTool } = useRoadmapStore();
+  const { setActiveTool, projects, createProject } = useRoadmapStore();
   const { t } = useTranslation();
+
+  const handleToolClick = (tool: any) => {
+    if (projects.length === 0) {
+      createProject(t('new_project'));
+    }
+    setActiveTool(tool);
+  };
 
   return (
     <div className="flex h-full w-full flex-col items-center bg-slate-50 dark:bg-slate-900 p-8 overflow-y-auto custom-scrollbar">
@@ -19,7 +26,7 @@ export default function WelcomeScreen() {
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           <button
-            onClick={() => setActiveTool('wbs')}
+            onClick={() => handleToolClick('wbs')}
             className="group flex flex-col items-center rounded-3xl border-2 border-slate-200 bg-white p-8 transition-all hover:border-indigo-500 hover:shadow-2xl dark:border-slate-800 dark:bg-slate-800 dark:hover:border-indigo-500"
           >
             <Network size={40} className="mb-4 text-slate-400 transition-colors group-hover:text-indigo-500" />
@@ -28,7 +35,7 @@ export default function WelcomeScreen() {
           </button>
 
           <button
-            onClick={() => setActiveTool('5whys')}
+            onClick={() => handleToolClick('5whys')}
             className="group flex flex-col items-center rounded-3xl border-2 border-slate-200 bg-white p-8 transition-all hover:border-emerald-500 hover:shadow-2xl dark:border-slate-800 dark:bg-slate-800 dark:hover:border-emerald-500"
           >
             <Activity size={40} className="mb-4 text-slate-400 transition-colors group-hover:text-emerald-500" />
@@ -37,7 +44,7 @@ export default function WelcomeScreen() {
           </button>
 
           <button
-            onClick={() => setActiveTool('swot')}
+            onClick={() => handleToolClick('swot')}
             className="group flex flex-col items-center rounded-3xl border-2 border-slate-200 bg-white p-8 transition-all hover:border-rose-500 hover:shadow-2xl dark:border-slate-800 dark:bg-slate-800 dark:hover:border-rose-500"
           >
             <Target size={40} className="mb-4 text-slate-400 transition-colors group-hover:text-rose-500" />
@@ -46,7 +53,7 @@ export default function WelcomeScreen() {
           </button>
 
           <button
-            onClick={() => setActiveTool('ishikawa')}
+            onClick={() => handleToolClick('ishikawa')}
             className="group flex flex-col items-center rounded-3xl border-2 border-slate-200 bg-white p-8 transition-all hover:border-cyan-500 hover:shadow-2xl dark:border-slate-800 dark:bg-slate-800 dark:hover:border-cyan-500"
           >
             <Fish size={40} className="mb-4 text-slate-400 transition-colors group-hover:text-cyan-500" />
@@ -55,7 +62,7 @@ export default function WelcomeScreen() {
           </button>
 
           <button
-            onClick={() => setActiveTool('pdca')}
+            onClick={() => handleToolClick('pdca')}
             className="group flex flex-col items-center rounded-3xl border-2 border-slate-200 bg-white p-8 transition-all hover:border-indigo-500 hover:shadow-2xl dark:border-slate-800 dark:bg-slate-800 dark:hover:border-indigo-500"
           >
             <RefreshCcw size={40} className="mb-4 text-slate-400 transition-colors group-hover:text-indigo-500" />
@@ -64,7 +71,7 @@ export default function WelcomeScreen() {
           </button>
 
           <button
-            onClick={() => setActiveTool('waterfall')}
+            onClick={() => handleToolClick('waterfall')}
             className="group flex flex-col items-center rounded-3xl border-2 border-slate-200 bg-white p-8 transition-all hover:border-blue-500 hover:shadow-2xl dark:border-slate-800 dark:bg-slate-800 dark:hover:border-blue-500"
           >
             <Layers size={40} className="mb-4 text-slate-400 transition-colors group-hover:text-blue-500" />
