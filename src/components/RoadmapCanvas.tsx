@@ -4,7 +4,7 @@ import {
   Background,
   useReactFlow,
 } from '@xyflow/react';
-import type { NodeMouseHandler } from '@xyflow/react';
+import type { NodeMouseHandler, Edge } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { useRoadmapStore, getDescendants } from '../store/useRoadmapStore';
 import GoalNode from './GoalNode';
@@ -15,6 +15,18 @@ import { useTranslation } from 'react-i18next';
 
 const nodeTypes = {
   goalNode: GoalNode,
+};
+
+const getDepth = (id: string, edges: Edge[]): number => {
+  let depth = 0;
+  let curr = id;
+  while (curr) {
+    const parentEdge = edges.find(e => e.target === curr);
+    if (!parentEdge) break;
+    curr = parentEdge.source;
+    depth++;
+  }
+  return depth;
 };
 
 export default function RoadmapCanvas({ onNodeSelect }: { onNodeSelect: (id: string | null) => void }) {
@@ -42,7 +54,9 @@ export default function RoadmapCanvas({ onNodeSelect }: { onNodeSelect: (id: str
   const onNodeClick: NodeMouseHandler = useCallback((event, node) => {
     document.dispatchEvent(new Event('close-menus'));
     if (event.ctrlKey || event.metaKey) {
-       addGoal(node.id, t('add_subgoal'));
+       const depth = getDepth(node.id, edges);
+       const label = depth === 0 ? t('new_task') : t('new_subtask');
+       addGoal(node.id, label);
        return;
     }
     
@@ -169,7 +183,11 @@ export default function RoadmapCanvas({ onNodeSelect }: { onNodeSelect: (id: str
           y={menu.top}
           node={nodes.find((n) => n.id === menu.id)!}
           onClose={() => setMenu(null)}
-          onAddSubGoal={() => addGoal(menu.id, t('add_subgoal'))}
+          onAddSubGoal={() => {
+            const depth = getDepth(menu.id, edges);
+            const label = depth === 0 ? t('new_task') : t('new_subtask');
+            addGoal(menu.id, label);
+          }}
           onUpdate={(data) => updateGoal(menu.id, data)}
           onOpenDescription={() => setDescriptionModalNodeId(menu.id)}
           onDelete={() => deleteGoal(menu.id)}

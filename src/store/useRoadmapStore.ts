@@ -374,7 +374,7 @@ const defaultNodes: GoalNode[] = [
     position: { x: 0, y: 0 },
     data: {
       label: 'Yeni Proje',
-      status: 'In Progress',
+      status: 'To Do',
       isExpanded: true,
     },
   },
