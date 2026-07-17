@@ -186,10 +186,15 @@ export default function Navbar() {
       </div>
 
       {/* Version Info */}
-      <div className="py-3 text-center opacity-50">
-        <span className={clsx("text-[10px] font-bold text-slate-400 dark:text-slate-500", !isExpanded && "text-[8px]")}>
+      <div className="py-3 text-center opacity-50 flex flex-col items-center">
+        <span className={clsx("font-bold text-slate-400 dark:text-slate-500", isExpanded ? "text-[10px]" : "text-[8px]")}>
           v{packageJson.version}
         </span>
+        {isExpanded && (
+          <span className="text-[9px] font-medium text-slate-400 dark:text-slate-500 mt-0.5 whitespace-nowrap px-2">
+            {t('in_development')}
+          </span>
+        )}
       </div>
       </div>
     </div>

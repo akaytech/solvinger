@@ -113,6 +113,8 @@ const resources = {
       "swot_t": "Tehditler (Threats)",
       "swot_empty": "Henüz madde eklenmedi",
       "swot_add": "Yeni madde ekle..."
+    ,
+      "in_development": "Geliştirme Aşamasında"
     }
   },
   en: {
@@ -225,6 +227,8 @@ const resources = {
       "swot_t": "Threats",
       "swot_empty": "No items added yet",
       "swot_add": "Add new item..."
+    ,
+      "in_development": "In Development"
     }
   },
   es: {
@@ -337,6 +341,8 @@ const resources = {
       "swot_t": "Amenazas",
       "swot_empty": "Aún no se han añadido elementos",
       "swot_add": "Añadir nuevo elemento..."
+    ,
+      "in_development": "En Desarrollo"
     }
   },
   fr: {
@@ -449,6 +455,8 @@ const resources = {
       "swot_t": "Menaces",
       "swot_empty": "Aucun élément ajouté",
       "swot_add": "Ajouter un élément..."
+    ,
+      "in_development": "En cours de développement"
     }
   },
   de: {
@@ -561,6 +569,8 @@ const resources = {
       "swot_t": "Risiken (Threats)",
       "swot_empty": "Noch keine Elemente hinzugefügt",
       "swot_add": "Neues Element hinzufügen..."
+    ,
+      "in_development": "In der Entwicklung"
     }
   },
   pt: {
@@ -673,6 +683,8 @@ const resources = {
       "swot_t": "Ameaças",
       "swot_empty": "Nenhum item adicionado",
       "swot_add": "Adicionar novo item..."
+    ,
+      "in_development": "Em Desenvolvimento"
     }
   },
   ru: {
@@ -785,6 +797,8 @@ const resources = {
       "swot_t": "Угрозы",
       "swot_empty": "Элементы еще не добавлены",
       "swot_add": "Добавить новый элемент..."
+    ,
+      "in_development": "В стадии разработки"
     }
   },
   ar: {
@@ -897,6 +911,8 @@ const resources = {
       "swot_t": "التهديدات",
       "swot_empty": "لم تتم إضافة عناصر بعد",
       "swot_add": "إضافة عنصر جديد..."
+    ,
+      "in_development": "قيد التطوير"
     }
   },
   zh: {
@@ -1009,6 +1025,8 @@ const resources = {
       "swot_t": "威胁 (Threats)",
       "swot_empty": "尚未添加项目",
       "swot_add": "添加新项目..."
+    ,
+      "in_development": "开发中"
     }
   },
   ja: {
@@ -1121,6 +1139,8 @@ const resources = {
       "swot_t": "脅威 (Threats)",
       "swot_empty": "項目がありません",
       "swot_add": "新しい項目を追加..."
+    ,
+      "in_development": "開発中"
     }
   }
 };
