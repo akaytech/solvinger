@@ -2,15 +2,18 @@ import { useState } from 'react';
 import { useRoadmapStore } from '../store/useRoadmapStore';
 import type { SwotType } from '../store/useRoadmapStore';
 import { Plus, Trash2, Shield, Target, Zap, AlertTriangle } from 'lucide-react';
-
-const QUADRANTS: { type: SwotType; title: string; color: string; icon: any; bg: string; border: string }[] = [
-  { type: 'S', title: 'Güçlü Yönler (Strengths)', color: 'text-indigo-600 dark:text-indigo-400', bg: 'bg-indigo-50 dark:bg-indigo-900/20', border: 'border-indigo-200 dark:border-indigo-900/50', icon: Shield },
-  { type: 'W', title: 'Zayıf Yönler (Weaknesses)', color: 'text-rose-600 dark:text-rose-400', bg: 'bg-rose-50 dark:bg-rose-900/20', border: 'border-rose-200 dark:border-rose-900/50', icon: AlertTriangle },
-  { type: 'O', title: 'Fırsatlar (Opportunities)', color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-900/20', border: 'border-emerald-200 dark:border-emerald-900/50', icon: Zap },
-  { type: 'T', title: 'Tehditler (Threats)', color: 'text-amber-600 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-900/20', border: 'border-amber-200 dark:border-amber-900/50', icon: Target },
-];
+import { useTranslation } from 'react-i18next';
 
 export default function SwotCanvas() {
+  const { t } = useTranslation();
+
+  const QUADRANTS: { type: SwotType; title: string; color: string; icon: any; bg: string; border: string }[] = [
+    { type: 'S', title: t('swot_s'), color: 'text-indigo-600 dark:text-indigo-400', bg: 'bg-indigo-50 dark:bg-indigo-900/20', border: 'border-indigo-200 dark:border-indigo-900/50', icon: Shield },
+    { type: 'W', title: t('swot_w'), color: 'text-rose-600 dark:text-rose-400', bg: 'bg-rose-50 dark:bg-rose-900/20', border: 'border-rose-200 dark:border-rose-900/50', icon: AlertTriangle },
+    { type: 'O', title: t('swot_o'), color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-900/20', border: 'border-emerald-200 dark:border-emerald-900/50', icon: Zap },
+    { type: 'T', title: t('swot_t'), color: 'text-amber-600 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-900/20', border: 'border-amber-200 dark:border-amber-900/50', icon: Target },
+  ];
+
   const { swot, addSwotItem, updateSwotItem, deleteSwotItem } = useRoadmapStore();
   const [inputs, setInputs] = useState<Record<SwotType, string>>({ S: '', W: '', O: '', T: '' });
 
@@ -24,8 +27,8 @@ export default function SwotCanvas() {
   return (
     <div className="flex h-full w-full flex-col bg-slate-50 dark:bg-slate-900 transition-colors overflow-hidden">
       <div className="flex-none p-6 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm z-10">
-        <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100">SWOT Analizi</h2>
-        <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">Projenizin stratejik avantaj ve dezavantajlarını haritalandırın.</p>
+        <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100">{t('tool_swot')}</h2>
+        <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">{t('swot_subtitle')}</p>
       </div>
 
       <div className="flex-1 overflow-auto p-6 md:p-8">
@@ -62,7 +65,7 @@ export default function SwotCanvas() {
                   ))}
                   {items.length === 0 && (
                     <div className="flex h-32 items-center justify-center text-slate-400 dark:text-slate-500 text-sm font-medium opacity-50">
-                      Henüz madde eklenmedi
+                      {t('swot_empty')}
                     </div>
                   )}
                 </div>
@@ -73,7 +76,7 @@ export default function SwotCanvas() {
                       type="text"
                       value={inputs[quadrant.type]}
                       onChange={(e) => setInputs(prev => ({ ...prev, [quadrant.type]: e.target.value }))}
-                      placeholder="Yeni madde ekle..."
+                      placeholder={t('swot_add')}
                       className="flex-1 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-2 text-sm outline-none focus:border-slate-400 dark:focus:border-slate-500 text-slate-800 dark:text-slate-100"
                     />
                     <button

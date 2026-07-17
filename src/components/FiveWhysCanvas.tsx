@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useRoadmapStore } from '../store/useRoadmapStore';
 import { Plus, Trash2, ArrowDown, Activity } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export default function FiveWhysCanvas() {
+  const { t } = useTranslation();
   const { fiveWhys, addFiveWhys, updateFiveWhys, deleteFiveWhys } = useRoadmapStore();
   const [newProblem, setNewProblem] = useState('');
 
@@ -25,13 +27,13 @@ export default function FiveWhysCanvas() {
   return (
     <div className="flex h-full w-full flex-col bg-slate-50 dark:bg-slate-900 transition-colors">
       <div className="flex-none p-6 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm z-10">
-        <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 mb-4">5 Neden Analizi</h2>
+        <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 mb-4">{t('tool_5whys')}</h2>
         <form onSubmit={handleAdd} className="flex max-w-3xl gap-4">
           <input
             type="text"
             value={newProblem}
             onChange={(e) => setNewProblem(e.target.value)}
-            placeholder="Analiz edilecek problemi yazın..."
+            placeholder={t('whys_placeholder')}
             className="flex-1 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-4 py-3 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 text-slate-800 dark:text-slate-100"
           />
           <button
@@ -40,7 +42,7 @@ export default function FiveWhysCanvas() {
             className="flex items-center gap-2 rounded-xl bg-emerald-600 px-6 py-3 font-bold text-white transition-all hover:bg-emerald-700 active:scale-95 disabled:opacity-50"
           >
             <Plus size={20} />
-            Analiz Başlat
+            {t('whys_start')}
           </button>
         </form>
       </div>
@@ -52,7 +54,7 @@ export default function FiveWhysCanvas() {
               <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800 shadow-xl overflow-hidden flex flex-col h-full">
                 <div className="p-5 bg-emerald-50 dark:bg-emerald-900/20 border-b border-slate-200 dark:border-slate-800 flex justify-between items-start gap-4">
                   <div>
-                     <div className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 mb-1">Problem</div>
+                     <div className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 mb-1">{t('whys_problem')}</div>
                      <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100">{analysis.problemStatement}</h3>
                   </div>
                   <button 
@@ -73,12 +75,12 @@ export default function FiveWhysCanvas() {
                       )}
                       <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 p-3">
                         <label className="text-xs font-bold text-slate-500 dark:text-slate-400 mb-1 block">
-                          {index + 1}. Neden?
+                          {index + 1}. {t('whys_why')}
                         </label>
                         <textarea
                           value={why}
                           onChange={(e) => updateWhy(analysis.id, index, e.target.value)}
-                          placeholder="Nedeni buraya yazın..."
+                          placeholder={t('whys_why_placeholder')}
                           rows={2}
                           className="w-full resize-none bg-transparent outline-none text-slate-700 dark:text-slate-300 text-sm placeholder-slate-400"
                         />
@@ -89,12 +91,12 @@ export default function FiveWhysCanvas() {
 
                 <div className="p-5 bg-slate-50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800">
                   <label className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 mb-2 block">
-                    Kök Neden Çözümü
+                    {t('whys_root')}
                   </label>
                   <textarea
                     value={analysis.rootCause}
                     onChange={(e) => updateFiveWhys(analysis.id, { rootCause: e.target.value })}
-                    placeholder="Bulunan kök neden için çözüm planı..."
+                    placeholder={t('whys_root_placeholder')}
                     rows={3}
                     className="w-full rounded-xl border border-emerald-200 dark:border-emerald-900/50 bg-white dark:bg-slate-800 p-3 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 text-slate-800 dark:text-slate-100 transition-all"
                   />

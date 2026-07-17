@@ -86,26 +86,26 @@ export default function TopRightUserMenu() {
 
         <div className="mt-2 mb-2">
            <div className="px-3 py-1 text-xs font-bold uppercase tracking-wider text-slate-400">Language</div>
-           <div className="grid grid-cols-5 gap-1 px-1 mt-1">
+           <div className="grid grid-cols-5 gap-2 px-3 mt-2">
              {[
-               { code: 'tr', flag: '🇹🇷' },
-               { code: 'en', flag: '🇬🇧' },
-               { code: 'es', flag: '🇪🇸' },
-               { code: 'fr', flag: '🇫🇷' },
-               { code: 'de', flag: '🇩🇪' },
-               { code: 'pt', flag: '🇵🇹' },
-               { code: 'ru', flag: '🇷🇺' },
-               { code: 'ar', flag: '🇸🇦' },
-               { code: 'zh', flag: '🇨🇳' },
-               { code: 'ja', flag: '🇯🇵' }
+               { code: 'zh', flag: 'cn' },
+               { code: 'de', flag: 'de' },
+               { code: 'es', flag: 'es' },
+               { code: 'fr', flag: 'fr' },
+               { code: 'en', flag: 'gb' },
+               { code: 'ja', flag: 'jp' },
+               { code: 'pt', flag: 'pt' },
+               { code: 'ru', flag: 'ru' },
+               { code: 'ar', flag: 'sa' },
+               { code: 'tr', flag: 'tr' }
              ].map(({ code, flag }) => (
                 <button
                   key={code}
                   onClick={() => changeLanguage(code)}
-                  className={`rounded-lg py-1.5 text-lg text-center transition-all ${i18n.language === code ? 'bg-indigo-100 dark:bg-indigo-900/50 scale-110 shadow-sm' : 'hover:bg-slate-50 dark:hover:bg-slate-700 opacity-70 hover:opacity-100'}`}
+                  className={`flex h-8 w-10 items-center justify-center rounded-md transition-all ${i18n.language === code ? 'bg-indigo-100 dark:bg-indigo-900/50 scale-110 shadow-sm ring-2 ring-indigo-500' : 'hover:bg-slate-50 dark:hover:bg-slate-700 opacity-60 hover:opacity-100'}`}
                   title={code.toUpperCase()}
                 >
-                  {flag}
+                  <img src={`https://flagcdn.com/w40/${flag}.png`} alt={code} className="h-5 w-7 object-cover rounded-sm shadow-sm" />
                 </button>
              ))}
            </div>
