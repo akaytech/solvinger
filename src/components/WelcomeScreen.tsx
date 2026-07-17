@@ -1,4 +1,4 @@
-import { Network, Activity, Target, Fish, RefreshCcw } from 'lucide-react';
+import { Network, Activity, Target, Fish, RefreshCcw, Layers } from 'lucide-react';
 import { useRoadmapStore } from '../store/useRoadmapStore';
 
 export default function WelcomeScreen() {
@@ -67,6 +67,15 @@ export default function WelcomeScreen() {
             <RefreshCcw size={40} className="mb-4 text-slate-400 transition-colors group-hover:text-indigo-500" />
             <h3 className="mb-2 text-xl font-bold text-slate-800 dark:text-slate-100">PUKÖ Döngüsü</h3>
             <p className="text-sm text-slate-500 dark:text-slate-400">Planla, Uygula, Kontrol Et, Önlem Al adımlarıyla sürekli iyileştirme sağlayın.</p>
+          </button>
+
+          <button
+            onClick={() => setActiveTool('waterfall')}
+            className="group flex flex-col items-center rounded-3xl border-2 border-slate-200 bg-white p-8 transition-all hover:border-blue-500 hover:shadow-2xl dark:border-slate-800 dark:bg-slate-800 dark:hover:border-blue-500"
+          >
+            <Layers size={40} className="mb-4 text-slate-400 transition-colors group-hover:text-blue-500" />
+            <h3 className="mb-2 text-xl font-bold text-slate-800 dark:text-slate-100">Şelale (Waterfall)</h3>
+            <p className="text-sm text-slate-500 dark:text-slate-400">Gereksinim, Tasarım, Geliştirme, Test ve Bakım fazlarıyla projenizi sıralı yönetin.</p>
           </button>
         </div>
       </div>

@@ -75,6 +75,22 @@ export interface PdcaCycle {
   createdAt: number;
 }
 
+export type WaterfallPhase = 'Requirements' | 'Design' | 'Implementation' | 'Verification' | 'Maintenance';
+
+export interface WaterfallItem {
+  id: string;
+  phase: WaterfallPhase;
+  text: string;
+  createdAt: number;
+}
+
+export interface WaterfallProject {
+  id: string;
+  name: string;
+  items: WaterfallItem[];
+  createdAt: number;
+}
+
 export interface Project {
   id: string;
   name: string;
@@ -84,6 +100,7 @@ export interface Project {
   swot: SwotItem[];
   ishikawa: IshikawaAnalysis[];
   pdca: PdcaCycle[];
+  waterfall: WaterfallProject[];
   updatedAt: number;
   userId: string;
 }
@@ -95,8 +112,8 @@ interface RoadmapState {
   logout: () => void;
 
   // UI State
-  activeTool: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | null;
-  setActiveTool: (tool: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | null) => void;
+  activeTool: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | null;
+  setActiveTool: (tool: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | null) => void;
 
   // Projects
   projects: Project[];
@@ -118,7 +135,7 @@ interface RoadmapState {
   deleteGoal: (id: string) => void;
   toggleExpand: (id: string) => void;
   toggleHideCompleted: (id: string) => void;
-  loadData: (nodes: GoalNode[], edges: Edge[], fiveWhys?: FiveWhysAnalysis[], swot?: SwotItem[], ishikawa?: IshikawaAnalysis[], pdca?: PdcaCycle[]) => void;
+  loadData: (nodes: GoalNode[], edges: Edge[], fiveWhys?: FiveWhysAnalysis[], swot?: SwotItem[], ishikawa?: IshikawaAnalysis[], pdca?: PdcaCycle[], waterfall?: WaterfallProject[]) => void;
 
   // 5 Whys State
   fiveWhys: FiveWhysAnalysis[];
@@ -150,6 +167,15 @@ interface RoadmapState {
   updatePdcaItem: (cycleId: string, itemId: string, text: string) => void;
   deletePdcaItem: (cycleId: string, itemId: string) => void;
   togglePdcaItemStatus: (cycleId: string, itemId: string) => void;
+
+  // Waterfall State
+  waterfall: WaterfallProject[];
+  addWaterfallProject: (name: string) => void;
+  updateWaterfallProjectName: (id: string, name: string) => void;
+  deleteWaterfallProject: (id: string) => void;
+  addWaterfallItem: (projectId: string, phase: WaterfallPhase, text: string) => void;
+  updateWaterfallItem: (projectId: string, itemId: string, text: string) => void;
+  deleteWaterfallItem: (projectId: string, itemId: string) => void;
 }
 
 export const getDescendants = (parentId: string, edges: Edge[]): string[] => {
@@ -311,6 +337,7 @@ const syncProject = (state: RoadmapState): Partial<RoadmapState> => {
     swot: state.swot || [],
     ishikawa: state.ishikawa || [],
     pdca: state.pdca || [],
+    waterfall: state.waterfall || [],
     updatedAt: Date.now(),
     userId: state.user.uid,
   };
@@ -348,7 +375,7 @@ export const useRoadmapStore = create<RoadmapState>()(
     (set, get) => ({
       user: null,
       login: (uid, email, name, photoURL) => set({ user: { uid, email, name, photoURL } }),
-      logout: () => set({ user: null, projects: [], currentProjectId: null, nodes: [], edges: [], fiveWhys: [], swot: [], ishikawa: [], pdca: [], activeTool: null }),
+      logout: () => set({ user: null, projects: [], currentProjectId: null, nodes: [], edges: [], fiveWhys: [], swot: [], ishikawa: [], pdca: [], waterfall: [], activeTool: null }),
 
       activeTool: null,
       setActiveTool: (tool) => set({ activeTool: tool }),
@@ -382,6 +409,7 @@ export const useRoadmapStore = create<RoadmapState>()(
           swot: [],
           ishikawa: [],
           pdca: [],
+          waterfall: [],
           updatedAt: Date.now(),
           userId: state.user.uid,
         };
@@ -398,6 +426,7 @@ export const useRoadmapStore = create<RoadmapState>()(
           swot: newProject.swot,
           ishikawa: newProject.ishikawa,
           pdca: newProject.pdca,
+          waterfall: newProject.waterfall,
         }));
       },
 
@@ -412,6 +441,7 @@ export const useRoadmapStore = create<RoadmapState>()(
             swot: project.swot || [],
             ishikawa: project.ishikawa || [],
             pdca: project.pdca || [],
+            waterfall: project.waterfall || [],
           });
         }
       },
@@ -445,6 +475,7 @@ export const useRoadmapStore = create<RoadmapState>()(
             swot: isCurrent ? [] : state.swot,
             ishikawa: isCurrent ? [] : state.ishikawa,
             pdca: isCurrent ? [] : state.pdca,
+            waterfall: isCurrent ? [] : state.waterfall,
           };
         });
       },
@@ -590,7 +621,7 @@ export const useRoadmapStore = create<RoadmapState>()(
         });
       },
 
-      loadData: (nodes, edges, fiveWhys = [], swot = [], ishikawa = [], pdca = []) => set({ nodes, edges, fiveWhys, swot, ishikawa, pdca, ...syncProject({ ...get(), nodes, edges, fiveWhys, swot, ishikawa, pdca }) }),
+      loadData: (nodes, edges, fiveWhys = [], swot = [], ishikawa = [], pdca = [], waterfall = []) => set({ nodes, edges, fiveWhys, swot, ishikawa, pdca, waterfall, ...syncProject({ ...get(), nodes, edges, fiveWhys, swot, ishikawa, pdca, waterfall }) }),
 
       // 5 Whys Actions
       fiveWhys: [],
@@ -744,6 +775,57 @@ export const useRoadmapStore = create<RoadmapState>()(
             : cycle
         );
         set({ pdca: newPdca, ...syncProject({ ...get(), pdca: newPdca }) });
+      },
+
+      // Waterfall Actions
+      waterfall: [],
+      addWaterfallProject: (name) => {
+        const newItem: WaterfallProject = {
+          id: uuidv4(),
+          name,
+          items: [],
+          createdAt: Date.now(),
+        };
+        const newWaterfall = [newItem, ...get().waterfall];
+        set({ waterfall: newWaterfall, ...syncProject({ ...get(), waterfall: newWaterfall }) });
+      },
+      updateWaterfallProjectName: (id, name) => {
+        const newWaterfall = get().waterfall.map(p => p.id === id ? { ...p, name } : p);
+        set({ waterfall: newWaterfall, ...syncProject({ ...get(), waterfall: newWaterfall }) });
+      },
+      deleteWaterfallProject: (id) => {
+        const newWaterfall = get().waterfall.filter(p => p.id !== id);
+        set({ waterfall: newWaterfall, ...syncProject({ ...get(), waterfall: newWaterfall }) });
+      },
+      addWaterfallItem: (projectId, phase, text) => {
+        const newItem: WaterfallItem = {
+          id: uuidv4(),
+          phase,
+          text,
+          createdAt: Date.now(),
+        };
+        const newWaterfall = get().waterfall.map(project => 
+          project.id === projectId 
+            ? { ...project, items: [...project.items, newItem] } 
+            : project
+        );
+        set({ waterfall: newWaterfall, ...syncProject({ ...get(), waterfall: newWaterfall }) });
+      },
+      updateWaterfallItem: (projectId, itemId, text) => {
+        const newWaterfall = get().waterfall.map(project => 
+          project.id === projectId 
+            ? { ...project, items: project.items.map(item => item.id === itemId ? { ...item, text } : item) } 
+            : project
+        );
+        set({ waterfall: newWaterfall, ...syncProject({ ...get(), waterfall: newWaterfall }) });
+      },
+      deleteWaterfallItem: (projectId, itemId) => {
+        const newWaterfall = get().waterfall.map(project => 
+          project.id === projectId 
+            ? { ...project, items: project.items.filter(item => item.id !== itemId) } 
+            : project
+        );
+        set({ waterfall: newWaterfall, ...syncProject({ ...get(), waterfall: newWaterfall }) });
       }
     }),
     {
