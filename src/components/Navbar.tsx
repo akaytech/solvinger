@@ -147,6 +147,24 @@ export default function Navbar() {
           </div>
           <span>Ishikawa (Kılçık)</span>
         </button>
+
+        <button
+          onClick={() => {
+            setActiveTool('pdca');
+            setIsExpanded(false);
+          }}
+          className={clsx(
+            "flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-semibold transition-colors",
+            activeTool === 'pdca' 
+              ? "bg-indigo-50 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400" 
+              : "text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800"
+          )}
+        >
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-100 text-indigo-600 dark:bg-indigo-900/50 dark:text-indigo-400">
+             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21v-5h5"/></svg>
+          </div>
+          <span>PUKÖ Döngüsü</span>
+        </button>
       </div>
 
       {/* Version Info */}

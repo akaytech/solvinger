@@ -58,6 +58,23 @@ export interface IshikawaAnalysis {
   createdAt: number;
 }
 
+export type PdcaPhase = 'Plan' | 'Do' | 'Check' | 'Act';
+
+export interface PdcaItem {
+  id: string;
+  phase: PdcaPhase;
+  text: string;
+  status: 'pending' | 'completed';
+  createdAt: number;
+}
+
+export interface PdcaCycle {
+  id: string;
+  goal: string;
+  items: PdcaItem[];
+  createdAt: number;
+}
+
 export interface Project {
   id: string;
   name: string;
@@ -66,6 +83,7 @@ export interface Project {
   fiveWhys: FiveWhysAnalysis[];
   swot: SwotItem[];
   ishikawa: IshikawaAnalysis[];
+  pdca: PdcaCycle[];
   updatedAt: number;
   userId: string;
 }
@@ -77,8 +95,8 @@ interface RoadmapState {
   logout: () => void;
 
   // UI State
-  activeTool: 'wbs' | '5whys' | 'swot' | 'ishikawa' | null;
-  setActiveTool: (tool: 'wbs' | '5whys' | 'swot' | 'ishikawa' | null) => void;
+  activeTool: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | null;
+  setActiveTool: (tool: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | null) => void;
 
   // Projects
   projects: Project[];
@@ -100,7 +118,7 @@ interface RoadmapState {
   deleteGoal: (id: string) => void;
   toggleExpand: (id: string) => void;
   toggleHideCompleted: (id: string) => void;
-  loadData: (nodes: GoalNode[], edges: Edge[], fiveWhys?: FiveWhysAnalysis[], swot?: SwotItem[], ishikawa?: IshikawaAnalysis[]) => void;
+  loadData: (nodes: GoalNode[], edges: Edge[], fiveWhys?: FiveWhysAnalysis[], swot?: SwotItem[], ishikawa?: IshikawaAnalysis[], pdca?: PdcaCycle[]) => void;
 
   // 5 Whys State
   fiveWhys: FiveWhysAnalysis[];
@@ -122,6 +140,16 @@ interface RoadmapState {
   addIshikawaItem: (analysisId: string, category: IshikawaCategory, text: string) => void;
   updateIshikawaItem: (analysisId: string, itemId: string, text: string) => void;
   deleteIshikawaItem: (analysisId: string, itemId: string) => void;
+
+  // PDCA State
+  pdca: PdcaCycle[];
+  addPdcaCycle: (goal: string) => void;
+  updatePdcaGoal: (id: string, goal: string) => void;
+  deletePdcaCycle: (id: string) => void;
+  addPdcaItem: (cycleId: string, phase: PdcaPhase, text: string) => void;
+  updatePdcaItem: (cycleId: string, itemId: string, text: string) => void;
+  deletePdcaItem: (cycleId: string, itemId: string) => void;
+  togglePdcaItemStatus: (cycleId: string, itemId: string) => void;
 }
 
 export const getDescendants = (parentId: string, edges: Edge[]): string[] => {
@@ -282,6 +310,7 @@ const syncProject = (state: RoadmapState): Partial<RoadmapState> => {
     fiveWhys: state.fiveWhys || [],
     swot: state.swot || [],
     ishikawa: state.ishikawa || [],
+    pdca: state.pdca || [],
     updatedAt: Date.now(),
     userId: state.user.uid,
   };
@@ -319,7 +348,7 @@ export const useRoadmapStore = create<RoadmapState>()(
     (set, get) => ({
       user: null,
       login: (uid, email, name, photoURL) => set({ user: { uid, email, name, photoURL } }),
-      logout: () => set({ user: null, projects: [], currentProjectId: null, nodes: [], edges: [], fiveWhys: [], swot: [], ishikawa: [], activeTool: null }),
+      logout: () => set({ user: null, projects: [], currentProjectId: null, nodes: [], edges: [], fiveWhys: [], swot: [], ishikawa: [], pdca: [], activeTool: null }),
 
       activeTool: null,
       setActiveTool: (tool) => set({ activeTool: tool }),
@@ -352,6 +381,7 @@ export const useRoadmapStore = create<RoadmapState>()(
           fiveWhys: [],
           swot: [],
           ishikawa: [],
+          pdca: [],
           updatedAt: Date.now(),
           userId: state.user.uid,
         };
@@ -367,6 +397,7 @@ export const useRoadmapStore = create<RoadmapState>()(
           fiveWhys: newProject.fiveWhys,
           swot: newProject.swot,
           ishikawa: newProject.ishikawa,
+          pdca: newProject.pdca,
         }));
       },
 
@@ -380,6 +411,7 @@ export const useRoadmapStore = create<RoadmapState>()(
             fiveWhys: project.fiveWhys || [],
             swot: project.swot || [],
             ishikawa: project.ishikawa || [],
+            pdca: project.pdca || [],
           });
         }
       },
@@ -412,6 +444,7 @@ export const useRoadmapStore = create<RoadmapState>()(
             fiveWhys: isCurrent ? [] : state.fiveWhys,
             swot: isCurrent ? [] : state.swot,
             ishikawa: isCurrent ? [] : state.ishikawa,
+            pdca: isCurrent ? [] : state.pdca,
           };
         });
       },
@@ -557,7 +590,7 @@ export const useRoadmapStore = create<RoadmapState>()(
         });
       },
 
-      loadData: (nodes, edges, fiveWhys = [], swot = [], ishikawa = []) => set({ nodes, edges, fiveWhys, swot, ishikawa, ...syncProject({ ...get(), nodes, edges, fiveWhys, swot, ishikawa }) }),
+      loadData: (nodes, edges, fiveWhys = [], swot = [], ishikawa = [], pdca = []) => set({ nodes, edges, fiveWhys, swot, ishikawa, pdca, ...syncProject({ ...get(), nodes, edges, fiveWhys, swot, ishikawa, pdca }) }),
 
       // 5 Whys Actions
       fiveWhys: [],
@@ -651,6 +684,66 @@ export const useRoadmapStore = create<RoadmapState>()(
             : analysis
         );
         set({ ishikawa: newIshikawa, ...syncProject({ ...get(), ishikawa: newIshikawa }) });
+      },
+
+      // PDCA Actions
+      pdca: [],
+      addPdcaCycle: (goal) => {
+        const newItem: PdcaCycle = {
+          id: uuidv4(),
+          goal,
+          items: [],
+          createdAt: Date.now(),
+        };
+        const newPdca = [newItem, ...get().pdca];
+        set({ pdca: newPdca, ...syncProject({ ...get(), pdca: newPdca }) });
+      },
+      updatePdcaGoal: (id, goal) => {
+        const newPdca = get().pdca.map(p => p.id === id ? { ...p, goal } : p);
+        set({ pdca: newPdca, ...syncProject({ ...get(), pdca: newPdca }) });
+      },
+      deletePdcaCycle: (id) => {
+        const newPdca = get().pdca.filter(p => p.id !== id);
+        set({ pdca: newPdca, ...syncProject({ ...get(), pdca: newPdca }) });
+      },
+      addPdcaItem: (cycleId, phase, text) => {
+        const newItem: PdcaItem = {
+          id: uuidv4(),
+          phase,
+          text,
+          status: 'pending',
+          createdAt: Date.now(),
+        };
+        const newPdca = get().pdca.map(cycle => 
+          cycle.id === cycleId 
+            ? { ...cycle, items: [...cycle.items, newItem] } 
+            : cycle
+        );
+        set({ pdca: newPdca, ...syncProject({ ...get(), pdca: newPdca }) });
+      },
+      updatePdcaItem: (cycleId, itemId, text) => {
+        const newPdca = get().pdca.map(cycle => 
+          cycle.id === cycleId 
+            ? { ...cycle, items: cycle.items.map(item => item.id === itemId ? { ...item, text } : item) } 
+            : cycle
+        );
+        set({ pdca: newPdca, ...syncProject({ ...get(), pdca: newPdca }) });
+      },
+      deletePdcaItem: (cycleId, itemId) => {
+        const newPdca = get().pdca.map(cycle => 
+          cycle.id === cycleId 
+            ? { ...cycle, items: cycle.items.filter(item => item.id !== itemId) } 
+            : cycle
+        );
+        set({ pdca: newPdca, ...syncProject({ ...get(), pdca: newPdca }) });
+      },
+      togglePdcaItemStatus: (cycleId, itemId) => {
+        const newPdca = get().pdca.map(cycle => 
+          cycle.id === cycleId 
+            ? { ...cycle, items: cycle.items.map(item => item.id === itemId ? { ...item, status: (item.status === 'pending' ? 'completed' : 'pending') as 'pending' | 'completed' } : item) } 
+            : cycle
+        );
+        set({ pdca: newPdca, ...syncProject({ ...get(), pdca: newPdca }) });
       }
     }),
     {

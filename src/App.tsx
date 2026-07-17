@@ -4,6 +4,7 @@ import RoadmapCanvas from './components/RoadmapCanvas';
 import FiveWhysCanvas from './components/FiveWhysCanvas';
 import SwotCanvas from './components/SwotCanvas';
 import IshikawaCanvas from './components/IshikawaCanvas';
+import PdcaCanvas from './components/PdcaCanvas';
 import WelcomeScreen from './components/WelcomeScreen';
 import Navbar from './components/Navbar';
 import AuthModal from './components/AuthModal';
@@ -40,6 +41,7 @@ function App() {
             {activeTool === '5whys' && <FiveWhysCanvas />}
             {activeTool === 'swot' && <SwotCanvas />}
             {activeTool === 'ishikawa' && <IshikawaCanvas />}
+            {activeTool === 'pdca' && <PdcaCanvas />}
           </div>
         </ReactFlowProvider>
       )}

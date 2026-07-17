@@ -1,4 +1,4 @@
-import { Network, Activity, Target, Fish } from 'lucide-react';
+import { Network, Activity, Target, Fish, RefreshCcw } from 'lucide-react';
 import { useRoadmapStore } from '../store/useRoadmapStore';
 
 export default function WelcomeScreen() {
@@ -23,7 +23,7 @@ export default function WelcomeScreen() {
           Proje yönetimi ve problem çözme metodolojilerini tek bir platformda birleştirin. Başlamak için kullanmak istediğiniz aracı seçin.
         </p>
 
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           <button
             onClick={() => setActiveTool('wbs')}
             className="group flex flex-col items-center rounded-3xl border-2 border-slate-200 bg-white p-8 transition-all hover:border-indigo-500 hover:shadow-2xl dark:border-slate-800 dark:bg-slate-800 dark:hover:border-indigo-500"
@@ -58,6 +58,15 @@ export default function WelcomeScreen() {
             <Fish size={40} className="mb-4 text-slate-400 transition-colors group-hover:text-cyan-500" />
             <h3 className="mb-2 text-xl font-bold text-slate-800 dark:text-slate-100">Ishikawa (Balık Kılçığı)</h3>
             <p className="text-sm text-slate-500 dark:text-slate-400">Problemin kök nedenlerini 6M kategorilerine göre sistematik olarak ayrıştırın.</p>
+          </button>
+
+          <button
+            onClick={() => setActiveTool('pdca')}
+            className="group flex flex-col items-center rounded-3xl border-2 border-slate-200 bg-white p-8 transition-all hover:border-indigo-500 hover:shadow-2xl dark:border-slate-800 dark:bg-slate-800 dark:hover:border-indigo-500"
+          >
+            <RefreshCcw size={40} className="mb-4 text-slate-400 transition-colors group-hover:text-indigo-500" />
+            <h3 className="mb-2 text-xl font-bold text-slate-800 dark:text-slate-100">PUKÖ Döngüsü</h3>
+            <p className="text-sm text-slate-500 dark:text-slate-400">Planla, Uygula, Kontrol Et, Önlem Al adımlarıyla sürekli iyileştirme sağlayın.</p>
           </button>
         </div>
       </div>
