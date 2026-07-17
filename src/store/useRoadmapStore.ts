@@ -11,7 +11,7 @@ import { doc, setDoc, deleteDoc, collection, query, where, getDocs } from 'fireb
 import { db } from '../firebase';
 import dagre from 'dagre';
 
-export type GoalStatus = 'To Do' | 'In Progress' | 'Done' | 'Failed';
+type GoalStatus = 'To Do' | 'In Progress' | 'Done' | 'Failed';
 
 export type GoalNodeData = {
   label: string;
@@ -25,7 +25,7 @@ export type GoalNodeData = {
 
 export type GoalNode = Node<GoalNodeData>;
 
-export interface FiveWhysAnalysis {
+interface FiveWhysAnalysis {
   id: string;
   problemStatement: string;
   whys: string[];
@@ -35,7 +35,7 @@ export interface FiveWhysAnalysis {
 
 export type SwotType = 'S' | 'W' | 'O' | 'T';
 
-export interface SwotItem {
+interface SwotItem {
   id: string;
   type: SwotType;
   text: string;
@@ -44,14 +44,14 @@ export interface SwotItem {
 
 export type IshikawaCategory = 'Manpower' | 'Machine' | 'Material' | 'Method' | 'Measurement' | 'Milieu';
 
-export interface IshikawaItem {
+interface IshikawaItem {
   id: string;
   category: IshikawaCategory;
   text: string;
   createdAt: number;
 }
 
-export interface IshikawaAnalysis {
+interface IshikawaAnalysis {
   id: string;
   problemStatement: string;
   items: IshikawaItem[];
@@ -60,7 +60,7 @@ export interface IshikawaAnalysis {
 
 export type PdcaPhase = 'Plan' | 'Do' | 'Check' | 'Act';
 
-export interface PdcaItem {
+interface PdcaItem {
   id: string;
   phase: PdcaPhase;
   text: string;
@@ -68,7 +68,7 @@ export interface PdcaItem {
   createdAt: number;
 }
 
-export interface PdcaCycle {
+interface PdcaCycle {
   id: string;
   goal: string;
   items: PdcaItem[];
@@ -77,21 +77,21 @@ export interface PdcaCycle {
 
 export type WaterfallPhase = 'Requirements' | 'Design' | 'Implementation' | 'Verification' | 'Maintenance';
 
-export interface WaterfallItem {
+interface WaterfallItem {
   id: string;
   phase: WaterfallPhase;
   text: string;
   createdAt: number;
 }
 
-export interface WaterfallProject {
+interface WaterfallProject {
   id: string;
   name: string;
   items: WaterfallItem[];
   createdAt: number;
 }
 
-export interface Project {
+interface Project {
   id: string;
   name: string;
   nodes: GoalNode[];

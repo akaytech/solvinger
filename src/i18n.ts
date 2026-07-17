@@ -1136,4 +1136,4 @@ i18n
     }
   });
 
-export default i18n;
+// Unused default export removed
