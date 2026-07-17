@@ -10,7 +10,7 @@ export default function Navbar() {
   const { t } = useTranslation();
   const [isExpanded, setIsExpanded] = useState(false);
   const { setCenter, getZoom } = useReactFlow();
-  const { nodes } = useRoadmapStore();
+  const { nodes, activeTool, setActiveTool } = useRoadmapStore();
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -72,6 +72,45 @@ export default function Navbar() {
       </div>
 
       <div className="flex-1 flex flex-col py-4 px-3 gap-2">
+        <div className="mb-2 px-3">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Araçlar</h3>
+        </div>
+        
+        <button
+          onClick={() => {
+            setActiveTool('wbs');
+            setIsExpanded(false);
+          }}
+          className={clsx(
+            "flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-semibold transition-colors",
+            activeTool === 'wbs' 
+              ? "bg-indigo-50 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-400" 
+              : "text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800"
+          )}
+        >
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-100 text-indigo-600 dark:bg-indigo-900/50 dark:text-indigo-400">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg>
+          </div>
+          <span>İş Kırılım Yapısı</span>
+        </button>
+
+        <button
+          onClick={() => {
+            setActiveTool('5whys');
+            setIsExpanded(false);
+          }}
+          className={clsx(
+            "flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-semibold transition-colors",
+            activeTool === '5whys' 
+              ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400" 
+              : "text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800"
+          )}
+        >
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600 dark:bg-emerald-900/50 dark:text-emerald-400">
+             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          </div>
+          <span>5 Neden Analizi</span>
+        </button>
       </div>
 
       {/* Version Info */}

@@ -25,11 +25,20 @@ export type GoalNodeData = {
 
 export type GoalNode = Node<GoalNodeData>;
 
+export interface FiveWhysAnalysis {
+  id: string;
+  problemStatement: string;
+  whys: string[];
+  rootCause: string;
+  createdAt: number;
+}
+
 export interface Project {
   id: string;
   name: string;
   nodes: GoalNode[];
   edges: Edge[];
+  fiveWhys: FiveWhysAnalysis[];
   updatedAt: number;
   userId: string;
 }
@@ -39,6 +48,10 @@ interface RoadmapState {
   user: { uid: string; email: string; name: string; photoURL?: string } | null;
   login: (uid: string, email: string, name: string, photoURL?: string) => void;
   logout: () => void;
+
+  // UI State
+  activeTool: 'wbs' | '5whys' | null;
+  setActiveTool: (tool: 'wbs' | '5whys' | null) => void;
 
   // Projects
   projects: Project[];
@@ -60,7 +73,13 @@ interface RoadmapState {
   deleteGoal: (id: string) => void;
   toggleExpand: (id: string) => void;
   toggleHideCompleted: (id: string) => void;
-  loadData: (nodes: GoalNode[], edges: Edge[]) => void;
+  loadData: (nodes: GoalNode[], edges: Edge[], fiveWhys?: FiveWhysAnalysis[]) => void;
+
+  // 5 Whys State
+  fiveWhys: FiveWhysAnalysis[];
+  addFiveWhys: (problemStatement: string) => void;
+  updateFiveWhys: (id: string, data: Partial<FiveWhysAnalysis>) => void;
+  deleteFiveWhys: (id: string) => void;
 }
 
 export const getDescendants = (parentId: string, edges: Edge[]): string[] => {
@@ -218,6 +237,7 @@ const syncProject = (state: RoadmapState): Partial<RoadmapState> => {
     name: currentProjectName,
     nodes: state.nodes,
     edges: state.edges,
+    fiveWhys: state.fiveWhys || [],
     updatedAt: Date.now(),
     userId: state.user.uid,
   };
@@ -255,7 +275,10 @@ export const useRoadmapStore = create<RoadmapState>()(
     (set, get) => ({
       user: null,
       login: (uid, email, name, photoURL) => set({ user: { uid, email, name, photoURL } }),
-      logout: () => set({ user: null, projects: [], currentProjectId: null, nodes: [], edges: [] }),
+      logout: () => set({ user: null, projects: [], currentProjectId: null, nodes: [], edges: [], fiveWhys: [], activeTool: null }),
+
+      activeTool: null,
+      setActiveTool: (tool) => set({ activeTool: tool }),
 
       projects: [],
       currentProjectId: null,
@@ -276,11 +299,13 @@ export const useRoadmapStore = create<RoadmapState>()(
         const state = get();
         if (!state.user) return;
 
+        const id = uuidv4();
         const newProject: Project = {
-          id: uuidv4(),
+          id,
           name,
           nodes: defaultNodes,
           edges: [],
+          fiveWhys: [],
           updatedAt: Date.now(),
           userId: state.user.uid,
         };
@@ -289,10 +314,11 @@ export const useRoadmapStore = create<RoadmapState>()(
         setDoc(doc(db, 'projects', newProject.id), newProject).catch(console.error);
 
         set((state) => ({
-          projects: [...state.projects, newProject],
+          projects: [newProject, ...state.projects],
           currentProjectId: newProject.id,
           nodes: newProject.nodes,
           edges: newProject.edges,
+          fiveWhys: newProject.fiveWhys,
         }));
       },
 
@@ -303,6 +329,7 @@ export const useRoadmapStore = create<RoadmapState>()(
             currentProjectId: id,
             nodes: project.nodes,
             edges: project.edges,
+            fiveWhys: project.fiveWhys || [],
           });
         }
       },
@@ -332,6 +359,7 @@ export const useRoadmapStore = create<RoadmapState>()(
             currentProjectId: isCurrent ? null : state.currentProjectId,
             nodes: isCurrent ? [] : state.nodes,
             edges: isCurrent ? [] : state.edges,
+            fiveWhys: isCurrent ? [] : state.fiveWhys,
           };
         });
       },
@@ -477,12 +505,29 @@ export const useRoadmapStore = create<RoadmapState>()(
         });
       },
 
-      loadData: (nodes, edges) => {
-        set((state) => {
-          const next = { ...state, nodes, edges };
-          return { ...next, ...syncProject(next) };
-        });
+      loadData: (nodes, edges, fiveWhys = []) => set({ nodes, edges, fiveWhys, ...syncProject({ ...get(), nodes, edges, fiveWhys }) }),
+
+      // 5 Whys Actions
+      fiveWhys: [],
+      addFiveWhys: (problemStatement) => {
+        const newItem: FiveWhysAnalysis = {
+          id: uuidv4(),
+          problemStatement,
+          whys: ['', '', '', '', ''],
+          rootCause: '',
+          createdAt: Date.now(),
+        };
+        const newFiveWhys = [newItem, ...get().fiveWhys];
+        set({ fiveWhys: newFiveWhys, ...syncProject({ ...get(), fiveWhys: newFiveWhys }) });
       },
+      updateFiveWhys: (id, data) => {
+        const newFiveWhys = get().fiveWhys.map(fw => fw.id === id ? { ...fw, ...data } : fw);
+        set({ fiveWhys: newFiveWhys, ...syncProject({ ...get(), fiveWhys: newFiveWhys }) });
+      },
+      deleteFiveWhys: (id) => {
+        const newFiveWhys = get().fiveWhys.filter(fw => fw.id !== id);
+        set({ fiveWhys: newFiveWhys, ...syncProject({ ...get(), fiveWhys: newFiveWhys }) });
+      }
     }),
     {
       name: 'roadmap-storage',
