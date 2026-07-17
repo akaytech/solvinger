@@ -9,14 +9,7 @@ export default function WelcomeScreen() {
   return (
     <div className="flex h-full w-full flex-col items-center bg-slate-50 dark:bg-slate-900 p-8 overflow-y-auto custom-scrollbar">
       <div className="max-w-2xl text-center my-auto py-8">
-        <div className="mb-8 flex justify-center gap-6">
-          <div className="flex h-24 w-24 items-center justify-center rounded-3xl bg-indigo-100 text-indigo-600 dark:bg-indigo-900/40 dark:text-indigo-400 shadow-xl shadow-indigo-500/10 transition-transform hover:scale-105">
-            <Network size={48} />
-          </div>
-          <div className="flex h-24 w-24 items-center justify-center rounded-3xl bg-emerald-100 text-emerald-600 dark:bg-emerald-900/40 dark:text-emerald-400 shadow-xl shadow-emerald-500/10 transition-transform hover:scale-105">
-            <Activity size={48} />
-          </div>
-        </div>
+
         <h1 className="mb-6 text-center text-4xl font-black text-slate-800 dark:text-slate-100 md:text-6xl">
           {t('ws_title')}
         </h1>
