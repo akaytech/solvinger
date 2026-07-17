@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { useReactFlow } from '@xyflow/react';
+
 import { useRoadmapStore } from '../store/useRoadmapStore';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
 import clsx from 'clsx';
@@ -9,8 +9,7 @@ import { useTranslation } from 'react-i18next';
 export default function Navbar() {
   const { t } = useTranslation();
   const [isExpanded, setIsExpanded] = useState(false);
-  const { setCenter, getZoom } = useReactFlow();
-  const { nodes, activeTool, setActiveTool } = useRoadmapStore();
+  const { activeTool, setActiveTool } = useRoadmapStore();
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -29,13 +28,7 @@ export default function Navbar() {
     };
   }, []);
 
-  const focusRoot = () => {
-    // Find a root node (prefer 'root' or first node)
-    const rootNode = nodes.find((n) => n.id === 'root') || nodes[0];
-    if (rootNode) {
-      setCenter(rootNode.position.x + 220, rootNode.position.y + 55, { zoom: Math.max(getZoom(), 0.8), duration: 800 });
-    }
-  };
+
 
   return (
     <div
@@ -63,8 +56,10 @@ export default function Navbar() {
       {/* Logo Area */}
       <div className="flex p-4 items-center justify-center">
         <button
-          onClick={focusRoot}
-          title={t('go_to_root')}
+          onClick={() => {
+            setActiveTool(null);
+            setIsExpanded(false);
+          }}
           className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white dark:bg-slate-800 shadow-md border border-slate-100 dark:border-slate-700 transition-transform hover:scale-105 active:scale-95 overflow-hidden p-1"
         >
           <img src={`${import.meta.env.BASE_URL}logo.jpg`} alt="Solvinger Logo" className="h-full w-full object-contain rounded-xl" />
