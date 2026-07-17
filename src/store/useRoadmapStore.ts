@@ -42,6 +42,13 @@ interface SwotItem {
   createdAt: number;
 }
 
+interface SwotAnalysis {
+  id: string;
+  title: string;
+  items: SwotItem[];
+  createdAt: number;
+}
+
 export type IshikawaCategory = 'Manpower' | 'Machine' | 'Material' | 'Method' | 'Measurement' | 'Milieu';
 
 interface IshikawaItem {
@@ -91,13 +98,13 @@ interface WaterfallProject {
   createdAt: number;
 }
 
-interface Project {
+export interface Project {
   id: string;
   name: string;
   nodes: GoalNode[];
   edges: Edge[];
   fiveWhys: FiveWhysAnalysis[];
-  swot: SwotItem[];
+  swot: SwotAnalysis[];
   ishikawa: IshikawaAnalysis[];
   pdca: PdcaCycle[];
   waterfall: WaterfallProject[];
@@ -135,7 +142,7 @@ interface RoadmapState {
   deleteGoal: (id: string) => void;
   toggleExpand: (id: string) => void;
   toggleHideCompleted: (id: string) => void;
-  loadData: (nodes: GoalNode[], edges: Edge[], fiveWhys?: FiveWhysAnalysis[], swot?: SwotItem[], ishikawa?: IshikawaAnalysis[], pdca?: PdcaCycle[], waterfall?: WaterfallProject[]) => void;
+  loadData: (nodes: GoalNode[], edges: Edge[], fiveWhys?: FiveWhysAnalysis[], swot?: SwotAnalysis[], ishikawa?: IshikawaAnalysis[], pdca?: PdcaCycle[], waterfall?: WaterfallProject[]) => void;
 
   // 5 Whys State
   fiveWhys: FiveWhysAnalysis[];
@@ -144,10 +151,13 @@ interface RoadmapState {
   deleteFiveWhys: (id: string) => void;
 
   // SWOT State
-  swot: SwotItem[];
-  addSwotItem: (type: SwotType, text: string) => void;
-  updateSwotItem: (id: string, text: string) => void;
-  deleteSwotItem: (id: string) => void;
+  swot: SwotAnalysis[];
+  addSwot: (title: string) => void;
+  updateSwotTitle: (id: string, title: string) => void;
+  deleteSwot: (id: string) => void;
+  addSwotItem: (analysisId: string, type: SwotType, text: string) => void;
+  updateSwotItem: (analysisId: string, itemId: string, text: string) => void;
+  deleteSwotItem: (analysisId: string, itemId: string) => void;
 
   // Ishikawa State
   ishikawa: IshikawaAnalysis[];
@@ -363,7 +373,7 @@ const defaultNodes: GoalNode[] = [
     type: 'goalNode',
     position: { x: 0, y: 0 },
     data: {
-      label: 'Ana Görev',
+      label: 'Yeni Proje',
       status: 'In Progress',
       isExpanded: true,
     },
@@ -387,7 +397,19 @@ export const useRoadmapStore = create<RoadmapState>()(
         try {
           const q = query(collection(db, 'projects'), where('userId', '==', userId));
           const snapshot = await getDocs(q);
-          const fetchedProjects = snapshot.docs.map(doc => doc.data() as Project);
+          const fetchedProjects = snapshot.docs.map(doc => {
+            const data = doc.data() as Project;
+            let safeSwot = data.swot || [];
+            if (safeSwot.length > 0 && 'type' in safeSwot[0]) {
+              safeSwot = [{
+                id: 'migrated-swot',
+                title: 'Varsayılan SWOT Analizi',
+                items: safeSwot as any,
+                createdAt: Date.now()
+              }];
+            }
+            return { ...data, swot: safeSwot };
+          });
           
           set({ projects: fetchedProjects });
         } catch (error) {
@@ -433,12 +455,21 @@ export const useRoadmapStore = create<RoadmapState>()(
       loadProject: (id) => {
         const project = get().projects.find((p) => p.id === id);
         if (project) {
+          let safeSwot = project.swot || [];
+          if (safeSwot.length > 0 && 'type' in safeSwot[0]) {
+            safeSwot = [{
+              id: 'migrated-swot',
+              title: 'Varsayılan SWOT Analizi',
+              items: safeSwot as any,
+              createdAt: Date.now()
+            }];
+          }
           set({
             currentProjectId: id,
             nodes: project.nodes,
             edges: project.edges,
             fiveWhys: project.fiveWhys || [],
-            swot: project.swot || [],
+            swot: safeSwot,
             ishikawa: project.ishikawa || [],
             pdca: project.pdca || [],
             waterfall: project.waterfall || [],
@@ -647,22 +678,52 @@ export const useRoadmapStore = create<RoadmapState>()(
 
       // SWOT Actions
       swot: [],
-      addSwotItem: (type, text) => {
+      addSwot: (title) => {
+        const newItem: SwotAnalysis = {
+          id: uuidv4(),
+          title,
+          items: [],
+          createdAt: Date.now(),
+        };
+        const newSwot = [newItem, ...get().swot];
+        set({ swot: newSwot, ...syncProject({ ...get(), swot: newSwot }) });
+      },
+      updateSwotTitle: (id, title) => {
+        const newSwot = get().swot.map(s => s.id === id ? { ...s, title } : s);
+        set({ swot: newSwot, ...syncProject({ ...get(), swot: newSwot }) });
+      },
+      deleteSwot: (id) => {
+        const newSwot = get().swot.filter(s => s.id !== id);
+        set({ swot: newSwot, ...syncProject({ ...get(), swot: newSwot }) });
+      },
+      addSwotItem: (analysisId, type, text) => {
         const newItem: SwotItem = {
           id: uuidv4(),
           type,
           text,
           createdAt: Date.now(),
         };
-        const newSwot = [...get().swot, newItem];
+        const newSwot = get().swot.map(analysis => 
+          analysis.id === analysisId 
+            ? { ...analysis, items: [...analysis.items, newItem] } 
+            : analysis
+        );
         set({ swot: newSwot, ...syncProject({ ...get(), swot: newSwot }) });
       },
-      updateSwotItem: (id, text) => {
-        const newSwot = get().swot.map(item => item.id === id ? { ...item, text } : item);
+      updateSwotItem: (analysisId, itemId, text) => {
+        const newSwot = get().swot.map(analysis => 
+          analysis.id === analysisId 
+            ? { ...analysis, items: analysis.items.map(i => i.id === itemId ? { ...i, text } : i) } 
+            : analysis
+        );
         set({ swot: newSwot, ...syncProject({ ...get(), swot: newSwot }) });
       },
-      deleteSwotItem: (id) => {
-        const newSwot = get().swot.filter(item => item.id !== id);
+      deleteSwotItem: (analysisId, itemId) => {
+        const newSwot = get().swot.map(analysis => 
+          analysis.id === analysisId 
+            ? { ...analysis, items: analysis.items.filter(i => i.id !== itemId) } 
+            : analysis
+        );
         set({ swot: newSwot, ...syncProject({ ...get(), swot: newSwot }) });
       },
 

@@ -1,11 +1,108 @@
 import { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRoadmapStore } from '../store/useRoadmapStore';
-import { Folder, Plus, Trash2 } from 'lucide-react';
+import { Folder, Plus, Trash2, ChevronDown, ChevronRight, GitCommit, Target, HelpCircle, Fish, RefreshCcw, Layers } from 'lucide-react';
+import type { Project } from '../store/useRoadmapStore';
+
+function ProjectTreeItem({ project, isCurrent, onClose }: { project: Project; isCurrent: boolean; onClose: () => void }) {
+  const { loadProject, setActiveTool, deleteProject } = useRoadmapStore();
+  const [isExpanded, setIsExpanded] = useState(isCurrent);
+
+  const handleToolClick = (tool: any) => {
+    if (!isCurrent) {
+      loadProject(project.id);
+    }
+    setActiveTool(tool);
+    onClose();
+  };
+
+  return (
+    <div className="flex flex-col border-b border-slate-100 dark:border-slate-700/50 last:border-0 pb-1 mb-1">
+      <div className={`group flex items-center justify-between rounded-xl px-2 py-1.5 transition-colors ${isCurrent ? 'bg-indigo-50/50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300' : 'hover:bg-slate-50 dark:hover:bg-slate-700/50 text-slate-700 dark:text-slate-300'}`}>
+        <button 
+          className="flex flex-1 items-center gap-2 text-left text-sm font-bold truncate"
+          onClick={() => setIsExpanded(!isExpanded)}
+        >
+          {isExpanded ? <ChevronDown size={14} className="text-slate-400" /> : <ChevronRight size={14} className="text-slate-400" />}
+          {project.name}
+        </button>
+        <button 
+          onClick={(e) => {
+             e.stopPropagation();
+             deleteProject(project.id);
+          }}
+          className="hidden group-hover:block p-1 text-slate-400 hover:text-red-500 transition-colors"
+          title="Projeyi Sil"
+        >
+          <Trash2 size={14} />
+        </button>
+      </div>
+
+      {isExpanded && (
+        <div className="flex flex-col pl-6 pr-2 space-y-0.5 mt-1">
+          <button onClick={() => handleToolClick('wbs')} className="flex items-center gap-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-50 dark:hover:bg-slate-800 p-1.5 rounded-lg transition-colors">
+            <GitCommit size={14} className="text-indigo-500" />
+            Yol Haritası (WBS)
+          </button>
+          
+          {(project.swot?.length > 0) && (
+             <button onClick={() => handleToolClick('swot')} className="flex items-center justify-between text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-amber-50/50 dark:hover:bg-amber-900/20 p-1.5 rounded-lg transition-colors">
+               <div className="flex items-center gap-2">
+                 <Target size={14} className="text-amber-500" />
+                 SWOT
+               </div>
+               <span className="bg-slate-100 dark:bg-slate-800 text-[10px] px-1.5 rounded-full">{project.swot.length}</span>
+             </button>
+          )}
+
+          {(project.fiveWhys?.length > 0) && (
+             <button onClick={() => handleToolClick('5whys')} className="flex items-center justify-between text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50/50 dark:hover:bg-rose-900/20 p-1.5 rounded-lg transition-colors">
+               <div className="flex items-center gap-2">
+                 <HelpCircle size={14} className="text-rose-500" />
+                 5 Neden
+               </div>
+               <span className="bg-slate-100 dark:bg-slate-800 text-[10px] px-1.5 rounded-full">{project.fiveWhys.length}</span>
+             </button>
+          )}
+
+          {(project.ishikawa?.length > 0) && (
+             <button onClick={() => handleToolClick('ishikawa')} className="flex items-center justify-between text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-cyan-50/50 dark:hover:bg-cyan-900/20 p-1.5 rounded-lg transition-colors">
+               <div className="flex items-center gap-2">
+                 <Fish size={14} className="text-cyan-500" />
+                 Ishikawa
+               </div>
+               <span className="bg-slate-100 dark:bg-slate-800 text-[10px] px-1.5 rounded-full">{project.ishikawa.length}</span>
+             </button>
+          )}
+
+          {(project.pdca?.length > 0) && (
+             <button onClick={() => handleToolClick('pdca')} className="flex items-center justify-between text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50/50 dark:hover:bg-emerald-900/20 p-1.5 rounded-lg transition-colors">
+               <div className="flex items-center gap-2">
+                 <RefreshCcw size={14} className="text-emerald-500" />
+                 PUKÖ
+               </div>
+               <span className="bg-slate-100 dark:bg-slate-800 text-[10px] px-1.5 rounded-full">{project.pdca.length}</span>
+             </button>
+          )}
+
+          {(project.waterfall?.length > 0) && (
+             <button onClick={() => handleToolClick('waterfall')} className="flex items-center justify-between text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 p-1.5 rounded-lg transition-colors">
+               <div className="flex items-center gap-2">
+                 <Layers size={14} className="text-blue-500" />
+                 Waterfall
+               </div>
+               <span className="bg-slate-100 dark:bg-slate-800 text-[10px] px-1.5 rounded-full">{project.waterfall.length}</span>
+             </button>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function TopRightProjectsMenu() {
   const { t } = useTranslation();
-  const { projects, currentProjectId, loadProject, createProject, deleteProject, user } = useRoadmapStore();
+  const { projects, currentProjectId, createProject, user } = useRoadmapStore();
   const [isOpen, setIsOpen] = useState(false);
   const [newProjectName, setNewProjectName] = useState('');
   const [isCreating, setIsCreating] = useState(false);
@@ -36,13 +133,13 @@ export default function TopRightProjectsMenu() {
     >
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 shadow-md hover:scale-105 transition-transform text-slate-500 dark:text-slate-400"
+        className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 shadow-md hover:scale-105 transition-transform text-indigo-500 dark:text-indigo-400 overflow-hidden"
       >
-        <Folder size={24} />
+        <Folder size={20} className={isOpen ? 'fill-indigo-500' : ''} />
       </button>
 
       <div 
-        className={`absolute top-14 right-0 w-72 origin-top-right rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-2 shadow-2xl transition-all duration-300 ${isOpen ? 'scale-100 opacity-100' : 'scale-95 opacity-0 pointer-events-none'}`}
+        className={`absolute top-14 right-0 w-80 origin-top-right rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-2 shadow-2xl transition-all duration-300 ${isOpen ? 'scale-100 opacity-100' : 'scale-95 opacity-0 pointer-events-none'}`}
       >
         <div className="flex items-center justify-between px-3 py-2 border-b border-slate-100 dark:border-slate-700 mb-2">
           <span className="text-sm font-bold text-slate-800 dark:text-slate-100">{t('my_projects')}</span>
@@ -55,7 +152,7 @@ export default function TopRightProjectsMenu() {
         </div>
 
         {isCreating && (
-          <div className="mb-2 flex gap-2 px-2">
+          <div className="mb-3 flex gap-2 px-2">
             <input
               type="text"
               autoFocus
@@ -71,38 +168,25 @@ export default function TopRightProjectsMenu() {
                   setNewProjectName('');
                 }
               }}
-              className="flex-1 rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 px-2 py-1 text-sm outline-none focus:border-indigo-500 text-slate-700 dark:text-slate-200"
+              className="flex-1 rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 px-3 py-1.5 text-sm outline-none focus:border-indigo-500 text-slate-700 dark:text-slate-200"
               placeholder={t('project_name')}
             />
           </div>
         )}
 
-        <div className="max-h-64 overflow-y-auto space-y-1 px-1">
+        <div className="max-h-96 overflow-y-auto px-1 custom-scrollbar">
           {projects.map((p) => (
-             <div 
-               key={p.id}
-               className={`group flex items-center justify-between rounded-xl px-3 py-2 transition-colors ${currentProjectId === p.id ? 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300' : 'hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300'}`}
-             >
-                <button 
-                  className="flex-1 text-left text-sm font-semibold truncate"
-                  onClick={() => loadProject(p.id)}
-                >
-                  {p.name}
-                </button>
-                <button 
-                  onClick={(e) => {
-                     e.stopPropagation();
-                     deleteProject(p.id);
-                  }}
-                  className="hidden group-hover:block p-1 text-slate-400 hover:text-red-500 transition-colors"
-                >
-                  <Trash2 size={16} />
-                </button>
-             </div>
+            <ProjectTreeItem 
+              key={p.id} 
+              project={p} 
+              isCurrent={p.id === currentProjectId} 
+              onClose={() => setIsOpen(false)}
+            />
           ))}
           {projects.length === 0 && !isCreating && (
-            <div className="py-4 text-center text-sm text-slate-500">
-               Projeniz bulunmuyor.
+            <div className="py-8 flex flex-col items-center justify-center text-slate-400 text-sm">
+               <Folder size={32} className="mb-2 opacity-50" />
+               Dosya bulunmuyor.
             </div>
           )}
         </div>

@@ -7,13 +7,13 @@ import { useTranslation } from 'react-i18next';
 export default function IshikawaCanvas() {
   const { t } = useTranslation();
   
-  const CATEGORIES: { id: IshikawaCategory; title: string; color: string; bg: string; border: string }[] = [
-    { id: 'Manpower', title: t('manpower'), color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-50 dark:bg-blue-900/20', border: 'border-blue-200 dark:border-blue-900/50' },
-    { id: 'Machine', title: t('machine'), color: 'text-orange-600 dark:text-orange-400', bg: 'bg-orange-50 dark:bg-orange-900/20', border: 'border-orange-200 dark:border-orange-900/50' },
-    { id: 'Material', title: t('material'), color: 'text-teal-600 dark:text-teal-400', bg: 'bg-teal-50 dark:bg-teal-900/20', border: 'border-teal-200 dark:border-teal-900/50' },
-    { id: 'Method', title: t('method'), color: 'text-purple-600 dark:text-purple-400', bg: 'bg-purple-50 dark:bg-purple-900/20', border: 'border-purple-200 dark:border-purple-900/50' },
-    { id: 'Measurement', title: t('measurement'), color: 'text-pink-600 dark:text-pink-400', bg: 'bg-pink-50 dark:bg-pink-900/20', border: 'border-pink-200 dark:border-pink-900/50' },
-    { id: 'Milieu', title: t('milieu'), color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-900/20', border: 'border-emerald-200 dark:border-emerald-900/50' },
+  const CATEGORIES: { id: IshikawaCategory; title: string; color: string; bg: string; border: string; buttonBg: string }[] = [
+    { id: 'Manpower', title: t('manpower'), color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-50 dark:bg-blue-900/20', border: 'border-blue-200 dark:border-blue-900/50', buttonBg: 'bg-blue-500 hover:bg-blue-600' },
+    { id: 'Machine', title: t('machine'), color: 'text-orange-600 dark:text-orange-400', bg: 'bg-orange-50 dark:bg-orange-900/20', border: 'border-orange-200 dark:border-orange-900/50', buttonBg: 'bg-orange-500 hover:bg-orange-600' },
+    { id: 'Material', title: t('material'), color: 'text-teal-600 dark:text-teal-400', bg: 'bg-teal-50 dark:bg-teal-900/20', border: 'border-teal-200 dark:border-teal-900/50', buttonBg: 'bg-teal-500 hover:bg-teal-600' },
+    { id: 'Method', title: t('method'), color: 'text-purple-600 dark:text-purple-400', bg: 'bg-purple-50 dark:bg-purple-900/20', border: 'border-purple-200 dark:border-purple-900/50', buttonBg: 'bg-purple-500 hover:bg-purple-600' },
+    { id: 'Measurement', title: t('measurement'), color: 'text-pink-600 dark:text-pink-400', bg: 'bg-pink-50 dark:bg-pink-900/20', border: 'border-pink-200 dark:border-pink-900/50', buttonBg: 'bg-pink-500 hover:bg-pink-600' },
+    { id: 'Milieu', title: t('milieu'), color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-900/20', border: 'border-emerald-200 dark:border-emerald-900/50', buttonBg: 'bg-emerald-500 hover:bg-emerald-600' },
   ];
 
   const { ishikawa, addIshikawa, updateIshikawaProblem, deleteIshikawa, addIshikawaItem, updateIshikawaItem, deleteIshikawaItem } = useRoadmapStore();
@@ -38,7 +38,7 @@ export default function IshikawaCanvas() {
 
   return (
     <div className="flex h-full w-full flex-col bg-slate-50 dark:bg-slate-900 transition-colors overflow-hidden">
-      <div className="flex-none p-6 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm z-10 flex justify-between items-center">
+      <div className="flex-none p-6 pl-14 md:pl-6 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm z-10 flex justify-between items-center">
         <div>
           <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">
             <Fish className="text-cyan-500" />
@@ -145,7 +145,7 @@ export default function IshikawaCanvas() {
                           <button
                             type="submit"
                             disabled={!inputs[inputKey]?.trim()}
-                            className={`flex w-8 items-center justify-center rounded-lg text-white shadow-sm disabled:opacity-50 transition-colors ${cat.color.replace('text-', 'bg-').split(' ')[0]}`}
+                            className={`flex w-8 items-center justify-center rounded-lg text-white shadow-sm disabled:opacity-50 transition-colors ${cat.buttonBg}`}
                           >
                             <Plus size={16} />
                           </button>

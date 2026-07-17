@@ -9,8 +9,9 @@ export default function DescriptionModal({
   nodeId: string;
   onClose: () => void;
 }) {
-  const { nodes, updateGoal } = useRoadmapStore();
-  const node = nodes.find((n) => n.id === nodeId);
+  const node = useRoadmapStore(state => state.nodes.find((n) => n.id === nodeId));
+  const updateGoal = useRoadmapStore(state => state.updateGoal);
+  const edges = useRoadmapStore(state => state.edges);
   const [text, setText] = useState('');
 
   useEffect(() => {
@@ -35,7 +36,9 @@ export default function DescriptionModal({
               <FileText size={20} />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-slate-800">Hedef Açıklaması</h2>
+              <h2 className="text-lg font-bold text-slate-800">
+                {edges.some(e => e.target === nodeId) ? 'Görev Açıklaması' : 'Proje Açıklaması'}
+              </h2>
               <p className="text-xs font-semibold text-slate-400">{node.data.label}</p>
             </div>
           </div>
