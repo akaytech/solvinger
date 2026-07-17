@@ -3,6 +3,7 @@ import { ReactFlowProvider } from '@xyflow/react';
 import RoadmapCanvas from './components/RoadmapCanvas';
 import FiveWhysCanvas from './components/FiveWhysCanvas';
 import SwotCanvas from './components/SwotCanvas';
+import IshikawaCanvas from './components/IshikawaCanvas';
 import WelcomeScreen from './components/WelcomeScreen';
 import Navbar from './components/Navbar';
 import AuthModal from './components/AuthModal';
@@ -38,6 +39,7 @@ function App() {
             {activeTool === 'wbs' && <RoadmapCanvas onNodeSelect={() => {}} />}
             {activeTool === '5whys' && <FiveWhysCanvas />}
             {activeTool === 'swot' && <SwotCanvas />}
+            {activeTool === 'ishikawa' && <IshikawaCanvas />}
           </div>
         </ReactFlowProvider>
       )}

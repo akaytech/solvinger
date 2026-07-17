@@ -129,6 +129,24 @@ export default function Navbar() {
           </div>
           <span>SWOT Analizi</span>
         </button>
+
+        <button
+          onClick={() => {
+            setActiveTool('ishikawa');
+            setIsExpanded(false);
+          }}
+          className={clsx(
+            "flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-semibold transition-colors",
+            activeTool === 'ishikawa' 
+              ? "bg-cyan-50 text-cyan-700 dark:bg-cyan-900/30 dark:text-cyan-400" 
+              : "text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800"
+          )}
+        >
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-cyan-100 text-cyan-600 dark:bg-cyan-900/50 dark:text-cyan-400">
+             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 16s5-1 6-4 4-4 9-4c2 0 4 1 4 1s-1.5 2-4 2c-3.5 0-6.5 2.5-9 6-1.5 2-4.5 2.5-4.5 2.5s1-3 1.5-5.5z"/><path d="M12 8v4"/><path d="M15 11v4"/><path d="M9 13v4"/></svg>
+          </div>
+          <span>Ishikawa (Kılçık)</span>
+        </button>
       </div>
 
       {/* Version Info */}
