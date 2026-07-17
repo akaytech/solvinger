@@ -3,15 +3,18 @@ import { useRoadmapStore } from '../store/useRoadmapStore';
 import type { PdcaPhase } from '../store/useRoadmapStore';
 import { Plus, Trash2, RefreshCcw, CheckCircle2, Circle } from 'lucide-react';
 import clsx from 'clsx';
-
-const PHASES: { id: PdcaPhase; title: string; color: string; bg: string; border: string; desc: string }[] = [
-  { id: 'Plan', title: 'Planla (Plan)', color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-50 dark:bg-blue-900/20', border: 'border-blue-200 dark:border-blue-900/50', desc: 'Hedefleri ve süreçleri belirle' },
-  { id: 'Do', title: 'Uygula (Do)', color: 'text-amber-600 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-900/20', border: 'border-amber-200 dark:border-amber-900/50', desc: 'Planı küçük ölçekte test et' },
-  { id: 'Check', title: 'Kontrol Et (Check)', color: 'text-purple-600 dark:text-purple-400', bg: 'bg-purple-50 dark:bg-purple-900/20', border: 'border-purple-200 dark:border-purple-900/50', desc: 'Sonuçları analiz et' },
-  { id: 'Act', title: 'Önlem Al (Act)', color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-900/20', border: 'border-emerald-200 dark:border-emerald-900/50', desc: 'Başarılıysa standartlaştır' },
-];
+import { useTranslation } from 'react-i18next';
 
 export default function PdcaCanvas() {
+  const { t } = useTranslation();
+
+  const PHASES: { id: PdcaPhase; title: string; color: string; bg: string; border: string; desc: string }[] = [
+    { id: 'Plan', title: t('plan'), color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-50 dark:bg-blue-900/20', border: 'border-blue-200 dark:border-blue-900/50', desc: t('plan_desc') },
+    { id: 'Do', title: t('do'), color: 'text-amber-600 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-900/20', border: 'border-amber-200 dark:border-amber-900/50', desc: t('do_desc') },
+    { id: 'Check', title: t('check'), color: 'text-purple-600 dark:text-purple-400', bg: 'bg-purple-50 dark:bg-purple-900/20', border: 'border-purple-200 dark:border-purple-900/50', desc: t('check_desc') },
+    { id: 'Act', title: t('act'), color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-900/20', border: 'border-emerald-200 dark:border-emerald-900/50', desc: t('act_desc') },
+  ];
+
   const { pdca, addPdcaCycle, updatePdcaGoal, deletePdcaCycle, addPdcaItem, updatePdcaItem, deletePdcaItem, togglePdcaItemStatus } = useRoadmapStore();
   const [newGoal, setNewGoal] = useState('');
   const [inputs, setInputs] = useState<Record<string, string>>({});
@@ -37,9 +40,9 @@ export default function PdcaCanvas() {
       <div className="flex-none p-6 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm z-10">
         <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">
           <RefreshCcw className="text-indigo-500" />
-          PUKÖ Döngüsü (PDCA)
+          {t('pdca_title')}
         </h2>
-        <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">Sürekli iyileştirme için Planla, Uygula, Kontrol Et, Önlem Al adımlarını takip edin.</p>
+        <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">{t('pdca_subtitle')}</p>
       </div>
 
       <div className="flex-1 overflow-auto p-6 md:p-8 space-y-12">
@@ -49,7 +52,7 @@ export default function PdcaCanvas() {
               type="text"
               value={newGoal}
               onChange={(e) => setNewGoal(e.target.value)}
-              placeholder="İyileştirilecek hedefi veya süreci buraya yazın..."
+              placeholder={t('pdca_placeholder')}
               className="flex-1 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-6 py-4 text-lg outline-none focus:border-indigo-500 dark:focus:border-indigo-500 shadow-sm text-slate-800 dark:text-slate-100"
             />
             <button
@@ -58,7 +61,7 @@ export default function PdcaCanvas() {
               className="flex items-center gap-2 rounded-2xl bg-indigo-600 px-8 py-4 text-white shadow-sm transition-all hover:bg-indigo-700 active:scale-95 disabled:opacity-50"
             >
               <Plus size={24} />
-              <span className="font-bold">Başlat</span>
+              <span className="font-bold">{t('start')}</span>
             </button>
           </form>
         </div>
@@ -84,7 +87,7 @@ export default function PdcaCanvas() {
                   className="flex shrink-0 items-center gap-2 rounded-xl border border-red-200 dark:border-red-900/50 bg-red-50 dark:bg-red-900/20 px-4 py-2 text-sm font-bold text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors"
                 >
                   <Trash2 size={18} />
-                  Sil
+                  {t('delete')}
                 </button>
               </div>
 
@@ -137,7 +140,7 @@ export default function PdcaCanvas() {
                             type="text"
                             value={inputs[inputKey] || ''}
                             onChange={(e) => setInputs(prev => ({ ...prev, [inputKey]: e.target.value }))}
-                            placeholder="Madde ekle..."
+                            placeholder={t('pdca_add_item')}
                             className="flex-1 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-2 text-sm outline-none focus:border-slate-400 text-slate-800 dark:text-slate-100"
                           />
                           <button
@@ -160,7 +163,7 @@ export default function PdcaCanvas() {
           {pdca.length === 0 && (
             <div className="flex flex-col items-center justify-center py-20 text-slate-400 dark:text-slate-500">
               <RefreshCcw size={64} className="mb-4 opacity-20" />
-              <p className="text-lg">Henüz bir PUKÖ döngüsü başlatmadınız.</p>
+              <p className="text-lg">{t('pdca_empty')}</p>
             </div>
           )}
         </div>

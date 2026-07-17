@@ -86,14 +86,26 @@ export default function TopRightUserMenu() {
 
         <div className="mt-2 mb-2">
            <div className="px-3 py-1 text-xs font-bold uppercase tracking-wider text-slate-400">Language</div>
-           <div className="grid grid-cols-2 gap-1 px-1 mt-1">
-             {['tr','en','es','fr','de','pt','ru','ar','zh','ja'].map(lng => (
+           <div className="grid grid-cols-5 gap-1 px-1 mt-1">
+             {[
+               { code: 'tr', flag: '🇹🇷' },
+               { code: 'en', flag: '🇬🇧' },
+               { code: 'es', flag: '🇪🇸' },
+               { code: 'fr', flag: '🇫🇷' },
+               { code: 'de', flag: '🇩🇪' },
+               { code: 'pt', flag: '🇵🇹' },
+               { code: 'ru', flag: '🇷🇺' },
+               { code: 'ar', flag: '🇸🇦' },
+               { code: 'zh', flag: '🇨🇳' },
+               { code: 'ja', flag: '🇯🇵' }
+             ].map(({ code, flag }) => (
                 <button
-                  key={lng}
-                  onClick={() => changeLanguage(lng)}
-                  className={`rounded-lg px-2 py-1.5 text-xs font-bold uppercase text-center transition-colors ${i18n.language === lng ? 'bg-indigo-100 text-indigo-600 dark:bg-indigo-900/50 dark:text-indigo-400' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'}`}
+                  key={code}
+                  onClick={() => changeLanguage(code)}
+                  className={`rounded-lg py-1.5 text-lg text-center transition-all ${i18n.language === code ? 'bg-indigo-100 dark:bg-indigo-900/50 scale-110 shadow-sm' : 'hover:bg-slate-50 dark:hover:bg-slate-700 opacity-70 hover:opacity-100'}`}
+                  title={code.toUpperCase()}
                 >
-                  {lng}
+                  {flag}
                 </button>
              ))}
            </div>

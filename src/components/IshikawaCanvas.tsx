@@ -2,17 +2,20 @@ import { useState } from 'react';
 import { useRoadmapStore } from '../store/useRoadmapStore';
 import type { IshikawaCategory } from '../store/useRoadmapStore';
 import { Plus, Trash2, Fish, ArrowRight } from 'lucide-react';
-
-const CATEGORIES: { id: IshikawaCategory; title: string; color: string; bg: string; border: string }[] = [
-  { id: 'Manpower', title: 'İnsan (Manpower)', color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-50 dark:bg-blue-900/20', border: 'border-blue-200 dark:border-blue-900/50' },
-  { id: 'Machine', title: 'Makine (Machine)', color: 'text-orange-600 dark:text-orange-400', bg: 'bg-orange-50 dark:bg-orange-900/20', border: 'border-orange-200 dark:border-orange-900/50' },
-  { id: 'Material', title: 'Malzeme (Material)', color: 'text-teal-600 dark:text-teal-400', bg: 'bg-teal-50 dark:bg-teal-900/20', border: 'border-teal-200 dark:border-teal-900/50' },
-  { id: 'Method', title: 'Metot (Method)', color: 'text-purple-600 dark:text-purple-400', bg: 'bg-purple-50 dark:bg-purple-900/20', border: 'border-purple-200 dark:border-purple-900/50' },
-  { id: 'Measurement', title: 'Ölçüm (Measurement)', color: 'text-pink-600 dark:text-pink-400', bg: 'bg-pink-50 dark:bg-pink-900/20', border: 'border-pink-200 dark:border-pink-900/50' },
-  { id: 'Milieu', title: 'Çevre (Milieu)', color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-900/20', border: 'border-emerald-200 dark:border-emerald-900/50' },
-];
+import { useTranslation } from 'react-i18next';
 
 export default function IshikawaCanvas() {
+  const { t } = useTranslation();
+  
+  const CATEGORIES: { id: IshikawaCategory; title: string; color: string; bg: string; border: string }[] = [
+    { id: 'Manpower', title: t('manpower'), color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-50 dark:bg-blue-900/20', border: 'border-blue-200 dark:border-blue-900/50' },
+    { id: 'Machine', title: t('machine'), color: 'text-orange-600 dark:text-orange-400', bg: 'bg-orange-50 dark:bg-orange-900/20', border: 'border-orange-200 dark:border-orange-900/50' },
+    { id: 'Material', title: t('material'), color: 'text-teal-600 dark:text-teal-400', bg: 'bg-teal-50 dark:bg-teal-900/20', border: 'border-teal-200 dark:border-teal-900/50' },
+    { id: 'Method', title: t('method'), color: 'text-purple-600 dark:text-purple-400', bg: 'bg-purple-50 dark:bg-purple-900/20', border: 'border-purple-200 dark:border-purple-900/50' },
+    { id: 'Measurement', title: t('measurement'), color: 'text-pink-600 dark:text-pink-400', bg: 'bg-pink-50 dark:bg-pink-900/20', border: 'border-pink-200 dark:border-pink-900/50' },
+    { id: 'Milieu', title: t('milieu'), color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-900/20', border: 'border-emerald-200 dark:border-emerald-900/50' },
+  ];
+
   const { ishikawa, addIshikawa, updateIshikawaProblem, deleteIshikawa, addIshikawaItem, updateIshikawaItem, deleteIshikawaItem } = useRoadmapStore();
   const [newProblem, setNewProblem] = useState('');
   const [inputs, setInputs] = useState<Record<string, string>>({});
@@ -39,9 +42,9 @@ export default function IshikawaCanvas() {
         <div>
           <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">
             <Fish className="text-cyan-500" />
-            Ishikawa (Balık Kılçığı)
+            {t('ishi_title')}
           </h2>
-          <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">Problemin kök nedenlerini 6M kategorilerine göre ayrıştırın.</p>
+          <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">{t('ishi_subtitle')}</p>
         </div>
       </div>
 
@@ -53,7 +56,7 @@ export default function IshikawaCanvas() {
               type="text"
               value={newProblem}
               onChange={(e) => setNewProblem(e.target.value)}
-              placeholder="Analiz edilecek problemi buraya yazın..."
+              placeholder={t('ishi_placeholder')}
               className="flex-1 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-6 py-4 text-lg outline-none focus:border-cyan-500 dark:focus:border-cyan-500 shadow-sm text-slate-800 dark:text-slate-100"
             />
             <button
@@ -62,7 +65,7 @@ export default function IshikawaCanvas() {
               className="flex items-center gap-2 rounded-2xl bg-cyan-600 px-8 py-4 text-white shadow-sm transition-all hover:bg-cyan-700 active:scale-95 disabled:opacity-50"
             >
               <Plus size={24} />
-              <span className="font-bold">Başlat</span>
+              <span className="font-bold">{t('start')}</span>
             </button>
           </form>
         </div>
@@ -90,7 +93,7 @@ export default function IshikawaCanvas() {
                   className="flex shrink-0 items-center gap-2 rounded-xl border border-red-200 dark:border-red-900/50 bg-red-50 dark:bg-red-900/20 px-4 py-2 text-sm font-bold text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors"
                 >
                   <Trash2 size={18} />
-                  Sil
+                  {t('delete')}
                 </button>
               </div>
 
@@ -136,7 +139,7 @@ export default function IshikawaCanvas() {
                             type="text"
                             value={inputs[inputKey] || ''}
                             onChange={(e) => setInputs(prev => ({ ...prev, [inputKey]: e.target.value }))}
-                            placeholder="Neden ekle..."
+                            placeholder={t('ishi_add_reason')}
                             className="flex-1 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-1.5 text-sm outline-none focus:border-slate-400 text-slate-800 dark:text-slate-100"
                           />
                           <button
@@ -159,7 +162,7 @@ export default function IshikawaCanvas() {
           {ishikawa.length === 0 && (
             <div className="flex flex-col items-center justify-center py-20 text-slate-400 dark:text-slate-500">
               <Fish size={64} className="mb-4 opacity-20" />
-              <p className="text-lg">Henüz bir analiz başlatmadınız.</p>
+              <p className="text-lg">{t('ishi_empty')}</p>
             </div>
           )}
         </div>

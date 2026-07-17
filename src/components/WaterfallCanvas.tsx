@@ -3,16 +3,19 @@ import { useRoadmapStore } from '../store/useRoadmapStore';
 import type { WaterfallPhase } from '../store/useRoadmapStore';
 import { Plus, Trash2, ArrowDownRight, Layers } from 'lucide-react';
 import clsx from 'clsx';
-
-const PHASES: { id: WaterfallPhase; title: string; color: string; bg: string; border: string; desc: string; indent: string }[] = [
-  { id: 'Requirements', title: '1. Gereksinim Analizi', color: 'text-indigo-600 dark:text-indigo-400', bg: 'bg-indigo-50 dark:bg-indigo-900/20', border: 'border-indigo-200 dark:border-indigo-900/50', desc: 'Sistemin ne yapması gerektiğini tanımlayın.', indent: 'ml-0' },
-  { id: 'Design', title: '2. Tasarım (Design)', color: 'text-purple-600 dark:text-purple-400', bg: 'bg-purple-50 dark:bg-purple-900/20', border: 'border-purple-200 dark:border-purple-900/50', desc: 'Mimariyi ve teknik detayları planlayın.', indent: 'ml-0 md:ml-12' },
-  { id: 'Implementation', title: '3. Uygulama (Geliştirme)', color: 'text-pink-600 dark:text-pink-400', bg: 'bg-pink-50 dark:bg-pink-900/20', border: 'border-pink-200 dark:border-pink-900/50', desc: 'Kodlama ve üretim aşamasını yönetin.', indent: 'ml-0 md:ml-24' },
-  { id: 'Verification', title: '4. Test (Doğrulama)', color: 'text-rose-600 dark:text-rose-400', bg: 'bg-rose-50 dark:bg-rose-900/20', border: 'border-rose-200 dark:border-rose-900/50', desc: 'Sistemin gereksinimleri karşıladığını test edin.', indent: 'ml-0 md:ml-36' },
-  { id: 'Maintenance', title: '5. Bakım (Maintenance)', color: 'text-orange-600 dark:text-orange-400', bg: 'bg-orange-50 dark:bg-orange-900/20', border: 'border-orange-200 dark:border-orange-900/50', desc: 'Canlıya alma ve sonrası destek.', indent: 'ml-0 md:ml-48' },
-];
+import { useTranslation } from 'react-i18next';
 
 export default function WaterfallCanvas() {
+  const { t } = useTranslation();
+
+  const PHASES: { id: WaterfallPhase; title: string; color: string; bg: string; border: string; desc: string; indent: string }[] = [
+    { id: 'Requirements', title: t('req'), color: 'text-indigo-600 dark:text-indigo-400', bg: 'bg-indigo-50 dark:bg-indigo-900/20', border: 'border-indigo-200 dark:border-indigo-900/50', desc: t('req_desc'), indent: 'ml-0' },
+    { id: 'Design', title: t('des'), color: 'text-purple-600 dark:text-purple-400', bg: 'bg-purple-50 dark:bg-purple-900/20', border: 'border-purple-200 dark:border-purple-900/50', desc: t('des_desc'), indent: 'ml-0 md:ml-12' },
+    { id: 'Implementation', title: t('imp'), color: 'text-pink-600 dark:text-pink-400', bg: 'bg-pink-50 dark:bg-pink-900/20', border: 'border-pink-200 dark:border-pink-900/50', desc: t('imp_desc'), indent: 'ml-0 md:ml-24' },
+    { id: 'Verification', title: t('ver'), color: 'text-rose-600 dark:text-rose-400', bg: 'bg-rose-50 dark:bg-rose-900/20', border: 'border-rose-200 dark:border-rose-900/50', desc: t('ver_desc'), indent: 'ml-0 md:ml-36' },
+    { id: 'Maintenance', title: t('mai'), color: 'text-orange-600 dark:text-orange-400', bg: 'bg-orange-50 dark:bg-orange-900/20', border: 'border-orange-200 dark:border-orange-900/50', desc: t('mai_desc'), indent: 'ml-0 md:ml-48' },
+  ];
+
   const { waterfall, addWaterfallProject, updateWaterfallProjectName, deleteWaterfallProject, addWaterfallItem, updateWaterfallItem, deleteWaterfallItem } = useRoadmapStore();
   const [newProject, setNewProject] = useState('');
   const [inputs, setInputs] = useState<Record<string, string>>({});
@@ -38,9 +41,9 @@ export default function WaterfallCanvas() {
       <div className="flex-none p-6 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm z-10">
         <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">
           <Layers className="text-blue-500" />
-          Şelale Modeli (Waterfall)
+          {t('wf_title')}
         </h2>
-        <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">Geleneksel faz tabanlı proje yönetim modelini uygulayın.</p>
+        <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">{t('wf_subtitle')}</p>
       </div>
 
       <div className="flex-1 overflow-auto p-6 md:p-8 space-y-12">
@@ -50,7 +53,7 @@ export default function WaterfallCanvas() {
               type="text"
               value={newProject}
               onChange={(e) => setNewProject(e.target.value)}
-              placeholder="Şelale projenizin adını buraya yazın..."
+              placeholder={t('wf_placeholder')}
               className="flex-1 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-6 py-4 text-lg outline-none focus:border-blue-500 dark:focus:border-blue-500 shadow-sm text-slate-800 dark:text-slate-100"
             />
             <button
@@ -59,7 +62,7 @@ export default function WaterfallCanvas() {
               className="flex items-center gap-2 rounded-2xl bg-blue-600 px-8 py-4 text-white shadow-sm transition-all hover:bg-blue-700 active:scale-95 disabled:opacity-50"
             >
               <Plus size={24} />
-              <span className="font-bold">Başlat</span>
+              <span className="font-bold">{t('start')}</span>
             </button>
           </form>
         </div>
@@ -85,7 +88,7 @@ export default function WaterfallCanvas() {
                   className="flex shrink-0 items-center gap-2 rounded-xl border border-red-200 dark:border-red-900/50 bg-red-50 dark:bg-red-900/20 px-4 py-2 text-sm font-bold text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors"
                 >
                   <Trash2 size={18} />
-                  Sil
+                  {t('delete')}
                 </button>
               </div>
 
@@ -133,7 +136,7 @@ export default function WaterfallCanvas() {
                               type="text"
                               value={inputs[inputKey] || ''}
                               onChange={(e) => setInputs(prev => ({ ...prev, [inputKey]: e.target.value }))}
-                              placeholder={`${phase.title.split(' ')[1]} maddesi ekle...`}
+                              placeholder={t('wf_add_item')}
                               className="flex-1 rounded-xl border border-slate-200 dark:border-slate-700 bg-white/80 dark:bg-slate-800/80 px-4 py-2 text-sm outline-none focus:border-slate-400 text-slate-800 dark:text-slate-100"
                             />
                             <button
@@ -156,7 +159,7 @@ export default function WaterfallCanvas() {
           {waterfall.length === 0 && (
             <div className="flex flex-col items-center justify-center py-24 text-slate-400 dark:text-slate-500">
               <Layers size={72} className="mb-6 opacity-20" />
-              <p className="text-xl">Henüz bir Şelale projesi başlatmadınız.</p>
+              <p className="text-xl">{t('wf_empty')}</p>
             </div>
           )}
         </div>
