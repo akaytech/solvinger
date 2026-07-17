@@ -1,4 +1,4 @@
-import { Network, Activity } from 'lucide-react';
+import { Network, Activity, Target } from 'lucide-react';
 import { useRoadmapStore } from '../store/useRoadmapStore';
 
 export default function WelcomeScreen() {
@@ -23,7 +23,7 @@ export default function WelcomeScreen() {
           Proje yönetimi ve problem çözme metodolojilerini tek bir platformda birleştirin. Başlamak için kullanmak istediğiniz aracı seçin.
         </p>
 
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-3">
           <button
             onClick={() => setActiveTool('wbs')}
             className="group flex flex-col items-center rounded-3xl border-2 border-slate-200 bg-white p-8 transition-all hover:border-indigo-500 hover:shadow-2xl dark:border-slate-800 dark:bg-slate-800 dark:hover:border-indigo-500"
@@ -40,6 +40,15 @@ export default function WelcomeScreen() {
             <Activity size={40} className="mb-4 text-slate-400 transition-colors group-hover:text-emerald-500" />
             <h3 className="mb-2 text-xl font-bold text-slate-800 dark:text-slate-100">5 Neden Analizi</h3>
             <p className="text-sm text-slate-500 dark:text-slate-400">Bir sorunun kök nedenini bulmak için 5 kez neden sorusunu sorun.</p>
+          </button>
+
+          <button
+            onClick={() => setActiveTool('swot')}
+            className="group flex flex-col items-center rounded-3xl border-2 border-slate-200 bg-white p-8 transition-all hover:border-rose-500 hover:shadow-2xl dark:border-slate-800 dark:bg-slate-800 dark:hover:border-rose-500"
+          >
+            <Target size={40} className="mb-4 text-slate-400 transition-colors group-hover:text-rose-500" />
+            <h3 className="mb-2 text-xl font-bold text-slate-800 dark:text-slate-100">SWOT Analizi</h3>
+            <p className="text-sm text-slate-500 dark:text-slate-400">Projenizin güçlü, zayıf yönlerini, fırsat ve tehditlerini değerlendirin.</p>
           </button>
         </div>
       </div>

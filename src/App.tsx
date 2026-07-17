@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { ReactFlowProvider } from '@xyflow/react';
 import RoadmapCanvas from './components/RoadmapCanvas';
 import FiveWhysCanvas from './components/FiveWhysCanvas';
+import SwotCanvas from './components/SwotCanvas';
 import WelcomeScreen from './components/WelcomeScreen';
 import Navbar from './components/Navbar';
 import AuthModal from './components/AuthModal';
@@ -36,6 +37,7 @@ function App() {
             {!activeTool && <WelcomeScreen />}
             {activeTool === 'wbs' && <RoadmapCanvas onNodeSelect={() => {}} />}
             {activeTool === '5whys' && <FiveWhysCanvas />}
+            {activeTool === 'swot' && <SwotCanvas />}
           </div>
         </ReactFlowProvider>
       )}

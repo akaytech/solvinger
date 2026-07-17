@@ -111,6 +111,24 @@ export default function Navbar() {
           </div>
           <span>5 Neden Analizi</span>
         </button>
+
+        <button
+          onClick={() => {
+            setActiveTool('swot');
+            setIsExpanded(false);
+          }}
+          className={clsx(
+            "flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-semibold transition-colors",
+            activeTool === 'swot' 
+              ? "bg-rose-50 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400" 
+              : "text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800"
+          )}
+        >
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-rose-100 text-rose-600 dark:bg-rose-900/50 dark:text-rose-400">
+             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 12h18"/><path d="M12 3v18"/></svg>
+          </div>
+          <span>SWOT Analizi</span>
+        </button>
       </div>
 
       {/* Version Info */}

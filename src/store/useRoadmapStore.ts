@@ -33,12 +33,22 @@ export interface FiveWhysAnalysis {
   createdAt: number;
 }
 
+export type SwotType = 'S' | 'W' | 'O' | 'T';
+
+export interface SwotItem {
+  id: string;
+  type: SwotType;
+  text: string;
+  createdAt: number;
+}
+
 export interface Project {
   id: string;
   name: string;
   nodes: GoalNode[];
   edges: Edge[];
   fiveWhys: FiveWhysAnalysis[];
+  swot: SwotItem[];
   updatedAt: number;
   userId: string;
 }
@@ -50,8 +60,8 @@ interface RoadmapState {
   logout: () => void;
 
   // UI State
-  activeTool: 'wbs' | '5whys' | null;
-  setActiveTool: (tool: 'wbs' | '5whys' | null) => void;
+  activeTool: 'wbs' | '5whys' | 'swot' | null;
+  setActiveTool: (tool: 'wbs' | '5whys' | 'swot' | null) => void;
 
   // Projects
   projects: Project[];
@@ -73,13 +83,19 @@ interface RoadmapState {
   deleteGoal: (id: string) => void;
   toggleExpand: (id: string) => void;
   toggleHideCompleted: (id: string) => void;
-  loadData: (nodes: GoalNode[], edges: Edge[], fiveWhys?: FiveWhysAnalysis[]) => void;
+  loadData: (nodes: GoalNode[], edges: Edge[], fiveWhys?: FiveWhysAnalysis[], swot?: SwotItem[]) => void;
 
   // 5 Whys State
   fiveWhys: FiveWhysAnalysis[];
   addFiveWhys: (problemStatement: string) => void;
   updateFiveWhys: (id: string, data: Partial<FiveWhysAnalysis>) => void;
   deleteFiveWhys: (id: string) => void;
+
+  // SWOT State
+  swot: SwotItem[];
+  addSwotItem: (type: SwotType, text: string) => void;
+  updateSwotItem: (id: string, text: string) => void;
+  deleteSwotItem: (id: string) => void;
 }
 
 export const getDescendants = (parentId: string, edges: Edge[]): string[] => {
@@ -238,6 +254,7 @@ const syncProject = (state: RoadmapState): Partial<RoadmapState> => {
     nodes: state.nodes,
     edges: state.edges,
     fiveWhys: state.fiveWhys || [],
+    swot: state.swot || [],
     updatedAt: Date.now(),
     userId: state.user.uid,
   };
@@ -275,7 +292,7 @@ export const useRoadmapStore = create<RoadmapState>()(
     (set, get) => ({
       user: null,
       login: (uid, email, name, photoURL) => set({ user: { uid, email, name, photoURL } }),
-      logout: () => set({ user: null, projects: [], currentProjectId: null, nodes: [], edges: [], fiveWhys: [], activeTool: null }),
+      logout: () => set({ user: null, projects: [], currentProjectId: null, nodes: [], edges: [], fiveWhys: [], swot: [], activeTool: null }),
 
       activeTool: null,
       setActiveTool: (tool) => set({ activeTool: tool }),
@@ -306,6 +323,7 @@ export const useRoadmapStore = create<RoadmapState>()(
           nodes: defaultNodes,
           edges: [],
           fiveWhys: [],
+          swot: [],
           updatedAt: Date.now(),
           userId: state.user.uid,
         };
@@ -319,6 +337,7 @@ export const useRoadmapStore = create<RoadmapState>()(
           nodes: newProject.nodes,
           edges: newProject.edges,
           fiveWhys: newProject.fiveWhys,
+          swot: newProject.swot,
         }));
       },
 
@@ -330,6 +349,7 @@ export const useRoadmapStore = create<RoadmapState>()(
             nodes: project.nodes,
             edges: project.edges,
             fiveWhys: project.fiveWhys || [],
+            swot: project.swot || [],
           });
         }
       },
@@ -360,6 +380,7 @@ export const useRoadmapStore = create<RoadmapState>()(
             nodes: isCurrent ? [] : state.nodes,
             edges: isCurrent ? [] : state.edges,
             fiveWhys: isCurrent ? [] : state.fiveWhys,
+            swot: isCurrent ? [] : state.swot,
           };
         });
       },
@@ -505,7 +526,7 @@ export const useRoadmapStore = create<RoadmapState>()(
         });
       },
 
-      loadData: (nodes, edges, fiveWhys = []) => set({ nodes, edges, fiveWhys, ...syncProject({ ...get(), nodes, edges, fiveWhys }) }),
+      loadData: (nodes, edges, fiveWhys = [], swot = []) => set({ nodes, edges, fiveWhys, swot, ...syncProject({ ...get(), nodes, edges, fiveWhys, swot }) }),
 
       // 5 Whys Actions
       fiveWhys: [],
@@ -527,6 +548,27 @@ export const useRoadmapStore = create<RoadmapState>()(
       deleteFiveWhys: (id) => {
         const newFiveWhys = get().fiveWhys.filter(fw => fw.id !== id);
         set({ fiveWhys: newFiveWhys, ...syncProject({ ...get(), fiveWhys: newFiveWhys }) });
+      },
+
+      // SWOT Actions
+      swot: [],
+      addSwotItem: (type, text) => {
+        const newItem: SwotItem = {
+          id: uuidv4(),
+          type,
+          text,
+          createdAt: Date.now(),
+        };
+        const newSwot = [...get().swot, newItem];
+        set({ swot: newSwot, ...syncProject({ ...get(), swot: newSwot }) });
+      },
+      updateSwotItem: (id, text) => {
+        const newSwot = get().swot.map(item => item.id === id ? { ...item, text } : item);
+        set({ swot: newSwot, ...syncProject({ ...get(), swot: newSwot }) });
+      },
+      deleteSwotItem: (id) => {
+        const newSwot = get().swot.filter(item => item.id !== id);
+        set({ swot: newSwot, ...syncProject({ ...get(), swot: newSwot }) });
       }
     }),
     {
