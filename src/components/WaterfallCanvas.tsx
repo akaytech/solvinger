@@ -9,11 +9,11 @@ export default function WaterfallCanvas() {
   const { t } = useTranslation();
 
   const PHASES: { id: WaterfallPhase; title: string; icon: any; color: string; bg: string; border: string; buttonBg: string; desc: string; indent: string }[] = [
-    { id: 'Requirements', title: t('wf_req'), icon: BookOpen, color: 'text-indigo-600 dark:text-indigo-400', bg: 'bg-indigo-50 dark:bg-indigo-900/20', border: 'border-indigo-200 dark:border-indigo-900/50', buttonBg: 'bg-indigo-600 hover:bg-indigo-700', desc: t('req_desc'), indent: 'ml-0' },
-    { id: 'Design', title: t('wf_design'), icon: PenTool, color: 'text-purple-600 dark:text-purple-400', bg: 'bg-purple-50 dark:bg-purple-900/20', border: 'border-purple-200 dark:border-purple-900/50', buttonBg: 'bg-purple-600 hover:bg-purple-700', desc: t('des_desc'), indent: 'ml-0 md:ml-12' },
-    { id: 'Implementation', title: t('wf_impl'), icon: Code, color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-50 dark:bg-blue-900/20', border: 'border-blue-200 dark:border-blue-900/50', buttonBg: 'bg-blue-600 hover:bg-blue-700', desc: t('imp_desc'), indent: 'ml-0 md:ml-24' },
-    { id: 'Verification', title: t('wf_ver'), icon: CheckSquare, color: 'text-amber-600 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-900/20', border: 'border-amber-200 dark:border-amber-900/50', buttonBg: 'bg-amber-600 hover:bg-amber-700', desc: t('ver_desc'), indent: 'ml-0 md:ml-36' },
-    { id: 'Maintenance', title: t('wf_maint'), icon: Shield, color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-900/20', border: 'border-emerald-200 dark:border-emerald-900/50', buttonBg: 'bg-emerald-600 hover:bg-emerald-700', desc: t('mai_desc'), indent: 'ml-0 md:ml-48' },
+    { id: 'Requirements', title: t('req'), icon: BookOpen, color: 'text-indigo-600 dark:text-indigo-400', bg: 'bg-indigo-50 dark:bg-indigo-900/20', border: 'border-indigo-200 dark:border-indigo-900/50', buttonBg: 'bg-indigo-600 hover:bg-indigo-700', desc: t('req_desc'), indent: 'ml-0' },
+    { id: 'Design', title: t('des'), icon: PenTool, color: 'text-purple-600 dark:text-purple-400', bg: 'bg-purple-50 dark:bg-purple-900/20', border: 'border-purple-200 dark:border-purple-900/50', buttonBg: 'bg-purple-600 hover:bg-purple-700', desc: t('des_desc'), indent: 'ml-0 md:ml-12' },
+    { id: 'Implementation', title: t('imp'), icon: Code, color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-50 dark:bg-blue-900/20', border: 'border-blue-200 dark:border-blue-900/50', buttonBg: 'bg-blue-600 hover:bg-blue-700', desc: t('imp_desc'), indent: 'ml-0 md:ml-24' },
+    { id: 'Verification', title: t('ver'), icon: CheckSquare, color: 'text-amber-600 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-900/20', border: 'border-amber-200 dark:border-amber-900/50', buttonBg: 'bg-amber-600 hover:bg-amber-700', desc: t('ver_desc'), indent: 'ml-0 md:ml-36' },
+    { id: 'Maintenance', title: t('mai'), icon: Shield, color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-900/20', border: 'border-emerald-200 dark:border-emerald-900/50', buttonBg: 'bg-emerald-600 hover:bg-emerald-700', desc: t('mai_desc'), indent: 'ml-0 md:ml-48' },
   ];
 
   const { waterfall, addWaterfallProject, updateWaterfallProjectName, deleteWaterfallProject, addWaterfallItem, updateWaterfallItem, deleteWaterfallItem } = useRoadmapStore();
