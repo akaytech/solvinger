@@ -1,4 +1,4 @@
-import { Network, Activity, Target, Fish, RefreshCcw, Layers, AlertOctagon } from 'lucide-react';
+import { Network, Activity, Target, Fish, RefreshCcw, Layers, AlertOctagon, Scale } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useRoadmapStore } from '../store/useRoadmapStore';
 
@@ -86,6 +86,15 @@ export default function WelcomeScreen() {
             <AlertOctagon size={40} className="mb-4 text-slate-400 transition-colors group-hover:text-rose-500" />
             <h3 className="mb-2 text-xl font-bold text-slate-800 dark:text-slate-100">{t('fta_title')}</h3>
             <p className="text-sm text-slate-500 dark:text-slate-400">{t('fta_desc')}</p>
+          </button>
+
+          <button
+            onClick={() => handleToolClick('decision')}
+            className="group flex flex-col items-center rounded-3xl border-2 border-slate-200 bg-white p-8 transition-all hover:border-violet-500 hover:shadow-2xl dark:border-slate-800 dark:bg-slate-800 dark:hover:border-violet-500"
+          >
+            <Scale size={40} className="mb-4 text-slate-400 transition-colors group-hover:text-violet-500" />
+            <h3 className="mb-2 text-xl font-bold text-slate-800 dark:text-slate-100">{t('decision_title')}</h3>
+            <p className="text-sm text-slate-500 dark:text-slate-400">{t('decision_desc')}</p>
           </button>
         </div>
       </div>

@@ -8,6 +8,7 @@ import IshikawaCanvas from './components/IshikawaCanvas';
 import PdcaCanvas from './components/PdcaCanvas';
 import WaterfallCanvas from './components/WaterfallCanvas';
 import FtaCanvas from './components/FtaCanvas';
+import { DecisionMatrixCanvas } from './components/DecisionMatrixCanvas';
 import WelcomeScreen from './components/WelcomeScreen';
 import Navbar from './components/Navbar';
 import AuthModal from './components/AuthModal';
@@ -16,7 +17,7 @@ import TopRightProjectsMenu from './components/TopRightProjectsMenu';
 import { useRoadmapStore } from './store/useRoadmapStore';
 
 function App() {
-  const { user, fetchProjects, currentProjectId, loadProject, activeTool, setActiveTool } = useRoadmapStore();
+  const { user, fetchProjects, currentProjectId, loadProject, activeTool, setActiveTool, projects } = useRoadmapStore();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -80,6 +81,32 @@ function App() {
             {activeTool === 'pdca' && <PdcaCanvas />}
             {activeTool === 'waterfall' && <WaterfallCanvas />}
             {activeTool === 'fta' && <FtaCanvas />}
+            {activeTool === 'decision' && (() => {
+              const proj = projects.find(p => p.id === currentProjectId);
+              if (!proj) return null;
+              if (!proj.decision || proj.decision.length === 0) {
+                // Return a wrapper that forces creation, or we can just render nothing until they create one, 
+                // wait, if there are none, we should create an initial one just like other tools?
+                // Other tools don't auto-create inside App.tsx, they usually have it done inside WelcomeScreen / createProject.
+                // Wait! In useRoadmapStore createProject, we initialized decision: [] but we didn't add a default item!
+                // Let's check how waterfall works. Waterfall initializes waterfall: [], but wait, does WaterfallCanvas create one if empty?
+              }
+              // If none exists, we should show a button or auto create. Let's auto-create if empty or just render the first one.
+              const dProject = proj.decision?.[0];
+              if (!dProject) {
+                return (
+                  <div className="flex h-full w-full items-center justify-center">
+                    <button 
+                      onClick={() => useRoadmapStore.getState().addDecisionProject(proj.name + ' - Karar Matrisi')}
+                      className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow-lg hover:bg-indigo-700 font-bold"
+                    >
+                      Başlat
+                    </button>
+                  </div>
+                );
+              }
+              return <DecisionMatrixCanvas project={dProject} />;
+            })()}
           </div>
         </ReactFlowProvider>
       )}

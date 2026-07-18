@@ -99,6 +99,26 @@ interface WaterfallProject {
   createdAt: number;
 }
 
+export interface DecisionCriteria {
+  id: string;
+  name: string;
+  weight: number;
+}
+
+export interface DecisionOption {
+  id: string;
+  name: string;
+  scores: Record<string, number>;
+}
+
+export interface DecisionMatrixProject {
+  id: string;
+  name: string;
+  criteria: DecisionCriteria[];
+  options: DecisionOption[];
+  createdAt: number;
+}
+
 export type FtaNodeType = 'topEvent' | 'event' | 'andGate' | 'orGate' | 'basicEvent';
 
 export type FtaNodeData = {
@@ -119,6 +139,7 @@ export interface Project {
   ishikawa: IshikawaAnalysis[];
   pdca: PdcaCycle[];
   waterfall: WaterfallProject[];
+  decision?: DecisionMatrixProject[];
   ftaNodes?: FtaNode[];
   ftaEdges?: Edge[];
   updatedAt: number;
@@ -132,8 +153,8 @@ interface RoadmapState {
   logout: () => void;
 
   // UI State
-  activeTool: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta' | null;
-  setActiveTool: (tool: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta' | null) => void;
+  activeTool: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta' | 'decision' | null;
+  setActiveTool: (tool: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta' | 'decision' | null) => void;
 
   // Projects
   projects: Project[];
@@ -143,7 +164,20 @@ interface RoadmapState {
   loadProject: (id: string) => void;
   updateProjectName: (id: string, name: string) => void;
   deleteProject: (id: string) => void;
-  clearToolData: (projectId: string, toolName: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta') => void;
+  clearToolData: (projectId: string, toolName: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta' | 'decision') => void;
+
+  // Decision Matrix State
+  decision: DecisionMatrixProject[];
+  addDecisionProject: (name: string) => void;
+  updateDecisionProjectName: (id: string, name: string) => void;
+  deleteDecisionProject: (id: string) => void;
+  addDecisionCriteria: (projectId: string, name: string, weight: number) => void;
+  updateDecisionCriteria: (projectId: string, criteriaId: string, name: string, weight: number) => void;
+  deleteDecisionCriteria: (projectId: string, criteriaId: string) => void;
+  addDecisionOption: (projectId: string, name: string) => void;
+  updateDecisionOptionName: (projectId: string, optionId: string, name: string) => void;
+  deleteDecisionOption: (projectId: string, optionId: string) => void;
+  updateDecisionScore: (projectId: string, optionId: string, criteriaId: string, score: number) => void;
 
   // FTA
   ftaNodes: FtaNode[];
@@ -408,6 +442,7 @@ const syncProject = (state: RoadmapState): Partial<RoadmapState> => {
     ishikawa: state.ishikawa || [],
     pdca: state.pdca || [],
     waterfall: state.waterfall || [],
+    decision: state.decision || [],
     ftaNodes: state.ftaNodes,
     ftaEdges: state.ftaEdges,
     updatedAt: Date.now(),
@@ -447,7 +482,7 @@ export const useRoadmapStore = create<RoadmapState>()(
     (set, get) => ({
       user: null,
       login: (uid, email, name, photoURL) => set({ user: { uid, email, name, photoURL } }),
-      logout: () => set({ user: null, projects: [], currentProjectId: null, nodes: [], edges: [], fiveWhys: [], swot: [], ishikawa: [], pdca: [], waterfall: [], ftaNodes: [], ftaEdges: [], activeTool: null }),
+      logout: () => set({ user: null, projects: [], currentProjectId: null, nodes: [], edges: [], fiveWhys: [], swot: [], ishikawa: [], pdca: [], waterfall: [], decision: [], ftaNodes: [], ftaEdges: [], activeTool: null }),
 
       activeTool: null,
       setActiveTool: (tool) => set({ activeTool: tool }),
@@ -496,6 +531,7 @@ export const useRoadmapStore = create<RoadmapState>()(
           ishikawa: [],
           pdca: [],
           waterfall: [],
+          decision: [],
           ftaNodes: [{ id: "root", type: "ftaNode", position: { x: 0, y: 0 }, data: { label: i18n.t('fta_top_event'), type: "topEvent" } }],
           ftaEdges: [],
           updatedAt: Date.now(),
@@ -515,6 +551,7 @@ export const useRoadmapStore = create<RoadmapState>()(
           ishikawa: newProject.ishikawa,
           pdca: newProject.pdca,
           waterfall: newProject.waterfall,
+          decision: newProject.decision || [],
           ftaNodes: newProject.ftaNodes || [],
           ftaEdges: newProject.ftaEdges || [],
           activeTool: (initialTool as any) || null,
@@ -542,6 +579,7 @@ export const useRoadmapStore = create<RoadmapState>()(
             ishikawa: project.ishikawa || [],
             pdca: project.pdca || [],
             waterfall: project.waterfall || [],
+          decision: project.decision || [],
             ftaNodes: project.ftaNodes || [],
             ftaEdges: project.ftaEdges || [],
           });
@@ -1028,6 +1066,99 @@ export const useRoadmapStore = create<RoadmapState>()(
             : cycle
         );
         set({ pdca: newPdca, ...syncProject({ ...get(), pdca: newPdca }) });
+      },
+
+      // Decision Matrix Actions
+      decision: [],
+      addDecisionProject: (name) => {
+        const newItem: DecisionMatrixProject = {
+          id: uuidv4(),
+          name,
+          criteria: [],
+          options: [],
+          createdAt: Date.now(),
+        };
+        const newDecision = [...(get().decision || []), newItem];
+        set({ decision: newDecision, ...syncProject({ ...get(), decision: newDecision }) });
+      },
+      updateDecisionProjectName: (id, name) => {
+        const newDecision = (get().decision || []).map(d => d.id === id ? { ...d, name } : d);
+        set({ decision: newDecision, ...syncProject({ ...get(), decision: newDecision }) });
+      },
+      deleteDecisionProject: (id) => {
+        const newDecision = (get().decision || []).filter(d => d.id !== id);
+        set({ decision: newDecision, ...syncProject({ ...get(), decision: newDecision }) });
+      },
+      addDecisionCriteria: (projectId, name, weight) => {
+        const newDecision = (get().decision || []).map(d => 
+          d.id === projectId 
+            ? { ...d, criteria: [...d.criteria, { id: uuidv4(), name, weight }] }
+            : d
+        );
+        set({ decision: newDecision, ...syncProject({ ...get(), decision: newDecision }) });
+      },
+      updateDecisionCriteria: (projectId, criteriaId, name, weight) => {
+        const newDecision = (get().decision || []).map(d => 
+          d.id === projectId 
+            ? { ...d, criteria: d.criteria.map(c => c.id === criteriaId ? { ...c, name, weight } : c) }
+            : d
+        );
+        set({ decision: newDecision, ...syncProject({ ...get(), decision: newDecision }) });
+      },
+      deleteDecisionCriteria: (projectId, criteriaId) => {
+        const newDecision = (get().decision || []).map(d => 
+          d.id === projectId 
+            ? { 
+                ...d, 
+                criteria: d.criteria.filter(c => c.id !== criteriaId),
+                options: d.options.map(opt => {
+                  const newScores = { ...opt.scores };
+                  delete newScores[criteriaId];
+                  return { ...opt, scores: newScores };
+                })
+              }
+            : d
+        );
+        set({ decision: newDecision, ...syncProject({ ...get(), decision: newDecision }) });
+      },
+      addDecisionOption: (projectId, name) => {
+        const newDecision = (get().decision || []).map(d => 
+          d.id === projectId 
+            ? { ...d, options: [...d.options, { id: uuidv4(), name, scores: {} }] }
+            : d
+        );
+        set({ decision: newDecision, ...syncProject({ ...get(), decision: newDecision }) });
+      },
+      updateDecisionOptionName: (projectId, optionId, name) => {
+        const newDecision = (get().decision || []).map(d => 
+          d.id === projectId 
+            ? { ...d, options: d.options.map(o => o.id === optionId ? { ...o, name } : o) }
+            : d
+        );
+        set({ decision: newDecision, ...syncProject({ ...get(), decision: newDecision }) });
+      },
+      deleteDecisionOption: (projectId, optionId) => {
+        const newDecision = (get().decision || []).map(d => 
+          d.id === projectId 
+            ? { ...d, options: d.options.filter(o => o.id !== optionId) }
+            : d
+        );
+        set({ decision: newDecision, ...syncProject({ ...get(), decision: newDecision }) });
+      },
+      updateDecisionScore: (projectId, optionId, criteriaId, score) => {
+        const newDecision = (get().decision || []).map(d => 
+          d.id === projectId 
+            ? { 
+                ...d, 
+                options: d.options.map(o => 
+                  o.id === optionId 
+                    ? { ...o, scores: { ...o.scores, [criteriaId]: score } } 
+                    : o
+                ) 
+              }
+            : d
+        );
+        set({ decision: newDecision, ...syncProject({ ...get(), decision: newDecision }) });
       },
 
       // Waterfall Actions
