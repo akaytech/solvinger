@@ -88,7 +88,7 @@ function ProjectTreeItem({ project, isCurrent, onClose, requestDelete }: { proje
             <button 
               onClick={(e) => {
                  e.stopPropagation();
-                 requestDelete('Çalışmayı Sil', 'Bu çalışmayı (projeyi) ve içindeki tüm verileri tamamen silmek istediğinize emin misiniz? Bu işlem geri alınamaz.', () => deleteProject(project.id));
+                 requestDelete(t('delete_project_title'), t('delete_project_msg'), () => deleteProject(project.id));
               }}
               className="p-1 text-slate-400 hover:text-red-500 transition-colors"
               title="Çalışmayı Sil"
@@ -108,7 +108,7 @@ function ProjectTreeItem({ project, isCurrent, onClose, requestDelete }: { proje
                 İş Kırılım Yapısı
               </button>
               <button 
-                onClick={(e) => { e.stopPropagation(); requestDelete('Aracı Temizle', 'Bu araca ait tüm verileri silmek istediğinize emin misiniz? Bu işlem geri alınamaz.', () => clearToolData(project.id, 'wbs')); }}
+                onClick={(e) => { e.stopPropagation(); requestDelete(t('clear_tool_title'), t('clear_tool_msg'), () => clearToolData(project.id, 'wbs')); }}
                 className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title="Sil"
               ><Trash2 size={12} /></button>
             </div>
@@ -124,7 +124,7 @@ function ProjectTreeItem({ project, isCurrent, onClose, requestDelete }: { proje
                  <span className="bg-slate-100 dark:bg-slate-800 text-[10px] px-1.5 rounded-full group-hover/tool:opacity-0">{project.swot.length}</span>
                </button>
                <button 
-                 onClick={(e) => { e.stopPropagation(); requestDelete('Aracı Temizle', 'Bu araca ait tüm verileri silmek istediğinize emin misiniz? Bu işlem geri alınamaz.', () => clearToolData(project.id, 'swot')); }}
+                 onClick={(e) => { e.stopPropagation(); requestDelete(t('clear_tool_title'), t('clear_tool_msg'), () => clearToolData(project.id, 'swot')); }}
                  className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title="Sil"
                ><Trash2 size={12} /></button>
              </div>
@@ -140,7 +140,7 @@ function ProjectTreeItem({ project, isCurrent, onClose, requestDelete }: { proje
                  <span className="bg-slate-100 dark:bg-slate-800 text-[10px] px-1.5 rounded-full group-hover/tool:opacity-0">{project.fiveWhys.length}</span>
                </button>
                <button 
-                 onClick={(e) => { e.stopPropagation(); requestDelete('Aracı Temizle', 'Bu araca ait tüm verileri silmek istediğinize emin misiniz? Bu işlem geri alınamaz.', () => clearToolData(project.id, '5whys')); }}
+                 onClick={(e) => { e.stopPropagation(); requestDelete(t('clear_tool_title'), t('clear_tool_msg'), () => clearToolData(project.id, '5whys')); }}
                  className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title="Sil"
                ><Trash2 size={12} /></button>
              </div>
@@ -156,7 +156,7 @@ function ProjectTreeItem({ project, isCurrent, onClose, requestDelete }: { proje
                  <span className="bg-slate-100 dark:bg-slate-800 text-[10px] px-1.5 rounded-full group-hover/tool:opacity-0">{project.ishikawa.length}</span>
                </button>
                <button 
-                 onClick={(e) => { e.stopPropagation(); requestDelete('Aracı Temizle', 'Bu araca ait tüm verileri silmek istediğinize emin misiniz? Bu işlem geri alınamaz.', () => clearToolData(project.id, 'ishikawa')); }}
+                 onClick={(e) => { e.stopPropagation(); requestDelete(t('clear_tool_title'), t('clear_tool_msg'), () => clearToolData(project.id, 'ishikawa')); }}
                  className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title="Sil"
                ><Trash2 size={12} /></button>
              </div>
@@ -172,14 +172,14 @@ function ProjectTreeItem({ project, isCurrent, onClose, requestDelete }: { proje
                  <span className="bg-slate-100 dark:bg-slate-800 text-[10px] px-1.5 rounded-full group-hover/tool:opacity-0">{project.pdca.length}</span>
                </button>
                <button 
-                 onClick={(e) => { e.stopPropagation(); requestDelete('Aracı Temizle', 'Bu araca ait tüm verileri silmek istediğinize emin misiniz? Bu işlem geri alınamaz.', () => clearToolData(project.id, 'pdca')); }}
+                 onClick={(e) => { e.stopPropagation(); requestDelete(t('clear_tool_title'), t('clear_tool_msg'), () => clearToolData(project.id, 'pdca')); }}
                  className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title="Sil"
                ><Trash2 size={12} /></button>
              </div>
           )}
 
           
-          {((project.ftaNodes?.length ?? 0) > 0) && (
+          {(project.ftaNodes?.length ?? 0) > 1 && (
              <div className="group/tool relative">
                <button onClick={() => handleToolClick('fta')} className="flex w-full items-center justify-between text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50/50 dark:hover:bg-rose-900/20 p-1.5 rounded-lg transition-colors pr-6">
                  <div className="flex items-center gap-2">
@@ -188,7 +188,7 @@ function ProjectTreeItem({ project, isCurrent, onClose, requestDelete }: { proje
                  </div>
                </button>
                <button 
-                 onClick={(e) => { e.stopPropagation(); requestDelete('Aracı Temizle', 'Bu araca ait tüm verileri silmek istediğinize emin misiniz? Bu işlem geri alınamaz.', () => clearToolData(project.id, 'fta')); }}
+                 onClick={(e) => { e.stopPropagation(); requestDelete(t('clear_tool_title'), t('clear_tool_msg'), () => clearToolData(project.id, 'fta')); }}
                  className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title="Sil"
                ><Trash2 size={12} /></button>
              </div>
@@ -204,7 +204,7 @@ function ProjectTreeItem({ project, isCurrent, onClose, requestDelete }: { proje
                  <span className="bg-slate-100 dark:bg-slate-800 text-[10px] px-1.5 rounded-full group-hover/tool:opacity-0">{project.waterfall.length}</span>
                </button>
                <button 
-                 onClick={(e) => { e.stopPropagation(); requestDelete('Aracı Temizle', 'Bu araca ait tüm verileri silmek istediğinize emin misiniz? Bu işlem geri alınamaz.', () => clearToolData(project.id, 'waterfall')); }}
+                 onClick={(e) => { e.stopPropagation(); requestDelete(t('clear_tool_title'), t('clear_tool_msg'), () => clearToolData(project.id, 'waterfall')); }}
                  className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title="Sil"
                ><Trash2 size={12} /></button>
              </div>
@@ -304,7 +304,7 @@ export default function TopRightProjectsMenu() {
           {projects.length === 0 && !isCreating && (
             <div className="py-8 flex flex-col items-center justify-center text-slate-400 text-sm">
                <Folder size={32} className="mb-2 opacity-50" />
-               Dosya bulunmuyor.
+               {t('no_projects_found')}
             </div>
           )}
         </div>
