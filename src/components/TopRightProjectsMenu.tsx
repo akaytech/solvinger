@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRoadmapStore } from '../store/useRoadmapStore';
 import ConfirmModal from './ConfirmModal';
-import { Folder, Plus, Trash2, ChevronDown, ChevronRight, GitCommit, Target, HelpCircle, Fish, RefreshCcw, Layers, Pencil } from 'lucide-react';
+import { Folder, Plus, Trash2, ChevronDown, ChevronRight, GitCommit, Target, HelpCircle, Fish, RefreshCcw, Layers, Pencil, AlertOctagon } from 'lucide-react';
 import type { Project } from '../store/useRoadmapStore';
 
 function ProjectTreeItem({ project, isCurrent, onClose, requestDelete }: { project: Project; isCurrent: boolean; onClose: () => void; requestDelete: (t: string, m: string, cb: () => void) => void }) {
@@ -177,6 +177,22 @@ function ProjectTreeItem({ project, isCurrent, onClose, requestDelete }: { proje
              </div>
           )}
 
+          
+          {((project.ftaNodes?.length ?? 0) > 0) && (
+             <div className="group/tool relative">
+               <button onClick={() => handleToolClick('fta')} className="flex w-full items-center justify-between text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50/50 dark:hover:bg-rose-900/20 p-1.5 rounded-lg transition-colors pr-6">
+                 <div className="flex items-center gap-2">
+                   <AlertOctagon size={14} className="text-rose-500" />
+                   Hata Ağacı
+                 </div>
+               </button>
+               <button 
+                 onClick={(e) => { e.stopPropagation(); requestDelete('Aracı Temizle', 'Bu araca ait tüm verileri silmek istediğinize emin misiniz? Bu işlem geri alınamaz.', () => clearToolData(project.id, 'fta')); }}
+                 className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title="Sil"
+               ><Trash2 size={12} /></button>
+             </div>
+          )}
+  
           {(project.waterfall?.length > 0) && (
              <div className="group/tool relative">
                <button onClick={() => handleToolClick('waterfall')} className="flex w-full items-center justify-between text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 p-1.5 rounded-lg transition-colors pr-6">

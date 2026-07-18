@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 
 import { useRoadmapStore } from '../store/useRoadmapStore';
-import { ChevronRight, ChevronLeft } from 'lucide-react';
+import { ChevronRight, ChevronLeft, AlertOctagon } from 'lucide-react';
 import clsx from 'clsx';
 import packageJson from '../../package.json';
 import { useTranslation } from 'react-i18next';
@@ -167,6 +167,21 @@ export default function Navbar() {
              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg>
           </div>
           <span>{t('tool_waterfall')}</span>
+        </button>
+
+        <button
+          onClick={() => handleToolClick('fta')}
+          className={clsx(
+            "flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-semibold transition-colors",
+            activeTool === 'fta' 
+              ? "bg-rose-50 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400" 
+              : "text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800"
+          )}
+        >
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-rose-100 text-rose-600 dark:bg-rose-900/50 dark:text-rose-400">
+             <AlertOctagon size={16} />
+          </div>
+          <span>{t('fta_title')}</span>
         </button>
       </div>
 

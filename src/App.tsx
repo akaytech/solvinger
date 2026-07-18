@@ -7,6 +7,7 @@ import SwotCanvas from './components/SwotCanvas';
 import IshikawaCanvas from './components/IshikawaCanvas';
 import PdcaCanvas from './components/PdcaCanvas';
 import WaterfallCanvas from './components/WaterfallCanvas';
+import FtaCanvas from './components/FtaCanvas';
 import WelcomeScreen from './components/WelcomeScreen';
 import Navbar from './components/Navbar';
 import AuthModal from './components/AuthModal';
@@ -78,6 +79,7 @@ function App() {
             {activeTool === 'ishikawa' && <IshikawaCanvas />}
             {activeTool === 'pdca' && <PdcaCanvas />}
             {activeTool === 'waterfall' && <WaterfallCanvas />}
+            {activeTool === 'fta' && <FtaCanvas />}
           </div>
         </ReactFlowProvider>
       )}

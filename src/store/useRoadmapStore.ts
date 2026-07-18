@@ -91,12 +91,22 @@ interface WaterfallItem {
   createdAt: number;
 }
 
-interface WaterfallProject {
+export interface WaterfallProject {
   id: string;
   name: string;
   items: WaterfallItem[];
   createdAt: number;
 }
+
+export type FtaNodeType = 'topEvent' | 'event' | 'andGate' | 'orGate' | 'basicEvent';
+
+export type FtaNodeData = {
+  label: string;
+  type: FtaNodeType;
+  description?: string;
+};
+
+export type FtaNode = Node<FtaNodeData>;
 
 export interface Project {
   id: string;
@@ -108,6 +118,8 @@ export interface Project {
   ishikawa: IshikawaAnalysis[];
   pdca: PdcaCycle[];
   waterfall: WaterfallProject[];
+  ftaNodes?: FtaNode[];
+  ftaEdges?: Edge[];
   updatedAt: number;
   userId: string;
 }
@@ -119,8 +131,8 @@ interface RoadmapState {
   logout: () => void;
 
   // UI State
-  activeTool: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | null;
-  setActiveTool: (tool: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | null) => void;
+  activeTool: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta' | null;
+  setActiveTool: (tool: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta' | null) => void;
 
   // Projects
   projects: Project[];
@@ -130,7 +142,17 @@ interface RoadmapState {
   loadProject: (id: string) => void;
   updateProjectName: (id: string, name: string) => void;
   deleteProject: (id: string) => void;
-  clearToolData: (projectId: string, toolName: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall') => void;
+  clearToolData: (projectId: string, toolName: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta') => void;
+
+  // FTA
+  ftaNodes: FtaNode[];
+  ftaEdges: Edge[];
+  onFtaNodesChange: (changes: NodeChange[]) => void;
+  onFtaEdgesChange: (changes: EdgeChange[]) => void;
+  onFtaConnect: (connection: Connection) => void;
+  addFtaNode: (parentId: string, type: FtaNodeType, label: string) => void;
+  updateFtaNode: (id: string, data: Partial<FtaNodeData>) => void;
+  deleteFtaNode: (id: string) => void;
 
   // Active Roadmap
   nodes: GoalNode[];
@@ -188,6 +210,42 @@ interface RoadmapState {
   updateWaterfallItem: (projectId: string, itemId: string, text: string) => void;
   deleteWaterfallItem: (projectId: string, itemId: string) => void;
 }
+
+export const getFtaDescendants = (id: string, edges: Edge[]): string[] => {
+  const children = edges.filter(e => e.source === id).map(e => e.target);
+  return children.reduce((acc, child) => [...acc, child, ...getFtaDescendants(child, edges)], [] as string[]);
+};
+
+export const getFtaLayoutedElements = (nodes: FtaNode[], edges: Edge[]) => {
+  const dagreGraph = new dagre.graphlib.Graph();
+  dagreGraph.setDefaultEdgeLabel(() => ({}));
+  dagreGraph.setGraph({ rankdir: 'TB', nodesep: 50, ranksep: 60 }); 
+
+  nodes.forEach((node) => {
+    const width = 180;
+    const height = node.data.type === 'basicEvent' ? 80 : 60; 
+    dagreGraph.setNode(node.id, { width, height });
+  });
+
+  edges.forEach((edge) => {
+    dagreGraph.setEdge(edge.source, edge.target);
+  });
+
+  dagre.layout(dagreGraph);
+
+  const newNodes = nodes.map((node) => {
+    const nodeWithPosition = dagreGraph.node(node.id);
+    return {
+      ...node,
+      position: {
+        x: nodeWithPosition.x - 90,
+        y: nodeWithPosition.y - 30,
+      },
+    };
+  });
+
+  return { nodes: newNodes, edges };
+};
 
 export const getDescendants = (parentId: string, edges: Edge[]): string[] => {
   const children = edges.filter((e) => e.source === parentId).map((e) => e.target);
@@ -349,6 +407,8 @@ const syncProject = (state: RoadmapState): Partial<RoadmapState> => {
     ishikawa: state.ishikawa || [],
     pdca: state.pdca || [],
     waterfall: state.waterfall || [],
+    ftaNodes: state.ftaNodes,
+    ftaEdges: state.ftaEdges,
     updatedAt: Date.now(),
     userId: state.user.uid,
   };
@@ -386,7 +446,7 @@ export const useRoadmapStore = create<RoadmapState>()(
     (set, get) => ({
       user: null,
       login: (uid, email, name, photoURL) => set({ user: { uid, email, name, photoURL } }),
-      logout: () => set({ user: null, projects: [], currentProjectId: null, nodes: [], edges: [], fiveWhys: [], swot: [], ishikawa: [], pdca: [], waterfall: [], activeTool: null }),
+      logout: () => set({ user: null, projects: [], currentProjectId: null, nodes: [], edges: [], fiveWhys: [], swot: [], ishikawa: [], pdca: [], waterfall: [], ftaNodes: [], ftaEdges: [], activeTool: null }),
 
       activeTool: null,
       setActiveTool: (tool) => set({ activeTool: tool }),
@@ -435,6 +495,8 @@ export const useRoadmapStore = create<RoadmapState>()(
           ishikawa: [],
           pdca: [],
           waterfall: [],
+          ftaNodes: [{ id: "root", type: "ftaNode", position: { x: 0, y: 0 }, data: { label: "İstenmeyen Olay", type: "topEvent" } }],
+          ftaEdges: [],
           updatedAt: Date.now(),
           userId: state.user.uid,
         };
@@ -452,6 +514,9 @@ export const useRoadmapStore = create<RoadmapState>()(
           ishikawa: newProject.ishikawa,
           pdca: newProject.pdca,
           waterfall: newProject.waterfall,
+          ftaNodes: newProject.ftaNodes || [],
+          ftaEdges: newProject.ftaEdges || [],
+          activeTool: (initialTool as any) || null,
         }));
       },
 
@@ -476,6 +541,8 @@ export const useRoadmapStore = create<RoadmapState>()(
             ishikawa: project.ishikawa || [],
             pdca: project.pdca || [],
             waterfall: project.waterfall || [],
+            ftaNodes: project.ftaNodes || [],
+            ftaEdges: project.ftaEdges || [],
           });
         }
       },
@@ -511,6 +578,8 @@ export const useRoadmapStore = create<RoadmapState>()(
             ishikawa: isCurrent ? [] : state.ishikawa,
             pdca: isCurrent ? [] : state.pdca,
             waterfall: isCurrent ? [] : state.waterfall,
+            ftaNodes: isCurrent ? [] : state.ftaNodes,
+            ftaEdges: isCurrent ? [] : state.ftaEdges,
           };
         });
       },
@@ -525,6 +594,9 @@ export const useRoadmapStore = create<RoadmapState>()(
               nextP.edges = [];
             } else if (toolName === '5whys') {
               nextP.fiveWhys = [];
+            } else if (toolName === 'fta') {
+              nextP.ftaNodes = [{ id: "root", type: "ftaNode", position: { x: 0, y: 0 }, data: { label: "İstenmeyen Olay", type: "topEvent" } }];
+              nextP.ftaEdges = [];
             } else {
               nextP[toolName] = [];
             }
@@ -547,12 +619,87 @@ export const useRoadmapStore = create<RoadmapState>()(
                 updates.edges = activeProject.edges;
               } else if (toolName === '5whys') {
                 updates.fiveWhys = [];
+              } else if (toolName === 'fta') {
+                updates.ftaNodes = activeProject.ftaNodes;
+                updates.ftaEdges = activeProject.ftaEdges;
               } else {
                 updates[toolName] = [];
               }
            }
         }
         set(updates);
+      },
+
+      // FTA Actions
+      ftaNodes: [],
+      ftaEdges: [],
+      onFtaNodesChange: (changes) => {
+        set({ ftaNodes: applyNodeChanges(changes, get().ftaNodes) as FtaNode[] });
+        const state = get();
+        if (state.currentProjectId && state.user) {
+          setDoc(doc(db, 'projects', state.currentProjectId), { ftaNodes: state.ftaNodes, updatedAt: Date.now() }, { merge: true }).catch(console.error);
+        }
+      },
+      onFtaEdgesChange: (changes) => {
+        set({ ftaEdges: applyEdgeChanges(changes, get().ftaEdges) as Edge[] });
+        const state = get();
+        if (state.currentProjectId && state.user) {
+          setDoc(doc(db, 'projects', state.currentProjectId), { ftaEdges: state.ftaEdges, updatedAt: Date.now() }, { merge: true }).catch(console.error);
+        }
+      },
+      onFtaConnect: (connection) => {
+        const newEdges = addEdge(connection, get().ftaEdges);
+        set({ ftaEdges: newEdges });
+        const state = get();
+        if (state.currentProjectId && state.user) {
+          setDoc(doc(db, 'projects', state.currentProjectId), { ftaEdges: newEdges, updatedAt: Date.now() }, { merge: true }).catch(console.error);
+        }
+      },
+      addFtaNode: (parentId, type, label) => {
+        const state = get();
+        const newNodeId = uuidv4();
+        const newNode: FtaNode = {
+          id: newNodeId,
+          type: 'ftaNode',
+          position: { x: 0, y: 0 }, // layout algorithm will handle this
+          data: { label, type }
+        };
+        const newEdge: Edge = {
+          id: uuidv4(),
+          source: parentId,
+          target: newNodeId,
+          type: 'smoothstep'
+        };
+        const newNodes = [...state.ftaNodes, newNode];
+        const newEdges = [...state.ftaEdges, newEdge];
+        
+        const { nodes: layoutedNodes, edges: layoutedEdges } = getFtaLayoutedElements(newNodes, newEdges);
+        set({ ftaNodes: layoutedNodes, ftaEdges: layoutedEdges });
+        
+        if (state.currentProjectId && state.user) {
+           setDoc(doc(db, 'projects', state.currentProjectId), { ftaNodes: layoutedNodes, ftaEdges: layoutedEdges, updatedAt: Date.now() }, { merge: true }).catch(console.error);
+        }
+      },
+      updateFtaNode: (id, data) => {
+        const state = get();
+        const newNodes = state.ftaNodes.map(n => n.id === id ? { ...n, data: { ...n.data, ...data } } : n);
+        set({ ftaNodes: newNodes });
+        if (state.currentProjectId && state.user) {
+           setDoc(doc(db, 'projects', state.currentProjectId), { ftaNodes: newNodes, updatedAt: Date.now() }, { merge: true }).catch(console.error);
+        }
+      },
+      deleteFtaNode: (id) => {
+        const state = get();
+        if (id === 'root') return;
+        const descendants = getFtaDescendants(id, state.ftaEdges);
+        const toDelete = new Set([id, ...descendants]);
+        const newNodes = state.ftaNodes.filter(n => !toDelete.has(n.id));
+        const newEdges = state.ftaEdges.filter(e => !toDelete.has(e.source) && !toDelete.has(e.target));
+        const { nodes: layoutedNodes, edges: layoutedEdges } = getFtaLayoutedElements(newNodes, newEdges);
+        set({ ftaNodes: layoutedNodes, ftaEdges: layoutedEdges });
+        if (state.currentProjectId && state.user) {
+           setDoc(doc(db, 'projects', state.currentProjectId), { ftaNodes: layoutedNodes, ftaEdges: layoutedEdges, updatedAt: Date.now() }, { merge: true }).catch(console.error);
+        }
       },
 
       nodes: defaultNodes,
