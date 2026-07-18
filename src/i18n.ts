@@ -77,6 +77,18 @@ const resources = {
       "fta_title": "Hata Ağacı Analizi",
       "fta_desc": "Hataların kök nedenlerini VE/VEYA mantıksal kapılarıyla analiz edin",
       "fta_subtitle": "Hata Ağacı Analizi (FTA)",
+      "fta_title_input": "Başlık...",
+      "fta_desc_input": "Açıklama (İsteğe bağlı)...",
+      "fta_edit": "Düzenle",
+      "fta_add_event": "Olay Ekle",
+      "fta_new_event": "Yeni Ara Olay",
+      "fta_add_and": "VE Kapısı (AND)",
+      "fta_add_or": "VEYA Kapısı (OR)",
+      "fta_add_basic": "Temel Neden Ekle",
+      "fta_new_basic": "Temel Neden",
+      "fta_delete_node": "Düğümü Sil",
+      "fta_save": "Kaydet",
+      "fta_top_event": "İstenmeyen Olay",
       "wf_subtitle": "Geleneksel faz tabanlı proje yönetim modelini uygulayın.",
       "wf_placeholder": "Şelale projenizin adını buraya yazın...",
       "wf_empty": "Henüz bir Şelale projesi başlatmadınız.",
@@ -1227,3 +1239,4 @@ i18n
   });
 
 // Unused default export removed
+export default i18n;

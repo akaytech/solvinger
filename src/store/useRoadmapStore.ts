@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { doc, setDoc, deleteDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
 import dagre from 'dagre';
+import i18n from '../i18n';
 
 type GoalStatus = 'To Do' | 'In Progress' | 'Done' | 'Failed';
 
@@ -495,7 +496,7 @@ export const useRoadmapStore = create<RoadmapState>()(
           ishikawa: [],
           pdca: [],
           waterfall: [],
-          ftaNodes: [{ id: "root", type: "ftaNode", position: { x: 0, y: 0 }, data: { label: "İstenmeyen Olay", type: "topEvent" } }],
+          ftaNodes: [{ id: "root", type: "ftaNode", position: { x: 0, y: 0 }, data: { label: i18n.t('fta_top_event'), type: "topEvent" } }],
           ftaEdges: [],
           updatedAt: Date.now(),
           userId: state.user.uid,
@@ -595,7 +596,7 @@ export const useRoadmapStore = create<RoadmapState>()(
             } else if (toolName === '5whys') {
               nextP.fiveWhys = [];
             } else if (toolName === 'fta') {
-              nextP.ftaNodes = [{ id: "root", type: "ftaNode", position: { x: 0, y: 0 }, data: { label: "İstenmeyen Olay", type: "topEvent" } }];
+              nextP.ftaNodes = [{ id: "root", type: "ftaNode", position: { x: 0, y: 0 }, data: { label: i18n.t('fta_top_event'), type: "topEvent" } }];
               nextP.ftaEdges = [];
             } else {
               nextP[toolName] = [];
