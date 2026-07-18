@@ -500,7 +500,7 @@ export const useRoadmapStore = create<RoadmapState>()(
             if (safeSwot.length > 0 && 'type' in safeSwot[0]) {
               safeSwot = [{
                 id: 'migrated-swot',
-                title: 'Varsayılan SWOT Analizi',
+                title: i18n.t('default_swot_title'),
                 items: safeSwot as any,
                 createdAt: Date.now()
               }];
@@ -565,7 +565,7 @@ export const useRoadmapStore = create<RoadmapState>()(
           if (safeSwot.length > 0 && 'type' in safeSwot[0]) {
             safeSwot = [{
               id: 'migrated-swot',
-              title: 'Varsayılan SWOT Analizi',
+              title: i18n.t('default_swot_title'),
               items: safeSwot as any,
               createdAt: Date.now()
             }];

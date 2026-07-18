@@ -39,7 +39,7 @@ export default function AuthModal() {
         await handleSuccess(cred.user);
       }
     } catch (err: any) {
-      setError(err.message || 'Bir hata oluştu.');
+      setError(err.message || t('auth_error_generic'));
     }
   };
 
@@ -50,7 +50,7 @@ export default function AuthModal() {
       const cred = await signInWithPopup(auth, provider);
       await handleSuccess(cred.user);
     } catch (err: any) {
-      setError(err.message || 'Google ile giriş başarısız oldu.');
+      setError(err.message || t('auth_error_google'));
     }
   };
 
@@ -74,8 +74,8 @@ export default function AuthModal() {
                    <svg className="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
                 </div>
                 <div className="pr-4">
-                   <h3 className="font-bold text-slate-800 dark:text-slate-100">Hızlı Analiz</h3>
-                   <p className="text-xs text-slate-500 dark:text-slate-400">Problemleri saniyeler içinde görselleştirin.</p>
+                   <h3 className="font-bold text-slate-800 dark:text-slate-100">{t('auth_feature_1_title')}</h3>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">{t('auth_feature_1_desc')}</p>
                 </div>
              </div>
              <div className="flex-1 flex items-center gap-4">
@@ -83,8 +83,8 @@ export default function AuthModal() {
                    <svg className="w-6 h-6 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" /></svg>
                 </div>
                 <div>
-                   <h3 className="font-bold text-slate-800 dark:text-slate-100">Kesin Çözüm</h3>
-                   <p className="text-xs text-slate-500 dark:text-slate-400">Bulut tabanlı eşzamanlı kayıt yapın.</p>
+                   <h3 className="font-bold text-slate-800 dark:text-slate-100">{t('auth_feature_2_title')}</h3>
+                   <p className="text-xs text-slate-500 dark:text-slate-400">{t('auth_feature_2_desc')}</p>
                 </div>
              </div>
           </div>

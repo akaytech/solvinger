@@ -76,7 +76,7 @@ export default function Navbar() {
 
       <div className="flex-1 flex flex-col py-4 px-3 gap-2">
         <div className="mb-2 px-3">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Araçlar</h3>
+          <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">{t('nav_tools')}</h3>
         </div>
         
         <button

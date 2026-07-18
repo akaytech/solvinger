@@ -53,7 +53,7 @@ export default function SwotCanvas() {
               type="text"
               value={newTitle}
               onChange={(e) => setNewTitle(e.target.value)}
-              placeholder="Yeni SWOT analizi adı..."
+              placeholder={t('swot_name_placeholder')}
               className="flex-1 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-6 py-4 text-lg outline-none focus:border-indigo-500 dark:focus:border-indigo-500 shadow-sm text-slate-800 dark:text-slate-100"
             />
             <button
@@ -62,7 +62,7 @@ export default function SwotCanvas() {
               className="flex items-center gap-2 rounded-2xl bg-indigo-600 px-8 py-4 text-white shadow-sm transition-all hover:bg-indigo-700 active:scale-95 disabled:opacity-50"
             >
               <Plus size={24} />
-              <span className="font-bold">Oluştur</span>
+              <span className="font-bold">{t('btn_create')}</span>
             </button>
           </form>
         </div>
@@ -71,7 +71,7 @@ export default function SwotCanvas() {
         {swot.map((analysis: any) => {
           const isOldFormat = !analysis.items;
           const safeItems = isOldFormat ? (swot as any) : analysis.items;
-          const safeTitle = isOldFormat ? 'Varsayılan SWOT Analizi' : analysis.title;
+          const safeTitle = isOldFormat ? t('default_swot_title') : analysis.title;
           const safeId = isOldFormat ? 'migrated-swot' : analysis.id;
 
           // If it's old format, we only want to render one "Varsayılan" analysis block for the whole array
@@ -169,7 +169,7 @@ export default function SwotCanvas() {
         {swot.length === 0 && (
           <div className="flex flex-col items-center justify-center py-20 text-slate-400 dark:text-slate-500">
             <Target size={64} className="mb-4 opacity-20" />
-            <p className="text-lg">Henüz bir SWOT analizi başlatmadınız.</p>
+            <p className="text-lg">{t('swot_no_analysis')}</p>
           </div>
         )}
       </div>

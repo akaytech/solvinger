@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ReactFlowProvider } from '@xyflow/react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import RoadmapCanvas from './components/RoadmapCanvas';
@@ -18,6 +19,7 @@ import { useRoadmapStore } from './store/useRoadmapStore';
 
 function App() {
   const { user, fetchProjects, currentProjectId, loadProject, activeTool, setActiveTool, projects } = useRoadmapStore();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -30,7 +32,7 @@ function App() {
         }
       });
     }
-  }, [user, user?.uid, fetchProjects]);
+  }, [user, user?.uid, fetchProjects, currentProjectId, location.pathname]);
 
   // URL -> State (Back button, manual URL entry)
   useEffect(() => {
@@ -49,7 +51,7 @@ function App() {
          setActiveTool(tId as any);
       }
     }
-  }, [location.pathname, user]);
+  }, [location.pathname, user, currentProjectId, activeTool, loadProject, setActiveTool]);
 
   // State -> URL (Clicking buttons in the app)
   useEffect(() => {
@@ -61,7 +63,7 @@ function App() {
       const newPath = `/project/${currentProjectId}/${activeTool}`;
       if (path !== newPath) navigate(newPath);
     }
-  }, [currentProjectId, activeTool, user]);
+  }, [currentProjectId, activeTool, user, location.pathname, navigate]);
 
   return (
     <div className="flex h-screen w-screen overflow-hidden bg-slate-50 dark:bg-slate-900 font-sans text-slate-800 dark:text-slate-100 transition-colors">
@@ -100,7 +102,7 @@ function App() {
                       onClick={() => useRoadmapStore.getState().addDecisionProject(proj.name + ' - Karar Matrisi')}
                       className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow-lg hover:bg-indigo-700 font-bold"
                     >
-                      Başlat
+                      {t('app_start')}
                     </button>
                   </div>
                 );

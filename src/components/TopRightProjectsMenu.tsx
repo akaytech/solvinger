@@ -81,7 +81,7 @@ function ProjectTreeItem({ project, isCurrent, onClose, requestDelete }: { proje
                  setIsEditing(true);
               }}
               className="p-1 text-slate-400 hover:text-indigo-500 transition-colors"
-              title="Yeniden Adlandır"
+              title={t('rename_title')}
             >
               <Pencil size={14} />
             </button>
@@ -91,7 +91,7 @@ function ProjectTreeItem({ project, isCurrent, onClose, requestDelete }: { proje
                  requestDelete(t('delete_project_title'), t('delete_project_msg'), () => deleteProject(project.id));
               }}
               className="p-1 text-slate-400 hover:text-red-500 transition-colors"
-              title="Çalışmayı Sil"
+              title={t('delete_project_btn')}
             >
               <Trash2 size={14} />
             </button>
@@ -105,11 +105,11 @@ function ProjectTreeItem({ project, isCurrent, onClose, requestDelete }: { proje
             <div className="group/tool relative">
               <button onClick={() => handleToolClick('wbs')} className="flex w-full items-center gap-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-50 dark:hover:bg-slate-800 p-1.5 rounded-lg transition-colors">
                 <GitCommit size={14} className="text-indigo-500" />
-                İş Kırılım Yapısı
+                {t('wbs_title')}
               </button>
               <button 
                 onClick={(e) => { e.stopPropagation(); requestDelete(t('clear_tool_title'), t('clear_tool_msg'), () => clearToolData(project.id, 'wbs')); }}
-                className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title="Sil"
+                className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title={t('delete_title')}
               ><Trash2 size={12} /></button>
             </div>
           )}
@@ -167,7 +167,7 @@ function ProjectTreeItem({ project, isCurrent, onClose, requestDelete }: { proje
                <button onClick={() => handleToolClick('pdca')} className="flex w-full items-center justify-between text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50/50 dark:hover:bg-emerald-900/20 p-1.5 rounded-lg transition-colors pr-6">
                  <div className="flex items-center gap-2">
                    <RefreshCcw size={14} className="text-emerald-500" />
-                   PUKÖ
+                   {t('pdca_title')}
                  </div>
                  <span className="bg-slate-100 dark:bg-slate-800 text-[10px] px-1.5 rounded-full group-hover/tool:opacity-0">{project.pdca.length}</span>
                </button>

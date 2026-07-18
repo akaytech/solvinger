@@ -119,7 +119,7 @@ export default function FiveWhysCanvas() {
           {fiveWhys.length === 0 && (
             <div className="w-full py-20 flex flex-col items-center justify-center text-slate-400 dark:text-slate-600">
               <Activity size={64} className="mb-4 opacity-50" />
-              <p className="text-lg">Henüz bir 5 Neden analizi başlatmadınız.</p>
+              <p className="text-lg">{t('whys_empty')}</p>
             </div>
           )}
         </div>

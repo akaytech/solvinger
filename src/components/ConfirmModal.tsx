@@ -1,5 +1,6 @@
 
 import { X, AlertTriangle } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface ConfirmModalProps {
   isOpen: boolean;
@@ -17,9 +18,10 @@ export default function ConfirmModal({
   onConfirm,
   title,
   message,
-  confirmText = 'Sil',
-  cancelText = 'İptal'
+  confirmText,
+  cancelText
 }: ConfirmModalProps) {
+  const { t } = useTranslation();
   if (!isOpen) return null;
 
   return (
@@ -52,7 +54,7 @@ export default function ConfirmModal({
             onClick={onClose}
             className="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-colors"
           >
-            {cancelText}
+            {cancelText || t('cancel_btn')}
           </button>
           <button
             onClick={() => {

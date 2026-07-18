@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { X, FileText } from 'lucide-react';
 import { useRoadmapStore } from '../store/useRoadmapStore';
+import { useTranslation } from 'react-i18next';
 
 export default function DescriptionModal({
   nodeId,
@@ -9,6 +10,7 @@ export default function DescriptionModal({
   nodeId: string;
   onClose: () => void;
 }) {
+  const { t } = useTranslation();
   const node = useRoadmapStore(state => state.nodes.find((n) => n.id === nodeId));
   const updateGoal = useRoadmapStore(state => state.updateGoal);
   const edges = useRoadmapStore(state => state.edges);
@@ -37,7 +39,7 @@ export default function DescriptionModal({
             </div>
             <div>
               <h2 className="text-lg font-bold text-slate-800">
-                {edges.some(e => e.target === nodeId) ? 'Görev Açıklaması' : 'Proje Açıklaması'}
+                {edges.some(e => e.target === nodeId) ? t('desc_task') : t('desc_project')}
               </h2>
               <p className="text-xs font-semibold text-slate-400">{node.data.label}</p>
             </div>
@@ -54,7 +56,7 @@ export default function DescriptionModal({
           <textarea
             value={text}
             onChange={(e) => setText(e.target.value)}
-            placeholder="Bu hedef veya görev hakkında detaylı açıklamaları, notları buraya yazabilirsin..."
+            placeholder={t('desc_placeholder')}
             className="h-64 w-full resize-none rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm font-medium text-slate-700 outline-none transition-colors focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10"
           />
         </div>
@@ -64,7 +66,7 @@ export default function DescriptionModal({
             onClick={onClose}
             className="mr-3 rounded-xl px-5 py-2.5 text-sm font-bold text-slate-500 transition-colors hover:bg-slate-200 hover:text-slate-700"
           >
-            İptal
+            {t('cancel_btn')}
           </button>
           <button
             onClick={handleSave}

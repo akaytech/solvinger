@@ -65,7 +65,7 @@ export default function RoadmapCanvas({ onNodeSelect }: { onNodeSelect: (id: str
     
     // Smooth pan to clicked node like a daisy focusing
     setCenter(node.position.x + 220, node.position.y + 55, { zoom: getZoom(), duration: 800 });
-  }, [addGoal, onNodeSelect, toggleExpand, setCenter, getZoom, t]);
+  }, [addGoal, onNodeSelect, toggleExpand, setCenter, getZoom, t, edges]);
 
   const onNodeDragStart = useCallback((_event: any, node: any) => {
     if (isShiftPressed) {
