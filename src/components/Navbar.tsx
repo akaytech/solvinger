@@ -9,8 +9,16 @@ import { useTranslation } from 'react-i18next';
 export default function Navbar() {
   const { t } = useTranslation();
   const [isExpanded, setIsExpanded] = useState(false);
-  const { activeTool, setActiveTool } = useRoadmapStore();
+  const { activeTool, setActiveTool, projects, createProject } = useRoadmapStore();
   const menuRef = useRef<HTMLDivElement>(null);
+
+  const handleToolClick = (tool: any) => {
+    if (projects.length === 0) {
+      createProject(t('new_project'), tool);
+    }
+    setActiveTool(tool);
+    setIsExpanded(false);
+  };
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -72,10 +80,7 @@ export default function Navbar() {
         </div>
         
         <button
-          onClick={() => {
-            setActiveTool('wbs');
-            setIsExpanded(false);
-          }}
+          onClick={() => handleToolClick('wbs')}
           className={clsx(
             "flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-semibold transition-colors",
             activeTool === 'wbs' 
@@ -90,10 +95,7 @@ export default function Navbar() {
         </button>
 
         <button
-          onClick={() => {
-            setActiveTool('5whys');
-            setIsExpanded(false);
-          }}
+          onClick={() => handleToolClick('5whys')}
           className={clsx(
             "flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-semibold transition-colors",
             activeTool === '5whys' 
@@ -108,10 +110,7 @@ export default function Navbar() {
         </button>
 
         <button
-          onClick={() => {
-            setActiveTool('swot');
-            setIsExpanded(false);
-          }}
+          onClick={() => handleToolClick('swot')}
           className={clsx(
             "flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-semibold transition-colors",
             activeTool === 'swot' 
@@ -126,10 +125,7 @@ export default function Navbar() {
         </button>
 
         <button
-          onClick={() => {
-            setActiveTool('ishikawa');
-            setIsExpanded(false);
-          }}
+          onClick={() => handleToolClick('ishikawa')}
           className={clsx(
             "flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-semibold transition-colors",
             activeTool === 'ishikawa' 
@@ -144,10 +140,7 @@ export default function Navbar() {
         </button>
 
         <button
-          onClick={() => {
-            setActiveTool('pdca');
-            setIsExpanded(false);
-          }}
+          onClick={() => handleToolClick('pdca')}
           className={clsx(
             "flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-semibold transition-colors",
             activeTool === 'pdca' 
@@ -162,10 +155,7 @@ export default function Navbar() {
         </button>
 
         <button
-          onClick={() => {
-            setActiveTool('waterfall');
-            setIsExpanded(false);
-          }}
+          onClick={() => handleToolClick('waterfall')}
           className={clsx(
             "flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-semibold transition-colors",
             activeTool === 'waterfall' 
