@@ -5,6 +5,17 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 const resources = {
   tr: {
     translation: {
+      "decision_title": "Karar Matrisi",
+      "decision_desc": "Seçenekleri belirli kriterlere göre (1-10 arası) puanlayarak en iyi alternatifi seçin.",
+      "decision_subtitle": "Pugh Matrisi / Karar Matrisi",
+      "decision_add_criteria": "Kriter Ekle",
+      "decision_add_option": "Seçenek Ekle",
+      "decision_criteria_name": "Kriter Adı",
+      "decision_criteria_weight": "Ağırlık (1-5)",
+      "decision_option_name": "Seçenek Adı",
+      "decision_total_score": "Toplam Puan",
+      "decision_empty": "Henüz kriter veya seçenek eklenmedi.",
+      "decision_score_placeholder": "Puan (1-10)",
       "new_task": "Yeni Görev",
       "new_subtask": "Yeni Alt Görev",
       "welcome_msg": "Projelerini buluta kaydetmek için giriş yap.",
