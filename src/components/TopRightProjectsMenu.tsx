@@ -1,10 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRoadmapStore } from '../store/useRoadmapStore';
+import ConfirmModal from './ConfirmModal';
 import { Folder, Plus, Trash2, ChevronDown, ChevronRight, GitCommit, Target, HelpCircle, Fish, RefreshCcw, Layers, Pencil } from 'lucide-react';
 import type { Project } from '../store/useRoadmapStore';
 
-function ProjectTreeItem({ project, isCurrent, onClose }: { project: Project; isCurrent: boolean; onClose: () => void }) {
+function ProjectTreeItem({ project, isCurrent, onClose, requestDelete }: { project: Project; isCurrent: boolean; onClose: () => void; requestDelete: (t: string, m: string, cb: () => void) => void }) {
   const { loadProject, setActiveTool, deleteProject, updateProjectName, clearToolData } = useRoadmapStore();
   const [isExpanded, setIsExpanded] = useState(isCurrent);
   const [isEditing, setIsEditing] = useState(false);
@@ -86,7 +87,7 @@ function ProjectTreeItem({ project, isCurrent, onClose }: { project: Project; is
             <button 
               onClick={(e) => {
                  e.stopPropagation();
-                 deleteProject(project.id);
+                 requestDelete('Çalışmayı Sil', 'Bu çalışmayı (projeyi) ve içindeki tüm verileri tamamen silmek istediğinize emin misiniz? Bu işlem geri alınamaz.', () => deleteProject(project.id));
               }}
               className="p-1 text-slate-400 hover:text-red-500 transition-colors"
               title="Çalışmayı Sil"
@@ -106,7 +107,7 @@ function ProjectTreeItem({ project, isCurrent, onClose }: { project: Project; is
                 İş Kırılım Yapısı
               </button>
               <button 
-                onClick={(e) => { e.stopPropagation(); if(confirm('Bu araca ait tüm verileri silmek istediğinize emin misiniz?')) clearToolData(project.id, 'wbs'); }}
+                onClick={(e) => { e.stopPropagation(); requestDelete('Aracı Temizle', 'Bu araca ait tüm verileri silmek istediğinize emin misiniz? Bu işlem geri alınamaz.', () => clearToolData(project.id, 'wbs')); }}
                 className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title="Sil"
               ><Trash2 size={12} /></button>
             </div>
@@ -122,7 +123,7 @@ function ProjectTreeItem({ project, isCurrent, onClose }: { project: Project; is
                  <span className="bg-slate-100 dark:bg-slate-800 text-[10px] px-1.5 rounded-full group-hover/tool:opacity-0">{project.swot.length}</span>
                </button>
                <button 
-                 onClick={(e) => { e.stopPropagation(); if(confirm('Bu araca ait tüm verileri silmek istediğinize emin misiniz?')) clearToolData(project.id, 'swot'); }}
+                 onClick={(e) => { e.stopPropagation(); requestDelete('Aracı Temizle', 'Bu araca ait tüm verileri silmek istediğinize emin misiniz? Bu işlem geri alınamaz.', () => clearToolData(project.id, 'swot')); }}
                  className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title="Sil"
                ><Trash2 size={12} /></button>
              </div>
@@ -138,7 +139,7 @@ function ProjectTreeItem({ project, isCurrent, onClose }: { project: Project; is
                  <span className="bg-slate-100 dark:bg-slate-800 text-[10px] px-1.5 rounded-full group-hover/tool:opacity-0">{project.fiveWhys.length}</span>
                </button>
                <button 
-                 onClick={(e) => { e.stopPropagation(); if(confirm('Bu araca ait tüm verileri silmek istediğinize emin misiniz?')) clearToolData(project.id, '5whys'); }}
+                 onClick={(e) => { e.stopPropagation(); requestDelete('Aracı Temizle', 'Bu araca ait tüm verileri silmek istediğinize emin misiniz? Bu işlem geri alınamaz.', () => clearToolData(project.id, '5whys')); }}
                  className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title="Sil"
                ><Trash2 size={12} /></button>
              </div>
@@ -154,7 +155,7 @@ function ProjectTreeItem({ project, isCurrent, onClose }: { project: Project; is
                  <span className="bg-slate-100 dark:bg-slate-800 text-[10px] px-1.5 rounded-full group-hover/tool:opacity-0">{project.ishikawa.length}</span>
                </button>
                <button 
-                 onClick={(e) => { e.stopPropagation(); if(confirm('Bu araca ait tüm verileri silmek istediğinize emin misiniz?')) clearToolData(project.id, 'ishikawa'); }}
+                 onClick={(e) => { e.stopPropagation(); requestDelete('Aracı Temizle', 'Bu araca ait tüm verileri silmek istediğinize emin misiniz? Bu işlem geri alınamaz.', () => clearToolData(project.id, 'ishikawa')); }}
                  className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title="Sil"
                ><Trash2 size={12} /></button>
              </div>
@@ -170,7 +171,7 @@ function ProjectTreeItem({ project, isCurrent, onClose }: { project: Project; is
                  <span className="bg-slate-100 dark:bg-slate-800 text-[10px] px-1.5 rounded-full group-hover/tool:opacity-0">{project.pdca.length}</span>
                </button>
                <button 
-                 onClick={(e) => { e.stopPropagation(); if(confirm('Bu araca ait tüm verileri silmek istediğinize emin misiniz?')) clearToolData(project.id, 'pdca'); }}
+                 onClick={(e) => { e.stopPropagation(); requestDelete('Aracı Temizle', 'Bu araca ait tüm verileri silmek istediğinize emin misiniz? Bu işlem geri alınamaz.', () => clearToolData(project.id, 'pdca')); }}
                  className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title="Sil"
                ><Trash2 size={12} /></button>
              </div>
@@ -186,7 +187,7 @@ function ProjectTreeItem({ project, isCurrent, onClose }: { project: Project; is
                  <span className="bg-slate-100 dark:bg-slate-800 text-[10px] px-1.5 rounded-full group-hover/tool:opacity-0">{project.waterfall.length}</span>
                </button>
                <button 
-                 onClick={(e) => { e.stopPropagation(); if(confirm('Bu araca ait tüm verileri silmek istediğinize emin misiniz?')) clearToolData(project.id, 'waterfall'); }}
+                 onClick={(e) => { e.stopPropagation(); requestDelete('Aracı Temizle', 'Bu araca ait tüm verileri silmek istediğinize emin misiniz? Bu işlem geri alınamaz.', () => clearToolData(project.id, 'waterfall')); }}
                  className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title="Sil"
                ><Trash2 size={12} /></button>
              </div>
@@ -198,6 +199,8 @@ function ProjectTreeItem({ project, isCurrent, onClose }: { project: Project; is
 }
 
 export default function TopRightProjectsMenu() {
+  const [confirmState, setConfirmState] = useState<{isOpen: boolean, title: string, message: string, onConfirm: () => void}>({ isOpen: false, title: '', message: '', onConfirm: () => {} });
+  const requestDelete = (title: string, message: string, onConfirm: () => void) => { setConfirmState({ isOpen: true, title, message, onConfirm }); };
   const { t } = useTranslation();
   const { projects, currentProjectId, createProject, user } = useRoadmapStore();
   const [isOpen, setIsOpen] = useState(false);
@@ -278,6 +281,7 @@ export default function TopRightProjectsMenu() {
               project={p} 
               isCurrent={p.id === currentProjectId} 
               onClose={() => setIsOpen(false)}
+              requestDelete={requestDelete}
             />
           ))}
           {projects.length === 0 && !isCreating && (
@@ -288,6 +292,7 @@ export default function TopRightProjectsMenu() {
           )}
         </div>
       </div>
+      <ConfirmModal isOpen={confirmState.isOpen} title={confirmState.title} message={confirmState.message} onConfirm={confirmState.onConfirm} onClose={() => setConfirmState(p => ({...p, isOpen: false}))} />
     </div>
   );
 }
