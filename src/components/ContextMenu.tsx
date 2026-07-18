@@ -33,7 +33,7 @@ export default function ContextMenu({
     >
       {/* İsim ve Tarih Düzenleme Alanları */}
       <div className="mb-2 space-y-2">
-         <div className="flex items-center gap-2 rounded-xl bg-slate-50 dark:bg-slate-900 px-3 py-2 border border-slate-100 dark:border-slate-700 transition-colors focus-within:border-primary-500 focus-within:bg-white dark:focus-within:bg-slate-800 focus-within:ring-2 focus-within:ring-primary-500/10">
+         <div className="flex items-center gap-2 rounded-xl bg-slate-50 dark:bg-slate-900 px-3 py-2 border border-slate-100 dark:border-slate-700 transition-colors focus-within:border-indigo-500 focus-within:bg-white dark:focus-within:bg-slate-800 focus-within:ring-2 focus-within:ring-indigo-500/10">
            <Type size={16} className="text-slate-400 dark:text-slate-500 shrink-0" />
            <input 
              type="text" 
@@ -45,7 +45,7 @@ export default function ContextMenu({
            />
          </div>
          
-         <div className="flex items-center gap-2 rounded-xl bg-slate-50 dark:bg-slate-900 px-3 py-2 border border-slate-100 dark:border-slate-700 transition-colors focus-within:border-primary-500 focus-within:bg-white dark:focus-within:bg-slate-800 focus-within:ring-2 focus-within:ring-primary-500/10">
+         <div className="flex items-center gap-2 rounded-xl bg-slate-50 dark:bg-slate-900 px-3 py-2 border border-slate-100 dark:border-slate-700 transition-colors focus-within:border-indigo-500 focus-within:bg-white dark:focus-within:bg-slate-800 focus-within:ring-2 focus-within:ring-indigo-500/10">
            <Calendar size={16} className="text-slate-400 dark:text-slate-500 shrink-0" />
            <input 
              type="date" 
@@ -61,15 +61,15 @@ export default function ContextMenu({
 
       <button
         onClick={() => { onOpenDescription(); onClose(); }}
-        className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-bold text-slate-700 dark:text-slate-300 hover:bg-primary-50 dark:hover:bg-primary-900/30 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+        className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-bold text-slate-700 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
       >
-        <FileText size={18} className={hasDescription ? "text-primary-500" : ""} /> 
+        <FileText size={18} className={hasDescription ? "text-indigo-500" : ""} /> 
         {hasDescription ? t('read_edit_desc') : t('add_desc')}
       </button>
 
       <button
         onClick={() => { onAddSubGoal(); onClose(); }}
-        className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-bold text-slate-700 dark:text-slate-300 hover:bg-primary-50 dark:hover:bg-primary-900/30 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+        className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-bold text-slate-700 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
       >
         <Plus size={18} /> {t('add_subgoal')}
       </button>
@@ -92,9 +92,9 @@ export default function ContextMenu({
       </button>
       <button
         onClick={() => { onUpdate({ status: 'Done' }); onClose(); }}
-        className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-semibold text-slate-700 dark:text-slate-300 hover:bg-primary-50 dark:hover:bg-primary-900/30 transition-colors"
+        className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-semibold text-slate-700 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors"
       >
-        <CheckCircle size={18} className="text-primary-500 dark:text-primary-400" /> {t('done_status')}
+        <CheckCircle size={18} className="text-indigo-500 dark:text-indigo-400" /> {t('done_status')}
       </button>
       <button
         onClick={() => { onUpdate({ status: 'Failed' }); onClose(); }}

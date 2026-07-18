@@ -2,21 +2,11 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary-50: #e0f9f1;
-  --color-primary-100: #b3efe0;
-  --color-primary-200: #80e4cd;
-  --color-primary-300: #4ddaba;
-  --color-primary-400: #26d2aa;
-  --color-primary-500: #00cc96;
-  --color-primary-600: #00b887;
-  --color-primary-700: #009971;
-  --color-primary-800: #007a5a;
-  --color-primary-900: #005c44;
-  --color-primary-950: #003d2d;
+  --font-sans: 'Geomini', 'Geist', 'Inter', system-ui, sans-serif;
 }
 
 @variant dark (&:where(.dark, .dark *));
 
 body {
-  font-family: 'Geomini', 'Geist', 'Inter', system-ui, sans-serif;
+  font-family: var(--font-sans);
 }

@@ -112,7 +112,7 @@ export default function AuthModal() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="ornek@sirket.com"
-                className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-4 py-3 text-sm outline-none transition-colors focus:border-primary-500 focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-primary-500/20 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500"
+                className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-4 py-3 text-sm outline-none transition-colors focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-indigo-500/20 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500"
               />
             </div>
             <div>
@@ -124,7 +124,7 @@ export default function AuthModal() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-4 py-3 text-sm outline-none transition-colors focus:border-primary-500 focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-primary-500/20 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500"
+                className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-4 py-3 text-sm outline-none transition-colors focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-indigo-500/20 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500"
               />
             </div>
             
@@ -154,7 +154,7 @@ export default function AuthModal() {
             {isLoginMode ? t('no_account') : t('have_account')}
             <button 
               onClick={() => setIsLoginMode(!isLoginMode)}
-              className="font-bold text-primary-600 dark:text-primary-400 hover:underline"
+              className="font-bold text-indigo-600 dark:text-indigo-400 hover:underline"
             >
               {isLoginMode ? t('register_now') : t('login')}
             </button>

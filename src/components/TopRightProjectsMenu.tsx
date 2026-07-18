@@ -36,7 +36,7 @@ function ProjectTreeItem({ project, isCurrent, onClose }: { project: Project; is
 
   return (
     <div className="flex flex-col border-b border-slate-100 dark:border-slate-700/50 last:border-0 pb-1 mb-1">
-      <div className={`group flex items-center justify-between rounded-xl px-2 py-1.5 transition-colors ${isCurrent ? 'bg-primary-50/50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300' : 'hover:bg-slate-50 dark:hover:bg-slate-700/50 text-slate-700 dark:text-slate-300'}`}>
+      <div className={`group flex items-center justify-between rounded-xl px-2 py-1.5 transition-colors ${isCurrent ? 'bg-indigo-50/50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300' : 'hover:bg-slate-50 dark:hover:bg-slate-700/50 text-slate-700 dark:text-slate-300'}`}>
         <div className="flex flex-1 items-center gap-2 overflow-hidden">
           <button onClick={() => setIsExpanded(!isExpanded)} className="shrink-0 p-0.5">
             {isExpanded ? <ChevronDown size={14} className="text-slate-400" /> : <ChevronRight size={14} className="text-slate-400" />}
@@ -56,7 +56,7 @@ function ProjectTreeItem({ project, isCurrent, onClose }: { project: Project; is
                   setIsEditing(false);
                 }
               }}
-              className="flex-1 min-w-0 bg-white dark:bg-slate-800 border border-primary-300 dark:border-primary-500 rounded px-1.5 py-0.5 text-sm font-bold text-slate-800 dark:text-slate-100 outline-none"
+              className="flex-1 min-w-0 bg-white dark:bg-slate-800 border border-indigo-300 dark:border-indigo-500 rounded px-1.5 py-0.5 text-sm font-bold text-slate-800 dark:text-slate-100 outline-none"
             />
           ) : (
             <span 
@@ -78,7 +78,7 @@ function ProjectTreeItem({ project, isCurrent, onClose }: { project: Project; is
                  e.stopPropagation();
                  setIsEditing(true);
               }}
-              className="p-1 text-slate-400 hover:text-primary-500 transition-colors"
+              className="p-1 text-slate-400 hover:text-indigo-500 transition-colors"
               title="Yeniden Adlandır"
             >
               <Pencil size={14} />
@@ -101,8 +101,8 @@ function ProjectTreeItem({ project, isCurrent, onClose }: { project: Project; is
         <div className="flex flex-col pl-6 pr-2 space-y-0.5 mt-1">
           {(project.nodes?.length > 0) && (
             <div className="group/tool relative">
-              <button onClick={() => handleToolClick('wbs')} className="flex w-full items-center gap-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-slate-50 dark:hover:bg-slate-800 p-1.5 rounded-lg transition-colors">
-                <GitCommit size={14} className="text-primary-500" />
+              <button onClick={() => handleToolClick('wbs')} className="flex w-full items-center gap-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-50 dark:hover:bg-slate-800 p-1.5 rounded-lg transition-colors">
+                <GitCommit size={14} className="text-indigo-500" />
                 İş Kırılım Yapısı
               </button>
               <button 
@@ -230,9 +230,9 @@ export default function TopRightProjectsMenu() {
     >
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 shadow-md hover:scale-105 transition-transform text-primary-500 dark:text-primary-400 overflow-hidden"
+        className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 shadow-md hover:scale-105 transition-transform text-indigo-500 dark:text-indigo-400 overflow-hidden"
       >
-        <Folder size={20} className={isOpen ? 'fill-primary-500' : ''} />
+        <Folder size={20} className={isOpen ? 'fill-indigo-500' : ''} />
       </button>
 
       <div 
@@ -242,7 +242,7 @@ export default function TopRightProjectsMenu() {
           <span className="text-sm font-bold text-slate-800 dark:text-slate-100">{t('my_projects')}</span>
           <button 
             onClick={() => setIsCreating(true)}
-            className="rounded bg-primary-50 dark:bg-primary-900/50 p-1 text-primary-600 dark:text-primary-400 hover:bg-primary-100 dark:hover:bg-primary-900 transition-colors"
+            className="rounded bg-indigo-50 dark:bg-indigo-900/50 p-1 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-indigo-900 transition-colors"
           >
              <Plus size={16} />
           </button>
@@ -265,7 +265,7 @@ export default function TopRightProjectsMenu() {
                   setNewProjectName('');
                 }
               }}
-              className="flex-1 rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 px-3 py-1.5 text-sm outline-none focus:border-primary-500 text-slate-700 dark:text-slate-200"
+              className="flex-1 rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 px-3 py-1.5 text-sm outline-none focus:border-indigo-500 text-slate-700 dark:text-slate-200"
               placeholder={t('project_name')}
             />
           </div>
