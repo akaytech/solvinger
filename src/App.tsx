@@ -51,7 +51,8 @@ function App() {
          setActiveTool(tId as any);
       }
     }
-  }, [location.pathname, user, currentProjectId, activeTool, loadProject, setActiveTool]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname, user]);
 
   // State -> URL (Clicking buttons in the app)
   useEffect(() => {
@@ -63,7 +64,8 @@ function App() {
       const newPath = `/project/${currentProjectId}/${activeTool}`;
       if (path !== newPath) navigate(newPath);
     }
-  }, [currentProjectId, activeTool, user, location.pathname, navigate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentProjectId, activeTool, user]);
 
   return (
     <div className="flex h-screen w-screen overflow-hidden bg-slate-50 dark:bg-slate-900 font-sans text-slate-800 dark:text-slate-100 transition-colors">

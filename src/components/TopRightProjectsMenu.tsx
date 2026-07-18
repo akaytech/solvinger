@@ -119,13 +119,13 @@ function ProjectTreeItem({ project, isCurrent, onClose, requestDelete }: { proje
                <button onClick={() => handleToolClick('swot')} className="flex w-full items-center justify-between text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-amber-50/50 dark:hover:bg-amber-900/20 p-1.5 rounded-lg transition-colors pr-6">
                  <div className="flex items-center gap-2">
                    <Target size={14} className="text-amber-500" />
-                   SWOT
+                   {t('tool_swot')}
                  </div>
                  <span className="bg-slate-100 dark:bg-slate-800 text-[10px] px-1.5 rounded-full group-hover/tool:opacity-0">{project.swot.length}</span>
                </button>
                <button 
                  onClick={(e) => { e.stopPropagation(); requestDelete(t('clear_tool_title'), t('clear_tool_msg'), () => clearToolData(project.id, 'swot')); }}
-                 className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title="Sil"
+                 className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title={t('delete_title')}
                ><Trash2 size={12} /></button>
              </div>
           )}
@@ -135,13 +135,13 @@ function ProjectTreeItem({ project, isCurrent, onClose, requestDelete }: { proje
                <button onClick={() => handleToolClick('5whys')} className="flex w-full items-center justify-between text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50/50 dark:hover:bg-rose-900/20 p-1.5 rounded-lg transition-colors pr-6">
                  <div className="flex items-center gap-2">
                    <HelpCircle size={14} className="text-rose-500" />
-                   5 Neden
+                   {t('tool_5whys')}
                  </div>
                  <span className="bg-slate-100 dark:bg-slate-800 text-[10px] px-1.5 rounded-full group-hover/tool:opacity-0">{project.fiveWhys.length}</span>
                </button>
                <button 
                  onClick={(e) => { e.stopPropagation(); requestDelete(t('clear_tool_title'), t('clear_tool_msg'), () => clearToolData(project.id, '5whys')); }}
-                 className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title="Sil"
+                 className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title={t('delete_title')}
                ><Trash2 size={12} /></button>
              </div>
           )}
@@ -157,7 +157,7 @@ function ProjectTreeItem({ project, isCurrent, onClose, requestDelete }: { proje
                </button>
                <button 
                  onClick={(e) => { e.stopPropagation(); requestDelete(t('clear_tool_title'), t('clear_tool_msg'), () => clearToolData(project.id, 'ishikawa')); }}
-                 className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title="Sil"
+                 className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title={t('delete_title')}
                ><Trash2 size={12} /></button>
              </div>
           )}
@@ -173,7 +173,7 @@ function ProjectTreeItem({ project, isCurrent, onClose, requestDelete }: { proje
                </button>
                <button 
                  onClick={(e) => { e.stopPropagation(); requestDelete(t('clear_tool_title'), t('clear_tool_msg'), () => clearToolData(project.id, 'pdca')); }}
-                 className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title="Sil"
+                 className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title={t('delete_title')}
                ><Trash2 size={12} /></button>
              </div>
           )}
@@ -189,7 +189,7 @@ function ProjectTreeItem({ project, isCurrent, onClose, requestDelete }: { proje
                </button>
                <button 
                  onClick={(e) => { e.stopPropagation(); requestDelete(t('clear_tool_title'), t('clear_tool_msg'), () => clearToolData(project.id, 'fta')); }}
-                 className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title="Sil"
+                 className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title={t('delete_title')}
                ><Trash2 size={12} /></button>
              </div>
           )}
@@ -205,7 +205,7 @@ function ProjectTreeItem({ project, isCurrent, onClose, requestDelete }: { proje
                </button>
                <button 
                  onClick={(e) => { e.stopPropagation(); requestDelete(t('clear_tool_title'), t('clear_tool_msg'), () => clearToolData(project.id, 'waterfall')); }}
-                 className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title="Sil"
+                 className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title={t('delete_title')}
                ><Trash2 size={12} /></button>
              </div>
           )}
@@ -221,7 +221,7 @@ function ProjectTreeItem({ project, isCurrent, onClose, requestDelete }: { proje
                </button>
                <button 
                  onClick={(e) => { e.stopPropagation(); requestDelete(t('clear_tool_title'), t('clear_tool_msg'), () => clearToolData(project.id, 'decision')); }}
-                 className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title="Sil"
+                 className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title={t('delete_title')}
                ><Trash2 size={12} /></button>
              </div>
           )}
