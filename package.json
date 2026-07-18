@@ -1,7 +1,7 @@
 {
   "name": "solvinger",
   "private": true,
-  "version": "0.6.2-3",
+  "version": "0.6.2-4",
   "type": "module",
   "scripts": {
     "dev": "vite",
