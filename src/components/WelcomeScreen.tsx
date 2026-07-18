@@ -1,4 +1,4 @@
-import { Network, Activity, Target, Fish, RefreshCcw, Layers } from 'lucide-react';
+import { Network, Activity, Target, Fish, RefreshCcw, Layers, AlertOctagon } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useRoadmapStore } from '../store/useRoadmapStore';
 
@@ -17,8 +17,8 @@ export default function WelcomeScreen() {
     <div className="flex h-full w-full flex-col items-center bg-slate-50 dark:bg-slate-900 p-8 overflow-y-auto custom-scrollbar">
       <div className="max-w-2xl text-center my-auto py-8">
 
-        <h1 className="mb-6 text-center text-4xl font-black text-slate-800 dark:text-slate-100 md:text-6xl">
-          {t('ws_title')}
+        <h1 className="mb-6 text-center text-3xl font-black text-slate-800 dark:text-slate-100 md:text-5xl tracking-tight">
+          Solvinger
         </h1>
         <p className="mx-auto mb-16 max-w-2xl text-center text-lg text-slate-600 dark:text-slate-400">
           {t('ws_subtitle')}
@@ -77,6 +77,15 @@ export default function WelcomeScreen() {
             <Layers size={40} className="mb-4 text-slate-400 transition-colors group-hover:text-blue-500" />
             <h3 className="mb-2 text-xl font-bold text-slate-800 dark:text-slate-100">{t('tool_waterfall')}</h3>
             <p className="text-sm text-slate-500 dark:text-slate-400">{t('wf_desc')}</p>
+          </button>
+
+          <button
+            onClick={() => handleToolClick('fta')}
+            className="group flex flex-col items-center rounded-3xl border-2 border-slate-200 bg-white p-8 transition-all hover:border-rose-500 hover:shadow-2xl dark:border-slate-800 dark:bg-slate-800 dark:hover:border-rose-500"
+          >
+            <AlertOctagon size={40} className="mb-4 text-slate-400 transition-colors group-hover:text-rose-500" />
+            <h3 className="mb-2 text-xl font-bold text-slate-800 dark:text-slate-100">{t('fta_title')}</h3>
+            <p className="text-sm text-slate-500 dark:text-slate-400">{t('fta_desc')}</p>
           </button>
         </div>
       </div>
