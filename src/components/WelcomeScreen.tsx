@@ -27,9 +27,9 @@ export default function WelcomeScreen() {
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           <button
             onClick={() => handleToolClick('wbs')}
-            className="group flex flex-col items-center rounded-3xl border-2 border-slate-200 bg-white p-8 transition-all hover:border-indigo-500 hover:shadow-2xl dark:border-slate-800 dark:bg-slate-800 dark:hover:border-indigo-500"
+            className="group flex flex-col items-center rounded-3xl border-2 border-slate-200 bg-white p-8 transition-all hover:border-primary-500 hover:shadow-2xl dark:border-slate-800 dark:bg-slate-800 dark:hover:border-primary-500"
           >
-            <Network size={40} className="mb-4 text-slate-400 transition-colors group-hover:text-indigo-500" />
+            <Network size={40} className="mb-4 text-slate-400 transition-colors group-hover:text-primary-500" />
             <h3 className="mb-2 text-xl font-bold text-slate-800 dark:text-slate-100">{t('tool_wbs')}</h3>
             <p className="text-sm text-slate-500 dark:text-slate-400">{t('wbs_desc')}</p>
           </button>
@@ -63,9 +63,9 @@ export default function WelcomeScreen() {
 
           <button
             onClick={() => handleToolClick('pdca')}
-            className="group flex flex-col items-center rounded-3xl border-2 border-slate-200 bg-white p-8 transition-all hover:border-indigo-500 hover:shadow-2xl dark:border-slate-800 dark:bg-slate-800 dark:hover:border-indigo-500"
+            className="group flex flex-col items-center rounded-3xl border-2 border-slate-200 bg-white p-8 transition-all hover:border-primary-500 hover:shadow-2xl dark:border-slate-800 dark:bg-slate-800 dark:hover:border-primary-500"
           >
-            <RefreshCcw size={40} className="mb-4 text-slate-400 transition-colors group-hover:text-indigo-500" />
+            <RefreshCcw size={40} className="mb-4 text-slate-400 transition-colors group-hover:text-primary-500" />
             <h3 className="mb-2 text-xl font-bold text-slate-800 dark:text-slate-100">{t('tool_pdca')}</h3>
             <p className="text-sm text-slate-500 dark:text-slate-400">{t('pdca_desc')}</p>
           </button>

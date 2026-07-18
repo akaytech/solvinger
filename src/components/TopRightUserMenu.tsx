@@ -59,7 +59,7 @@ export default function TopRightUserMenu() {
     >
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 shadow-md hover:scale-105 transition-transform text-indigo-500 overflow-hidden"
+        className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 shadow-md hover:scale-105 transition-transform text-primary-500 overflow-hidden"
       >
         {user.photoURL ? (
           <img src={user.photoURL} alt={user.name} className="h-full w-full object-cover" />
@@ -102,7 +102,7 @@ export default function TopRightUserMenu() {
                 <button
                   key={code}
                   onClick={() => changeLanguage(code)}
-                  className={`flex h-8 w-10 items-center justify-center rounded-md transition-all ${i18n.language === code ? 'bg-indigo-100 dark:bg-indigo-900/50 scale-110 shadow-sm ring-2 ring-indigo-500' : 'hover:bg-slate-50 dark:hover:bg-slate-700 opacity-60 hover:opacity-100'}`}
+                  className={`flex h-8 w-10 items-center justify-center rounded-md transition-all ${i18n.language === code ? 'bg-primary-100 dark:bg-primary-900/50 scale-110 shadow-sm ring-2 ring-primary-500' : 'hover:bg-slate-50 dark:hover:bg-slate-700 opacity-60 hover:opacity-100'}`}
                   title={code.toUpperCase()}
                 >
                   <img src={`https://flagcdn.com/w40/${flag}.png`} alt={code} className="h-5 w-7 object-cover rounded-sm shadow-sm" />

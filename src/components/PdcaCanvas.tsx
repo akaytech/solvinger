@@ -9,7 +9,7 @@ export default function PdcaCanvas() {
   const { t } = useTranslation();
 
   const PHASES: { id: PdcaPhase; title: string; icon: any; color: string; bg: string; border: string; desc: string; buttonBg: string }[] = [
-    { id: 'Plan', title: t('pdca_plan'), icon: Target, color: 'text-indigo-600 dark:text-indigo-400', bg: 'bg-indigo-50 dark:bg-indigo-900/20', border: 'border-indigo-200 dark:border-indigo-900/50', desc: t('plan_desc'), buttonBg: 'bg-indigo-600 hover:bg-indigo-700' },
+    { id: 'Plan', title: t('pdca_plan'), icon: Target, color: 'text-primary-600 dark:text-primary-400', bg: 'bg-primary-50 dark:bg-primary-900/20', border: 'border-primary-200 dark:border-primary-900/50', desc: t('plan_desc'), buttonBg: 'bg-primary-600 hover:bg-primary-700' },
     { id: 'Do', title: t('pdca_do'), icon: Activity, color: 'text-rose-600 dark:text-rose-400', bg: 'bg-rose-50 dark:bg-rose-900/20', border: 'border-rose-200 dark:border-rose-900/50', desc: t('do_desc'), buttonBg: 'bg-rose-600 hover:bg-rose-700' },
     { id: 'Check', title: t('pdca_check'), icon: Search, color: 'text-amber-600 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-900/20', border: 'border-amber-200 dark:border-amber-900/50', desc: t('check_desc'), buttonBg: 'bg-amber-600 hover:bg-amber-700' },
     { id: 'Act', title: t('pdca_act'), icon: Settings, color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-900/20', border: 'border-emerald-200 dark:border-emerald-900/50', desc: t('act_desc'), buttonBg: 'bg-emerald-600 hover:bg-emerald-700' },
@@ -39,7 +39,7 @@ export default function PdcaCanvas() {
     <div className="flex h-full w-full flex-col bg-slate-50 dark:bg-slate-900 transition-colors overflow-hidden">
       <div className="flex-none p-6 pl-16 md:pl-16 pr-24 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm z-10">
         <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">
-          <RefreshCcw className="text-indigo-500" />
+          <RefreshCcw className="text-primary-500" />
           {t('pdca_title')}
         </h2>
         <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">{t('pdca_subtitle')}</p>
@@ -53,12 +53,12 @@ export default function PdcaCanvas() {
               value={newGoal}
               onChange={(e) => setNewGoal(e.target.value)}
               placeholder={t('pdca_placeholder')}
-              className="flex-1 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-6 py-4 text-lg outline-none focus:border-indigo-500 dark:focus:border-indigo-500 shadow-sm text-slate-800 dark:text-slate-100"
+              className="flex-1 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-6 py-4 text-lg outline-none focus:border-primary-500 dark:focus:border-primary-500 shadow-sm text-slate-800 dark:text-slate-100"
             />
             <button
               type="submit"
               disabled={!newGoal.trim()}
-              className="flex items-center gap-2 rounded-2xl bg-indigo-600 px-8 py-4 text-white shadow-sm transition-all hover:bg-indigo-700 active:scale-95 disabled:opacity-50"
+              className="flex items-center gap-2 rounded-2xl bg-primary-600 px-8 py-4 text-white shadow-sm transition-all hover:bg-primary-700 active:scale-95 disabled:opacity-50"
             >
               <Plus size={24} />
               <span className="font-bold">{t('start')}</span>
@@ -72,7 +72,7 @@ export default function PdcaCanvas() {
               
               <div className="mb-8 flex items-center justify-between gap-6 border-b border-slate-200 dark:border-slate-800 pb-6">
                 <div className="flex-1 flex items-center gap-4">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 shadow-inner">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 shadow-inner">
                     <RefreshCcw size={24} />
                   </div>
                   <input
