@@ -130,6 +130,7 @@ interface RoadmapState {
   loadProject: (id: string) => void;
   updateProjectName: (id: string, name: string) => void;
   deleteProject: (id: string) => void;
+  clearToolData: (projectId: string, toolName: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall') => void;
 
   // Active Roadmap
   nodes: GoalNode[];
@@ -510,6 +511,46 @@ export const useRoadmapStore = create<RoadmapState>()(
             waterfall: isCurrent ? [] : state.waterfall,
           };
         });
+      },
+
+      clearToolData: (projectId, toolName) => {
+        const state = get();
+        const updatedProjects = state.projects.map((p) => {
+          if (p.id === projectId) {
+            const nextP = { ...p };
+            if (toolName === 'wbs') {
+              nextP.nodes = defaultNodes;
+              nextP.edges = [];
+            } else if (toolName === '5whys') {
+              nextP.fiveWhys = [];
+            } else {
+              nextP[toolName] = [];
+            }
+            nextP.updatedAt = Date.now();
+            if (state.user) {
+              setDoc(doc(db, 'projects', p.id), nextP, { merge: true }).catch(console.error);
+            }
+            return nextP;
+          }
+          return p;
+        });
+
+        const isCurrent = state.currentProjectId === projectId;
+        const updates: any = { projects: updatedProjects };
+        if (isCurrent) {
+           const activeProject = updatedProjects.find(p => p.id === projectId);
+           if (activeProject) {
+              if (toolName === 'wbs') {
+                updates.nodes = activeProject.nodes;
+                updates.edges = activeProject.edges;
+              } else if (toolName === '5whys') {
+                updates.fiveWhys = [];
+              } else {
+                updates[toolName] = [];
+              }
+           }
+        }
+        set(updates);
       },
 
       nodes: defaultNodes,

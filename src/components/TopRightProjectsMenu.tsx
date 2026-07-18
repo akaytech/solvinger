@@ -5,7 +5,7 @@ import { Folder, Plus, Trash2, ChevronDown, ChevronRight, GitCommit, Target, Hel
 import type { Project } from '../store/useRoadmapStore';
 
 function ProjectTreeItem({ project, isCurrent, onClose }: { project: Project; isCurrent: boolean; onClose: () => void }) {
-  const { loadProject, setActiveTool, deleteProject, updateProjectName } = useRoadmapStore();
+  const { loadProject, setActiveTool, deleteProject, updateProjectName, clearToolData } = useRoadmapStore();
   const [isExpanded, setIsExpanded] = useState(isCurrent);
   const [isEditing, setIsEditing] = useState(false);
   const [editName, setEditName] = useState(project.name);
@@ -99,59 +99,95 @@ function ProjectTreeItem({ project, isCurrent, onClose }: { project: Project; is
 
       {isExpanded && (
         <div className="flex flex-col pl-6 pr-2 space-y-0.5 mt-1">
-          <button onClick={() => handleToolClick('wbs')} className="flex items-center gap-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-50 dark:hover:bg-slate-800 p-1.5 rounded-lg transition-colors">
-            <GitCommit size={14} className="text-indigo-500" />
-            Yol Haritası (WBS)
-          </button>
+          <div className="group/tool relative">
+            <button onClick={() => handleToolClick('wbs')} className="flex w-full items-center gap-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-50 dark:hover:bg-slate-800 p-1.5 rounded-lg transition-colors">
+              <GitCommit size={14} className="text-indigo-500" />
+              Yol Haritası (WBS)
+            </button>
+            <button 
+              onClick={(e) => { e.stopPropagation(); if(confirm('Bu araca ait tüm verileri silmek istediğinize emin misiniz?')) clearToolData(project.id, 'wbs'); }}
+              className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title="Sil"
+            ><Trash2 size={12} /></button>
+          </div>
           
           {(project.swot?.length > 0) && (
-             <button onClick={() => handleToolClick('swot')} className="flex items-center justify-between text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-amber-50/50 dark:hover:bg-amber-900/20 p-1.5 rounded-lg transition-colors">
-               <div className="flex items-center gap-2">
-                 <Target size={14} className="text-amber-500" />
-                 SWOT
-               </div>
-               <span className="bg-slate-100 dark:bg-slate-800 text-[10px] px-1.5 rounded-full">{project.swot.length}</span>
-             </button>
+             <div className="group/tool relative">
+               <button onClick={() => handleToolClick('swot')} className="flex w-full items-center justify-between text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-amber-50/50 dark:hover:bg-amber-900/20 p-1.5 rounded-lg transition-colors pr-6">
+                 <div className="flex items-center gap-2">
+                   <Target size={14} className="text-amber-500" />
+                   SWOT
+                 </div>
+                 <span className="bg-slate-100 dark:bg-slate-800 text-[10px] px-1.5 rounded-full group-hover/tool:opacity-0">{project.swot.length}</span>
+               </button>
+               <button 
+                 onClick={(e) => { e.stopPropagation(); if(confirm('Bu araca ait tüm verileri silmek istediğinize emin misiniz?')) clearToolData(project.id, 'swot'); }}
+                 className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title="Sil"
+               ><Trash2 size={12} /></button>
+             </div>
           )}
 
           {(project.fiveWhys?.length > 0) && (
-             <button onClick={() => handleToolClick('5whys')} className="flex items-center justify-between text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50/50 dark:hover:bg-rose-900/20 p-1.5 rounded-lg transition-colors">
-               <div className="flex items-center gap-2">
-                 <HelpCircle size={14} className="text-rose-500" />
-                 5 Neden
-               </div>
-               <span className="bg-slate-100 dark:bg-slate-800 text-[10px] px-1.5 rounded-full">{project.fiveWhys.length}</span>
-             </button>
+             <div className="group/tool relative">
+               <button onClick={() => handleToolClick('5whys')} className="flex w-full items-center justify-between text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50/50 dark:hover:bg-rose-900/20 p-1.5 rounded-lg transition-colors pr-6">
+                 <div className="flex items-center gap-2">
+                   <HelpCircle size={14} className="text-rose-500" />
+                   5 Neden
+                 </div>
+                 <span className="bg-slate-100 dark:bg-slate-800 text-[10px] px-1.5 rounded-full group-hover/tool:opacity-0">{project.fiveWhys.length}</span>
+               </button>
+               <button 
+                 onClick={(e) => { e.stopPropagation(); if(confirm('Bu araca ait tüm verileri silmek istediğinize emin misiniz?')) clearToolData(project.id, '5whys'); }}
+                 className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title="Sil"
+               ><Trash2 size={12} /></button>
+             </div>
           )}
 
           {(project.ishikawa?.length > 0) && (
-             <button onClick={() => handleToolClick('ishikawa')} className="flex items-center justify-between text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-cyan-50/50 dark:hover:bg-cyan-900/20 p-1.5 rounded-lg transition-colors">
-               <div className="flex items-center gap-2">
-                 <Fish size={14} className="text-cyan-500" />
-                 Ishikawa
-               </div>
-               <span className="bg-slate-100 dark:bg-slate-800 text-[10px] px-1.5 rounded-full">{project.ishikawa.length}</span>
-             </button>
+             <div className="group/tool relative">
+               <button onClick={() => handleToolClick('ishikawa')} className="flex w-full items-center justify-between text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-cyan-50/50 dark:hover:bg-cyan-900/20 p-1.5 rounded-lg transition-colors pr-6">
+                 <div className="flex items-center gap-2">
+                   <Fish size={14} className="text-cyan-500" />
+                   Ishikawa
+                 </div>
+                 <span className="bg-slate-100 dark:bg-slate-800 text-[10px] px-1.5 rounded-full group-hover/tool:opacity-0">{project.ishikawa.length}</span>
+               </button>
+               <button 
+                 onClick={(e) => { e.stopPropagation(); if(confirm('Bu araca ait tüm verileri silmek istediğinize emin misiniz?')) clearToolData(project.id, 'ishikawa'); }}
+                 className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title="Sil"
+               ><Trash2 size={12} /></button>
+             </div>
           )}
 
           {(project.pdca?.length > 0) && (
-             <button onClick={() => handleToolClick('pdca')} className="flex items-center justify-between text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50/50 dark:hover:bg-emerald-900/20 p-1.5 rounded-lg transition-colors">
-               <div className="flex items-center gap-2">
-                 <RefreshCcw size={14} className="text-emerald-500" />
-                 PUKÖ
-               </div>
-               <span className="bg-slate-100 dark:bg-slate-800 text-[10px] px-1.5 rounded-full">{project.pdca.length}</span>
-             </button>
+             <div className="group/tool relative">
+               <button onClick={() => handleToolClick('pdca')} className="flex w-full items-center justify-between text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-50/50 dark:hover:bg-emerald-900/20 p-1.5 rounded-lg transition-colors pr-6">
+                 <div className="flex items-center gap-2">
+                   <RefreshCcw size={14} className="text-emerald-500" />
+                   PUKÖ
+                 </div>
+                 <span className="bg-slate-100 dark:bg-slate-800 text-[10px] px-1.5 rounded-full group-hover/tool:opacity-0">{project.pdca.length}</span>
+               </button>
+               <button 
+                 onClick={(e) => { e.stopPropagation(); if(confirm('Bu araca ait tüm verileri silmek istediğinize emin misiniz?')) clearToolData(project.id, 'pdca'); }}
+                 className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title="Sil"
+               ><Trash2 size={12} /></button>
+             </div>
           )}
 
           {(project.waterfall?.length > 0) && (
-             <button onClick={() => handleToolClick('waterfall')} className="flex items-center justify-between text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 p-1.5 rounded-lg transition-colors">
-               <div className="flex items-center gap-2">
-                 <Layers size={14} className="text-blue-500" />
-                 Waterfall
-               </div>
-               <span className="bg-slate-100 dark:bg-slate-800 text-[10px] px-1.5 rounded-full">{project.waterfall.length}</span>
-             </button>
+             <div className="group/tool relative">
+               <button onClick={() => handleToolClick('waterfall')} className="flex w-full items-center justify-between text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 p-1.5 rounded-lg transition-colors pr-6">
+                 <div className="flex items-center gap-2">
+                   <Layers size={14} className="text-blue-500" />
+                   Waterfall
+                 </div>
+                 <span className="bg-slate-100 dark:bg-slate-800 text-[10px] px-1.5 rounded-full group-hover/tool:opacity-0">{project.waterfall.length}</span>
+               </button>
+               <button 
+                 onClick={(e) => { e.stopPropagation(); if(confirm('Bu araca ait tüm verileri silmek istediğinize emin misiniz?')) clearToolData(project.id, 'waterfall'); }}
+                 className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title="Sil"
+               ><Trash2 size={12} /></button>
+             </div>
           )}
         </div>
       )}
