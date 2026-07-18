@@ -20,7 +20,7 @@ export default function AuthModal() {
     // Auto-create or load after fetching projects
     const currentProjects = useRoadmapStore.getState().projects;
     if (currentProjects.length === 0) {
-      createProject('İlk Projem');
+      createProject(t('first_project'));
     } else {
       loadProject(currentProjects[0].id);
     }

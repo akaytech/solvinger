@@ -134,8 +134,8 @@ const resources = {
       "method": "Metot",
       "measurement": "Ölçüm",
       "milieu": "Çevre",
-      "whys_placeholder": "Problem nedir?",
-      "whys_subtitle": "Problemin kök nedenini bulmak için 5 kez neden diye sorun.",
+      "whys_placeholder": "Was ist das Problem?",
+      "whys_subtitle": "Fragen Sie 5 Mal warum, um die Grundursache des Problems zu finden.",
       "whys_start": "Analiz Başlat",
       "whys_problem": "Problem",
       "whys_why": "Neden?",
@@ -150,7 +150,8 @@ const resources = {
       "swot_empty": "Henüz madde eklenmedi",
       "swot_add": "Yeni madde ekle..."
     ,
-      "in_development": "Geliştirme Aşamasında"
+      "in_development": "Geliştirme Aşamasında",
+          "first_project": "İlk Projem",
     }
   },
   en: {
@@ -283,7 +284,24 @@ const resources = {
       "swot_empty": "No items added yet",
       "swot_add": "Add new item..."
     ,
-      "in_development": "In Development"
+      "in_development": "In Development",
+          "delete_project_title": "Delete Project",
+      "delete_project_msg": "Are you sure you want to delete this project and all its tool data? This action cannot be undone.",
+      "clear_tool_title": "Clear Tool Data",
+      "clear_tool_msg": "Are you sure you want to delete all data for this tool? This action cannot be undone.",
+      "no_projects_found": "No saved projects found.",
+      "decision_title": "Decision Matrix",
+      "decision_desc": "Select the best alternative by scoring options against specific criteria (1-10).",
+      "decision_subtitle": "Pugh Matrix / Decision Matrix",
+      "decision_add_criteria": "Add Criteria",
+      "decision_add_option": "Add Option",
+      "decision_criteria_name": "Criteria Name",
+      "decision_criteria_weight": "Weight (1-5)",
+      "decision_option_name": "Option Name",
+      "decision_total_score": "Total Score",
+      "decision_empty": "No criteria or options added yet.",
+      "decision_score_placeholder": "Score (1-10)",
+      "first_project": "My First Project",
     }
   },
   es: {
@@ -416,7 +434,24 @@ const resources = {
       "swot_empty": "Aún no se han añadido elementos",
       "swot_add": "Añadir nuevo elemento..."
     ,
-      "in_development": "En Desarrollo"
+      "in_development": "En Desarrollo",
+          "delete_project_title": "Eliminar Proyecto",
+      "delete_project_msg": "¿Estás seguro de que deseas eliminar este proyecto y todos sus datos de herramientas? Esta acción no se puede deshacer.",
+      "clear_tool_title": "Borrar Datos de Herramienta",
+      "clear_tool_msg": "¿Estás seguro de que deseas eliminar todos los datos de esta herramienta? Esta acción no se puede deshacer.",
+      "no_projects_found": "No se encontraron proyectos guardados.",
+      "decision_title": "Matriz de Decisión",
+      "decision_desc": "Seleccione la mejor alternativa puntuando las opciones frente a criterios específicos (1-10).",
+      "decision_subtitle": "Matriz de Pugh / Matriz de Decisión",
+      "decision_add_criteria": "Añadir Criterio",
+      "decision_add_option": "Añadir Opción",
+      "decision_criteria_name": "Nombre del Criterio",
+      "decision_criteria_weight": "Peso (1-5)",
+      "decision_option_name": "Nombre de la Opción",
+      "decision_total_score": "Puntuación Total",
+      "decision_empty": "Aún no se han añadido criterios ni opciones.",
+      "decision_score_placeholder": "Puntuación (1-10)",
+      "first_project": "Mi Primer Proyecto",
     }
   },
   fr: {
@@ -549,7 +584,24 @@ const resources = {
       "swot_empty": "Aucun élément ajouté",
       "swot_add": "Ajouter un élément..."
     ,
-      "in_development": "En cours de développement"
+      "in_development": "En cours de développement",
+          "delete_project_title": "Supprimer le Projet",
+      "delete_project_msg": "Êtes-vous sûr de vouloir supprimer ce projet et toutes les données des outils ? Cette action est irréversible.",
+      "clear_tool_title": "Effacer les Données de l'Outil",
+      "clear_tool_msg": "Êtes-vous sûr de vouloir supprimer toutes les données de cet outil ? Cette action est irréversible.",
+      "no_projects_found": "Aucun projet enregistré trouvé.",
+      "decision_title": "Matrice de Décision",
+      "decision_desc": "Sélectionnez la meilleure alternative en notant les options par rapport à des critères spécifiques (1-10).",
+      "decision_subtitle": "Matrice de Pugh / Matrice de Décision",
+      "decision_add_criteria": "Ajouter un Critère",
+      "decision_add_option": "Ajouter une Option",
+      "decision_criteria_name": "Nom du Critère",
+      "decision_criteria_weight": "Poids (1-5)",
+      "decision_option_name": "Nom de l'Option",
+      "decision_total_score": "Score Total",
+      "decision_empty": "Aucun critère ou option ajouté pour le moment.",
+      "decision_score_placeholder": "Score (1-10)",
+      "first_project": "Mon Premier Projet",
     }
   },
   de: {
@@ -682,7 +734,24 @@ const resources = {
       "swot_empty": "Noch keine Elemente hinzugefügt",
       "swot_add": "Neues Element hinzufügen..."
     ,
-      "in_development": "In der Entwicklung"
+      "in_development": "In der Entwicklung",
+          "delete_project_title": "Projekt löschen",
+      "delete_project_msg": "Sind Sie sicher, dass Sie dieses Projekt und alle seine Werkzeugdaten löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "clear_tool_title": "Werkzeugdaten löschen",
+      "clear_tool_msg": "Sind Sie sicher, dass Sie alle Daten für dieses Werkzeug löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+      "no_projects_found": "Keine gespeicherten Projekte gefunden.",
+      "decision_title": "Entscheidungsmatrix",
+      "decision_desc": "Wählen Sie die beste Alternative aus, indem Sie Optionen anhand bestimmter Kriterien bewerten (1-10).",
+      "decision_subtitle": "Pugh-Matrix / Entscheidungsmatrix",
+      "decision_add_criteria": "Kriterium hinzufügen",
+      "decision_add_option": "Option hinzufügen",
+      "decision_criteria_name": "Kriterienname",
+      "decision_criteria_weight": "Gewichtung (1-5)",
+      "decision_option_name": "Optionsname",
+      "decision_total_score": "Gesamtpunktzahl",
+      "decision_empty": "Noch keine Kriterien oder Optionen hinzugefügt.",
+      "decision_score_placeholder": "Bewertung (1-10)",
+      "first_project": "Mein erstes Projekt",
     }
   },
   pt: {
@@ -815,7 +884,24 @@ const resources = {
       "swot_empty": "Nenhum item adicionado",
       "swot_add": "Adicionar novo item..."
     ,
-      "in_development": "Em Desenvolvimento"
+      "in_development": "Em Desenvolvimento",
+          "delete_project_title": "Excluir Projeto",
+      "delete_project_msg": "Tem certeza de que deseja excluir este projeto e todos os seus dados de ferramentas? Esta ação não pode ser desfeita.",
+      "clear_tool_title": "Limpar Dados da Ferramenta",
+      "clear_tool_msg": "Tem certeza de que deseja excluir todos os dados desta ferramenta? Esta ação não pode ser desfeita.",
+      "no_projects_found": "Nenhum projeto salvo encontrado.",
+      "decision_title": "Matriz de Decisão",
+      "decision_desc": "Selecione a melhor alternativa pontuando as opções em relação a critérios específicos (1-10).",
+      "decision_subtitle": "Matriz de Pugh / Matriz de Decisão",
+      "decision_add_criteria": "Adicionar Critério",
+      "decision_add_option": "Adicionar Opção",
+      "decision_criteria_name": "Nome do Critério",
+      "decision_criteria_weight": "Peso (1-5)",
+      "decision_option_name": "Nome da Opção",
+      "decision_total_score": "Pontuação Total",
+      "decision_empty": "Nenhum critério ou opção adicionado ainda.",
+      "decision_score_placeholder": "Pontuação (1-10)",
+      "first_project": "Meu Primeiro Projeto",
     }
   },
   ru: {
@@ -948,7 +1034,24 @@ const resources = {
       "swot_empty": "Элементы еще не добавлены",
       "swot_add": "Добавить новый элемент..."
     ,
-      "in_development": "В стадии разработки"
+      "in_development": "В стадии разработки",
+          "delete_project_title": "Удалить Проект",
+      "delete_project_msg": "Вы уверены, что хотите удалить этот проект и все данные его инструментов? Это действие нельзя отменить.",
+      "clear_tool_title": "Очистить Данные Инструмента",
+      "clear_tool_msg": "Вы уверены, что хотите удалить все данные для этого инструмента? Это действие нельзя отменить.",
+      "no_projects_found": "Сохраненных проектов не найдено.",
+      "decision_title": "Матрица Решений",
+      "decision_desc": "Выберите лучшую альтернативу, оценивая варианты по конкретным критериям (1-10).",
+      "decision_subtitle": "Матрица Пью / Матрица Решений",
+      "decision_add_criteria": "Добавить Критерий",
+      "decision_add_option": "Добавить Вариант",
+      "decision_criteria_name": "Название Критерия",
+      "decision_criteria_weight": "Вес (1-5)",
+      "decision_option_name": "Название Варианта",
+      "decision_total_score": "Общий Балл",
+      "decision_empty": "Критерии или варианты пока не добавлены.",
+      "decision_score_placeholder": "Балл (1-10)",
+      "first_project": "Мой Первый Проект",
     }
   },
   ar: {
@@ -1081,7 +1184,24 @@ const resources = {
       "swot_empty": "لم تتم إضافة عناصر بعد",
       "swot_add": "إضافة عنصر جديد..."
     ,
-      "in_development": "قيد التطوير"
+      "in_development": "قيد التطوير",
+          "delete_project_title": "حذف المشروع",
+      "delete_project_msg": "هل أنت متأكد أنك تريد حذف هذا المشروع وجميع بيانات أدواته؟ لا يمكن التراجع عن هذا الإجراء.",
+      "clear_tool_title": "مسح بيانات الأداة",
+      "clear_tool_msg": "هل أنت متأكد أنك تريد حذف جميع البيانات لهذه الأداة؟ لا يمكن التراجع عن هذا الإجراء.",
+      "no_projects_found": "لم يتم العثور على مشاريع محفوظة.",
+      "decision_title": "مصفوفة القرار",
+      "decision_desc": "حدد البديل الأفضل من خلال تسجيل الخيارات مقابل معايير محددة (1-10).",
+      "decision_subtitle": "مصفوفة بوج / مصفوفة القرار",
+      "decision_add_criteria": "إضافة معيار",
+      "decision_add_option": "إضافة خيار",
+      "decision_criteria_name": "اسم المعيار",
+      "decision_criteria_weight": "الوزن (1-5)",
+      "decision_option_name": "اسم الخيار",
+      "decision_total_score": "النتيجة الإجمالية",
+      "decision_empty": "لم يتم إضافة معايير أو خيارات بعد.",
+      "decision_score_placeholder": "النتيجة (1-10)",
+      "first_project": "مشروعي الأول",
     }
   },
   zh: {
@@ -1214,7 +1334,24 @@ const resources = {
       "swot_empty": "尚未添加项目",
       "swot_add": "添加新项目..."
     ,
-      "in_development": "开发中"
+      "in_development": "开发中",
+          "delete_project_title": "删除项目",
+      "delete_project_msg": "您确定要删除此项目及其所有工具数据吗？此操作无法撤消。",
+      "clear_tool_title": "清除工具数据",
+      "clear_tool_msg": "您确定要删除此工具的所有数据吗？此操作无法撤消。",
+      "no_projects_found": "未找到保存的项目。",
+      "decision_title": "决策矩阵",
+      "decision_desc": "通过根据特定标准对选项进行评分（1-10）来选择最佳替代方案。",
+      "decision_subtitle": "普格矩阵 / 决策矩阵",
+      "decision_add_criteria": "添加标准",
+      "decision_add_option": "添加选项",
+      "decision_criteria_name": "标准名称",
+      "decision_criteria_weight": "权重 (1-5)",
+      "decision_option_name": "选项名称",
+      "decision_total_score": "总分",
+      "decision_empty": "尚未添加标准或选项。",
+      "decision_score_placeholder": "评分 (1-10)",
+      "first_project": "我的第一个项目",
     }
   },
   ja: {
@@ -1347,7 +1484,24 @@ const resources = {
       "swot_empty": "項目がありません",
       "swot_add": "新しい項目を追加..."
     ,
-      "in_development": "開発中"
+      "in_development": "開発中",
+          "delete_project_title": "プロジェクトを削除",
+      "delete_project_msg": "このプロジェクトとそのすべてのツールデータを削除してもよろしいですか？この操作は元に戻せません。",
+      "clear_tool_title": "ツールデータをクリア",
+      "clear_tool_msg": "このツールのすべてのデータを削除してもよろしいですか？この操作は元に戻せません。",
+      "no_projects_found": "保存されたプロジェクトが見つかりません。",
+      "decision_title": "決定マトリックス",
+      "decision_desc": "特定の基準（1〜10）に対してオプションを採点することにより、最良の代替案を選択します。",
+      "decision_subtitle": "ピューマトリックス / 決定マトリックス",
+      "decision_add_criteria": "基準を追加",
+      "decision_add_option": "オプションを追加",
+      "decision_criteria_name": "基準名",
+      "decision_criteria_weight": "重み (1-5)",
+      "decision_option_name": "オプション名",
+      "decision_total_score": "合計スコア",
+      "decision_empty": "基準やオプションはまだ追加されていません。",
+      "decision_score_placeholder": "スコア (1-10)",
+      "first_project": "初めてのプロジェクト",
     }
   }
 };
