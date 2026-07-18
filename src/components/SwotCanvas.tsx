@@ -35,7 +35,7 @@ export default function SwotCanvas() {
 
   return (
     <div className="flex h-full w-full flex-col bg-slate-50 dark:bg-slate-900 transition-colors overflow-hidden">
-      <div className="flex-none p-6 pl-14 md:pl-6 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm z-10 flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+      <div className="flex-none p-6 pl-16 md:pl-16 pr-24 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm z-10 flex justify-between items-center">
         <div>
           <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">
             <Target className="text-amber-500" />
@@ -43,26 +43,31 @@ export default function SwotCanvas() {
           </h2>
           <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">{t('swot_subtitle')}</p>
         </div>
-        <form onSubmit={handleCreate} className="flex max-w-xl gap-2 w-full md:w-auto">
-          <input
-            type="text"
-            value={newTitle}
-            onChange={(e) => setNewTitle(e.target.value)}
-            placeholder="Yeni SWOT analizi adı..."
-            className="flex-1 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-4 py-2 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 text-slate-800 dark:text-slate-100"
-          />
-          <button
-            type="submit"
-            disabled={!newTitle.trim()}
-            className="flex shrink-0 items-center gap-2 rounded-xl bg-indigo-600 px-4 py-2 text-sm font-bold text-white shadow-sm transition-all hover:bg-indigo-700 active:scale-95 disabled:opacity-50 disabled:hover:bg-indigo-600"
-          >
-            <Plus size={18} />
-            <span className="hidden sm:inline">Oluştur</span>
-          </button>
-        </form>
       </div>
 
       <div className="flex-1 overflow-auto p-6 md:p-8 space-y-12">
+        {/* Create Form */}
+        <div className="mx-auto max-w-3xl">
+          <form onSubmit={handleCreate} className="flex gap-3">
+            <input
+              type="text"
+              value={newTitle}
+              onChange={(e) => setNewTitle(e.target.value)}
+              placeholder="Yeni SWOT analizi adı..."
+              className="flex-1 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-6 py-4 text-lg outline-none focus:border-indigo-500 dark:focus:border-indigo-500 shadow-sm text-slate-800 dark:text-slate-100"
+            />
+            <button
+              type="submit"
+              disabled={!newTitle.trim()}
+              className="flex items-center gap-2 rounded-2xl bg-indigo-600 px-8 py-4 text-white shadow-sm transition-all hover:bg-indigo-700 active:scale-95 disabled:opacity-50"
+            >
+              <Plus size={24} />
+              <span className="font-bold">Oluştur</span>
+            </button>
+          </form>
+        </div>
+
+        <div className="mx-auto max-w-7xl space-y-16">
         {swot.map((analysis: any) => {
           const isOldFormat = !analysis.items;
           const safeItems = isOldFormat ? (swot as any) : analysis.items;
@@ -159,6 +164,7 @@ export default function SwotCanvas() {
             </div>
           </div>
         )})}
+        </div>
 
         {swot.length === 0 && (
           <div className="flex flex-col items-center justify-center py-20 text-slate-400 dark:text-slate-500">

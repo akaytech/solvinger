@@ -38,7 +38,7 @@ export default function IshikawaCanvas() {
 
   return (
     <div className="flex h-full w-full flex-col bg-slate-50 dark:bg-slate-900 transition-colors overflow-hidden">
-      <div className="flex-none p-6 pl-14 md:pl-6 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm z-10 flex justify-between items-center">
+      <div className="flex-none p-6 pl-16 md:pl-16 pr-24 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm z-10 flex justify-between items-center">
         <div>
           <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">
             <Fish className="text-cyan-500" />

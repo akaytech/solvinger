@@ -26,31 +26,35 @@ export default function FiveWhysCanvas() {
 
   return (
     <div className="flex h-full w-full flex-col bg-slate-50 dark:bg-slate-900 transition-colors">
-      <div className="flex-none p-6 pl-14 md:pl-6 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm z-10 flex justify-between items-center">
+      <div className="flex-none p-6 pl-16 md:pl-16 pr-24 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm z-10 flex justify-between items-center">
         <div>
           <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">{t('tool_5whys')}</h2>
         </div>
-        <form onSubmit={handleAdd} className="flex max-w-3xl gap-4">
-          <input
-            type="text"
-            value={newProblem}
-            onChange={(e) => setNewProblem(e.target.value)}
-            placeholder={t('whys_placeholder')}
-            className="flex-1 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-4 py-3 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 text-slate-800 dark:text-slate-100"
-          />
-          <button
-            type="submit"
-            disabled={!newProblem.trim()}
-            className="flex items-center gap-2 rounded-xl bg-emerald-600 px-6 py-3 font-bold text-white transition-all hover:bg-emerald-700 active:scale-95 disabled:opacity-50"
-          >
-            <Plus size={20} />
-            {t('whys_start')}
-          </button>
-        </form>
       </div>
 
-      <div className="flex-1 overflow-auto p-6">
-        <div className="mx-auto flex max-w-5xl gap-6 overflow-x-auto pb-8 snap-x">
+      <div className="flex-1 overflow-auto p-6 md:p-8 space-y-12">
+        {/* Create Form */}
+        <div className="mx-auto max-w-3xl">
+          <form onSubmit={handleAdd} className="flex gap-3">
+            <input
+              type="text"
+              value={newProblem}
+              onChange={(e) => setNewProblem(e.target.value)}
+              placeholder={t('whys_placeholder')}
+              className="flex-1 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-6 py-4 text-lg outline-none focus:border-emerald-500 dark:focus:border-emerald-500 shadow-sm text-slate-800 dark:text-slate-100"
+            />
+            <button
+              type="submit"
+              disabled={!newProblem.trim()}
+              className="flex items-center gap-2 rounded-2xl bg-emerald-600 px-8 py-4 text-white shadow-sm transition-all hover:bg-emerald-700 active:scale-95 disabled:opacity-50"
+            >
+              <Plus size={24} />
+              <span className="font-bold">{t('whys_start')}</span>
+            </button>
+          </form>
+        </div>
+
+        <div className="mx-auto flex max-w-7xl gap-6 overflow-x-auto pb-8 snap-x">
           {fiveWhys.map(analysis => (
             <div key={analysis.id} className="w-[400px] shrink-0 snap-center">
               <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800 shadow-xl overflow-hidden flex flex-col h-full">

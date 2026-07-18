@@ -143,7 +143,7 @@ export default function RoadmapCanvas({ onNodeSelect }: { onNodeSelect: (id: str
          x: event.clientX,
          y: event.clientY,
        });
-       addGoal(null, t('new_project'), pos);
+       addGoal(null, t('new_project_node'), pos);
     }
     setMenu(null);
     setPaneMenu(null);
@@ -204,7 +204,7 @@ export default function RoadmapCanvas({ onNodeSelect }: { onNodeSelect: (id: str
               x: paneMenu.clientX,
               y: paneMenu.clientY,
             });
-            addGoal(null, t('new_project'), pos);
+            addGoal(null, t('new_project_node'), pos);
             setPaneMenu(null);
           }}
         />
