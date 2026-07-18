@@ -99,16 +99,18 @@ function ProjectTreeItem({ project, isCurrent, onClose }: { project: Project; is
 
       {isExpanded && (
         <div className="flex flex-col pl-6 pr-2 space-y-0.5 mt-1">
-          <div className="group/tool relative">
-            <button onClick={() => handleToolClick('wbs')} className="flex w-full items-center gap-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-50 dark:hover:bg-slate-800 p-1.5 rounded-lg transition-colors">
-              <GitCommit size={14} className="text-indigo-500" />
-              Yol Haritası (WBS)
-            </button>
-            <button 
-              onClick={(e) => { e.stopPropagation(); if(confirm('Bu araca ait tüm verileri silmek istediğinize emin misiniz?')) clearToolData(project.id, 'wbs'); }}
-              className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title="Sil"
-            ><Trash2 size={12} /></button>
-          </div>
+          {(project.nodes?.length > 0) && (
+            <div className="group/tool relative">
+              <button onClick={() => handleToolClick('wbs')} className="flex w-full items-center gap-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-50 dark:hover:bg-slate-800 p-1.5 rounded-lg transition-colors">
+                <GitCommit size={14} className="text-indigo-500" />
+                İş Kırılım Yapısı
+              </button>
+              <button 
+                onClick={(e) => { e.stopPropagation(); if(confirm('Bu araca ait tüm verileri silmek istediğinize emin misiniz?')) clearToolData(project.id, 'wbs'); }}
+                className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title="Sil"
+              ><Trash2 size={12} /></button>
+            </div>
+          )}
           
           {(project.swot?.length > 0) && (
              <div className="group/tool relative">

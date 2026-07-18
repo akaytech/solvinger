@@ -8,7 +8,7 @@ export default function WelcomeScreen() {
 
   const handleToolClick = (tool: any) => {
     if (projects.length === 0) {
-      createProject(t('new_project'));
+      createProject(t('new_project'), tool);
     }
     setActiveTool(tool);
   };

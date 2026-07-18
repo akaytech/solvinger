@@ -126,7 +126,7 @@ interface RoadmapState {
   projects: Project[];
   currentProjectId: string | null;
   fetchProjects: (userId: string) => Promise<void>;
-  createProject: (name: string) => void;
+  createProject: (name: string, initialTool?: string) => void;
   loadProject: (id: string) => void;
   updateProjectName: (id: string, name: string) => void;
   deleteProject: (id: string) => void;
@@ -418,15 +418,17 @@ export const useRoadmapStore = create<RoadmapState>()(
         }
       },
 
-      createProject: (name) => {
+      createProject: (name, initialTool) => {
         const state = get();
         if (!state.user) return;
+
+        const activeToolToUse = initialTool || state.activeTool;
 
         const id = uuidv4();
         const newProject: Project = {
           id,
           name,
-          nodes: defaultNodes,
+          nodes: activeToolToUse === 'wbs' ? defaultNodes : [],
           edges: [],
           fiveWhys: [],
           swot: [],
@@ -519,7 +521,7 @@ export const useRoadmapStore = create<RoadmapState>()(
           if (p.id === projectId) {
             const nextP = { ...p };
             if (toolName === 'wbs') {
-              nextP.nodes = defaultNodes;
+              nextP.nodes = [];
               nextP.edges = [];
             } else if (toolName === '5whys') {
               nextP.fiveWhys = [];
