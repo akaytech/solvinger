@@ -5,6 +5,11 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 const resources = {
   tr: {
     translation: {
+      "delete_project_title": "Projeyi Sil",
+      "delete_project_msg": "Bu projeyi ve içindeki tüm araç verilerini silmek istediğinize emin misiniz? Bu işlem geri alınamaz.",
+      "clear_tool_title": "Verileri Temizle",
+      "clear_tool_msg": "Bu araca ait tüm verileri silmek istediğinize emin misiniz? Bu işlem geri alınamaz.",
+      "no_projects_found": "Kayıtlı çalışma bulunamadı.",
       "decision_title": "Karar Matrisi",
       "decision_desc": "Seçenekleri belirli kriterlere göre (1-10 arası) puanlayarak en iyi alternatifi seçin.",
       "decision_subtitle": "Pugh Matrisi / Karar Matrisi",
