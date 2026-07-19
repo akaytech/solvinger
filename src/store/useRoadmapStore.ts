@@ -464,13 +464,13 @@ const syncProject = (state: RoadmapState): Partial<RoadmapState> => {
   };
 };
 
-const defaultNodes: GoalNode[] = [
+const getDefaultNodes = (): GoalNode[] => [
   {
     id: 'root',
     type: 'goalNode',
     position: { x: 0, y: 0 },
     data: {
-      label: 'Yeni Proje',
+      label: i18n.t('new_project'),
       status: 'To Do',
       isExpanded: true,
     },
@@ -524,7 +524,7 @@ export const useRoadmapStore = create<RoadmapState>()(
         const newProject: Project = {
           id,
           name,
-          nodes: activeToolToUse === 'wbs' ? defaultNodes : [],
+          nodes: activeToolToUse === 'wbs' ? getDefaultNodes() : [],
           edges: [],
           fiveWhys: [],
           swot: [],
@@ -741,7 +741,7 @@ export const useRoadmapStore = create<RoadmapState>()(
         }
       },
 
-      nodes: defaultNodes,
+      nodes: getDefaultNodes(),
       edges: [],
 
       onNodesChange: (changes: NodeChange[]) => {
