@@ -85,7 +85,7 @@ export default function TopRightUserMenu() {
         </button>
 
         <div className="mt-2 mb-2">
-           <div className="px-3 py-1 text-xs font-bold uppercase tracking-wider text-slate-400">Language</div>
+           <div className="px-3 py-1 text-xs font-bold uppercase tracking-wider text-slate-400">{t('language_selector')}</div>
            <div className="grid grid-cols-5 gap-2 px-3 mt-2">
              {[
                { code: 'zh', flag: 'cn' },

@@ -105,7 +105,7 @@ function ProjectTreeItem({ project, isCurrent, onClose, requestDelete }: { proje
             <div className="group/tool relative">
               <button onClick={() => handleToolClick('wbs')} className="flex w-full items-center gap-2 text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-slate-50 dark:hover:bg-slate-800 p-1.5 rounded-lg transition-colors">
                 <GitCommit size={14} className="text-indigo-500" />
-                {t('wbs_title')}
+                {t('tool_wbs')}
               </button>
               <button 
                 onClick={(e) => { e.stopPropagation(); requestDelete(t('clear_tool_title'), t('clear_tool_msg'), () => clearToolData(project.id, 'wbs')); }}
@@ -151,7 +151,7 @@ function ProjectTreeItem({ project, isCurrent, onClose, requestDelete }: { proje
                <button onClick={() => handleToolClick('ishikawa')} className="flex w-full items-center justify-between text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-cyan-600 dark:hover:text-cyan-400 hover:bg-cyan-50/50 dark:hover:bg-cyan-900/20 p-1.5 rounded-lg transition-colors pr-6">
                  <div className="flex items-center gap-2">
                    <Fish size={14} className="text-cyan-500" />
-                   Ishikawa
+                   {t('tool_ishikawa')}
                  </div>
                  <span className="bg-slate-100 dark:bg-slate-800 text-[10px] px-1.5 rounded-full group-hover/tool:opacity-0">{project.ishikawa.length}</span>
                </button>
@@ -199,7 +199,7 @@ function ProjectTreeItem({ project, isCurrent, onClose, requestDelete }: { proje
                <button onClick={() => handleToolClick('waterfall')} className="flex w-full items-center justify-between text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 p-1.5 rounded-lg transition-colors pr-6">
                  <div className="flex items-center gap-2">
                    <Layers size={14} className="text-blue-500" />
-                   Waterfall
+                   {t('tool_waterfall')}
                  </div>
                  <span className="bg-slate-100 dark:bg-slate-800 text-[10px] px-1.5 rounded-full group-hover/tool:opacity-0">{project.waterfall.length}</span>
                </button>

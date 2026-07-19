@@ -5,6 +5,8 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 const resources = {
   tr: {
     translation: {
+      "default_user": "Kullanıcı",
+      "language_selector": "Dil",
       "delete_project_title": "Projeyi Sil",
       "delete_project_msg": "Bu projeyi ve içindeki tüm araç verilerini silmek istediğinize emin misiniz? Bu işlem geri alınamaz.",
       "clear_tool_title": "Verileri Temizle",
@@ -175,6 +177,8 @@ const resources = {
   },
   en: {
     translation: {
+      "default_user": "User",
+      "language_selector": "Language",
       "new_task": "New Task",
       "new_subtask": "New Subtask",
       "welcome_msg": "Log in to save your projects to the cloud.",
@@ -344,6 +348,8 @@ const resources = {
   },
   es: {
     translation: {
+      "default_user": "Usuario",
+      "language_selector": "Idioma",
       "new_task": "Nueva Tarea",
       "new_subtask": "Nueva Subtarea",
       "welcome_msg": "Inicia sesión para guardar tus proyectos.",
@@ -513,6 +519,8 @@ const resources = {
   },
   fr: {
     translation: {
+      "default_user": "Utilisateur",
+      "language_selector": "Langue",
       "new_task": "Nouvelle Tâche",
       "new_subtask": "Nouvelle Sous-tâche",
       "welcome_msg": "Connectez-vous pour enregistrer vos projets.",
@@ -682,6 +690,8 @@ const resources = {
   },
   de: {
     translation: {
+      "default_user": "Benutzer",
+      "language_selector": "Sprache",
       "new_task": "Neue Aufgabe",
       "new_subtask": "Neue Unteraufgabe",
       "welcome_msg": "Melden Sie sich an, um Projekte zu speichern.",
@@ -851,6 +861,8 @@ const resources = {
   },
   pt: {
     translation: {
+      "default_user": "Usuário",
+      "language_selector": "Idioma",
       "new_task": "Nova Tarefa",
       "new_subtask": "Nova Subtarefa",
       "welcome_msg": "Faça login para salvar seus projetos.",
@@ -1020,6 +1032,8 @@ const resources = {
   },
   ru: {
     translation: {
+      "default_user": "Пользователь",
+      "language_selector": "Язык",
       "new_task": "Новая задача",
       "new_subtask": "Новая подзадача",
       "welcome_msg": "Войдите, чтобы сохранить проекты.",
@@ -1189,6 +1203,8 @@ const resources = {
   },
   ar: {
     translation: {
+      "default_user": "مستخدم",
+      "language_selector": "لغة",
       "new_task": "مهمة جديدة",
       "new_subtask": "مهمة فرعية جديدة",
       "welcome_msg": "تسجيل الدخول لحفظ مشاريعك.",
@@ -1358,6 +1374,8 @@ const resources = {
   },
   zh: {
     translation: {
+      "default_user": "用户",
+      "language_selector": "语言",
       "new_task": "新任务",
       "new_subtask": "新子任务",
       "welcome_msg": "登录以保存您的项目。",
@@ -1527,6 +1545,8 @@ const resources = {
   },
   ja: {
     translation: {
+      "default_user": "ユーザー",
+      "language_selector": "言語",
       "new_task": "新しいタスク",
       "new_subtask": "新しいサブタスク",
       "welcome_msg": "プロジェクトを保存するにはログインしてください。",
