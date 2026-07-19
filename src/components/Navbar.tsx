@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 
 import { useRoadmapStore } from '../store/useRoadmapStore';
-import { ChevronRight, ChevronLeft, AlertOctagon, Scale, GitMerge } from 'lucide-react';
+import { ChevronRight, ChevronLeft, AlertOctagon, Scale, GitMerge, BarChart2 } from 'lucide-react';
 import clsx from 'clsx';
 import packageJson from '../../package.json';
 import { useTranslation } from 'react-i18next';
@@ -212,6 +212,21 @@ export default function Navbar() {
              <GitMerge size={16} />
           </div>
           <span>{t('tool_flowchart')}</span>
+        </button>
+
+        <button
+          onClick={() => handleToolClick('pareto')}
+          className={clsx(
+            "flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-semibold transition-colors",
+            activeTool === 'pareto' 
+              ? "bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400" 
+              : "text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800"
+          )}
+        >
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-blue-100 text-blue-600 dark:bg-blue-900/50 dark:text-blue-400">
+             <BarChart2 size={16} />
+          </div>
+          <span>{t('tool_pareto')}</span>
         </button>
       </div>
 
