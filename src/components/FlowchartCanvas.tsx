@@ -1,4 +1,5 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useRef, useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   ReactFlow,
   Background,
@@ -19,8 +20,19 @@ const nodeTypes = {
 export default function FlowchartCanvas() {
   const { flowchartNodes, flowchartEdges, onFlowchartNodesChange, onFlowchartEdgesChange, onFlowchartConnect, addFlowchartNode, updateFlowchartNode, deleteFlowchartNode } = useRoadmapStore();
   const { setCenter, getZoom } = useReactFlow();
+  const { t } = useTranslation();
   const [menu, setMenu] = useState<{ id: string; top: number; left: number } | null>(null);
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
+
+  // Auto-initialize if empty
+  useEffect(() => {
+    if (!flowchartNodes || flowchartNodes.length === 0) {
+      // Small timeout to let React Flow initialize
+      setTimeout(() => {
+        addFlowchartNode(null, 'start', t('flowchart_start'), { x: 0, y: 0 });
+      }, 50);
+    }
+  }, [flowchartNodes, addFlowchartNode, t]);
 
   const onNodeClick: NodeMouseHandler = useCallback((_event, node) => {
     document.dispatchEvent(new Event('close-menus'));

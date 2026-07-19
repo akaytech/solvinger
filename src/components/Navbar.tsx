@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 
 import { useRoadmapStore } from '../store/useRoadmapStore';
-import { ChevronRight, ChevronLeft, AlertOctagon, Scale } from 'lucide-react';
+import { ChevronRight, ChevronLeft, AlertOctagon, Scale, GitMerge } from 'lucide-react';
 import clsx from 'clsx';
 import packageJson from '../../package.json';
 import { useTranslation } from 'react-i18next';
@@ -197,6 +197,21 @@ export default function Navbar() {
              <Scale size={16} />
           </div>
           <span>{t('decision_title')}</span>
+        </button>
+
+        <button
+          onClick={() => handleToolClick('flowchart')}
+          className={clsx(
+            "flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-semibold transition-colors",
+            activeTool === 'flowchart' 
+              ? "bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400" 
+              : "text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800"
+          )}
+        >
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-amber-100 text-amber-600 dark:bg-amber-900/50 dark:text-amber-400">
+             <GitMerge size={16} />
+          </div>
+          <span>{t('tool_flowchart')}</span>
         </button>
       </div>
 
