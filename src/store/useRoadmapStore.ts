@@ -111,6 +111,18 @@ export interface DecisionOption {
   scores: Record<string, number>;
 }
 
+export interface ParetoItem {
+  id: string;
+  category: string;
+  frequency: number;
+}
+
+export interface ParetoProject {
+  id: string;
+  title: string;
+  items: ParetoItem[];
+}
+
 export interface DecisionMatrixProject {
   id: string;
   name: string;
@@ -149,6 +161,7 @@ export interface Project {
   ishikawa: IshikawaAnalysis[];
   pdca: PdcaCycle[];
   waterfall: WaterfallProject[];
+  pareto?: ParetoProject[];
   decision?: DecisionMatrixProject[];
   flowchartNodes?: FlowchartNode[];
   flowchartEdges?: Edge[];
@@ -165,7 +178,7 @@ interface RoadmapState {
   logout: () => void;
 
   // UI State
-  activeTool: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta' | 'decision' | 'flowchart' | null;
+  activeTool: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta' | 'decision' | 'flowchart' | 'pareto' | null;
   setActiveTool: (tool: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta' | 'decision' | 'flowchart' | null) => void;
 
   // Projects
@@ -176,9 +189,17 @@ interface RoadmapState {
   loadProject: (id: string) => void;
   updateProjectName: (id: string, name: string) => void;
   deleteProject: (id: string) => void;
-  clearToolData: (projectId: string, toolName: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta' | 'decision' | 'flowchart') => void;
+  clearToolData: (projectId: string, toolName: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta' | 'decision' | 'flowchart' | 'pareto') => void;
 
   // Decision Matrix State
+  pareto: ParetoProject[];
+  addParetoProject: (projectId: string, title: string) => void;
+  addParetoItem: (projectId: string, paretoId: string, category: string, frequency: number) => void;
+  updateParetoItem: (projectId: string, paretoId: string, itemId: string, data: Partial<ParetoItem>) => void;
+  deleteParetoItem: (projectId: string, paretoId: string, itemId: string) => void;
+  updateParetoTitle: (projectId: string, paretoId: string, title: string) => void;
+  deleteParetoProject: (projectId: string, paretoId: string) => void;
+
   decision: DecisionMatrixProject[];
   addDecisionProject: (name: string) => void;
   updateDecisionProjectName: (id: string, name: string) => void;
@@ -465,6 +486,7 @@ const syncProject = (state: RoadmapState): Partial<RoadmapState> => {
     ishikawa: state.ishikawa || [],
     pdca: state.pdca || [],
     waterfall: state.waterfall || [],
+    pareto: state.pareto || [],
     decision: state.decision || [],
     flowchartNodes: state.flowchartNodes,
     flowchartEdges: state.flowchartEdges,
@@ -507,7 +529,7 @@ export const useRoadmapStore = create<RoadmapState>()(
     (set, get) => ({
       user: null,
       login: (uid, email, name, photoURL) => set({ user: { uid, email, name, photoURL } }),
-      logout: () => set({ user: null, projects: [], currentProjectId: null, nodes: [], edges: [], fiveWhys: [], swot: [], ishikawa: [], pdca: [], waterfall: [], decision: [], ftaNodes: [], ftaEdges: [], activeTool: null }),
+      logout: () => set({ user: null, projects: [], currentProjectId: null, nodes: [], edges: [], fiveWhys: [], swot: [], ishikawa: [], pdca: [], waterfall: [], pareto: [], decision: [], flowchartNodes: [], flowchartEdges: [], ftaNodes: [], ftaEdges: [], activeTool: null }),
 
       activeTool: null,
       setActiveTool: (tool) => set({ activeTool: tool }),
@@ -556,6 +578,7 @@ export const useRoadmapStore = create<RoadmapState>()(
           ishikawa: [],
           pdca: [],
           waterfall: [],
+          pareto: [],
           decision: [],
           flowchartNodes: activeToolToUse === 'flowchart' ? [{ id: "root", type: "flowchartNode", position: { x: 0, y: 0 }, data: { label: i18n.t('flowchart_start'), shape: "start" } }] : [],
           flowchartEdges: [],
@@ -578,6 +601,7 @@ export const useRoadmapStore = create<RoadmapState>()(
           ishikawa: newProject.ishikawa,
           pdca: newProject.pdca,
           waterfall: newProject.waterfall,
+          pareto: newProject.pareto || [],
           decision: newProject.decision || [],
           flowchartNodes: newProject.flowchartNodes || [],
           flowchartEdges: newProject.flowchartEdges || [],
@@ -608,6 +632,7 @@ export const useRoadmapStore = create<RoadmapState>()(
             ishikawa: project.ishikawa || [],
             pdca: project.pdca || [],
             waterfall: project.waterfall || [],
+            pareto: project.pareto || [],
             decision: project.decision || [],
             flowchartNodes: project.flowchartNodes || [],
             flowchartEdges: project.flowchartEdges || [],
@@ -692,6 +717,8 @@ export const useRoadmapStore = create<RoadmapState>()(
                 updates.edges = activeProject.edges;
               } else if (toolName === '5whys') {
                 updates.fiveWhys = [];
+              } else if (toolName === 'pareto') {
+                updates.pareto = [];
               } else if (toolName === 'fta') {
                 updates.ftaNodes = activeProject.ftaNodes;
                 updates.ftaEdges = activeProject.ftaEdges;
@@ -1165,6 +1192,63 @@ export const useRoadmapStore = create<RoadmapState>()(
             : cycle
         );
         set({ pdca: newPdca, ...syncProject({ ...get(), pdca: newPdca }) });
+      },
+
+      // Pareto Actions
+      pareto: [],
+      addParetoProject: (_projectId, title) => {
+        set((state) => {
+          const newPareto: ParetoProject = { id: uuidv4(), title, items: [] };
+          const next = { ...state, pareto: [...state.pareto, newPareto] };
+          return { ...next, ...syncProject(next) };
+        });
+      },
+      addParetoItem: (_projectId, paretoId, category, frequency) => {
+        set((state) => {
+          const newItem: ParetoItem = { id: uuidv4(), category, frequency };
+          const next = {
+            ...state,
+            pareto: state.pareto.map(p => p.id === paretoId ? { ...p, items: [...p.items, newItem] } : p)
+          };
+          return { ...next, ...syncProject(next) };
+        });
+      },
+      updateParetoItem: (_projectId, paretoId, itemId, data) => {
+        set((state) => {
+          const next = {
+            ...state,
+            pareto: state.pareto.map(p => 
+              p.id === paretoId 
+                ? { ...p, items: p.items.map(item => item.id === itemId ? { ...item, ...data } : item) } 
+                : p
+            )
+          };
+          return { ...next, ...syncProject(next) };
+        });
+      },
+      deleteParetoItem: (_projectId, paretoId, itemId) => {
+        set((state) => {
+          const next = {
+            ...state,
+            pareto: state.pareto.map(p => p.id === paretoId ? { ...p, items: p.items.filter(item => item.id !== itemId) } : p)
+          };
+          return { ...next, ...syncProject(next) };
+        });
+      },
+      updateParetoTitle: (_projectId, paretoId, title) => {
+        set((state) => {
+          const next = {
+            ...state,
+            pareto: state.pareto.map(p => p.id === paretoId ? { ...p, title } : p)
+          };
+          return { ...next, ...syncProject(next) };
+        });
+      },
+      deleteParetoProject: (_projectId, paretoId) => {
+        set((state) => {
+          const next = { ...state, pareto: state.pareto.filter(p => p.id !== paretoId) };
+          return { ...next, ...syncProject(next) };
+        });
       },
 
       // Decision Matrix Actions
