@@ -10,6 +10,7 @@ import PdcaCanvas from './components/PdcaCanvas';
 import WaterfallCanvas from './components/WaterfallCanvas';
 import FtaCanvas from './components/FtaCanvas';
 import { DecisionMatrixCanvas } from './components/DecisionMatrixCanvas';
+import FlowchartCanvas from './components/FlowchartCanvas';
 import WelcomeScreen from './components/WelcomeScreen';
 import Navbar from './components/Navbar';
 import AuthModal from './components/AuthModal';
@@ -85,6 +86,7 @@ function App() {
             {activeTool === 'pdca' && <PdcaCanvas />}
             {activeTool === 'waterfall' && <WaterfallCanvas />}
             {activeTool === 'fta' && <FtaCanvas />}
+            {activeTool === 'flowchart' && <FlowchartCanvas />}
             {activeTool === 'decision' && (() => {
               const proj = projects.find(p => p.id === currentProjectId);
               if (!proj) return null;

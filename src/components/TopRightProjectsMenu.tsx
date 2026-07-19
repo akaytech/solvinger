@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRoadmapStore } from '../store/useRoadmapStore';
 import ConfirmModal from './ConfirmModal';
-import { Folder, Plus, Trash2, ChevronDown, ChevronRight, GitCommit, Target, HelpCircle, Fish, RefreshCcw, Layers, Pencil, AlertOctagon, Scale } from 'lucide-react';
+import { Folder, Plus, Trash2, ChevronDown, ChevronRight, GitCommit, Target, HelpCircle, Fish, RefreshCcw, Layers, Pencil, AlertOctagon, Scale, GitMerge } from 'lucide-react';
 import type { Project } from '../store/useRoadmapStore';
 
 function ProjectTreeItem({ project, isCurrent, onClose, requestDelete }: { project: Project; isCurrent: boolean; onClose: () => void; requestDelete: (t: string, m: string, cb: () => void) => void }) {
@@ -221,6 +221,21 @@ function ProjectTreeItem({ project, isCurrent, onClose, requestDelete }: { proje
                </button>
                <button 
                  onClick={(e) => { e.stopPropagation(); requestDelete(t('clear_tool_title'), t('clear_tool_msg'), () => clearToolData(project.id, 'decision')); }}
+                 className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title={t('delete_title')}
+               ><Trash2 size={12} /></button>
+             </div>
+          )}
+
+          {((project.flowchartNodes?.length ?? 0) > 1) && (
+             <div className="group/tool relative">
+               <button onClick={() => handleToolClick('flowchart')} className="flex w-full items-center justify-between text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-amber-50/50 dark:hover:bg-amber-900/20 p-1.5 rounded-lg transition-colors pr-6">
+                 <div className="flex items-center gap-2">
+                   <GitMerge size={14} className="text-amber-500" />
+                   {t('tool_flowchart')}
+                 </div>
+               </button>
+               <button 
+                 onClick={(e) => { e.stopPropagation(); requestDelete(t('clear_tool_title'), t('clear_tool_msg'), () => clearToolData(project.id, 'flowchart')); }}
                  className="absolute right-1 top-1/2 -translate-y-1/2 hidden group-hover/tool:block p-1 text-slate-400 hover:text-red-500 transition-colors" title={t('delete_title')}
                ><Trash2 size={12} /></button>
              </div>

@@ -119,6 +119,16 @@ export interface DecisionMatrixProject {
   createdAt: number;
 }
 
+
+export type FlowchartNodeType = 'start' | 'process' | 'decision' | 'end';
+
+export type FlowchartNodeData = {
+  label: string;
+  shape: FlowchartNodeType;
+};
+
+export type FlowchartNode = Node<FlowchartNodeData>;
+
 export type FtaNodeType = 'topEvent' | 'event' | 'andGate' | 'orGate' | 'basicEvent';
 
 export type FtaNodeData = {
@@ -140,6 +150,8 @@ export interface Project {
   pdca: PdcaCycle[];
   waterfall: WaterfallProject[];
   decision?: DecisionMatrixProject[];
+  flowchartNodes?: FlowchartNode[];
+  flowchartEdges?: Edge[];
   ftaNodes?: FtaNode[];
   ftaEdges?: Edge[];
   updatedAt: number;
@@ -153,8 +165,8 @@ interface RoadmapState {
   logout: () => void;
 
   // UI State
-  activeTool: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta' | 'decision' | null;
-  setActiveTool: (tool: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta' | 'decision' | null) => void;
+  activeTool: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta' | 'decision' | 'flowchart' | null;
+  setActiveTool: (tool: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta' | 'decision' | 'flowchart' | null) => void;
 
   // Projects
   projects: Project[];
@@ -164,7 +176,7 @@ interface RoadmapState {
   loadProject: (id: string) => void;
   updateProjectName: (id: string, name: string) => void;
   deleteProject: (id: string) => void;
-  clearToolData: (projectId: string, toolName: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta' | 'decision') => void;
+  clearToolData: (projectId: string, toolName: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta' | 'decision' | 'flowchart') => void;
 
   // Decision Matrix State
   decision: DecisionMatrixProject[];
@@ -178,6 +190,17 @@ interface RoadmapState {
   updateDecisionOptionName: (projectId: string, optionId: string, name: string) => void;
   deleteDecisionOption: (projectId: string, optionId: string) => void;
   updateDecisionScore: (projectId: string, optionId: string, criteriaId: string, score: number) => void;
+
+
+  // Flowchart
+  flowchartNodes: FlowchartNode[];
+  flowchartEdges: Edge[];
+  onFlowchartNodesChange: (changes: NodeChange[]) => void;
+  onFlowchartEdgesChange: (changes: EdgeChange[]) => void;
+  onFlowchartConnect: (connection: Connection) => void;
+  addFlowchartNode: (parentId: string | null, shape: FlowchartNodeType, label: string, position: {x: number, y: number}) => void;
+  updateFlowchartNode: (id: string, data: Partial<FlowchartNodeData>) => void;
+  deleteFlowchartNode: (id: string) => void;
 
   // FTA
   ftaNodes: FtaNode[];
@@ -532,6 +555,8 @@ export const useRoadmapStore = create<RoadmapState>()(
           pdca: [],
           waterfall: [],
           decision: [],
+          flowchartNodes: activeToolToUse === 'flowchart' ? [{ id: "root", type: "flowchartNode", position: { x: 0, y: 0 }, data: { label: i18n.t('flowchart_start'), shape: "start" } }] : [],
+          flowchartEdges: [],
           ftaNodes: [{ id: "root", type: "ftaNode", position: { x: 0, y: 0 }, data: { label: i18n.t('fta_top_event'), type: "topEvent" } }],
           ftaEdges: [],
           updatedAt: Date.now(),
@@ -633,6 +658,9 @@ export const useRoadmapStore = create<RoadmapState>()(
               nextP.edges = [];
             } else if (toolName === '5whys') {
               nextP.fiveWhys = [];
+            } else if (toolName === 'flowchart') {
+              nextP.flowchartNodes = [{ id: "root", type: "flowchartNode", position: { x: 0, y: 0 }, data: { label: i18n.t('flowchart_start'), shape: "start" } }];
+              nextP.flowchartEdges = [];
             } else if (toolName === 'fta') {
               nextP.ftaNodes = [{ id: "root", type: "ftaNode", position: { x: 0, y: 0 }, data: { label: i18n.t('fta_top_event'), type: "topEvent" } }];
               nextP.ftaEdges = [];
@@ -670,6 +698,68 @@ export const useRoadmapStore = create<RoadmapState>()(
       },
 
       // FTA Actions
+
+      flowchartNodes: [],
+      flowchartEdges: [],
+
+      onFlowchartNodesChange: (changes: NodeChange[]) => {
+        set((state) => {
+          const next = { ...state, flowchartNodes: applyNodeChanges(changes, state.flowchartNodes) as FlowchartNode[] };
+          return { ...next, ...syncProject(next) };
+        });
+      },
+
+      onFlowchartEdgesChange: (changes: EdgeChange[]) => {
+        set((state) => {
+          const next = { ...state, flowchartEdges: applyEdgeChanges(changes, state.flowchartEdges) as Edge[] };
+          return { ...next, ...syncProject(next) };
+        });
+      },
+
+      onFlowchartConnect: (connection: Connection) => {
+        set((state) => {
+          const edge = { ...connection, id: uuidv4() };
+          const next = { ...state, flowchartEdges: addEdge(edge, state.flowchartEdges as any) as Edge[] };
+          return { ...next, ...syncProject(next) };
+        });
+      },
+
+      addFlowchartNode: (parentId, shape, label, position) => {
+        set((state) => {
+          const newNode: FlowchartNode = {
+            id: uuidv4(),
+            type: 'flowchartNode',
+            position,
+            data: { label, shape },
+          };
+          const newNodes = [...state.flowchartNodes, newNode];
+          const newEdges = parentId ? [...state.flowchartEdges, { id: uuidv4(), source: parentId, target: newNode.id }] : state.flowchartEdges;
+          const next = { ...state, flowchartNodes: newNodes, flowchartEdges: newEdges };
+          return { ...next, ...syncProject(next) };
+        });
+      },
+
+      updateFlowchartNode: (id, data) => {
+        set((state) => {
+          const next = {
+            ...state,
+            flowchartNodes: state.flowchartNodes.map((n) =>
+              n.id === id ? { ...n, data: { ...n.data, ...data } } : n
+            ),
+          };
+          return { ...next, ...syncProject(next) };
+        });
+      },
+
+      deleteFlowchartNode: (id) => {
+        set((state) => {
+          const newNodes = state.flowchartNodes.filter(n => n.id !== id);
+          const newEdges = state.flowchartEdges.filter(e => e.source !== id && e.target !== id);
+          const next = { ...state, flowchartNodes: newNodes, flowchartEdges: newEdges };
+          return { ...next, ...syncProject(next) };
+        });
+      },
+
       ftaNodes: [],
       ftaEdges: [],
       onFtaNodesChange: (changes) => {

@@ -1,4 +1,4 @@
-import { Network, Activity, Target, Fish, RefreshCcw, Layers, AlertOctagon, Scale } from 'lucide-react';
+import { Network, Activity, Target, Fish, RefreshCcw, Layers, AlertOctagon, Scale, GitMerge } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useRoadmapStore } from '../store/useRoadmapStore';
 
@@ -74,7 +74,7 @@ export default function WelcomeScreen() {
             onClick={() => handleToolClick('waterfall')}
             className="group flex flex-col items-center rounded-3xl border-2 border-slate-200 bg-white p-8 transition-all hover:border-blue-500 hover:shadow-2xl dark:border-slate-800 dark:bg-slate-800 dark:hover:border-blue-500"
           >
-            <Layers size={40} className="mb-4 text-slate-400 transition-colors group-hover:text-blue-500" />
+            <Layers size={40} className="mb-4 text-slate-400 transition-colors group-hover:border-blue-500" />
             <h3 className="mb-2 text-xl font-bold text-slate-800 dark:text-slate-100">{t('tool_waterfall')}</h3>
             <p className="text-sm text-slate-500 dark:text-slate-400">{t('wf_desc')}</p>
           </button>
@@ -95,6 +95,15 @@ export default function WelcomeScreen() {
             <Scale size={40} className="mb-4 text-slate-400 transition-colors group-hover:text-violet-500" />
             <h3 className="mb-2 text-xl font-bold text-slate-800 dark:text-slate-100">{t('decision_title')}</h3>
             <p className="text-sm text-slate-500 dark:text-slate-400">{t('decision_desc')}</p>
+          </button>
+
+          <button
+            onClick={() => handleToolClick('flowchart')}
+            className="group flex flex-col items-center rounded-3xl border-2 border-slate-200 bg-white p-8 transition-all hover:border-amber-500 hover:shadow-2xl dark:border-slate-800 dark:bg-slate-800 dark:hover:border-amber-500"
+          >
+            <GitMerge size={40} className="mb-4 text-slate-400 transition-colors group-hover:text-amber-500" />
+            <h3 className="mb-2 text-xl font-bold text-slate-800 dark:text-slate-100">{t('tool_flowchart')}</h3>
+            <p className="text-sm text-slate-500 dark:text-slate-400">{t('flowchart_desc')}</p>
           </button>
         </div>
       </div>
