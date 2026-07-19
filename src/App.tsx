@@ -12,6 +12,7 @@ import FtaCanvas from './components/FtaCanvas';
 import { DecisionMatrixCanvas } from './components/DecisionMatrixCanvas';
 import FlowchartCanvas from './components/FlowchartCanvas';
 import ParetoCanvas from './components/ParetoCanvas';
+import HistogramCanvas from './components/HistogramCanvas';
 import WelcomeScreen from './components/WelcomeScreen';
 import Navbar from './components/Navbar';
 import AuthModal from './components/AuthModal';
@@ -89,6 +90,7 @@ function App() {
             {activeTool === 'fta' && <FtaCanvas />}
             {activeTool === 'flowchart' && <FlowchartCanvas />}
             {activeTool === 'pareto' && <ParetoCanvas />}
+            {activeTool === 'histogram' && <HistogramCanvas />}
             {activeTool === 'decision' && (() => {
               const proj = projects.find(p => p.id === currentProjectId);
               if (!proj) return null;

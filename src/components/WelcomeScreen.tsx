@@ -1,4 +1,4 @@
-import { Network, Activity, Target, Fish, RefreshCcw, Layers, AlertOctagon, Scale, GitMerge, BarChart2 } from 'lucide-react';
+import { Network, Activity, Target, Fish, RefreshCcw, Layers, AlertOctagon, Scale, GitMerge, BarChart2, BarChart } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useRoadmapStore } from '../store/useRoadmapStore';
 
@@ -113,6 +113,15 @@ export default function WelcomeScreen() {
             <BarChart2 size={40} className="mb-4 text-slate-400 transition-colors group-hover:text-blue-500" />
             <h3 className="mb-2 text-xl font-bold text-slate-800 dark:text-slate-100">{t('tool_pareto')}</h3>
             <p className="text-sm text-slate-500 dark:text-slate-400">{t('pareto_desc')}</p>
+          </button>
+
+          <button
+            onClick={() => handleToolClick('histogram')}
+            className="group flex flex-col items-center rounded-3xl border-2 border-slate-200 bg-white p-8 transition-all hover:border-indigo-500 hover:shadow-2xl dark:border-slate-800 dark:bg-slate-800 dark:hover:border-indigo-500"
+          >
+            <BarChart size={40} className="mb-4 text-slate-400 transition-colors group-hover:text-indigo-500" />
+            <h3 className="mb-2 text-xl font-bold text-slate-800 dark:text-slate-100">{t('tool_histogram')}</h3>
+            <p className="text-sm text-slate-500 dark:text-slate-400">{t('histogram_desc')}</p>
           </button>
         </div>
       </div>
