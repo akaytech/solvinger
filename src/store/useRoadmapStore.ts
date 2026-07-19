@@ -579,6 +579,8 @@ export const useRoadmapStore = create<RoadmapState>()(
           pdca: newProject.pdca,
           waterfall: newProject.waterfall,
           decision: newProject.decision || [],
+          flowchartNodes: newProject.flowchartNodes || [],
+          flowchartEdges: newProject.flowchartEdges || [],
           ftaNodes: newProject.ftaNodes || [],
           ftaEdges: newProject.ftaEdges || [],
           activeTool: (initialTool as any) || null,
@@ -606,7 +608,9 @@ export const useRoadmapStore = create<RoadmapState>()(
             ishikawa: project.ishikawa || [],
             pdca: project.pdca || [],
             waterfall: project.waterfall || [],
-          decision: project.decision || [],
+            decision: project.decision || [],
+            flowchartNodes: project.flowchartNodes || [],
+            flowchartEdges: project.flowchartEdges || [],
             ftaNodes: project.ftaNodes || [],
             ftaEdges: project.ftaEdges || [],
           });
@@ -691,6 +695,9 @@ export const useRoadmapStore = create<RoadmapState>()(
               } else if (toolName === 'fta') {
                 updates.ftaNodes = activeProject.ftaNodes;
                 updates.ftaEdges = activeProject.ftaEdges;
+              } else if (toolName === 'flowchart') {
+                updates.flowchartNodes = activeProject.flowchartNodes;
+                updates.flowchartEdges = activeProject.flowchartEdges;
               } else {
                 updates[toolName] = [];
               }
