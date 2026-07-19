@@ -466,6 +466,8 @@ const syncProject = (state: RoadmapState): Partial<RoadmapState> => {
     pdca: state.pdca || [],
     waterfall: state.waterfall || [],
     decision: state.decision || [],
+    flowchartNodes: state.flowchartNodes,
+    flowchartEdges: state.flowchartEdges,
     ftaNodes: state.ftaNodes,
     ftaEdges: state.ftaEdges,
     updatedAt: Date.now(),

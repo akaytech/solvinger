@@ -179,7 +179,7 @@ function ProjectTreeItem({ project, isCurrent, onClose, requestDelete }: { proje
           )}
 
           
-          {(project.ftaNodes?.length ?? 0) > 1 && (
+          {(project.ftaNodes?.length ?? 0) > 0 && (
              <div className="group/tool relative">
                <button onClick={() => handleToolClick('fta')} className="flex w-full items-center justify-between text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50/50 dark:hover:bg-rose-900/20 p-1.5 rounded-lg transition-colors pr-6">
                  <div className="flex items-center gap-2">
@@ -226,7 +226,7 @@ function ProjectTreeItem({ project, isCurrent, onClose, requestDelete }: { proje
              </div>
           )}
 
-          {((project.flowchartNodes?.length ?? 0) > 1) && (
+          {((project.flowchartNodes?.length ?? 0) > 0) && (
              <div className="group/tool relative">
                <button onClick={() => handleToolClick('flowchart')} className="flex w-full items-center justify-between text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-amber-50/50 dark:hover:bg-amber-900/20 p-1.5 rounded-lg transition-colors pr-6">
                  <div className="flex items-center gap-2">
