@@ -70,15 +70,11 @@ export const DecisionMatrixCanvas: React.FC<DecisionMatrixCanvasProps> = ({ proj
           
           <div className="relative flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <input
-                type="text"
-                value={project.name}
-                onChange={(e) => updateDecisionProjectName(project.id, e.target.value)}
-                className="text-2xl font-bold bg-transparent border-none outline-none focus:ring-0 text-slate-800 dark:text-white placeholder-slate-400 p-0 mb-2 w-full max-w-md transition-colors"
-                placeholder={t('fta_title_input')}
-              />
+              <h1 className="text-2xl font-bold text-slate-800 dark:text-white mb-2 flex items-center gap-3">
+                <Scale size={28} className="text-indigo-500" />
+                {t('decision_title')}
+              </h1>
               <p className="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-2">
-                <Scale size={16} className="text-indigo-500" />
                 {t('decision_desc')}
               </p>
             </div>
@@ -100,6 +96,17 @@ export const DecisionMatrixCanvas: React.FC<DecisionMatrixCanvasProps> = ({ proj
               </button>
             </div>
           </div>
+        </div>
+
+        {/* Editable Workspace Name */}
+        <div className="px-2 mt-4">
+          <input
+            type="text"
+            value={project.name}
+            onChange={(e) => updateDecisionProjectName(project.id, e.target.value)}
+            className="text-xl font-bold bg-transparent border-none outline-none focus:ring-0 text-slate-800 dark:text-white placeholder-slate-400 p-0 w-full transition-colors"
+            placeholder={t('fta_title_input')}
+          />
         </div>
 
         {project.criteria.length === 0 && project.options.length === 0 ? (
