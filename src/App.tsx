@@ -101,7 +101,7 @@ function App() {
                 return (
                   <div className="flex h-full w-full items-center justify-center">
                     <button 
-                      onClick={() => useRoadmapStore.getState().addDecisionProject(proj.name + ' - Karar Matrisi')}
+                      onClick={() => useRoadmapStore.getState().addDecisionProject(proj.name + ' - ' + t('decision_title'))}
                       className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow-lg hover:bg-indigo-700 font-bold"
                     >
                       {t('app_start')}
