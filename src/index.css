@@ -10,3 +10,20 @@
 body {
   font-family: var(--font-sans);
 }
+
+button:not(:disabled), 
+[role="button"]:not(:disabled), 
+a:not(:disabled), 
+select:not(:disabled), 
+input[type="submit"]:not(:disabled), 
+input[type="button"]:not(:disabled), 
+input[type="reset"]:not(:disabled) {
+  cursor: pointer !important;
+}
+
+button:disabled,
+[role="button"][aria-disabled="true"],
+input:disabled,
+select:disabled {
+  cursor: not-allowed !important;
+}
