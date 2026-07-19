@@ -182,7 +182,18 @@ const resources = {
       "default_swot_title": "Varsayılan SWOT Analizi",
       "swot_no_analysis": "Henüz bir SWOT analizi başlatmadınız.",
       "rename_title": "Yeniden Adlandır",
-      "delete_project_btn": "Çalışmayı Sil"
+      "delete_project_btn": "Çalışmayı Sil",
+      "tool_pareto": "Pareto Analizi",
+      "pareto_desc": "Hataların %80'inin, nedenlerin %20'sinden kaynaklandığını belirleyen analiz yöntemi.",
+      "pareto_category": "Kategori / Neden",
+      "pareto_frequency": "Frekans / Sayı",
+      "pareto_cumulative": "Kümülatif %",
+      "pareto_add": "Kategori Ekle",
+      "pareto_chart": "Pareto Grafiği",
+      "pareto_empty": "Grafik oluşturmak için önce kategori ve frekans ekleyin.",
+      "default_pareto_title": "Yeni Pareto Analizi",
+      "pareto_add_analysis": "Yeni Pareto Analizi Ekle",
+      "pareto_delete_analysis": "Bu Pareto analizini silmek istediğinize emin misiniz?"
     }
   },
   en: {
@@ -363,7 +374,18 @@ const resources = {
       "default_swot_title": "Default SWOT Analysis",
       "swot_no_analysis": "You haven't started a SWOT analysis yet.",
       "rename_title": "Rename",
-      "delete_project_btn": "Delete Project"
+      "delete_project_btn": "Delete Project",
+      "tool_pareto": "Pareto Analysis",
+      "pareto_desc": "Analysis method determining that 80% of problems are due to 20% of causes.",
+      "pareto_category": "Category / Cause",
+      "pareto_frequency": "Frequency",
+      "pareto_cumulative": "Cumulative %",
+      "pareto_add": "Add Category",
+      "pareto_chart": "Pareto Chart",
+      "pareto_empty": "Add categories and frequencies first to generate the chart.",
+      "default_pareto_title": "New Pareto Analysis",
+      "pareto_add_analysis": "Add New Pareto Analysis",
+      "pareto_delete_analysis": "Are you sure you want to delete this Pareto analysis?"
     }
   },
   es: {
@@ -544,7 +566,18 @@ const resources = {
       "default_swot_title": "Análisis SWOT Predeterminado",
       "swot_no_analysis": "Aún no has comenzado un análisis SWOT.",
       "rename_title": "Renombrar",
-      "delete_project_btn": "Eliminar Proyecto"
+      "delete_project_btn": "Eliminar Proyecto",
+      "tool_pareto": "Análisis de Pareto",
+      "pareto_desc": "Método que determina que el 80% de los problemas se deben al 20% de las causas.",
+      "pareto_category": "Categoría / Causa",
+      "pareto_frequency": "Frecuencia",
+      "pareto_cumulative": "% Acumulado",
+      "pareto_add": "Añadir Categoría",
+      "pareto_chart": "Diagrama de Pareto",
+      "pareto_empty": "Añada categorías y frecuencias primero para generar el diagrama.",
+      "default_pareto_title": "Nuevo Análisis de Pareto",
+      "pareto_add_analysis": "Añadir Nuevo Análisis de Pareto",
+      "pareto_delete_analysis": "¿Estás seguro de que quieres eliminar este análisis de Pareto?"
     }
   },
   fr: {
@@ -725,7 +758,18 @@ const resources = {
       "default_swot_title": "Analyse SWOT par Défaut",
       "swot_no_analysis": "Vous n'avez pas encore commencé d'analyse SWOT.",
       "rename_title": "Renommer",
-      "delete_project_btn": "Supprimer le Projet"
+      "delete_project_btn": "Supprimer le Projet",
+      "tool_pareto": "Analyse de Pareto",
+      "pareto_desc": "Méthode déterminant que 80% des problèmes sont dus à 20% des causes.",
+      "pareto_category": "Catégorie / Cause",
+      "pareto_frequency": "Fréquence",
+      "pareto_cumulative": "% Cumulé",
+      "pareto_add": "Ajouter Catégorie",
+      "pareto_chart": "Diagramme de Pareto",
+      "pareto_empty": "Ajoutez d'abord des catégories et des fréquences.",
+      "default_pareto_title": "Nouvelle Analyse de Pareto",
+      "pareto_add_analysis": "Ajouter Nouvelle Analyse de Pareto",
+      "pareto_delete_analysis": "Êtes-vous sûr de vouloir supprimer cette analyse de Pareto?"
     }
   },
   de: {
@@ -906,7 +950,18 @@ const resources = {
       "default_swot_title": "Standard-SWOT-Analyse",
       "swot_no_analysis": "Sie haben noch keine SWOT-Analyse gestartet.",
       "rename_title": "Umbenennen",
-      "delete_project_btn": "Projekt löschen"
+      "delete_project_btn": "Projekt löschen",
+      "tool_pareto": "Pareto-Analyse",
+      "pareto_desc": "Bestimmt, dass 80 % der Probleme auf 20 % der Ursachen zurückzuführen sind.",
+      "pareto_category": "Kategorie / Ursache",
+      "pareto_frequency": "Häufigkeit",
+      "pareto_cumulative": "Kumulativ %",
+      "pareto_add": "Kategorie Hinzufügen",
+      "pareto_chart": "Pareto-Diagramm",
+      "pareto_empty": "Fügen Sie zuerst Kategorien und Häufigkeiten hinzu.",
+      "default_pareto_title": "Neue Pareto-Analyse",
+      "pareto_add_analysis": "Neue Pareto-Analyse",
+      "pareto_delete_analysis": "Möchten Sie diese Analyse wirklich löschen?"
     }
   },
   pt: {
@@ -1087,7 +1142,18 @@ const resources = {
       "default_swot_title": "Análise SWOT Padrão",
       "swot_no_analysis": "Você ainda não começou uma análise SWOT.",
       "rename_title": "Renomear",
-      "delete_project_btn": "Excluir Projeto"
+      "delete_project_btn": "Excluir Projeto",
+      "tool_pareto": "Análise de Pareto",
+      "pareto_desc": "Método que determina que 80% dos problemas se devem a 20% das causas.",
+      "pareto_category": "Categoria / Causa",
+      "pareto_frequency": "Frequência",
+      "pareto_cumulative": "% Cumulativo",
+      "pareto_add": "Adicionar Categoria",
+      "pareto_chart": "Gráfico de Pareto",
+      "pareto_empty": "Adicione categorias e frequências primeiro para gerar o gráfico.",
+      "default_pareto_title": "Nova Análise de Pareto",
+      "pareto_add_analysis": "Adicionar Nova Análise",
+      "pareto_delete_analysis": "Tem certeza de que deseja excluir esta análise?"
     }
   },
   ru: {
@@ -1268,7 +1334,18 @@ const resources = {
       "default_swot_title": "SWOT-анализ по умолчанию",
       "swot_no_analysis": "Вы еще не начали SWOT-анализ.",
       "rename_title": "Переименовать",
-      "delete_project_btn": "Удалить Проект"
+      "delete_project_btn": "Удалить Проект",
+      "tool_pareto": "Анализ Парето",
+      "pareto_desc": "Определяет, что 80% проблем обусловлены 20% причин.",
+      "pareto_category": "Категория / Причина",
+      "pareto_frequency": "Частота",
+      "pareto_cumulative": "Кумулятивный %",
+      "pareto_add": "Добавить Категорию",
+      "pareto_chart": "Диаграмма Парето",
+      "pareto_empty": "Сначала добавьте категории и частоты.",
+      "default_pareto_title": "Новый Анализ Парето",
+      "pareto_add_analysis": "Добавить Новый Анализ Парето",
+      "pareto_delete_analysis": "Вы уверены, что хотите удалить этот анализ Парето?"
     }
   },
   ar: {
@@ -1449,7 +1526,18 @@ const resources = {
       "default_swot_title": "تحليل SWOT الافتراضي",
       "swot_no_analysis": "لم تبدأ في تحليل SWOT بعد.",
       "rename_title": "إعادة التسمية",
-      "delete_project_btn": "حذف المشروع"
+      "delete_project_btn": "حذف المشروع",
+      "tool_pareto": "تحليل باريتو",
+      "pareto_desc": "يحدد أن 80٪ من المشاكل ترجع إلى 20٪ من الأسباب.",
+      "pareto_category": "الفئة / السبب",
+      "pareto_frequency": "التكرار",
+      "pareto_cumulative": "تراكمي %",
+      "pareto_add": "إضافة فئة",
+      "pareto_chart": "مخطط باريتو",
+      "pareto_empty": "أضف الفئات والتكرارات أولاً لإنشاء المخطط.",
+      "default_pareto_title": "تحليل باريتو جديد",
+      "pareto_add_analysis": "إضافة تحليل باريتو جديد",
+      "pareto_delete_analysis": "هل أنت متأكد أنك تريد حذف تحليل باريتو هذا؟"
     }
   },
   zh: {
@@ -1630,7 +1718,18 @@ const resources = {
       "default_swot_title": "默认 SWOT 分析",
       "swot_no_analysis": "您尚未开始 SWOT 分析。",
       "rename_title": "重命名",
-      "delete_project_btn": "删除项目"
+      "delete_project_btn": "删除项目",
+      "tool_pareto": "帕累托分析",
+      "pareto_desc": "确定80%的问题是由20%的原因引起的。",
+      "pareto_category": "类别 / 原因",
+      "pareto_frequency": "频率",
+      "pareto_cumulative": "累计 %",
+      "pareto_add": "添加类别",
+      "pareto_chart": "帕累托图",
+      "pareto_empty": "首先添加类别和频率以生成图表。",
+      "default_pareto_title": "新的帕累托分析",
+      "pareto_add_analysis": "添加新的帕累托分析",
+      "pareto_delete_analysis": "您确定要删除此帕累托分析吗？"
     }
   },
   ja: {
@@ -1811,7 +1910,18 @@ const resources = {
       "default_swot_title": "デフォルトの SWOT 分析",
       "swot_no_analysis": "まだ SWOT 分析を開始していません。",
       "rename_title": "名前の変更",
-      "delete_project_btn": "プロジェクトの削除"
+      "delete_project_btn": "プロジェクトの削除",
+      "tool_pareto": "パレート分析",
+      "pareto_desc": "問題の80%が原因の20%に起因することを決定する分析方法。",
+      "pareto_category": "カテゴリー / 原因",
+      "pareto_frequency": "頻度",
+      "pareto_cumulative": "累積 %",
+      "pareto_add": "カテゴリーを追加",
+      "pareto_chart": "パレート図",
+      "pareto_empty": "グラフを生成するには、まずカテゴリと頻度を追加してください。",
+      "default_pareto_title": "新しいパレート分析",
+      "pareto_add_analysis": "新しいパレート分析を追加",
+      "pareto_delete_analysis": "このパレート分析を削除してもよろしいですか？"
     }
   }
 };

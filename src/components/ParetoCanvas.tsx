@@ -48,7 +48,7 @@ export default function ParetoCanvas() {
 
   const handleAddItem = () => {
     if (!currentProjectId || !activePareto) return;
-    addParetoItem(currentProjectId, activePareto.id, "Yeni Kategori", 10);
+    addParetoItem(currentProjectId, activePareto.id, t('pareto_category') + "...", 10);
   };
 
   const handleCreateAnalysis = () => {
