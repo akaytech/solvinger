@@ -5,6 +5,15 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 const resources = {
   tr: {
     translation: {
+      notepad_title: "Not Defteri",
+      notepad_desc: "Fikirlerinizi, taslaklarınızı ve notlarınızı güvenle saklayın.",
+      notepad_add_note: "Yeni Not",
+      notepad_untitled_note: "İsimsiz Not",
+      notepad_type_title: "Not Başlığı...",
+      notepad_type_content: "Buraya yazmaya başlayın...",
+      notepad_no_notes: "Henüz bir not oluşturulmadı. Sol üstten yeni bir not ekleyebilirsiniz.",
+      notepad_delete_note: "Notu Sil",
+
       "tool_flowchart": "Akış Diyagramı",
       "flowchart_title": "Akış Diyagramı",
       "flowchart_desc": "Sürecin adımlarını ve karar noktalarını haritalandırın.",
@@ -208,6 +217,15 @@ const resources = {
   },
   en: {
     translation: {
+      notepad_title: "Notepad",
+      notepad_desc: "Safely store your ideas, drafts, and notes.",
+      notepad_add_note: "New Note",
+      notepad_untitled_note: "Untitled Note",
+      notepad_type_title: "Note Title...",
+      notepad_type_content: "Start typing here...",
+      notepad_no_notes: "No notes created yet. Add a new note from the top left.",
+      notepad_delete_note: "Delete Note",
+
       "tool_flowchart": "Flowchart",
       "flowchart_title": "Flowchart",
       "flowchart_desc": "Map out process steps and decision points.",
@@ -410,6 +428,15 @@ const resources = {
   },
   es: {
     translation: {
+      notepad_title: "Bloc de Notas",
+      notepad_desc: "Guarde de forma segura sus ideas, borradores y notas.",
+      notepad_add_note: "Nueva Nota",
+      notepad_untitled_note: "Nota sin Título",
+      notepad_type_title: "Título de la Nota...",
+      notepad_type_content: "Empiece a escribir aquí...",
+      notepad_no_notes: "Aún no se han creado notas. Añada una nueva nota desde la esquina superior izquierda.",
+      notepad_delete_note: "Eliminar Nota",
+
       "tool_flowchart": "Diagrama de flujo",
       "flowchart_title": "Diagrama de flujo",
       "flowchart_desc": "Mapee los pasos del proceso y puntos de decisión.",
@@ -612,6 +639,15 @@ const resources = {
   },
   fr: {
     translation: {
+      notepad_title: "Bloc-notes",
+      notepad_desc: "Stockez en toute sécurité vos idées, brouillons et notes.",
+      notepad_add_note: "Nouvelle Note",
+      notepad_untitled_note: "Note sans Titre",
+      notepad_type_title: "Titre de la Note...",
+      notepad_type_content: "Commencez à taper ici...",
+      notepad_no_notes: "Aucune note créée pour le moment. Ajoutez une nouvelle note en haut à gauche.",
+      notepad_delete_note: "Supprimer la Note",
+
       "tool_flowchart": "Organigramme",
       "flowchart_title": "Organigramme",
       "flowchart_desc": "Cartographiez les étapes du processus et les points de décision.",
@@ -814,6 +850,15 @@ const resources = {
   },
   de: {
     translation: {
+      notepad_title: "Notizblock",
+      notepad_desc: "Speichern Sie Ihre Ideen, Entwürfe und Notizen sicher.",
+      notepad_add_note: "Neue Notiz",
+      notepad_untitled_note: "Unbenannte Notiz",
+      notepad_type_title: "Notiztitel...",
+      notepad_type_content: "Beginnen Sie hier mit der Eingabe...",
+      notepad_no_notes: "Noch keine Notizen erstellt. Fügen Sie oben links eine neue Notiz hinzu.",
+      notepad_delete_note: "Notiz löschen",
+
       "tool_flowchart": "Flussdiagramm",
       "flowchart_title": "Flussdiagramm",
       "flowchart_desc": "Prozessschritte und Entscheidungspunkte abbilden.",
@@ -1016,6 +1061,15 @@ const resources = {
   },
   pt: {
     translation: {
+      notepad_title: "Bloco de Notas",
+      notepad_desc: "Guarde com segurança suas ideias, rascunhos e notas.",
+      notepad_add_note: "Nova Nota",
+      notepad_untitled_note: "Nota sem Título",
+      notepad_type_title: "Título da Nota...",
+      notepad_type_content: "Comece a digitar aqui...",
+      notepad_no_notes: "Nenhuma nota criada ainda. Adicione uma nova nota no canto superior esquerdo.",
+      notepad_delete_note: "Excluir Nota",
+
       "tool_flowchart": "Fluxograma",
       "flowchart_title": "Fluxograma",
       "flowchart_desc": "Mapeie etapas do processo e pontos de decisão.",
@@ -1218,6 +1272,15 @@ const resources = {
   },
   ru: {
     translation: {
+      notepad_title: "Блокнот",
+      notepad_desc: "Надежно храните свои идеи, черновики и заметки.",
+      notepad_add_note: "Новая заметка",
+      notepad_untitled_note: "Заметка без названия",
+      notepad_type_title: "Название заметки...",
+      notepad_type_content: "Начните печатать здесь...",
+      notepad_no_notes: "Заметки еще не созданы. Добавьте новую заметку в левом верхнем углу.",
+      notepad_delete_note: "Удалить заметку",
+
       "tool_flowchart": "Блок-схема",
       "flowchart_title": "Блок-схема",
       "flowchart_desc": "Составьте карту этапов процесса и точек принятия решений.",
@@ -1622,6 +1685,15 @@ const resources = {
   },
   zh: {
     translation: {
+      notepad_title: "记事本",
+      notepad_desc: "安全地存储您的想法、草稿和笔记。",
+      notepad_add_note: "新笔记",
+      notepad_untitled_note: "无标题笔记",
+      notepad_type_title: "笔记标题...",
+      notepad_type_content: "在这里开始输入...",
+      notepad_no_notes: "尚未创建笔记。从左上角添加新笔记。",
+      notepad_delete_note: "删除笔记",
+
       "tool_flowchart": "流程图",
       "flowchart_title": "流程图",
       "flowchart_desc": "映射流程步骤和决策点。",
@@ -1824,6 +1896,15 @@ const resources = {
   },
   ja: {
     translation: {
+      notepad_title: "メモ帳",
+      notepad_desc: "アイデア、下書き、メモを安全に保管します。",
+      notepad_add_note: "新しいメモ",
+      notepad_untitled_note: "無題のメモ",
+      notepad_type_title: "メモのタイトル...",
+      notepad_type_content: "ここに入力を開始...",
+      notepad_no_notes: "メモはまだ作成されていません。左上から新しいメモを追加してください。",
+      notepad_delete_note: "メモを削除",
+
       "tool_flowchart": "フローチャート",
       "flowchart_title": "フローチャート",
       "flowchart_desc": "プロセスステップと意思決定ポイントをマッピングします。",

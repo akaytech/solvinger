@@ -20,6 +20,7 @@ const DecisionMatrixCanvas = React.lazy(() => import('./components/DecisionMatri
 const FlowchartCanvas = React.lazy(() => import('./components/FlowchartCanvas'));
 const ParetoCanvas = React.lazy(() => import('./components/ParetoCanvas'));
 const HistogramCanvas = React.lazy(() => import('./components/HistogramCanvas'));
+const NotepadCanvas = React.lazy(() => import('./components/NotepadCanvas'));
 
 function App() {
   const { user, fetchProjects, currentProjectId, loadProject, activeTool, setActiveTool, projects } = useRoadmapStore();
@@ -98,6 +99,7 @@ function App() {
               {activeTool === 'flowchart' && <FlowchartCanvas />}
               {activeTool === 'pareto' && <ParetoCanvas />}
               {activeTool === 'histogram' && <HistogramCanvas />}
+              {activeTool === 'notepad' && <NotepadCanvas />}
               {activeTool === 'decision' && (() => {
                 const proj = projects.find(p => p.id === currentProjectId);
                 if (!proj) return null;

@@ -129,6 +129,14 @@ export interface HistogramItem {
   frequency: number;
 }
 
+export interface NotepadNote {
+  id: string;
+  title: string;
+  content: string;
+  createdAt: number;
+  updatedAt: number;
+}
+
 export interface HistogramProject {
   id: string;
   title: string;
@@ -176,6 +184,7 @@ export interface Project {
   waterfall: WaterfallProject[];
   pareto?: ParetoProject[];
   histogram?: HistogramProject[];
+  notepad?: NotepadNote[];
   decision?: DecisionMatrixProject[];
   flowchartNodes?: FlowchartNode[];
   flowchartEdges?: Edge[];
@@ -192,7 +201,7 @@ interface RoadmapState {
   logout: () => void;
 
   // UI State
-  activeTool: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta' | 'decision' | 'flowchart' | 'pareto' | 'histogram' | null;
+  activeTool: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta' | 'decision' | 'flowchart' | 'pareto' | 'histogram' | 'notepad' | null;
   setActiveTool: (tool: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta' | 'decision' | 'flowchart' | null) => void;
 
   // Projects
@@ -203,7 +212,7 @@ interface RoadmapState {
   loadProject: (id: string) => void;
   updateProjectName: (id: string, name: string) => void;
   deleteProject: (id: string) => void;
-  clearToolData: (projectId: string, toolName: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta' | 'decision' | 'flowchart' | 'pareto' | 'histogram') => void;
+  clearToolData: (projectId: string, toolName: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta' | 'decision' | 'flowchart' | 'pareto' | 'histogram' | 'notepad') => void;
 
   // Decision Matrix State
   pareto: ParetoProject[];
@@ -219,6 +228,11 @@ interface RoadmapState {
   addHistogramItem: (projectId: string, histogramId: string, category: string, frequency: number) => void;
   updateHistogramItem: (projectId: string, histogramId: string, itemId: string, data: Partial<HistogramItem>) => void;
   deleteHistogramItem: (projectId: string, histogramId: string, itemId: string) => void;
+
+  // Notepad
+  addNotepadNote: (title: string, content: string) => string;
+  updateNotepadNote: (noteId: string, title: string, content: string) => void;
+  deleteNotepadNote: (noteId: string) => void;
   updateHistogramTitle: (projectId: string, histogramId: string, title: string) => void;
   deleteHistogramProject: (projectId: string, histogramId: string) => void;
 
@@ -510,6 +524,7 @@ const syncProject = (state: RoadmapState): Partial<RoadmapState> => {
     waterfall: state.waterfall || [],
     pareto: state.pareto || [],
     histogram: state.histogram || [],
+    
     decision: state.decision || [],
     flowchartNodes: state.flowchartNodes,
     flowchartEdges: state.flowchartEdges,
@@ -552,7 +567,8 @@ export const useRoadmapStore = create<RoadmapState>()(
     (set, get) => ({
       user: null,
       login: (uid, email, name, photoURL) => set({ user: { uid, email, name, photoURL } }),
-      logout: () => set({ user: null, projects: [], currentProjectId: null, nodes: [], edges: [], fiveWhys: [], swot: [], ishikawa: [], pdca: [], waterfall: [], pareto: [], histogram: [], decision: [], flowchartNodes: [], flowchartEdges: [], ftaNodes: [], ftaEdges: [], activeTool: null }),
+      logout: () => set({ user: null, projects: [], currentProjectId: null, nodes: [], edges: [], fiveWhys: [], swot: [], ishikawa: [], pdca: [], waterfall: [], pareto: [], histogram: [],
+          decision: [], flowchartNodes: [], flowchartEdges: [], ftaNodes: [], ftaEdges: [], activeTool: null }),
 
       activeTool: null,
       setActiveTool: (tool) => set({ activeTool: tool }),
@@ -603,6 +619,7 @@ export const useRoadmapStore = create<RoadmapState>()(
           waterfall: [],
           pareto: [],
           histogram: [],
+          notepad: [],
           decision: [],
           flowchartNodes: activeToolToUse === 'flowchart' ? [{ id: "root", type: "flowchartNode", position: { x: 0, y: 0 }, data: { label: i18n.t('flowchart_start'), shape: "start" } }] : [],
           flowchartEdges: [],
@@ -627,6 +644,7 @@ export const useRoadmapStore = create<RoadmapState>()(
           waterfall: newProject.waterfall,
           pareto: newProject.pareto || [],
           histogram: newProject.histogram || [],
+          notepad: newProject.notepad || [],
           decision: newProject.decision || [],
           flowchartNodes: newProject.flowchartNodes || [],
           flowchartEdges: newProject.flowchartEdges || [],
@@ -1230,6 +1248,7 @@ export const useRoadmapStore = create<RoadmapState>()(
       // Pareto Actions
       pareto: [],
       histogram: [],
+          notepad: [],
       addParetoProject: (_projectId, title) => {
         set((state) => {
           const newPareto: ParetoProject = { id: uuidv4(), title, items: [] };
@@ -1326,6 +1345,65 @@ export const useRoadmapStore = create<RoadmapState>()(
         });
         set({ projects: newProjects, histogram: newProjects.find(p => p.id === get().currentProjectId)?.histogram || [], ...syncProject({ ...get(), projects: newProjects }) });
       },
+
+      // Notepad Actions
+      addNotepadNote: (title, content) => {
+        const state = get();
+        if (!state.currentProjectId) return '';
+        const noteId = uuidv4();
+        const newNote = {
+          id: noteId,
+          title,
+          content,
+          createdAt: Date.now(),
+          updatedAt: Date.now()
+        };
+        const updatedProjects = state.projects.map((p) => {
+          if (p.id === state.currentProjectId) {
+            return {
+              ...p,
+              notepad: [...(p.notepad || []), newNote]
+            };
+          }
+          return p;
+        });
+        set({ projects: updatedProjects });
+        syncProject(get());
+        return noteId;
+      },
+
+      updateNotepadNote: (noteId, title, content) => {
+        const state = get();
+        if (!state.currentProjectId) return;
+        const updatedProjects = state.projects.map((p) => {
+          if (p.id === state.currentProjectId) {
+            return {
+              ...p,
+              notepad: (p.notepad || []).map(n => n.id === noteId ? { ...n, title, content, updatedAt: Date.now() } : n)
+            };
+          }
+          return p;
+        });
+        set({ projects: updatedProjects });
+        syncProject(get());
+      },
+
+      deleteNotepadNote: (noteId) => {
+        const state = get();
+        if (!state.currentProjectId) return;
+        const updatedProjects = state.projects.map((p) => {
+          if (p.id === state.currentProjectId) {
+            return {
+              ...p,
+              notepad: (p.notepad || []).filter(n => n.id !== noteId)
+            };
+          }
+          return p;
+        });
+        set({ projects: updatedProjects });
+        syncProject(get());
+      },
+
       deleteHistogramItem: (_projectId, histogramId, itemId) => {
         const newProjects = get().projects.map(p => {
           if (p.id === get().currentProjectId) {
