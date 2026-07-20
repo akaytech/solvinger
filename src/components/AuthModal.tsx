@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useRoadmapStore } from '../store/useRoadmapStore';
+import { useShallow } from 'zustand/react/shallow';
 import { auth } from '../firebase';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { useTranslation } from 'react-i18next';
@@ -11,7 +12,12 @@ export default function AuthModal() {
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [error, setError] = useState('');
   
-  const { login, fetchProjects, createProject, loadProject } = useRoadmapStore();
+  const {  login, fetchProjects, createProject, loadProject  } = useRoadmapStore(useShallow((state) => ({
+      login: state.login,
+      fetchProjects: state.fetchProjects,
+      createProject: state.createProject,
+      loadProject: state.loadProject
+    })));
 
   const handleSuccess = async (user: any) => {
     login(user.uid, user.email || '', user.displayName || t('default_user'), user.photoURL);

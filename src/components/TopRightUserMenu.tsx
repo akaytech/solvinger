@@ -1,11 +1,15 @@
 import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRoadmapStore } from '../store/useRoadmapStore';
+import { useShallow } from 'zustand/react/shallow';
 import { LogOut, Sun, Moon, User } from 'lucide-react';
 
 export default function TopRightUserMenu() {
   const { t, i18n } = useTranslation();
-  const { user, logout } = useRoadmapStore();
+  const {  user, logout  } = useRoadmapStore(useShallow((state) => ({
+      user: state.user,
+      logout: state.logout
+    })));
   const [isOpen, setIsOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(() => document.documentElement.classList.contains('dark'));
   const menuRef = useRef<HTMLDivElement>(null);

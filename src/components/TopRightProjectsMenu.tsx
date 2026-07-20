@@ -1,12 +1,19 @@
 import { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRoadmapStore } from '../store/useRoadmapStore';
+import { useShallow } from 'zustand/react/shallow';
 import ConfirmModal from './ConfirmModal';
 import { Folder, Plus, Trash2, ChevronDown, ChevronRight, GitCommit, Target, HelpCircle, Fish, RefreshCcw, Layers, Pencil, AlertOctagon, Scale, GitMerge, BarChart2, BarChart, FileText } from 'lucide-react';
 import type { Project } from '../store/useRoadmapStore';
 
 function ProjectTreeItem({ project, isCurrent, onClose, requestDelete }: { project: Project; isCurrent: boolean; onClose: () => void; requestDelete: (t: string, m: string, cb: () => void) => void }) {
-  const { loadProject, setActiveTool, deleteProject, updateProjectName, clearToolData } = useRoadmapStore();
+  const {  loadProject, setActiveTool, deleteProject, updateProjectName, clearToolData  } = useRoadmapStore(useShallow((state) => ({
+      loadProject: state.loadProject,
+      setActiveTool: state.setActiveTool,
+      deleteProject: state.deleteProject,
+      updateProjectName: state.updateProjectName,
+      clearToolData: state.clearToolData
+    })));
   const { t } = useTranslation();
   const [isExpanded, setIsExpanded] = useState(isCurrent);
   const [isEditing, setIsEditing] = useState(false);
@@ -298,7 +305,12 @@ export default function TopRightProjectsMenu() {
   const [confirmState, setConfirmState] = useState<{isOpen: boolean, title: string, message: string, onConfirm: () => void}>({ isOpen: false, title: '', message: '', onConfirm: () => {} });
   const requestDelete = (title: string, message: string, onConfirm: () => void) => { setConfirmState({ isOpen: true, title, message, onConfirm }); };
   const { t } = useTranslation();
-  const { projects, currentProjectId, createProject, user } = useRoadmapStore();
+  const {  projects, currentProjectId, createProject, user  } = useRoadmapStore(useShallow((state) => ({
+      projects: state.projects,
+      currentProjectId: state.currentProjectId,
+      createProject: state.createProject,
+      user: state.user
+    })));
   const [isOpen, setIsOpen] = useState(false);
   const [newProjectName, setNewProjectName] = useState('');
   const [isCreating, setIsCreating] = useState(false);

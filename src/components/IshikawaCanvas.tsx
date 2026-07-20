@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useRoadmapStore } from '../store/useRoadmapStore';
+import { useShallow } from 'zustand/react/shallow';
 import type { IshikawaCategory } from '../store/useRoadmapStore';
 import { Plus, Trash2, Fish, ArrowRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import ToolHeader from './ToolHeader';
 
 export default function IshikawaCanvas() {
   const { t } = useTranslation();
@@ -16,7 +18,15 @@ export default function IshikawaCanvas() {
     { id: 'Milieu', title: t('milieu'), color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-900/20', border: 'border-emerald-200 dark:border-emerald-900/50', buttonBg: 'bg-emerald-500 hover:bg-emerald-600' },
   ];
 
-  const { ishikawa, addIshikawa, updateIshikawaProblem, deleteIshikawa, addIshikawaItem, updateIshikawaItem, deleteIshikawaItem } = useRoadmapStore();
+  const {  ishikawa, addIshikawa, updateIshikawaProblem, deleteIshikawa, addIshikawaItem, updateIshikawaItem, deleteIshikawaItem  } = useRoadmapStore(useShallow((state) => ({
+      ishikawa: state.ishikawa,
+      addIshikawa: state.addIshikawa,
+      updateIshikawaProblem: state.updateIshikawaProblem,
+      deleteIshikawa: state.deleteIshikawa,
+      addIshikawaItem: state.addIshikawaItem,
+      updateIshikawaItem: state.updateIshikawaItem,
+      deleteIshikawaItem: state.deleteIshikawaItem
+    })));
   const [newProblem, setNewProblem] = useState('');
   const [inputs, setInputs] = useState<Record<string, string>>({});
 
@@ -38,15 +48,7 @@ export default function IshikawaCanvas() {
 
   return (
     <div className="flex h-full w-full flex-col bg-slate-50 dark:bg-slate-900 transition-colors overflow-hidden">
-      <div className="flex-none p-6 pl-16 md:pl-16 pr-24 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm z-10 flex justify-between items-center">
-        <div>
-          <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">
-            <Fish className="text-cyan-500" />
-            {t('ishi_title')}
-          </h2>
-          <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">{t('ishi_subtitle')}</p>
-        </div>
-      </div>
+      <ToolHeader title={t('ishi_title')} subtitle={t('ishi_subtitle')} icon={<Fish />} iconColor="text-cyan-500" />
 
       <div className="flex-1 overflow-auto p-6 md:p-8 space-y-12">
         {/* Create Form */}

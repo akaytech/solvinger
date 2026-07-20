@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { useRoadmapStore } from '../store/useRoadmapStore';
+import { useShallow } from 'zustand/react/shallow';
 import type { SwotType } from '../store/useRoadmapStore';
 import { Plus, Trash2, Shield, Target, Zap, AlertTriangle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import ToolHeader from './ToolHeader';
 
 export default function SwotCanvas() {
   const { t } = useTranslation();
@@ -14,7 +16,15 @@ export default function SwotCanvas() {
     { type: 'T', title: t('swot_t'), color: 'text-amber-600 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-900/20', border: 'border-amber-200 dark:border-amber-900/50', icon: Target },
   ];
 
-  const { swot, addSwot, updateSwotTitle, deleteSwot, addSwotItem, updateSwotItem, deleteSwotItem } = useRoadmapStore();
+  const {  swot, addSwot, updateSwotTitle, deleteSwot, addSwotItem, updateSwotItem, deleteSwotItem  } = useRoadmapStore(useShallow((state) => ({
+      swot: state.swot,
+      addSwot: state.addSwot,
+      updateSwotTitle: state.updateSwotTitle,
+      deleteSwot: state.deleteSwot,
+      addSwotItem: state.addSwotItem,
+      updateSwotItem: state.updateSwotItem,
+      deleteSwotItem: state.deleteSwotItem
+    })));
   const [newTitle, setNewTitle] = useState('');
   const [inputs, setInputs] = useState<Record<string, string>>({});
 
@@ -35,15 +45,7 @@ export default function SwotCanvas() {
 
   return (
     <div className="flex h-full w-full flex-col bg-slate-50 dark:bg-slate-900 transition-colors overflow-hidden">
-      <div className="flex-none p-6 pl-16 md:pl-16 pr-24 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm z-10 flex justify-between items-center">
-        <div>
-          <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">
-            <Target className="text-amber-500" />
-            {t('tool_swot')}
-          </h2>
-          <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">{t('swot_subtitle')}</p>
-        </div>
-      </div>
+      <ToolHeader title={t('tool_swot')} subtitle={t('swot_subtitle')} icon={<Target />} iconColor="text-amber-500" />
 
       <div className="flex-1 overflow-auto p-6 md:p-8 space-y-12">
         {/* Create Form */}

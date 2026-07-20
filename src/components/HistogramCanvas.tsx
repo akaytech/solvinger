@@ -1,12 +1,20 @@
 import { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRoadmapStore } from '../store/useRoadmapStore';
+import { useShallow } from 'zustand/react/shallow';
 import { Plus, Trash2, BarChart } from 'lucide-react';
 import { v4 as uuidv4 } from 'uuid';
 
 export default function HistogramCanvas() {
   const { t } = useTranslation();
-  const { currentProjectId, histogram, addHistogramProject, addHistogramItem, updateHistogramItem, deleteHistogramItem } = useRoadmapStore();
+  const {  currentProjectId, histogram, addHistogramProject, addHistogramItem, updateHistogramItem, deleteHistogramItem  } = useRoadmapStore(useShallow((state) => ({
+      currentProjectId: state.currentProjectId,
+      histogram: state.histogram,
+      addHistogramProject: state.addHistogramProject,
+      addHistogramItem: state.addHistogramItem,
+      updateHistogramItem: state.updateHistogramItem,
+      deleteHistogramItem: state.deleteHistogramItem
+    })));
   
   const activeHistogramList = histogram || [];
 

@@ -1,11 +1,18 @@
 import { useState } from 'react';
 import { useRoadmapStore } from '../store/useRoadmapStore';
+import { useShallow } from 'zustand/react/shallow';
 import { Plus, Trash2, ArrowDown, Activity } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import ToolHeader from './ToolHeader';
 
 export default function FiveWhysCanvas() {
   const { t } = useTranslation();
-  const { fiveWhys, addFiveWhys, updateFiveWhys, deleteFiveWhys } = useRoadmapStore();
+  const {  fiveWhys, addFiveWhys, updateFiveWhys, deleteFiveWhys  } = useRoadmapStore(useShallow((state) => ({
+      fiveWhys: state.fiveWhys,
+      addFiveWhys: state.addFiveWhys,
+      updateFiveWhys: state.updateFiveWhys,
+      deleteFiveWhys: state.deleteFiveWhys
+    })));
   const [newProblem, setNewProblem] = useState('');
 
   const handleAdd = (e: React.FormEvent) => {
@@ -26,15 +33,7 @@ export default function FiveWhysCanvas() {
 
   return (
     <div className="flex h-full w-full flex-col bg-slate-50 dark:bg-slate-900 transition-colors">
-      <div className="flex-none p-6 pl-16 md:pl-16 pr-24 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm z-10 flex justify-between items-center">
-        <div>
-          <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">
-            <Activity className="text-rose-500" />
-            {t('tool_5whys')}
-          </h2>
-          <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">{t('whys_subtitle')}</p>
-        </div>
-      </div>
+      <ToolHeader title={t('tool_5whys')} subtitle={t('whys_subtitle')} icon={<Activity />} iconColor="text-rose-500" />
 
       <div className="flex-1 overflow-auto p-6 md:p-8 space-y-12">
         {/* Create Form */}

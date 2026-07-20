@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus, Trash2, Trophy, Scale } from 'lucide-react';
 import { useRoadmapStore } from '../store/useRoadmapStore';
+import { useShallow } from 'zustand/react/shallow';
 import type { DecisionMatrixProject } from '../store/useRoadmapStore';
 
 interface DecisionMatrixCanvasProps {
@@ -10,7 +11,7 @@ interface DecisionMatrixCanvasProps {
 
 export const DecisionMatrixCanvas: React.FC<DecisionMatrixCanvasProps> = ({ project }) => {
   const { t } = useTranslation();
-  const {
+  const { 
     updateDecisionProjectName,
     addDecisionCriteria,
     updateDecisionCriteria,
@@ -19,7 +20,16 @@ export const DecisionMatrixCanvas: React.FC<DecisionMatrixCanvasProps> = ({ proj
     updateDecisionOptionName,
     deleteDecisionOption,
     updateDecisionScore
-  } = useRoadmapStore();
+   } = useRoadmapStore(useShallow((state) => ({
+      updateDecisionProjectName: state.updateDecisionProjectName,
+      addDecisionCriteria: state.addDecisionCriteria,
+      updateDecisionCriteria: state.updateDecisionCriteria,
+      deleteDecisionCriteria: state.deleteDecisionCriteria,
+      addDecisionOption: state.addDecisionOption,
+      updateDecisionOptionName: state.updateDecisionOptionName,
+      deleteDecisionOption: state.deleteDecisionOption,
+      updateDecisionScore: state.updateDecisionScore
+    })));
 
   const [hoveredRow, setHoveredRow] = useState<string | null>(null);
   const [hoveredCol, setHoveredCol] = useState<string | null>(null);

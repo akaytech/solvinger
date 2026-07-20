@@ -8,6 +8,7 @@ import AuthModal from './components/AuthModal';
 import TopRightUserMenu from './components/TopRightUserMenu';
 import TopRightProjectsMenu from './components/TopRightProjectsMenu';
 import { useRoadmapStore } from './store/useRoadmapStore';
+import { useShallow } from 'zustand/react/shallow';
 
 const RoadmapCanvas = React.lazy(() => import('./components/RoadmapCanvas'));
 const FiveWhysCanvas = React.lazy(() => import('./components/FiveWhysCanvas'));
@@ -22,9 +23,42 @@ const ParetoCanvas = React.lazy(() => import('./components/ParetoCanvas'));
 const HistogramCanvas = React.lazy(() => import('./components/HistogramCanvas'));
 const NotepadCanvas = React.lazy(() => import('./components/NotepadCanvas'));
 
-function App() {
-  const { user, fetchProjects, currentProjectId, loadProject, activeTool, setActiveTool, projects } = useRoadmapStore();
+function DecisionMatrixWrapper() {
+  const { currentProjectId, projects, addDecisionProject } = useRoadmapStore(useShallow((state) => ({
+    currentProjectId: state.currentProjectId,
+    projects: state.projects,
+    addDecisionProject: state.addDecisionProject
+  })));
   const { t } = useTranslation();
+
+  const proj = projects.find(p => p.id === currentProjectId);
+  if (!proj) return null;
+  const dProject = proj.decision?.[0];
+  if (!dProject) {
+    return (
+      <div className="flex h-full w-full items-center justify-center">
+        <button 
+          onClick={() => addDecisionProject(proj.name + ' - ' + t('decision_title'))}
+          className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow-lg hover:bg-indigo-700 font-bold"
+        >
+          {t('app_start')}
+        </button>
+      </div>
+    );
+  }
+  return <DecisionMatrixCanvas project={dProject} />;
+}
+
+function App() {
+  const { user, fetchProjects, currentProjectId, loadProject, activeTool, setActiveTool } = useRoadmapStore(useShallow((state) => ({
+    user: state.user,
+    fetchProjects: state.fetchProjects,
+    currentProjectId: state.currentProjectId,
+    loadProject: state.loadProject,
+    activeTool: state.activeTool,
+    setActiveTool: state.setActiveTool
+  })));
+  
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -100,24 +134,7 @@ function App() {
               {activeTool === 'pareto' && <ParetoCanvas />}
               {activeTool === 'histogram' && <HistogramCanvas />}
               {activeTool === 'notepad' && <NotepadCanvas />}
-              {activeTool === 'decision' && (() => {
-                const proj = projects.find(p => p.id === currentProjectId);
-                if (!proj) return null;
-                const dProject = proj.decision?.[0];
-                if (!dProject) {
-                  return (
-                    <div className="flex h-full w-full items-center justify-center">
-                      <button 
-                        onClick={() => useRoadmapStore.getState().addDecisionProject(proj.name + ' - ' + t('decision_title'))}
-                        className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow-lg hover:bg-indigo-700 font-bold"
-                      >
-                        {t('app_start')}
-                      </button>
-                    </div>
-                  );
-                }
-                return <DecisionMatrixCanvas project={dProject} />;
-              })()}
+              {activeTool === 'decision' && <DecisionMatrixWrapper />}
             </Suspense>
           </div>
           </div>

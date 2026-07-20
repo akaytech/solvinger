@@ -2,11 +2,18 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus, Trash2, FileText } from 'lucide-react';
 import { useRoadmapStore } from '../store/useRoadmapStore';
+import { useShallow } from 'zustand/react/shallow';
 import clsx from 'clsx';
 
 export const NotepadCanvas: React.FC = () => {
   const { t } = useTranslation();
-  const { currentProjectId, projects, addNotepadNote, updateNotepadNote, deleteNotepadNote } = useRoadmapStore();
+  const {  currentProjectId, projects, addNotepadNote, updateNotepadNote, deleteNotepadNote  } = useRoadmapStore(useShallow((state) => ({
+      currentProjectId: state.currentProjectId,
+      projects: state.projects,
+      addNotepadNote: state.addNotepadNote,
+      updateNotepadNote: state.updateNotepadNote,
+      deleteNotepadNote: state.deleteNotepadNote
+    })));
   
   const project = projects.find(p => p.id === currentProjectId);
   const notes = project?.notepad || [];
@@ -25,7 +32,9 @@ export const NotepadCanvas: React.FC = () => {
       setLocalTitle(selectedNote.title);
       setLocalContent(selectedNote.content);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedNoteId, selectedNote?.id]); // Only run when changing selected note, NOT on every render
+
 
   const handleAddNote = () => {
     const newId = addNotepadNote(t('notepad_untitled_note'), '');

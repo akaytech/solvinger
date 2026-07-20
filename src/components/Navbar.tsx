@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 
 import { useRoadmapStore } from '../store/useRoadmapStore';
+import { useShallow } from 'zustand/react/shallow';
 import { ChevronRight, ChevronLeft, AlertOctagon, Scale, GitMerge, BarChart2, BarChart, FileText } from 'lucide-react';
 import clsx from 'clsx';
 import packageJson from '../../package.json';
@@ -9,7 +10,12 @@ import { useTranslation } from 'react-i18next';
 export default function Navbar() {
   const { t } = useTranslation();
   const [isExpanded, setIsExpanded] = useState(false);
-  const { activeTool, setActiveTool, projects, createProject } = useRoadmapStore();
+  const {  activeTool, setActiveTool, projects, createProject  } = useRoadmapStore(useShallow((state) => ({
+      activeTool: state.activeTool,
+      setActiveTool: state.setActiveTool,
+      projects: state.projects,
+      createProject: state.createProject
+    })));
   const menuRef = useRef<HTMLDivElement>(null);
 
   const handleToolClick = (tool: any) => {

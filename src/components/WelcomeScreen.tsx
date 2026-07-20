@@ -1,9 +1,14 @@
 import { Network, Activity, Target, Fish, RefreshCcw, Layers, AlertOctagon, Scale, GitMerge, BarChart2, BarChart, FileText } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useRoadmapStore } from '../store/useRoadmapStore';
+import { useShallow } from 'zustand/react/shallow';
 
 export default function WelcomeScreen() {
-  const { setActiveTool, projects, createProject } = useRoadmapStore();
+  const {  setActiveTool, projects, createProject  } = useRoadmapStore(useShallow((state) => ({
+      setActiveTool: state.setActiveTool,
+      projects: state.projects,
+      createProject: state.createProject
+    })));
   const { t } = useTranslation();
 
   const handleToolClick = (tool: any) => {

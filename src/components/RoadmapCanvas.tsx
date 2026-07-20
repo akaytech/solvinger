@@ -8,6 +8,7 @@ import {
 import type { NodeMouseHandler, Edge } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { useRoadmapStore, getDescendants } from '../store/useRoadmapStore';
+import { useShallow } from 'zustand/react/shallow';
 import GoalNode from './GoalNode';
 import ContextMenu from './ContextMenu';
 import PaneContextMenu from './PaneContextMenu';
@@ -32,7 +33,17 @@ const getDepth = (id: string, edges: Edge[]): number => {
 
 export default function RoadmapCanvas({ onNodeSelect }: { onNodeSelect: (id: string | null) => void }) {
   const { t } = useTranslation();
-  const { nodes, edges, onNodesChange, onEdgesChange, onConnect, toggleExpand, addGoal, updateGoal, deleteGoal } = useRoadmapStore();
+  const {  nodes, edges, onNodesChange, onEdgesChange, onConnect, toggleExpand, addGoal, updateGoal, deleteGoal  } = useRoadmapStore(useShallow((state) => ({
+      nodes: state.nodes,
+      edges: state.edges,
+      onNodesChange: state.onNodesChange,
+      onEdgesChange: state.onEdgesChange,
+      onConnect: state.onConnect,
+      toggleExpand: state.toggleExpand,
+      addGoal: state.addGoal,
+      updateGoal: state.updateGoal,
+      deleteGoal: state.deleteGoal
+    })));
   const { setCenter, getZoom, screenToFlowPosition } = useReactFlow();
   const [menu, setMenu] = useState<{ id: string; top: number; left: number } | null>(null);
   const [paneMenu, setPaneMenu] = useState<{ top: number; left: number; clientX: number; clientY: number } | null>(null);

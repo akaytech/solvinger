@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useRoadmapStore } from '../store/useRoadmapStore';
+import { useShallow } from 'zustand/react/shallow';
 import type { PdcaPhase } from '../store/useRoadmapStore';
 import { Plus, Trash2, RefreshCcw, CheckCircle2, Circle, Target, Activity, Search, Settings } from 'lucide-react';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
-
+import ToolHeader from './ToolHeader';
 export default function PdcaCanvas() {
   const { t } = useTranslation();
 
@@ -15,7 +16,16 @@ export default function PdcaCanvas() {
     { id: 'Act', title: t('act'), icon: Settings, color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-900/20', border: 'border-emerald-200 dark:border-emerald-900/50', desc: t('act_desc'), buttonBg: 'bg-emerald-600 hover:bg-emerald-700' },
   ];
 
-  const { pdca, addPdcaCycle, updatePdcaGoal, deletePdcaCycle, addPdcaItem, updatePdcaItem, deletePdcaItem, togglePdcaItemStatus } = useRoadmapStore();
+  const {  pdca, addPdcaCycle, updatePdcaGoal, deletePdcaCycle, addPdcaItem, updatePdcaItem, deletePdcaItem, togglePdcaItemStatus  } = useRoadmapStore(useShallow((state) => ({
+      pdca: state.pdca,
+      addPdcaCycle: state.addPdcaCycle,
+      updatePdcaGoal: state.updatePdcaGoal,
+      deletePdcaCycle: state.deletePdcaCycle,
+      addPdcaItem: state.addPdcaItem,
+      updatePdcaItem: state.updatePdcaItem,
+      deletePdcaItem: state.deletePdcaItem,
+      togglePdcaItemStatus: state.togglePdcaItemStatus
+    })));
   const [newGoal, setNewGoal] = useState('');
   const [inputs, setInputs] = useState<Record<string, string>>({});
 
@@ -37,13 +47,7 @@ export default function PdcaCanvas() {
 
   return (
     <div className="flex h-full w-full flex-col bg-slate-50 dark:bg-slate-900 transition-colors overflow-hidden">
-      <div className="flex-none p-6 pl-16 md:pl-16 pr-24 border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm z-10">
-        <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">
-          <RefreshCcw className="text-indigo-500" />
-          {t('pdca_title')}
-        </h2>
-        <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">{t('pdca_subtitle')}</p>
-      </div>
+      <ToolHeader title={t('pdca_title')} subtitle={t('pdca_subtitle')} icon={<RefreshCcw />} iconColor="text-indigo-500" />
 
       <div className="flex-1 overflow-auto p-6 md:p-8 space-y-12">
         <div className="mx-auto max-w-3xl">

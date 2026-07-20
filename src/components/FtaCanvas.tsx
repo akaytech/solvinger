@@ -8,6 +8,7 @@ import {
 import type { NodeMouseHandler } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { useRoadmapStore } from '../store/useRoadmapStore';
+import { useShallow } from 'zustand/react/shallow';
 import FtaNode from './FtaNode';
 import FtaContextMenu from './FtaContextMenu';
 
@@ -16,7 +17,16 @@ const nodeTypes = {
 };
 
 export default function FtaCanvas() {
-  const { ftaNodes, ftaEdges, onFtaNodesChange, onFtaEdgesChange, onFtaConnect, addFtaNode, updateFtaNode, deleteFtaNode } = useRoadmapStore();
+  const {  ftaNodes, ftaEdges, onFtaNodesChange, onFtaEdgesChange, onFtaConnect, addFtaNode, updateFtaNode, deleteFtaNode  } = useRoadmapStore(useShallow((state) => ({
+      ftaNodes: state.ftaNodes,
+      ftaEdges: state.ftaEdges,
+      onFtaNodesChange: state.onFtaNodesChange,
+      onFtaEdgesChange: state.onFtaEdgesChange,
+      onFtaConnect: state.onFtaConnect,
+      addFtaNode: state.addFtaNode,
+      updateFtaNode: state.updateFtaNode,
+      deleteFtaNode: state.deleteFtaNode
+    })));
   const { setCenter, getZoom } = useReactFlow();
   const [menu, setMenu] = useState<{ id: string; top: number; left: number } | null>(null);
   const reactFlowWrapper = useRef<HTMLDivElement>(null);

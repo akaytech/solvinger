@@ -10,6 +10,7 @@ import {
 import type { NodeMouseHandler } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { useRoadmapStore } from '../store/useRoadmapStore';
+import { useShallow } from 'zustand/react/shallow';
 import FlowchartNode from './FlowchartNode';
 import FlowchartContextMenu from './FlowchartContextMenu';
 
@@ -18,7 +19,16 @@ const nodeTypes = {
 };
 
 export default function FlowchartCanvas() {
-  const { flowchartNodes, flowchartEdges, onFlowchartNodesChange, onFlowchartEdgesChange, onFlowchartConnect, addFlowchartNode, updateFlowchartNode, deleteFlowchartNode } = useRoadmapStore();
+  const {  flowchartNodes, flowchartEdges, onFlowchartNodesChange, onFlowchartEdgesChange, onFlowchartConnect, addFlowchartNode, updateFlowchartNode, deleteFlowchartNode  } = useRoadmapStore(useShallow((state) => ({
+      flowchartNodes: state.flowchartNodes,
+      flowchartEdges: state.flowchartEdges,
+      onFlowchartNodesChange: state.onFlowchartNodesChange,
+      onFlowchartEdgesChange: state.onFlowchartEdgesChange,
+      onFlowchartConnect: state.onFlowchartConnect,
+      addFlowchartNode: state.addFlowchartNode,
+      updateFlowchartNode: state.updateFlowchartNode,
+      deleteFlowchartNode: state.deleteFlowchartNode
+    })));
   const { setCenter, getZoom } = useReactFlow();
   const { t } = useTranslation();
   const [menu, setMenu] = useState<{ id: string; top: number; left: number } | null>(null);

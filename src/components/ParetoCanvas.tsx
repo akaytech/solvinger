@@ -1,12 +1,20 @@
 import { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRoadmapStore } from '../store/useRoadmapStore';
+import { useShallow } from 'zustand/react/shallow';
 import { Plus, Trash2, BarChart2 } from 'lucide-react';
 import { v4 as uuidv4 } from 'uuid';
 
 export default function ParetoCanvas() {
   const { t } = useTranslation();
-  const { currentProjectId, pareto, addParetoProject, addParetoItem, updateParetoItem, deleteParetoItem } = useRoadmapStore();
+  const {  currentProjectId, pareto, addParetoProject, addParetoItem, updateParetoItem, deleteParetoItem  } = useRoadmapStore(useShallow((state) => ({
+      currentProjectId: state.currentProjectId,
+      pareto: state.pareto,
+      addParetoProject: state.addParetoProject,
+      addParetoItem: state.addParetoItem,
+      updateParetoItem: state.updateParetoItem,
+      deleteParetoItem: state.deleteParetoItem
+    })));
   
     const activeParetoList = pareto || [];
 
