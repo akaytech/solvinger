@@ -82,7 +82,7 @@ function App() {
           <div className="relative flex-1 flex flex-col h-full w-full overflow-hidden bg-slate-50 dark:bg-slate-900">
             <TopRightUserMenu />
             <TopRightProjectsMenu />
-            <div className="flex-1 relative bg-slate-50 dark:bg-slate-900 transition-colors duration-200">
+            <div className="flex-1 relative overflow-hidden bg-slate-50 dark:bg-slate-900 transition-colors duration-200">
             <Suspense fallback={
               <div className="flex h-full w-full items-center justify-center">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
