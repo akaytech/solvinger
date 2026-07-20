@@ -1,24 +1,25 @@
-import { useEffect } from 'react';
+import React, { useEffect, Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReactFlowProvider } from '@xyflow/react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import RoadmapCanvas from './components/RoadmapCanvas';
-import FiveWhysCanvas from './components/FiveWhysCanvas';
-import SwotCanvas from './components/SwotCanvas';
-import IshikawaCanvas from './components/IshikawaCanvas';
-import PdcaCanvas from './components/PdcaCanvas';
-import WaterfallCanvas from './components/WaterfallCanvas';
-import FtaCanvas from './components/FtaCanvas';
-import { DecisionMatrixCanvas } from './components/DecisionMatrixCanvas';
-import FlowchartCanvas from './components/FlowchartCanvas';
-import ParetoCanvas from './components/ParetoCanvas';
-import HistogramCanvas from './components/HistogramCanvas';
 import WelcomeScreen from './components/WelcomeScreen';
 import Navbar from './components/Navbar';
 import AuthModal from './components/AuthModal';
 import TopRightUserMenu from './components/TopRightUserMenu';
 import TopRightProjectsMenu from './components/TopRightProjectsMenu';
 import { useRoadmapStore } from './store/useRoadmapStore';
+
+const RoadmapCanvas = React.lazy(() => import('./components/RoadmapCanvas'));
+const FiveWhysCanvas = React.lazy(() => import('./components/FiveWhysCanvas'));
+const SwotCanvas = React.lazy(() => import('./components/SwotCanvas'));
+const IshikawaCanvas = React.lazy(() => import('./components/IshikawaCanvas'));
+const PdcaCanvas = React.lazy(() => import('./components/PdcaCanvas'));
+const WaterfallCanvas = React.lazy(() => import('./components/WaterfallCanvas'));
+const FtaCanvas = React.lazy(() => import('./components/FtaCanvas'));
+const DecisionMatrixCanvas = React.lazy(() => import('./components/DecisionMatrixCanvas').then(m => ({ default: m.DecisionMatrixCanvas })));
+const FlowchartCanvas = React.lazy(() => import('./components/FlowchartCanvas'));
+const ParetoCanvas = React.lazy(() => import('./components/ParetoCanvas'));
+const HistogramCanvas = React.lazy(() => import('./components/HistogramCanvas'));
 
 function App() {
   const { user, fetchProjects, currentProjectId, loadProject, activeTool, setActiveTool, projects } = useRoadmapStore();
@@ -80,43 +81,43 @@ function App() {
           <div className="relative flex-1 flex flex-col h-full w-full overflow-hidden bg-slate-50 dark:bg-slate-900">
             <TopRightUserMenu />
             <TopRightProjectsMenu />
-            {!activeTool && <WelcomeScreen />}
-            {activeTool === 'wbs' && <RoadmapCanvas onNodeSelect={() => {}} />}
-            {activeTool === '5whys' && <FiveWhysCanvas />}
-            {activeTool === 'swot' && <SwotCanvas />}
-            {activeTool === 'ishikawa' && <IshikawaCanvas />}
-            {activeTool === 'pdca' && <PdcaCanvas />}
-            {activeTool === 'waterfall' && <WaterfallCanvas />}
-            {activeTool === 'fta' && <FtaCanvas />}
-            {activeTool === 'flowchart' && <FlowchartCanvas />}
-            {activeTool === 'pareto' && <ParetoCanvas />}
-            {activeTool === 'histogram' && <HistogramCanvas />}
-            {activeTool === 'decision' && (() => {
-              const proj = projects.find(p => p.id === currentProjectId);
-              if (!proj) return null;
-              if (!proj.decision || proj.decision.length === 0) {
-                // Return a wrapper that forces creation, or we can just render nothing until they create one, 
-                // wait, if there are none, we should create an initial one just like other tools?
-                // Other tools don't auto-create inside App.tsx, they usually have it done inside WelcomeScreen / createProject.
-                // Wait! In useRoadmapStore createProject, we initialized decision: [] but we didn't add a default item!
-                // Let's check how waterfall works. Waterfall initializes waterfall: [], but wait, does WaterfallCanvas create one if empty?
-              }
-              // If none exists, we should show a button or auto create. Let's auto-create if empty or just render the first one.
-              const dProject = proj.decision?.[0];
-              if (!dProject) {
-                return (
-                  <div className="flex h-full w-full items-center justify-center">
-                    <button 
-                      onClick={() => useRoadmapStore.getState().addDecisionProject(proj.name + ' - ' + t('decision_title'))}
-                      className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow-lg hover:bg-indigo-700 font-bold"
-                    >
-                      {t('app_start')}
-                    </button>
-                  </div>
-                );
-              }
-              return <DecisionMatrixCanvas project={dProject} />;
-            })()}
+            <div className="flex-1 relative bg-slate-50 dark:bg-slate-900 transition-colors duration-200">
+            <Suspense fallback={
+              <div className="flex h-full w-full items-center justify-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+              </div>
+            }>
+              {!activeTool && <WelcomeScreen />}
+              {activeTool === 'wbs' && <RoadmapCanvas onNodeSelect={() => {}} />}
+              {activeTool === '5whys' && <FiveWhysCanvas />}
+              {activeTool === 'swot' && <SwotCanvas />}
+              {activeTool === 'ishikawa' && <IshikawaCanvas />}
+              {activeTool === 'pdca' && <PdcaCanvas />}
+              {activeTool === 'waterfall' && <WaterfallCanvas />}
+              {activeTool === 'fta' && <FtaCanvas />}
+              {activeTool === 'flowchart' && <FlowchartCanvas />}
+              {activeTool === 'pareto' && <ParetoCanvas />}
+              {activeTool === 'histogram' && <HistogramCanvas />}
+              {activeTool === 'decision' && (() => {
+                const proj = projects.find(p => p.id === currentProjectId);
+                if (!proj) return null;
+                const dProject = proj.decision?.[0];
+                if (!dProject) {
+                  return (
+                    <div className="flex h-full w-full items-center justify-center">
+                      <button 
+                        onClick={() => useRoadmapStore.getState().addDecisionProject(proj.name + ' - ' + t('decision_title'))}
+                        className="px-6 py-3 bg-indigo-600 text-white rounded-xl shadow-lg hover:bg-indigo-700 font-bold"
+                      >
+                        {t('app_start')}
+                      </button>
+                    </div>
+                  );
+                }
+                return <DecisionMatrixCanvas project={dProject} />;
+              })()}
+            </Suspense>
+          </div>
           </div>
         </ReactFlowProvider>
       )}

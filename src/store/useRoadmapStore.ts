@@ -699,6 +699,11 @@ export const useRoadmapStore = create<RoadmapState>()(
             ishikawa: isCurrent ? [] : state.ishikawa,
             pdca: isCurrent ? [] : state.pdca,
             waterfall: isCurrent ? [] : state.waterfall,
+            pareto: isCurrent ? [] : state.pareto,
+            histogram: isCurrent ? [] : state.histogram,
+            decision: isCurrent ? [] : state.decision,
+            flowchartNodes: isCurrent ? [] : state.flowchartNodes,
+            flowchartEdges: isCurrent ? [] : state.flowchartEdges,
             ftaNodes: isCurrent ? [] : state.ftaNodes,
             ftaEdges: isCurrent ? [] : state.ftaEdges,
           };
