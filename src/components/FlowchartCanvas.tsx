@@ -73,7 +73,7 @@ export default function FlowchartCanvas() {
   }, []);
 
   return (
-    <div className="h-full w-full relative bg-slate-50 dark:bg-slate-900 transition-colors" ref={reactFlowWrapper}>
+    <div className="!w-48 !h-48 !rounded-full overflow-hidden border-4 border-slate-200 dark:border-slate-700 shadow-2xl dark:bg-slate-800 bg-white" ref={reactFlowWrapper}>
       <ReactFlow
         nodes={flowchartNodes}
         edges={flowchartEdges}
@@ -97,8 +97,8 @@ export default function FlowchartCanvas() {
       >
         <Background color="#cbd5e1" gap={24} size={2} />
         <Controls className="bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 fill-slate-700 dark:fill-slate-300 shadow-xl" />
-        <MiniMap 
-          className="bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 mask-image-rounded shadow-xl" 
+        <MiniMap zoomable pannable position="bottom-right"
+          className="!w-48 !h-48 !rounded-full overflow-hidden border-4 border-slate-200 dark:border-slate-700 shadow-2xl dark:bg-slate-800 bg-white" 
           nodeColor={(n) => {
             if (n.data?.shape === 'start' || n.data?.shape === 'end') return '#10b981';
             if (n.data?.shape === 'decision') return '#f59e0b';
