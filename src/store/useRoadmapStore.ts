@@ -1305,48 +1305,60 @@ export const useRoadmapStore = create<RoadmapState>()(
       },
 
       addHistogramProject: (_projectId, histogramId, title) => {
-        const newProj: HistogramProject = {
-          id: histogramId,
-          title,
-          items: [],
-          createdAt: Date.now()
-        };
-        const newProjects = get().projects.map(p => 
-          p.id === get().currentProjectId 
-            ? { ...p, histogram: [...(p.histogram || []), newProj] } 
-            : p
-        );
-        set({ projects: newProjects, histogram: newProjects.find(p => p.id === get().currentProjectId)?.histogram || [], ...syncProject({ ...get(), projects: newProjects }) });
+        set((state) => {
+          const newProj: HistogramProject = { id: histogramId, title, items: [], createdAt: Date.now() };
+          const next = { ...state, histogram: [...state.histogram, newProj] };
+          return { ...next, ...syncProject(next) };
+        });
       },
       addHistogramItem: (_projectId, histogramId, category, frequency) => {
-        const newItem: HistogramItem = { id: uuidv4(), category, frequency };
-        const newProjects = get().projects.map(p => {
-          if (p.id === get().currentProjectId) {
-            const hists = p.histogram || [];
-            return {
-              ...p,
-              histogram: hists.map(h => h.id === histogramId ? { ...h, items: [...h.items, newItem] } : h)
-            };
-          }
-          return p;
+        set((state) => {
+          const newItem: HistogramItem = { id: uuidv4(), category, frequency };
+          const next = {
+            ...state,
+            histogram: state.histogram.map(h => h.id === histogramId ? { ...h, items: [...h.items, newItem] } : h)
+          };
+          return { ...next, ...syncProject(next) };
         });
-        set({ projects: newProjects, histogram: newProjects.find(p => p.id === get().currentProjectId)?.histogram || [], ...syncProject({ ...get(), projects: newProjects }) });
       },
       updateHistogramItem: (_projectId, histogramId, itemId, data) => {
-        const newProjects = get().projects.map(p => {
-          if (p.id === get().currentProjectId) {
-            const hists = p.histogram || [];
-            return {
-              ...p,
-              histogram: hists.map(h => h.id === histogramId ? { ...h, items: h.items.map(i => i.id === itemId ? { ...i, ...data } : i) } : h)
-            };
-          }
-          return p;
+        set((state) => {
+          const next = {
+            ...state,
+            histogram: state.histogram.map(h => 
+              h.id === histogramId 
+                ? { ...h, items: h.items.map(item => item.id === itemId ? { ...item, ...data } : item) } 
+                : h
+            )
+          };
+          return { ...next, ...syncProject(next) };
         });
-        set({ projects: newProjects, histogram: newProjects.find(p => p.id === get().currentProjectId)?.histogram || [], ...syncProject({ ...get(), projects: newProjects }) });
+      },
+      deleteHistogramItem: (_projectId, histogramId, itemId) => {
+        set((state) => {
+          const next = {
+            ...state,
+            histogram: state.histogram.map(h => h.id === histogramId ? { ...h, items: h.items.filter(item => item.id !== itemId) } : h)
+          };
+          return { ...next, ...syncProject(next) };
+        });
+      },
+      updateHistogramTitle: (_projectId, histogramId, title) => {
+        set((state) => {
+          const next = {
+            ...state,
+            histogram: state.histogram.map(h => h.id === histogramId ? { ...h, title } : h)
+          };
+          return { ...next, ...syncProject(next) };
+        });
+      },
+      deleteHistogramProject: (_projectId, histogramId) => {
+        set((state) => {
+          const next = { ...state, histogram: state.histogram.filter(h => h.id !== histogramId) };
+          return { ...next, ...syncProject(next) };
+        });
       },
 
-      // Notepad Actions
       addNotepadNote: (title, content) => {
         const state = get();
         if (!state.currentProjectId) return '';
@@ -1404,45 +1416,6 @@ export const useRoadmapStore = create<RoadmapState>()(
         syncProject(get());
       },
 
-      deleteHistogramItem: (_projectId, histogramId, itemId) => {
-        const newProjects = get().projects.map(p => {
-          if (p.id === get().currentProjectId) {
-            const hists = p.histogram || [];
-            return {
-              ...p,
-              histogram: hists.map(h => h.id === histogramId ? { ...h, items: h.items.filter(i => i.id !== itemId) } : h)
-            };
-          }
-          return p;
-        });
-        set({ projects: newProjects, histogram: newProjects.find(p => p.id === get().currentProjectId)?.histogram || [], ...syncProject({ ...get(), projects: newProjects }) });
-      },
-      updateHistogramTitle: (_projectId, histogramId, title) => {
-        const newProjects = get().projects.map(p => {
-          if (p.id === get().currentProjectId) {
-            const hists = p.histogram || [];
-            return {
-              ...p,
-              histogram: hists.map(h => h.id === histogramId ? { ...h, title } : h)
-            };
-          }
-          return p;
-        });
-        set({ projects: newProjects, histogram: newProjects.find(p => p.id === get().currentProjectId)?.histogram || [], ...syncProject({ ...get(), projects: newProjects }) });
-      },
-      deleteHistogramProject: (_projectId, histogramId) => {
-        const newProjects = get().projects.map(p => {
-          if (p.id === get().currentProjectId) {
-            const hists = p.histogram || [];
-            return {
-              ...p,
-              histogram: hists.filter(h => h.id !== histogramId)
-            };
-          }
-          return p;
-        });
-        set({ projects: newProjects, histogram: newProjects.find(p => p.id === get().currentProjectId)?.histogram || [], ...syncProject({ ...get(), projects: newProjects }) });
-      },
 
       // Decision Matrix Actions
       decision: [],
