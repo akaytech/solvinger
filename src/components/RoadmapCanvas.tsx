@@ -2,6 +2,7 @@ import { useCallback, useRef, useState, useEffect } from 'react';
 import {
   ReactFlow,
   Background,
+  MiniMap,
   useReactFlow,
 } from '@xyflow/react';
 import type { NodeMouseHandler, Edge } from '@xyflow/react';
@@ -174,6 +175,7 @@ export default function RoadmapCanvas({ onNodeSelect }: { onNodeSelect: (id: str
         }}
         proOptions={{ hideAttribution: true }}
       >
+        <MiniMap position="bottom-right" className="dark:bg-slate-800 bg-white" maskColor="var(--minimap-mask, rgba(200, 200, 225, 0.2))" nodeColor="var(--minimap-node, #a5b4fc)" zoomable pannable />
         <Background color="#cbd5e1" gap={24} size={2} />
       </ReactFlow>
 
