@@ -54,7 +54,7 @@ export default function ParetoCanvas() {
   const handleCreateAnalysis = () => {
     if (!currentProjectId) return;
     const pId = uuidv4();
-    addParetoProject(currentProjectId, t('default_pareto_title'));
+    addParetoProject(currentProjectId, pId, t('default_pareto_title'));
     setActiveParetoId(pId); // Wait, addParetoProject generates a random UUID if we don't pass it. Wait, the store method creates its own UUID. I'll need to select the last one after creation via a small timeout, or modify store. For now we will select it automatically if list was empty.
   };
 

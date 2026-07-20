@@ -40,7 +40,7 @@ export default function HistogramCanvas() {
   const handleCreateAnalysis = () => {
     if (!currentProjectId) return;
     const pId = uuidv4();
-    addHistogramProject(currentProjectId, t('default_histogram_title'));
+    addHistogramProject(currentProjectId, pId, t('default_histogram_title'));
     setActiveHistogramId(pId);
   };
 

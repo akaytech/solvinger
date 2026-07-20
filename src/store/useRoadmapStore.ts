@@ -216,7 +216,7 @@ interface RoadmapState {
 
   // Decision Matrix State
   pareto: ParetoProject[];
-  addParetoProject: (projectId: string, title: string) => void;
+  addParetoProject: (projectId: string, paretoId: string, title: string) => void;
   addParetoItem: (projectId: string, paretoId: string, category: string, frequency: number) => void;
   updateParetoItem: (projectId: string, paretoId: string, itemId: string, data: Partial<ParetoItem>) => void;
   deleteParetoItem: (projectId: string, paretoId: string, itemId: string) => void;
@@ -224,7 +224,7 @@ interface RoadmapState {
   deleteParetoProject: (projectId: string, paretoId: string) => void;
 
   histogram: HistogramProject[];
-  addHistogramProject: (projectId: string, title: string) => void;
+  addHistogramProject: (projectId: string, histogramId: string, title: string) => void;
   addHistogramItem: (projectId: string, histogramId: string, category: string, frequency: number) => void;
   updateHistogramItem: (projectId: string, histogramId: string, itemId: string, data: Partial<HistogramItem>) => void;
   deleteHistogramItem: (projectId: string, histogramId: string, itemId: string) => void;
@@ -1249,9 +1249,9 @@ export const useRoadmapStore = create<RoadmapState>()(
       pareto: [],
       histogram: [],
           notepad: [],
-      addParetoProject: (_projectId, title) => {
+      addParetoProject: (_projectId, paretoId, title) => {
         set((state) => {
-          const newPareto: ParetoProject = { id: uuidv4(), title, items: [] };
+          const newPareto: ParetoProject = { id: paretoId, title, items: [] };
           const next = { ...state, pareto: [...state.pareto, newPareto] };
           return { ...next, ...syncProject(next) };
         });
@@ -1304,9 +1304,9 @@ export const useRoadmapStore = create<RoadmapState>()(
         });
       },
 
-      addHistogramProject: (_projectId, title) => {
+      addHistogramProject: (_projectId, histogramId, title) => {
         const newProj: HistogramProject = {
-          id: uuidv4(),
+          id: histogramId,
           title,
           items: [],
           createdAt: Date.now()
