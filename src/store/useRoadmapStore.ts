@@ -11,6 +11,9 @@ import { doc, setDoc, deleteDoc, collection, query, where, getDocs } from 'fireb
 import { db } from '../firebase';
 import dagre from 'dagre';
 import i18n from '../i18n';
+import { createNotepadSlice } from './slices/createNotepadSlice';
+import type { NotepadSlice } from './slices/createNotepadSlice';
+
 
 type GoalStatus = 'To Do' | 'In Progress' | 'Done' | 'Failed';
 
@@ -194,7 +197,7 @@ export interface Project {
   userId: string;
 }
 
-interface RoadmapState {
+export interface RoadmapState extends NotepadSlice {
   // Auth
   user: { uid: string; email: string; name: string; photoURL?: string } | null;
   login: (uid: string, email: string, name: string, photoURL?: string) => void;
@@ -229,10 +232,6 @@ interface RoadmapState {
   updateHistogramItem: (projectId: string, histogramId: string, itemId: string, data: Partial<HistogramItem>) => void;
   deleteHistogramItem: (projectId: string, histogramId: string, itemId: string) => void;
 
-  // Notepad
-  addNotepadNote: (title: string, content: string) => string;
-  updateNotepadNote: (noteId: string, title: string, content: string) => void;
-  deleteNotepadNote: (noteId: string) => void;
   updateHistogramTitle: (projectId: string, histogramId: string, title: string) => void;
   deleteHistogramProject: (projectId: string, histogramId: string) => void;
 
@@ -507,7 +506,7 @@ const cascadeStatus = (nodes: GoalNode[], edges: Edge[], changedId: string): Goa
 
 let saveTimeout: any;
 
-const syncProject = (state: RoadmapState): Partial<RoadmapState> => {
+export const syncProject = (state: RoadmapState): Partial<RoadmapState> => {
   if (!state.currentProjectId || !state.user) return {};
 
   const currentProjectName = state.projects.find(p => p.id === state.currentProjectId)?.name || 'Proje';
@@ -564,7 +563,8 @@ const getDefaultNodes = (): GoalNode[] => [
 
 export const useRoadmapStore = create<RoadmapState>()(
   persist(
-    (set, get) => ({
+    (set, get, api) => ({
+      ...createNotepadSlice(set, get, api),
       user: null,
       login: (uid, email, name, photoURL) => set({ user: { uid, email, name, photoURL } }),
       logout: () => set({ user: null, projects: [], currentProjectId: null, nodes: [], edges: [], fiveWhys: [], swot: [], ishikawa: [], pdca: [], waterfall: [], pareto: [], histogram: [],
@@ -1358,64 +1358,6 @@ export const useRoadmapStore = create<RoadmapState>()(
           return { ...next, ...syncProject(next) };
         });
       },
-
-      addNotepadNote: (title, content) => {
-        const state = get();
-        if (!state.currentProjectId) return '';
-        const noteId = uuidv4();
-        const newNote = {
-          id: noteId,
-          title,
-          content,
-          createdAt: Date.now(),
-          updatedAt: Date.now()
-        };
-        const updatedProjects = state.projects.map((p) => {
-          if (p.id === state.currentProjectId) {
-            return {
-              ...p,
-              notepad: [...(p.notepad || []), newNote]
-            };
-          }
-          return p;
-        });
-        set({ projects: updatedProjects });
-        syncProject(get());
-        return noteId;
-      },
-
-      updateNotepadNote: (noteId, title, content) => {
-        const state = get();
-        if (!state.currentProjectId) return;
-        const updatedProjects = state.projects.map((p) => {
-          if (p.id === state.currentProjectId) {
-            return {
-              ...p,
-              notepad: (p.notepad || []).map(n => n.id === noteId ? { ...n, title, content, updatedAt: Date.now() } : n)
-            };
-          }
-          return p;
-        });
-        set({ projects: updatedProjects });
-        syncProject(get());
-      },
-
-      deleteNotepadNote: (noteId) => {
-        const state = get();
-        if (!state.currentProjectId) return;
-        const updatedProjects = state.projects.map((p) => {
-          if (p.id === state.currentProjectId) {
-            return {
-              ...p,
-              notepad: (p.notepad || []).filter(n => n.id !== noteId)
-            };
-          }
-          return p;
-        });
-        set({ projects: updatedProjects });
-        syncProject(get());
-      },
-
 
       // Decision Matrix Actions
       decision: [],
