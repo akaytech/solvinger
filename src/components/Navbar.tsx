@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 
 import { useRoadmapStore } from '../store/useRoadmapStore';
-import { ChevronRight, ChevronLeft, AlertOctagon, Scale, GitMerge, BarChart2, BarChart } from 'lucide-react';
+import { ChevronRight, ChevronLeft, AlertOctagon, Scale, GitMerge, BarChart2, BarChart, FileText } from 'lucide-react';
 import clsx from 'clsx';
 import packageJson from '../../package.json';
 import { useTranslation } from 'react-i18next';
@@ -74,8 +74,8 @@ export default function Navbar() {
         </button>
       </div>
 
-      <div className="flex-1 flex flex-col py-4 px-3 gap-2">
-        <div className="mb-2 px-3">
+      <div className="flex-1 flex flex-col py-4 px-3 gap-2 overflow-y-auto custom-scrollbar">
+        <div className="mb-2 px-3 shrink-0">
           <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">{t('nav_tools')}</h3>
         </div>
         
@@ -242,6 +242,21 @@ export default function Navbar() {
              <BarChart size={16} />
           </div>
           <span>{t('tool_histogram')}</span>
+        </button>
+
+        <button
+          onClick={() => handleToolClick('notepad')}
+          className={clsx(
+            "flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-semibold transition-colors",
+            activeTool === 'notepad' 
+              ? "bg-fuchsia-50 text-fuchsia-700 dark:bg-fuchsia-900/30 dark:text-fuchsia-400" 
+              : "text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800"
+          )}
+        >
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-fuchsia-100 text-fuchsia-600 dark:bg-fuchsia-900/50 dark:text-fuchsia-400">
+             <FileText size={16} />
+          </div>
+          <span>{t('notepad_title')}</span>
         </button>
       </div>
 
