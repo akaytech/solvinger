@@ -32,12 +32,12 @@ export interface FtaSlice {
   deleteFtaNode: (id: string) => void;
 }
 
-export const getFtaDescendants = (id: string, edges: Edge[]): string[] => {
+const getFtaDescendants = (id: string, edges: Edge[]): string[] => {
   const children = edges.filter(e => e.source === id).map(e => e.target);
   return children.reduce((acc, child) => [...acc, child, ...getFtaDescendants(child, edges)], [] as string[]);
 };
 
-export const getFtaLayoutedElements = (nodes: FtaNode[], edges: Edge[]) => {
+const getFtaLayoutedElements = (nodes: FtaNode[], edges: Edge[]) => {
   const dagreGraph = new dagre.graphlib.Graph();
   dagreGraph.setDefaultEdgeLabel(() => ({}));
   dagreGraph.setGraph({ rankdir: 'TB', nodesep: 50, ranksep: 60 }); 

@@ -5,7 +5,7 @@ import { useRoadmapStore } from '../store/useRoadmapStore';
 import { useShallow } from 'zustand/react/shallow';
 import clsx from 'clsx';
 
-export const NotepadCanvas: React.FC = () => {
+const NotepadCanvas: React.FC = () => {
   const { t } = useTranslation();
   const {  currentProjectId, projects, addNotepadNote, updateNotepadNote, deleteNotepadNote  } = useRoadmapStore(useShallow((state) => ({
       currentProjectId: state.currentProjectId,
