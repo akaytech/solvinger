@@ -37,6 +37,10 @@ import { createFtaSlice } from './slices/createFtaSlice';
 import type { FtaSlice, FtaNodeType, FtaNodeData, FtaNode } from './slices/createFtaSlice';
 export type { FtaNodeType, FtaNodeData, FtaNode };
 
+import { createFlowchartSlice } from './slices/createFlowchartSlice';
+import type { FlowchartSlice, FlowchartNodeType, FlowchartNodeData, FlowchartNode } from './slices/createFlowchartSlice';
+export type { FlowchartNodeType, FlowchartNodeData, FlowchartNode };
+
 
 type GoalStatus = 'To Do' | 'In Progress' | 'Done' | 'Failed';
 
@@ -116,14 +120,7 @@ export interface DecisionMatrixProject {
 }
 
 
-export type FlowchartNodeType = 'start' | 'process' | 'decision' | 'end';
 
-export type FlowchartNodeData = {
-  label: string;
-  shape: FlowchartNodeType;
-};
-
-export type FlowchartNode = Node<FlowchartNodeData>;
 
 
 
@@ -149,7 +146,7 @@ export interface Project {
   userId: string;
 }
 
-export interface RoadmapState extends NotepadSlice, FiveWhysSlice, SwotSlice, IshikawaSlice, PdcaSlice, WaterfallSlice, FtaSlice {
+export interface RoadmapState extends NotepadSlice, FiveWhysSlice, SwotSlice, IshikawaSlice, PdcaSlice, WaterfallSlice, FtaSlice, FlowchartSlice {
   // Auth
   user: { uid: string; email: string; name: string; photoURL?: string } | null;
   login: (uid: string, email: string, name: string, photoURL?: string) => void;
@@ -200,15 +197,7 @@ export interface RoadmapState extends NotepadSlice, FiveWhysSlice, SwotSlice, Is
   updateDecisionScore: (projectId: string, optionId: string, criteriaId: string, score: number) => void;
 
 
-  // Flowchart
-  flowchartNodes: FlowchartNode[];
-  flowchartEdges: Edge[];
-  onFlowchartNodesChange: (changes: NodeChange[]) => void;
-  onFlowchartEdgesChange: (changes: EdgeChange[]) => void;
-  onFlowchartConnect: (connection: Connection) => void;
-  addFlowchartNode: (parentId: string | null, shape: FlowchartNodeType, label: string, position: {x: number, y: number}) => void;
-  updateFlowchartNode: (id: string, data: Partial<FlowchartNodeData>) => void;
-  deleteFlowchartNode: (id: string) => void;
+
 
 
 
@@ -448,6 +437,7 @@ export const useRoadmapStore = create<RoadmapState>()(
       ...createPdcaSlice(set, get, api),
       ...createWaterfallSlice(set, get, api),
       ...createFtaSlice(set, get, api),
+      ...createFlowchartSlice(set, get, api),
       user: null,
       login: (uid, email, name, photoURL) => set({ user: { uid, email, name, photoURL } }),
       logout: () => set({ user: null, projects: [], currentProjectId: null, nodes: [], edges: [], fiveWhys: [], swot: [], ishikawa: [], pdca: [], waterfall: [], pareto: [], histogram: [],
@@ -669,66 +659,7 @@ export const useRoadmapStore = create<RoadmapState>()(
 
       // FTA Actions
 
-      flowchartNodes: [],
-      flowchartEdges: [],
 
-      onFlowchartNodesChange: (changes: NodeChange[]) => {
-        set((state) => {
-          const next = { ...state, flowchartNodes: applyNodeChanges(changes, state.flowchartNodes) as FlowchartNode[] };
-          return { ...next, ...syncProject(next) };
-        });
-      },
-
-      onFlowchartEdgesChange: (changes: EdgeChange[]) => {
-        set((state) => {
-          const next = { ...state, flowchartEdges: applyEdgeChanges(changes, state.flowchartEdges) as Edge[] };
-          return { ...next, ...syncProject(next) };
-        });
-      },
-
-      onFlowchartConnect: (connection: Connection) => {
-        set((state) => {
-          const edge = { ...connection, id: uuidv4() };
-          const next = { ...state, flowchartEdges: addEdge(edge, state.flowchartEdges as any) as Edge[] };
-          return { ...next, ...syncProject(next) };
-        });
-      },
-
-      addFlowchartNode: (parentId, shape, label, position) => {
-        set((state) => {
-          const newNode: FlowchartNode = {
-            id: uuidv4(),
-            type: 'flowchartNode',
-            position,
-            data: { label, shape },
-          };
-          const newNodes = [...state.flowchartNodes, newNode];
-          const newEdges = parentId ? [...state.flowchartEdges, { id: uuidv4(), source: parentId, target: newNode.id }] : state.flowchartEdges;
-          const next = { ...state, flowchartNodes: newNodes, flowchartEdges: newEdges };
-          return { ...next, ...syncProject(next) };
-        });
-      },
-
-      updateFlowchartNode: (id, data) => {
-        set((state) => {
-          const next = {
-            ...state,
-            flowchartNodes: state.flowchartNodes.map((n) =>
-              n.id === id ? { ...n, data: { ...n.data, ...data } } : n
-            ),
-          };
-          return { ...next, ...syncProject(next) };
-        });
-      },
-
-      deleteFlowchartNode: (id) => {
-        set((state) => {
-          const newNodes = state.flowchartNodes.filter(n => n.id !== id);
-          const newEdges = state.flowchartEdges.filter(e => e.source !== id && e.target !== id);
-          const next = { ...state, flowchartNodes: newNodes, flowchartEdges: newEdges };
-          return { ...next, ...syncProject(next) };
-        });
-      },
 
 
 
