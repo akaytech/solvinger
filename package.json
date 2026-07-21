@@ -22,6 +22,7 @@
     "react-i18next": "^17.0.10",
     "react-router-dom": "^7.18.1",
     "uuid": "^14.0.1",
+    "zundo": "^2.3.0",
     "zustand": "^5.0.14"
   },
   "devDependencies": {

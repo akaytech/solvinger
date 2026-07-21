@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { temporal } from 'zundo';
 import type { Edge } from '@xyflow/react';
 import { v4 as uuidv4 } from 'uuid';
 import { doc, setDoc, deleteDoc, collection, query, where, getDocs } from 'firebase/firestore';
@@ -132,6 +133,7 @@ export interface RoadmapState extends EodSlice, NotepadSlice, FiveWhysSlice, Swo
   updateProjectName: (id: string, name: string) => void;
   deleteProject: (id: string) => void;
   clearToolData: (projectId: string, toolName: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta' | 'decision' | 'flowchart' | 'pareto' | 'histogram' | 'notepad' | 'eod') => void;
+  forceSync: () => void;
 
 
 
@@ -208,25 +210,33 @@ export const syncProject = (state: RoadmapState): Partial<RoadmapState> => {
 
 
 export const useRoadmapStore = create<RoadmapState>()(
-  persist(
-    (set, get, api) => ({
-      ...createEodSlice(set, get, api),
-      ...createNotepadSlice(set, get, api),
-      ...createFiveWhysSlice(set, get, api),
-      ...createSwotSlice(set, get, api),
-      ...createIshikawaSlice(set, get, api),
-      ...createPdcaSlice(set, get, api),
-      ...createWaterfallSlice(set, get, api),
-      ...createFtaSlice(set, get, api),
-      ...createFlowchartSlice(set, get, api),
-      ...createParetoSlice(set, get, api),
-      ...createHistogramSlice(set, get, api),
-      ...createDecisionSlice(set, get, api),
-      ...createWbsSlice(set, get, api),
-      user: null,
-      login: (uid, email, name, photoURL) => set({ user: { uid, email, name, photoURL } }),
-      logout: () => set({ user: null, projects: [], currentProjectId: null, nodes: [], edges: [], fiveWhysNodes: [], fiveWhysEdges: [], swot: [], ishikawa: [], pdca: [], waterfall: [], pareto: [], histogram: [], eod: [],
-          decision: [], flowchartNodes: [], flowchartEdges: [], ftaNodes: [], ftaEdges: [], activeTool: null }),
+  temporal(
+    persist(
+      (set, get, api) => ({
+        ...createEodSlice(set, get, api),
+        ...createNotepadSlice(set, get, api),
+        ...createFiveWhysSlice(set, get, api),
+        ...createSwotSlice(set, get, api),
+        ...createIshikawaSlice(set, get, api),
+        ...createPdcaSlice(set, get, api),
+        ...createWaterfallSlice(set, get, api),
+        ...createFtaSlice(set, get, api),
+        ...createFlowchartSlice(set, get, api),
+        ...createParetoSlice(set, get, api),
+        ...createHistogramSlice(set, get, api),
+        ...createDecisionSlice(set, get, api),
+        ...createWbsSlice(set, get, api),
+        
+        forceSync: () => {
+          const state = get();
+          const synced = syncProject(state);
+          set(synced as Partial<RoadmapState>);
+        },
+
+        user: null,
+        login: (uid, email, name, photoURL) => set({ user: { uid, email, name, photoURL } }),
+        logout: () => set({ user: null, projects: [], currentProjectId: null, nodes: [], edges: [], fiveWhysNodes: [], fiveWhysEdges: [], swot: [], ishikawa: [], pdca: [], waterfall: [], pareto: [], histogram: [], eod: [],
+            decision: [], flowchartNodes: [], flowchartEdges: [], ftaNodes: [], ftaEdges: [], activeTool: null }),
 
       activeTool: null,
       setActiveTool: (tool) => set({ activeTool: tool }),
@@ -487,5 +497,27 @@ export const useRoadmapStore = create<RoadmapState>()(
     {
       name: 'roadmap-storage',
     }
-  )
+  ),
+  {
+    partialize: (state) => ({
+      nodes: state.nodes,
+      edges: state.edges,
+      fiveWhysNodes: state.fiveWhysNodes,
+      fiveWhysEdges: state.fiveWhysEdges,
+      swot: state.swot,
+      ishikawa: state.ishikawa,
+      pdca: state.pdca,
+      waterfall: state.waterfall,
+      pareto: state.pareto,
+      histogram: state.histogram,
+      eod: state.eod,
+      decision: state.decision,
+      flowchartNodes: state.flowchartNodes,
+      flowchartEdges: state.flowchartEdges,
+      ftaNodes: state.ftaNodes,
+      ftaEdges: state.ftaEdges,
+    }),
+    limit: 50,
+  }
+)
 );
