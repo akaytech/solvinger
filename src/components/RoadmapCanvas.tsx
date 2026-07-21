@@ -12,7 +12,6 @@ import { useShallow } from 'zustand/react/shallow';
 import GoalNode from './GoalNode';
 import ContextMenu from './ContextMenu';
 import PaneContextMenu from './PaneContextMenu';
-import InlineDescriptionMenu from './InlineDescriptionMenu';
 import { useTranslation } from 'react-i18next';
 
 const nodeTypes = {
@@ -44,10 +43,10 @@ export default function RoadmapCanvas({ onNodeSelect }: { onNodeSelect: (id: str
       updateGoal: state.updateGoal,
       deleteGoal: state.deleteGoal
     })));
-  const { setCenter, getZoom, screenToFlowPosition, flowToScreenPosition } = useReactFlow();
+  const { setCenter, getZoom, screenToFlowPosition } = useReactFlow();
   const [menu, setMenu] = useState<{ id: string; top: number; left: number } | null>(null);
   const [paneMenu, setPaneMenu] = useState<{ top: number; left: number; clientX: number; clientY: number } | null>(null);
-  const [inlineDescription, setInlineDescription] = useState<{ id: string; top: number; left: number } | null>(null);
+  const setEditingDescriptionId = useRoadmapStore((s) => s.setEditingDescriptionId);
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
 
   const [isShiftPressed, setIsShiftPressed] = useState(false);
@@ -113,7 +112,6 @@ export default function RoadmapCanvas({ onNodeSelect }: { onNodeSelect: (id: str
           left,
         });
         setPaneMenu(null);
-        setInlineDescription(null);
       }
     },
     []
@@ -160,7 +158,6 @@ export default function RoadmapCanvas({ onNodeSelect }: { onNodeSelect: (id: str
     }
     setMenu(null);
     setPaneMenu(null);
-    setInlineDescription(null);
     onNodeSelect(null);
   }, [onNodeSelect, screenToFlowPosition, addGoal, t]);
 
@@ -205,20 +202,7 @@ export default function RoadmapCanvas({ onNodeSelect }: { onNodeSelect: (id: str
           }}
           onUpdate={(data) => updateGoal(menu.id, data)}
           onOpenDescription={() => {
-            const targetNode = nodes.find(n => n.id === menu.id);
-            if (targetNode) {
-              const nodePosScreen = flowToScreenPosition({ x: targetNode.position.x, y: targetNode.position.y });
-              const pane = reactFlowWrapper.current?.getBoundingClientRect();
-              if (pane) {
-                 const relativeTop = nodePosScreen.y - pane.top;
-                 const relativeLeft = nodePosScreen.x - pane.left;
-                 const zoom = getZoom();
-                 const nodeScaledWidth = 220 * zoom;
-                 const finalLeft = relativeLeft + nodeScaledWidth + 10;
-                 
-                 setInlineDescription({ id: menu.id, top: relativeTop, left: finalLeft });
-              }
-            }
+            setEditingDescriptionId(menu.id);
             setMenu(null);
           }}
           onDelete={() => deleteGoal(menu.id)}
@@ -241,15 +225,6 @@ export default function RoadmapCanvas({ onNodeSelect }: { onNodeSelect: (id: str
         />
       )}
 
-      {inlineDescription && (
-        <InlineDescriptionMenu
-          x={inlineDescription.left}
-          y={inlineDescription.top}
-          node={nodes.find((n) => n.id === inlineDescription.id)!}
-          onClose={() => setInlineDescription(null)}
-          onSave={(text) => updateGoal(inlineDescription.id, { description: text })}
-        />
-      )}
     </div>
   );
 }

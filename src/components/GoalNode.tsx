@@ -3,6 +3,7 @@ import { CheckCircle2, CircleDashed, PlayCircle, Plus, Eye, EyeOff, XCircle, Lay
 import clsx from 'clsx';
 import type { GoalNodeData } from '../store/useRoadmapStore';
 import { useRoadmapStore, getDescendants } from '../store/useRoadmapStore';
+import InlineDescriptionMenu from './InlineDescriptionMenu';
 import { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -28,6 +29,9 @@ export default function GoalNode({ data, selected }: { data: GoalNodeData; selec
   const descendantIds = getDescendants(nodeId, edges);
   const hasManuallyPositionedDescendants = descendantIds.some(cid => nodes.find(n => n.id === cid)?.data.isManuallyPositioned);
   const realignChildren = useRoadmapStore((s) => s.realignChildren);
+  const editingDescriptionId = useRoadmapStore((s) => s.editingDescriptionId);
+  const setEditingDescriptionId = useRoadmapStore((s) => s.setEditingDescriptionId);
+  const isEditingDescription = editingDescriptionId === nodeId;
 
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState(data.label);
@@ -85,6 +89,15 @@ export default function GoalNode({ data, selected }: { data: GoalNodeData; selec
           <LayoutGrid size={14} />
         </button>
       )}
+
+      {isEditingDescription && (
+        <InlineDescriptionMenu
+          node={nodes.find((n) => n.id === nodeId)!}
+          onClose={() => setEditingDescriptionId(null)}
+          onSave={(text) => updateGoal(nodeId, { description: text })}
+        />
+      )}
+
       {/* Görüntüde gizli tuttuğumuz ama çizgilerin merkeze gelmesini sağlayan noktalar */}
       <Handle type="target" position={Position.Top} className="opacity-0" />
       <Handle type="source" position={Position.Bottom} className="opacity-0" />

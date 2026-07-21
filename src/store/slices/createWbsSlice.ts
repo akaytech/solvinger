@@ -30,6 +30,8 @@ export type GoalNode = Node<GoalNodeData>;
 export interface WbsSlice {
   nodes: GoalNode[];
   edges: Edge[];
+  editingDescriptionId: string | null;
+  setEditingDescriptionId: (id: string | null) => void;
   onNodesChange: (changes: NodeChange[]) => void;
   onEdgesChange: (changes: EdgeChange[]) => void;
   onConnect: (connection: Connection) => void;
@@ -212,6 +214,11 @@ export const createWbsSlice: StateCreator<
 > = (set, get) => ({
   nodes: getDefaultNodes(),
   edges: [],
+  editingDescriptionId: null,
+
+  setEditingDescriptionId: (id) => {
+    set({ editingDescriptionId: id });
+  },
 
   onNodesChange: (changes: NodeChange[]) => {
     set((state) => {

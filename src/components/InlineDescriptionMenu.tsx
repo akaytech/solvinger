@@ -4,16 +4,12 @@ import { useTranslation } from 'react-i18next';
 import { Check } from 'lucide-react';
 
 type InlineDescriptionMenuProps = {
-  x: number;
-  y: number;
   node: GoalNode;
   onClose: () => void;
   onSave: (text: string) => void;
 };
 
 export default function InlineDescriptionMenu({
-  x,
-  y,
   node,
   onClose,
   onSave,
@@ -33,9 +29,9 @@ export default function InlineDescriptionMenu({
 
   return (
     <div
-      style={{ top: y, left: x }}
-      className="absolute z-50 w-72 rounded-3xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-3 shadow-2xl transition-all flex flex-col"
+      className="absolute top-0 -right-[290px] z-[100] w-72 rounded-3xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-3 shadow-2xl transition-all flex flex-col cursor-auto"
       onMouseDown={(e) => e.stopPropagation()} // Prevent clicking inside from triggering outside clicks
+      onDoubleClick={(e) => e.stopPropagation()}
     >
       <div className="flex items-center justify-between mb-2 px-1">
         <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">{t('desc_task')}</span>
