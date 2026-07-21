@@ -347,9 +347,9 @@ export const useRoadmapStore = create<RoadmapState>()(
         if (state.user) {
            const project = state.projects.find(p => p.id === id);
            if (project && project.userId !== state.user.uid) {
-             updateDoc(doc(db, 'projects', id), { sharedWith: arrayRemove(state.user.uid) }).catch(console.error);
+             updateDoc(doc(db, 'projects', id), { sharedWith: arrayRemove(state.user.uid) }).catch(e => alert("Silme Hatası (Ortak): " + e.message));
            } else {
-             deleteDoc(doc(db, 'projects', id)).catch(console.error);
+             deleteDoc(doc(db, 'projects', id)).catch(e => alert("Silme Hatası (Sahip): " + e.message));
            }
         }
         set((state) => {
