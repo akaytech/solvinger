@@ -3,7 +3,7 @@ import { persist } from 'zustand/middleware';
 import { temporal } from 'zundo';
 import type { Edge } from '@xyflow/react';
 import { v4 as uuidv4 } from 'uuid';
-import { doc, setDoc, deleteDoc, collection, query, where, onSnapshot } from 'firebase/firestore';
+import { doc, setDoc, deleteDoc, collection, query, where, onSnapshot, or, arrayUnion, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import i18n from '../i18n';
 
@@ -112,6 +112,8 @@ export interface Project {
   ftaNodes?: FtaNode[];
   ftaEdges?: Edge[];
   eod?: EodTask[];
+    isPublic?: boolean;
+  sharedWith?: string[];
   updatedAt: number;
   userId: string;
 }
@@ -136,6 +138,8 @@ export interface RoadmapState extends EodSlice, NotepadSlice, FiveWhysSlice, Swo
   updateProjectName: (id: string, name: string) => void;
   deleteProject: (id: string) => void;
   clearToolData: (projectId: string, toolName: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta' | 'decision' | 'flowchart' | 'pareto' | 'histogram' | 'notepad' | 'eod') => void;
+  setProjectPublic: (id: string, isPublic: boolean) => Promise<void>;
+  joinSharedProject: (id: string) => Promise<boolean>;
   forceSync: () => void;
 
 
@@ -211,7 +215,7 @@ export const useRoadmapStore = create<RoadmapState>()(
           const currentSub = get().projectUnsubscribe;
           if (currentSub) currentSub();
 
-          const q = query(collection(db, 'projects'), where('userId', '==', userId));
+          const q = query(collection(db, 'projects'), or(where('userId', '==', userId), where('sharedWith', 'array-contains', userId)));
           const unsubscribe = onSnapshot(q, (snapshot) => {
             const fetchedProjects = snapshot.docs.map(doc => {
               const data = doc.data() as Project;
@@ -420,6 +424,35 @@ export const useRoadmapStore = create<RoadmapState>()(
             ftaEdges: isCurrent ? [] : state.ftaEdges,
           };
         });
+      },
+
+      
+      setProjectPublic: async (id, isPublic) => {
+        try {
+          await setDoc(doc(db, 'projects', id), { isPublic }, { merge: true });
+        } catch (error) {
+          console.error("setProjectPublic error:", error);
+        }
+      },
+
+      joinSharedProject: async (id) => {
+        const state = get();
+        if (!state.user) return false;
+        try {
+          const docRef = doc(db, 'projects', id);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            const data = docSnap.data() as Project;
+            if (data.isPublic) {
+              await updateDoc(docRef, { sharedWith: arrayUnion(state.user.uid) });
+              return true;
+            }
+          }
+          return false;
+        } catch (error) {
+          console.error("joinSharedProject error:", error);
+          return false;
+        }
       },
 
       clearToolData: (projectId, toolName) => {

@@ -9,6 +9,7 @@ import TopRightUserMenu from './components/TopRightUserMenu';
 import TopRightProjectsMenu from './components/TopRightProjectsMenu';
 import UndoRedoControls from './components/UndoRedoControls';
 import GlobalExportButton from './components/GlobalExportButton';
+import GlobalShareButton from './components/GlobalShareButton';
 import { useRoadmapStore } from './store/useRoadmapStore';
 import { useShallow } from 'zustand/react/shallow';
 
@@ -53,13 +54,15 @@ function DecisionMatrixWrapper() {
 }
 
 function App() {
-  const { user, fetchProjects, currentProjectId, loadProject, activeTool, setActiveTool } = useRoadmapStore(useShallow((state) => ({
+  const { user, fetchProjects, currentProjectId, loadProject, activeTool, setActiveTool, projects, joinSharedProject } = useRoadmapStore(useShallow((state) => ({
     user: state.user,
     fetchProjects: state.fetchProjects,
     currentProjectId: state.currentProjectId,
     loadProject: state.loadProject,
     activeTool: state.activeTool,
-    setActiveTool: state.setActiveTool
+    setActiveTool: state.setActiveTool,
+    projects: state.projects,
+    joinSharedProject: state.joinSharedProject
   })));
   
   const navigate = useNavigate();
@@ -92,14 +95,19 @@ function App() {
       const pId = parts[2];
       const tId = parts[3];
       if (pId && pId !== currentProjectId) {
-         loadProject(pId);
+         const exists = projects.find(p => p.id === pId);
+         if (exists) {
+           loadProject(pId);
+         } else {
+           joinSharedProject(pId);
+         }
       }
       if (tId && tId !== activeTool) {
          setActiveTool(tId as any);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname, user]);
+  }, [location.pathname, user, currentProjectId, projects, loadProject, joinSharedProject]);
 
   // State -> URL (Clicking buttons in the app)
   useEffect(() => {
@@ -127,6 +135,7 @@ function App() {
             <div className="flex-1 relative overflow-hidden bg-slate-50 dark:bg-slate-900 transition-colors duration-200">
             {activeTool && <UndoRedoControls />}
             {activeTool && <GlobalExportButton />}
+            {activeTool && <GlobalShareButton />}
             <Suspense fallback={
               <div className="flex h-full w-full items-center justify-center">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
