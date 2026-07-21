@@ -33,7 +33,10 @@ service cloud.firestore {
                     && (
                       resource.data.get('userId', '') == request.auth.uid || 
                       request.auth.uid in resource.data.get('sharedWith', []) ||
-                      (resource.data.get('isPublic', false) == true) // Ortak çalışmaya katılma esnasında arrayUnion için gerekli
+                      (
+                        resource.data.get('isPublic', false) == true &&
+                        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['sharedWith'])
+                      ) // Ortak çalışmaya katılma esnasında SADECE sharedWith alanının güncellenmesine izin verir
                     )
                     && request.resource.data.get('userId', '') == resource.data.get('userId', ''); // Sahiplik çalınmasını (Ownership Stealing) veritabanı seviyesinde yasaklar!
       
