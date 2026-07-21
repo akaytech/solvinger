@@ -29,7 +29,7 @@ export default function InlineDescriptionMenu({
 
   return (
     <div
-      className="w-72 rounded-3xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-3 shadow-2xl transition-all flex flex-col cursor-auto"
+      className="nodrag nowheel w-72 rounded-3xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-3 shadow-2xl transition-all flex flex-col cursor-auto"
       onMouseDown={(e) => e.stopPropagation()}
       onClick={(e) => e.stopPropagation()}
       onDoubleClick={(e) => e.stopPropagation()}
