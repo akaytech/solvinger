@@ -22,6 +22,7 @@ export type GoalNodeData = {
   status: GoalStatus;
   isExpanded: boolean;
   hideCompleted?: boolean;
+  isManuallyPositioned?: boolean;
 };
 
 export type GoalNode = Node<GoalNodeData>;
@@ -37,6 +38,7 @@ export interface WbsSlice {
   deleteGoal: (id: string) => void;
   toggleExpand: (id: string) => void;
   toggleHideCompleted: (id: string) => void;
+  realignChildren: (parentId: string) => void;
   loadData: (nodes: GoalNode[], edges: Edge[], swot?: SwotAnalysis[], ishikawa?: IshikawaAnalysis[], pdca?: PdcaCycle[], waterfall?: WaterfallProject[]) => void;
 }
 
@@ -101,17 +103,30 @@ const getLayoutedElements = (nodes: GoalNode[], edges: Edge[], direction = 'TB')
   const rootNodes = visibleNodes.filter(n => !visibleEdges.some(e => e.target === n.id));
   const offsets = new Map<string, { dx: number; dy: number }>();
 
-  rootNodes.forEach(root => {
-    const dagreNode = dagreGraph.node(root.id);
+  const computeOffsets = (nodeId: string, parentOffset: { dx: number, dy: number }) => {
+    const node = visibleNodes.find(n => n.id === nodeId);
+    if (!node) return;
+    
+    const dagreNode = dagreGraph.node(nodeId);
     if (!dagreNode) return;
-    const dx = root.position.x - (dagreNode.x - 220);
-    const dy = root.position.y - (dagreNode.y - 55);
+    
+    let currentOffset = parentOffset;
+    const isRoot = !visibleEdges.some(e => e.target === nodeId);
+    
+    if (isRoot || node.data.isManuallyPositioned) {
+      currentOffset = {
+        dx: node.position.x - (dagreNode.x - 220),
+        dy: node.position.y - (dagreNode.y - 55),
+      };
+    }
+    
+    offsets.set(nodeId, currentOffset);
+    
+    const childrenIds = visibleEdges.filter(e => e.source === nodeId).map(e => e.target);
+    childrenIds.forEach(childId => computeOffsets(childId, currentOffset));
+  };
 
-    const descendants = [root.id, ...getDescendants(root.id, visibleEdges)];
-    descendants.forEach(id => {
-      offsets.set(id, { dx, dy });
-    });
-  });
+  rootNodes.forEach(root => computeOffsets(root.id, { dx: 0, dy: 0 }));
 
   return nodes.map((node) => {
     if (node.hidden) return node;
@@ -200,7 +215,22 @@ export const createWbsSlice: StateCreator<
 
   onNodesChange: (changes: NodeChange[]) => {
     set((state) => {
-      const next = { ...state, nodes: applyNodeChanges(changes, state.nodes) as GoalNode[] };
+      const nextNodes = [...state.nodes];
+
+      changes.forEach(change => {
+        if (change.type === 'position' && change.dragging) {
+          const idx = nextNodes.findIndex(n => n.id === change.id);
+          if (idx !== -1) {
+            nextNodes[idx] = {
+              ...nextNodes[idx],
+              data: { ...nextNodes[idx].data, isManuallyPositioned: true }
+            };
+          }
+        }
+      });
+
+      const finalNodes = applyNodeChanges(changes, nextNodes) as GoalNode[];
+      const next = { ...state, nodes: finalNodes };
       return { ...next, ...syncProject(next) };
     });
   },
@@ -329,6 +359,22 @@ export const createWbsSlice: StateCreator<
         node.id === id ? { ...node, data: { ...node.data, hideCompleted: newHideState } } : node
       );
       
+      const { nodes: updatedNodes, edges: updatedEdges } = computeVisibility(nextNodes, state.edges);
+      const finalNodes = getLayoutedElements(updatedNodes, updatedEdges);
+      const next = { ...state, nodes: finalNodes, edges: updatedEdges };
+      return { ...next, ...syncProject(next) };
+    });
+  },
+
+  realignChildren: (parentId) => {
+    set((state) => {
+      const descendants = getDescendants(parentId, state.edges);
+      const nextNodes = state.nodes.map(node => {
+        if (descendants.includes(node.id) && node.data.isManuallyPositioned) {
+          return { ...node, data: { ...node.data, isManuallyPositioned: false } };
+        }
+        return node;
+      });
       const { nodes: updatedNodes, edges: updatedEdges } = computeVisibility(nextNodes, state.edges);
       const finalNodes = getLayoutedElements(updatedNodes, updatedEdges);
       const next = { ...state, nodes: finalNodes, edges: updatedEdges };

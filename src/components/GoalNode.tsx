@@ -1,8 +1,8 @@
 import { Handle, Position, useNodeId } from '@xyflow/react';
-import { CheckCircle2, CircleDashed, PlayCircle, Plus, Eye, EyeOff, XCircle } from 'lucide-react';
+import { CheckCircle2, CircleDashed, PlayCircle, Plus, Eye, EyeOff, XCircle, LayoutGrid } from 'lucide-react';
 import clsx from 'clsx';
 import type { GoalNodeData } from '../store/useRoadmapStore';
-import { useRoadmapStore } from '../store/useRoadmapStore';
+import { useRoadmapStore, getDescendants } from '../store/useRoadmapStore';
 import { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -24,6 +24,10 @@ export default function GoalNode({ data, selected }: { data: GoalNodeData; selec
      return child?.data.status === 'Done';
   }).length;
   const hasCompletedChildren = completedChildrenCount > 0;
+
+  const descendantIds = getDescendants(nodeId, edges);
+  const hasManuallyPositionedDescendants = descendantIds.some(cid => nodes.find(n => n.id === cid)?.data.isManuallyPositioned);
+  const realignChildren = useRoadmapStore((s) => s.realignChildren);
 
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState(data.label);
@@ -67,6 +71,18 @@ export default function GoalNode({ data, selected }: { data: GoalNodeData; selec
         >
           {data.hideCompleted ? <EyeOff size={14} /> : <Eye size={14} />}
           <span>{completedChildrenCount}</span>
+        </button>
+      )}
+      {hasManuallyPositionedDescendants && (
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            realignChildren(nodeId);
+          }}
+          className="absolute -top-3 left-4 flex h-7 w-7 items-center justify-center rounded-full bg-indigo-500 hover:bg-indigo-600 text-white shadow-md border border-indigo-400 transition-all z-10"
+          title="Yeniden Hizala (Re-layout)"
+        >
+          <LayoutGrid size={14} />
         </button>
       )}
       {/* Görüntüde gizli tuttuğumuz ama çizgilerin merkeze gelmesini sağlayan noktalar */}
