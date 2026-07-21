@@ -5,6 +5,12 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 export const resources = {
   "ar": {
     "translation": {
+      "flowchart_group_flow": "FLOWCHART",
+      "flowchart_group_dfd": "DATA FLOW (DFD)",
+      "flowchart_new_external": "New External Entity",
+      "flowchart_add_external": "External Entity",
+      "flowchart_new_datastore": "New Data Store",
+      "flowchart_add_datastore": "Data Store",
       "fta_new_undeveloped": "New Undeveloped Event",
       "fta_add_undeveloped": "Undeveloped Event",
       "fta_new_conditioning": "New Condition",
@@ -217,6 +223,12 @@ export const resources = {
   },
   "de": {
     "translation": {
+      "flowchart_group_flow": "FLOWCHART",
+      "flowchart_group_dfd": "DATA FLOW (DFD)",
+      "flowchart_new_external": "New External Entity",
+      "flowchart_add_external": "External Entity",
+      "flowchart_new_datastore": "New Data Store",
+      "flowchart_add_datastore": "Data Store",
       "fta_new_undeveloped": "New Undeveloped Event",
       "fta_add_undeveloped": "Undeveloped Event",
       "fta_new_conditioning": "New Condition",
@@ -458,6 +470,12 @@ export const resources = {
   },
   "en": {
     "translation": {
+      "flowchart_group_flow": "FLOWCHART",
+      "flowchart_group_dfd": "DATA FLOW (DFD)",
+      "flowchart_new_external": "New External Entity",
+      "flowchart_add_external": "External Entity",
+      "flowchart_new_datastore": "New Data Store",
+      "flowchart_add_datastore": "Data Store",
       "fta_new_undeveloped": "New Undeveloped Event",
       "fta_add_undeveloped": "Undeveloped Event",
       "fta_new_conditioning": "New Condition",
@@ -699,6 +717,12 @@ export const resources = {
   },
   "es": {
     "translation": {
+      "flowchart_group_flow": "FLOWCHART",
+      "flowchart_group_dfd": "DATA FLOW (DFD)",
+      "flowchart_new_external": "New External Entity",
+      "flowchart_add_external": "External Entity",
+      "flowchart_new_datastore": "New Data Store",
+      "flowchart_add_datastore": "Data Store",
       "fta_new_undeveloped": "New Undeveloped Event",
       "fta_add_undeveloped": "Undeveloped Event",
       "fta_new_conditioning": "New Condition",
@@ -940,6 +964,12 @@ export const resources = {
   },
   "fr": {
     "translation": {
+      "flowchart_group_flow": "FLOWCHART",
+      "flowchart_group_dfd": "DATA FLOW (DFD)",
+      "flowchart_new_external": "New External Entity",
+      "flowchart_add_external": "External Entity",
+      "flowchart_new_datastore": "New Data Store",
+      "flowchart_add_datastore": "Data Store",
       "fta_new_undeveloped": "New Undeveloped Event",
       "fta_add_undeveloped": "Undeveloped Event",
       "fta_new_conditioning": "New Condition",
@@ -1181,6 +1211,12 @@ export const resources = {
   },
   "ja": {
     "translation": {
+      "flowchart_group_flow": "FLOWCHART",
+      "flowchart_group_dfd": "DATA FLOW (DFD)",
+      "flowchart_new_external": "New External Entity",
+      "flowchart_add_external": "External Entity",
+      "flowchart_new_datastore": "New Data Store",
+      "flowchart_add_datastore": "Data Store",
       "fta_new_undeveloped": "New Undeveloped Event",
       "fta_add_undeveloped": "Undeveloped Event",
       "fta_new_conditioning": "New Condition",
@@ -1401,6 +1437,12 @@ export const resources = {
   },
   "pt": {
     "translation": {
+      "flowchart_group_flow": "FLOWCHART",
+      "flowchart_group_dfd": "DATA FLOW (DFD)",
+      "flowchart_new_external": "New External Entity",
+      "flowchart_add_external": "External Entity",
+      "flowchart_new_datastore": "New Data Store",
+      "flowchart_add_datastore": "Data Store",
       "fta_new_undeveloped": "New Undeveloped Event",
       "fta_add_undeveloped": "Undeveloped Event",
       "fta_new_conditioning": "New Condition",
@@ -1621,6 +1663,12 @@ export const resources = {
   },
   "ru": {
     "translation": {
+      "flowchart_group_flow": "FLOWCHART",
+      "flowchart_group_dfd": "DATA FLOW (DFD)",
+      "flowchart_new_external": "New External Entity",
+      "flowchart_add_external": "External Entity",
+      "flowchart_new_datastore": "New Data Store",
+      "flowchart_add_datastore": "Data Store",
       "fta_new_undeveloped": "New Undeveloped Event",
       "fta_add_undeveloped": "Undeveloped Event",
       "fta_new_conditioning": "New Condition",
@@ -1841,6 +1889,12 @@ export const resources = {
   },
   "tr": {
     "translation": {
+      "flowchart_group_flow": "AKIŞ DİYAGRAMI",
+      "flowchart_group_dfd": "VERİ AKIŞI (DFD)",
+      "flowchart_new_external": "Yeni Dış Kaynak",
+      "flowchart_add_external": "Dış Varlık Ekle",
+      "flowchart_new_datastore": "Yeni Veri Deposu",
+      "flowchart_add_datastore": "Veri Deposu Ekle",
       "fta_new_undeveloped": "Yeni Geliştirilmemiş Olay",
       "fta_add_undeveloped": "Geliştirilmemiş Olay",
       "fta_new_conditioning": "Yeni Koşul",
@@ -2082,6 +2136,12 @@ export const resources = {
   },
   "zh": {
     "translation": {
+      "flowchart_group_flow": "FLOWCHART",
+      "flowchart_group_dfd": "DATA FLOW (DFD)",
+      "flowchart_new_external": "New External Entity",
+      "flowchart_add_external": "External Entity",
+      "flowchart_new_datastore": "New Data Store",
+      "flowchart_add_datastore": "Data Store",
       "fta_new_undeveloped": "New Undeveloped Event",
       "fta_add_undeveloped": "Undeveloped Event",
       "fta_new_conditioning": "New Condition",

@@ -8,7 +8,7 @@ import {
 import type { NodeChange, EdgeChange, Connection, Edge, Node } from '@xyflow/react';
 import type { RoadmapState } from '../useRoadmapStore';
 
-export type FlowchartNodeType = 'start' | 'process' | 'decision' | 'end';
+export type FlowchartNodeType = 'start' | 'process' | 'decision' | 'end' | 'externalEntity' | 'dataStore';
 
 export type FlowchartNodeData = {
   label: string;
