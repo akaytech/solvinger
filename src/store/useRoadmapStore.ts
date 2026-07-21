@@ -60,20 +60,6 @@ import { createDecisionSlice } from './slices/createDecisionSlice';
 import type { DecisionSlice, DecisionCriteria, DecisionOption, DecisionMatrixProject } from './slices/createDecisionSlice';
 export type { DecisionCriteria, DecisionOption, DecisionMatrixProject };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 export interface NotepadNote {
   id: string;
   title: string;
@@ -81,16 +67,6 @@ export interface NotepadNote {
   createdAt: number;
   updatedAt: number;
 }
-
-
-
-
-
-
-
-
-
-
 
 export interface Project {
   id: string;
@@ -142,34 +118,7 @@ export interface RoadmapState extends EodSlice, NotepadSlice, FiveWhysSlice, Swo
   joinSharedProject: (id: string) => Promise<boolean>;
   forceSync: () => void;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
-
-
-
-
-
-
-
 
 export const useRoadmapStore = create<RoadmapState>()(
   temporal(
@@ -512,25 +461,14 @@ export const useRoadmapStore = create<RoadmapState>()(
         set(updates);
       },
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }),
     {
       name: 'roadmap-storage',
+      partialize: (state) => ({
+        user: state.user,
+        currentProjectId: state.currentProjectId,
+        activeTool: state.activeTool,
+      }),
     }
   ),
   {
@@ -579,7 +517,6 @@ export const useRoadmapStore = create<RoadmapState>()(
   }
 )
 );
-
 
 let saveTimeout: any;
 let isSyncing = false;
