@@ -8,6 +8,7 @@ import AuthModal from './components/AuthModal';
 import TopRightUserMenu from './components/TopRightUserMenu';
 import TopRightProjectsMenu from './components/TopRightProjectsMenu';
 import UndoRedoControls from './components/UndoRedoControls';
+import GlobalExportButton from './components/GlobalExportButton';
 import { useRoadmapStore } from './store/useRoadmapStore';
 import { useShallow } from 'zustand/react/shallow';
 
@@ -125,6 +126,7 @@ function App() {
             <TopRightProjectsMenu />
             <div className="flex-1 relative overflow-hidden bg-slate-50 dark:bg-slate-900 transition-colors duration-200">
             {activeTool && <UndoRedoControls />}
+            {activeTool && <GlobalExportButton />}
             <Suspense fallback={
               <div className="flex h-full w-full items-center justify-center">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
