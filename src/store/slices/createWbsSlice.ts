@@ -375,9 +375,9 @@ export const createWbsSlice: StateCreator<
 
   realignChildren: (parentId) => {
     set((state) => {
-      const descendants = getDescendants(parentId, state.edges);
+      const children = getDirectChildren(parentId, state.edges);
       const nextNodes = state.nodes.map(node => {
-        if (descendants.includes(node.id) && node.data.isManuallyPositioned) {
+        if (children.includes(node.id) && node.data.isManuallyPositioned) {
           return { ...node, data: { ...node.data, isManuallyPositioned: false } };
         }
         return node;

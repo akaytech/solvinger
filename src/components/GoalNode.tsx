@@ -2,7 +2,7 @@ import { Handle, Position, useNodeId, NodeToolbar } from '@xyflow/react';
 import { CheckCircle2, CircleDashed, PlayCircle, Plus, Eye, EyeOff, XCircle, LayoutGrid } from 'lucide-react';
 import clsx from 'clsx';
 import type { GoalNodeData } from '../store/useRoadmapStore';
-import { useRoadmapStore, getDescendants } from '../store/useRoadmapStore';
+import { useRoadmapStore } from '../store/useRoadmapStore';
 import InlineDescriptionMenu from './InlineDescriptionMenu';
 import { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -26,8 +26,7 @@ export default function GoalNode({ data, selected }: { data: GoalNodeData; selec
   }).length;
   const hasCompletedChildren = completedChildrenCount > 0;
 
-  const descendantIds = getDescendants(nodeId, edges);
-  const hasManuallyPositionedDescendants = descendantIds.some(cid => nodes.find(n => n.id === cid)?.data.isManuallyPositioned);
+  const hasManuallyPositionedChildren = childrenIds.some(cid => nodes.find(n => n.id === cid)?.data.isManuallyPositioned);
   const realignChildren = useRoadmapStore((s) => s.realignChildren);
   const editingDescriptionId = useRoadmapStore((s) => s.editingDescriptionId);
   const setEditingDescriptionId = useRoadmapStore((s) => s.setEditingDescriptionId);
@@ -77,7 +76,7 @@ export default function GoalNode({ data, selected }: { data: GoalNodeData; selec
           <span>{completedChildrenCount}</span>
         </button>
       )}
-      {hasManuallyPositionedDescendants && (
+      {hasManuallyPositionedChildren && (
         <button
           onClick={(e) => {
             e.stopPropagation();
