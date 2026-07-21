@@ -49,6 +49,10 @@ import { createHistogramSlice } from './slices/createHistogramSlice';
 import type { HistogramSlice, HistogramItem, HistogramProject } from './slices/createHistogramSlice';
 export type { HistogramItem, HistogramProject };
 
+import { createDecisionSlice } from './slices/createDecisionSlice';
+import type { DecisionSlice, DecisionCriteria, DecisionOption, DecisionMatrixProject } from './slices/createDecisionSlice';
+export type { DecisionCriteria, DecisionOption, DecisionMatrixProject };
+
 
 type GoalStatus = 'To Do' | 'In Progress' | 'Done' | 'Failed';
 
@@ -74,17 +78,7 @@ export type GoalNode = Node<GoalNodeData>;
 
 
 
-export interface DecisionCriteria {
-  id: string;
-  name: string;
-  weight: number;
-}
 
-export interface DecisionOption {
-  id: string;
-  name: string;
-  scores: Record<string, number>;
-}
 
 export interface NotepadNote {
   id: string;
@@ -98,13 +92,6 @@ export interface NotepadNote {
 
 
 
-export interface DecisionMatrixProject {
-  id: string;
-  name: string;
-  criteria: DecisionCriteria[];
-  options: DecisionOption[];
-  createdAt: number;
-}
 
 
 
@@ -133,7 +120,7 @@ export interface Project {
   userId: string;
 }
 
-export interface RoadmapState extends NotepadSlice, FiveWhysSlice, SwotSlice, IshikawaSlice, PdcaSlice, WaterfallSlice, FtaSlice, FlowchartSlice, ParetoSlice, HistogramSlice {
+export interface RoadmapState extends NotepadSlice, FiveWhysSlice, SwotSlice, IshikawaSlice, PdcaSlice, WaterfallSlice, FtaSlice, FlowchartSlice, ParetoSlice, HistogramSlice, DecisionSlice {
   // Auth
   user: { uid: string; email: string; name: string; photoURL?: string } | null;
   login: (uid: string, email: string, name: string, photoURL?: string) => void;
@@ -157,17 +144,7 @@ export interface RoadmapState extends NotepadSlice, FiveWhysSlice, SwotSlice, Is
 
 
 
-  decision: DecisionMatrixProject[];
-  addDecisionProject: (name: string) => void;
-  updateDecisionProjectName: (id: string, name: string) => void;
-  deleteDecisionProject: (id: string) => void;
-  addDecisionCriteria: (projectId: string, name: string, weight: number) => void;
-  updateDecisionCriteria: (projectId: string, criteriaId: string, name: string, weight: number) => void;
-  deleteDecisionCriteria: (projectId: string, criteriaId: string) => void;
-  addDecisionOption: (projectId: string, name: string) => void;
-  updateDecisionOptionName: (projectId: string, optionId: string, name: string) => void;
-  deleteDecisionOption: (projectId: string, optionId: string) => void;
-  updateDecisionScore: (projectId: string, optionId: string, criteriaId: string, score: number) => void;
+
 
 
 
@@ -413,6 +390,7 @@ export const useRoadmapStore = create<RoadmapState>()(
       ...createFlowchartSlice(set, get, api),
       ...createParetoSlice(set, get, api),
       ...createHistogramSlice(set, get, api),
+      ...createDecisionSlice(set, get, api),
       user: null,
       login: (uid, email, name, photoURL) => set({ user: { uid, email, name, photoURL } }),
       logout: () => set({ user: null, projects: [], currentProjectId: null, nodes: [], edges: [], fiveWhys: [], swot: [], ishikawa: [], pdca: [], waterfall: [], pareto: [], histogram: [],
@@ -792,98 +770,7 @@ export const useRoadmapStore = create<RoadmapState>()(
 
 
 
-      // Decision Matrix Actions
-      decision: [],
-      addDecisionProject: (name) => {
-        const newItem: DecisionMatrixProject = {
-          id: uuidv4(),
-          name,
-          criteria: [],
-          options: [],
-          createdAt: Date.now(),
-        };
-        const newDecision = [...(get().decision || []), newItem];
-        set({ decision: newDecision, ...syncProject({ ...get(), decision: newDecision }) });
-      },
-      updateDecisionProjectName: (id, name) => {
-        const newDecision = (get().decision || []).map(d => d.id === id ? { ...d, name } : d);
-        set({ decision: newDecision, ...syncProject({ ...get(), decision: newDecision }) });
-      },
-      deleteDecisionProject: (id) => {
-        const newDecision = (get().decision || []).filter(d => d.id !== id);
-        set({ decision: newDecision, ...syncProject({ ...get(), decision: newDecision }) });
-      },
-      addDecisionCriteria: (projectId, name, weight) => {
-        const newDecision = (get().decision || []).map(d => 
-          d.id === projectId 
-            ? { ...d, criteria: [...d.criteria, { id: uuidv4(), name, weight }] }
-            : d
-        );
-        set({ decision: newDecision, ...syncProject({ ...get(), decision: newDecision }) });
-      },
-      updateDecisionCriteria: (projectId, criteriaId, name, weight) => {
-        const newDecision = (get().decision || []).map(d => 
-          d.id === projectId 
-            ? { ...d, criteria: d.criteria.map(c => c.id === criteriaId ? { ...c, name, weight } : c) }
-            : d
-        );
-        set({ decision: newDecision, ...syncProject({ ...get(), decision: newDecision }) });
-      },
-      deleteDecisionCriteria: (projectId, criteriaId) => {
-        const newDecision = (get().decision || []).map(d => 
-          d.id === projectId 
-            ? { 
-                ...d, 
-                criteria: d.criteria.filter(c => c.id !== criteriaId),
-                options: d.options.map(opt => {
-                  const newScores = { ...opt.scores };
-                  delete newScores[criteriaId];
-                  return { ...opt, scores: newScores };
-                })
-              }
-            : d
-        );
-        set({ decision: newDecision, ...syncProject({ ...get(), decision: newDecision }) });
-      },
-      addDecisionOption: (projectId, name) => {
-        const newDecision = (get().decision || []).map(d => 
-          d.id === projectId 
-            ? { ...d, options: [...d.options, { id: uuidv4(), name, scores: {} }] }
-            : d
-        );
-        set({ decision: newDecision, ...syncProject({ ...get(), decision: newDecision }) });
-      },
-      updateDecisionOptionName: (projectId, optionId, name) => {
-        const newDecision = (get().decision || []).map(d => 
-          d.id === projectId 
-            ? { ...d, options: d.options.map(o => o.id === optionId ? { ...o, name } : o) }
-            : d
-        );
-        set({ decision: newDecision, ...syncProject({ ...get(), decision: newDecision }) });
-      },
-      deleteDecisionOption: (projectId, optionId) => {
-        const newDecision = (get().decision || []).map(d => 
-          d.id === projectId 
-            ? { ...d, options: d.options.filter(o => o.id !== optionId) }
-            : d
-        );
-        set({ decision: newDecision, ...syncProject({ ...get(), decision: newDecision }) });
-      },
-      updateDecisionScore: (projectId, optionId, criteriaId, score) => {
-        const newDecision = (get().decision || []).map(d => 
-          d.id === projectId 
-            ? { 
-                ...d, 
-                options: d.options.map(o => 
-                  o.id === optionId 
-                    ? { ...o, scores: { ...o.scores, [criteriaId]: score } } 
-                    : o
-                ) 
-              }
-            : d
-        );
-        set({ decision: newDecision, ...syncProject({ ...get(), decision: newDecision }) });
-      },
+
 
 
     }),
