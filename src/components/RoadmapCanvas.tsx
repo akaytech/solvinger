@@ -44,7 +44,7 @@ export default function RoadmapCanvas({ onNodeSelect }: { onNodeSelect: (id: str
       updateGoal: state.updateGoal,
       deleteGoal: state.deleteGoal
     })));
-  const { setCenter, getZoom, screenToFlowPosition } = useReactFlow();
+  const { setCenter, getZoom, screenToFlowPosition, flowToScreenPosition } = useReactFlow();
   const [menu, setMenu] = useState<{ id: string; top: number; left: number } | null>(null);
   const [paneMenu, setPaneMenu] = useState<{ top: number; left: number; clientX: number; clientY: number } | null>(null);
   const [inlineDescription, setInlineDescription] = useState<{ id: string; top: number; left: number } | null>(null);
@@ -205,7 +205,20 @@ export default function RoadmapCanvas({ onNodeSelect }: { onNodeSelect: (id: str
           }}
           onUpdate={(data) => updateGoal(menu.id, data)}
           onOpenDescription={() => {
-            setInlineDescription({ id: menu.id, top: menu.top, left: menu.left });
+            const targetNode = nodes.find(n => n.id === menu.id);
+            if (targetNode) {
+              const nodePosScreen = flowToScreenPosition({ x: targetNode.position.x, y: targetNode.position.y });
+              const pane = reactFlowWrapper.current?.getBoundingClientRect();
+              if (pane) {
+                 const relativeTop = nodePosScreen.y - pane.top;
+                 const relativeLeft = nodePosScreen.x - pane.left;
+                 const zoom = getZoom();
+                 const nodeScaledWidth = 220 * zoom;
+                 const finalLeft = relativeLeft + nodeScaledWidth + 10;
+                 
+                 setInlineDescription({ id: menu.id, top: relativeTop, left: finalLeft });
+              }
+            }
             setMenu(null);
           }}
           onDelete={() => deleteGoal(menu.id)}
