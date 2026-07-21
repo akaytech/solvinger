@@ -21,9 +21,9 @@ service cloud.firestore {
       // isPublic=true olan projeyi okumaya çalışır (getDoc). Bu nedenle isPublic kuralı eklendi.
       allow read: if request.auth != null 
                   && (
-                    resource.data.userId == request.auth.uid || 
-                    request.auth.uid in resource.data.sharedWith ||
-                    resource.data.isPublic == true
+                    resource.data.get('userId', '') == request.auth.uid || 
+                    request.auth.uid in resource.data.get('sharedWith', []) ||
+                    resource.data.get('isPublic', false) == true
                   );
       
       // UPDATE: Sadece giriş yapmış kullanıcılar güncelleyebilir 
@@ -31,15 +31,15 @@ service cloud.firestore {
       // VE (Kullanıcı, projenin 'userId' yani sahiplik alanını DEĞİŞTİREMEZ).
       allow update: if request.auth != null 
                     && (
-                      resource.data.userId == request.auth.uid || 
-                      request.auth.uid in resource.data.sharedWith ||
-                      (resource.data.isPublic == true) // Ortak çalışmaya katılma esnasında arrayUnion için gerekli
+                      resource.data.get('userId', '') == request.auth.uid || 
+                      request.auth.uid in resource.data.get('sharedWith', []) ||
+                      (resource.data.get('isPublic', false) == true) // Ortak çalışmaya katılma esnasında arrayUnion için gerekli
                     )
-                    && request.resource.data.userId == resource.data.userId; // Sahiplik çalınmasını (Ownership Stealing) veritabanı seviyesinde yasaklar!
+                    && request.resource.data.get('userId', '') == resource.data.get('userId', ''); // Sahiplik çalınmasını (Ownership Stealing) veritabanı seviyesinde yasaklar!
       
       // DELETE: Sadece projenin orijinal sahibi projeyi silebilir.
       allow delete: if request.auth != null 
-                    && resource.data.userId == request.auth.uid;
+                    && resource.data.get('userId', '') == request.auth.uid;
     }
   }
 }
