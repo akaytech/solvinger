@@ -158,8 +158,9 @@ export default function RoadmapCanvas({ onNodeSelect }: { onNodeSelect: (id: str
     }
     setMenu(null);
     setPaneMenu(null);
+    setEditingDescriptionId(null);
     onNodeSelect(null);
-  }, [onNodeSelect, screenToFlowPosition, addGoal, t]);
+  }, [onNodeSelect, screenToFlowPosition, addGoal, t, setEditingDescriptionId]);
 
   return (
     <div className="h-full w-full relative bg-slate-50 dark:bg-slate-900 transition-colors" ref={reactFlowWrapper} onContextMenu={onPaneContextMenu as any}>

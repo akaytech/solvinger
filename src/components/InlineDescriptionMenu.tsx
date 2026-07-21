@@ -29,9 +29,14 @@ export default function InlineDescriptionMenu({
 
   return (
     <div
-      className="absolute top-0 -right-[290px] z-[100] w-72 rounded-3xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-3 shadow-2xl transition-all flex flex-col cursor-auto"
-      onMouseDown={(e) => e.stopPropagation()} // Prevent clicking inside from triggering outside clicks
+      className="w-72 rounded-3xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-3 shadow-2xl transition-all flex flex-col cursor-auto"
+      onMouseDown={(e) => e.stopPropagation()}
+      onClick={(e) => e.stopPropagation()}
       onDoubleClick={(e) => e.stopPropagation()}
+      onWheel={(e) => e.stopPropagation()}
+      onKeyDown={(e) => {
+        e.stopPropagation();
+      }}
     >
       <div className="flex items-center justify-between mb-2 px-1">
         <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">{t('desc_task')}</span>

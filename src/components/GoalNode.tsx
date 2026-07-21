@@ -1,4 +1,4 @@
-import { Handle, Position, useNodeId } from '@xyflow/react';
+import { Handle, Position, useNodeId, NodeToolbar } from '@xyflow/react';
 import { CheckCircle2, CircleDashed, PlayCircle, Plus, Eye, EyeOff, XCircle, LayoutGrid } from 'lucide-react';
 import clsx from 'clsx';
 import type { GoalNodeData } from '../store/useRoadmapStore';
@@ -91,11 +91,13 @@ export default function GoalNode({ data, selected }: { data: GoalNodeData; selec
       )}
 
       {isEditingDescription && (
-        <InlineDescriptionMenu
-          node={nodes.find((n) => n.id === nodeId)!}
-          onClose={() => setEditingDescriptionId(null)}
-          onSave={(text) => updateGoal(nodeId, { description: text })}
-        />
+        <NodeToolbar isVisible={isEditingDescription} position={Position.Right} align="start" offset={15}>
+          <InlineDescriptionMenu
+            node={nodes.find((n) => n.id === nodeId)!}
+            onClose={() => setEditingDescriptionId(null)}
+            onSave={(text) => updateGoal(nodeId, { description: text })}
+          />
+        </NodeToolbar>
       )}
 
       {/* Görüntüde gizli tuttuğumuz ama çizgilerin merkeze gelmesini sağlayan noktalar */}
