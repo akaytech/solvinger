@@ -45,6 +45,10 @@ import { createParetoSlice } from './slices/createParetoSlice';
 import type { ParetoSlice, ParetoItem, ParetoProject } from './slices/createParetoSlice';
 export type { ParetoItem, ParetoProject };
 
+import { createHistogramSlice } from './slices/createHistogramSlice';
+import type { HistogramSlice, HistogramItem, HistogramProject } from './slices/createHistogramSlice';
+export type { HistogramItem, HistogramProject };
+
 
 type GoalStatus = 'To Do' | 'In Progress' | 'Done' | 'Failed';
 
@@ -82,14 +86,6 @@ export interface DecisionOption {
   scores: Record<string, number>;
 }
 
-
-
-export interface HistogramItem {
-  id: string;
-  category: string;
-  frequency: number;
-}
-
 export interface NotepadNote {
   id: string;
   title: string;
@@ -98,12 +94,9 @@ export interface NotepadNote {
   updatedAt: number;
 }
 
-export interface HistogramProject {
-  id: string;
-  title: string;
-  items: HistogramItem[];
-  createdAt: number;
-}
+
+
+
 
 export interface DecisionMatrixProject {
   id: string;
@@ -140,7 +133,7 @@ export interface Project {
   userId: string;
 }
 
-export interface RoadmapState extends NotepadSlice, FiveWhysSlice, SwotSlice, IshikawaSlice, PdcaSlice, WaterfallSlice, FtaSlice, FlowchartSlice, ParetoSlice {
+export interface RoadmapState extends NotepadSlice, FiveWhysSlice, SwotSlice, IshikawaSlice, PdcaSlice, WaterfallSlice, FtaSlice, FlowchartSlice, ParetoSlice, HistogramSlice {
   // Auth
   user: { uid: string; email: string; name: string; photoURL?: string } | null;
   login: (uid: string, email: string, name: string, photoURL?: string) => void;
@@ -162,14 +155,7 @@ export interface RoadmapState extends NotepadSlice, FiveWhysSlice, SwotSlice, Is
 
 
 
-  histogram: HistogramProject[];
-  addHistogramProject: (projectId: string, histogramId: string, title: string) => void;
-  addHistogramItem: (projectId: string, histogramId: string, category: string, frequency: number) => void;
-  updateHistogramItem: (projectId: string, histogramId: string, itemId: string, data: Partial<HistogramItem>) => void;
-  deleteHistogramItem: (projectId: string, histogramId: string, itemId: string) => void;
 
-  updateHistogramTitle: (projectId: string, histogramId: string, title: string) => void;
-  deleteHistogramProject: (projectId: string, histogramId: string) => void;
 
   decision: DecisionMatrixProject[];
   addDecisionProject: (name: string) => void;
@@ -426,6 +412,7 @@ export const useRoadmapStore = create<RoadmapState>()(
       ...createFtaSlice(set, get, api),
       ...createFlowchartSlice(set, get, api),
       ...createParetoSlice(set, get, api),
+      ...createHistogramSlice(set, get, api),
       user: null,
       login: (uid, email, name, photoURL) => set({ user: { uid, email, name, photoURL } }),
       logout: () => set({ user: null, projects: [], currentProjectId: null, nodes: [], edges: [], fiveWhys: [], swot: [], ishikawa: [], pdca: [], waterfall: [], pareto: [], histogram: [],
@@ -803,63 +790,7 @@ export const useRoadmapStore = create<RoadmapState>()(
 
 
 
-      histogram: [],
-      notepad: [],
 
-      addHistogramProject: (_projectId, histogramId, title) => {
-        set((state) => {
-          const newProj: HistogramProject = { id: histogramId, title, items: [], createdAt: Date.now() };
-          const next = { ...state, histogram: [...state.histogram, newProj] };
-          return { ...next, ...syncProject(next) };
-        });
-      },
-      addHistogramItem: (_projectId, histogramId, category, frequency) => {
-        set((state) => {
-          const newItem: HistogramItem = { id: uuidv4(), category, frequency };
-          const next = {
-            ...state,
-            histogram: state.histogram.map(h => h.id === histogramId ? { ...h, items: [...h.items, newItem] } : h)
-          };
-          return { ...next, ...syncProject(next) };
-        });
-      },
-      updateHistogramItem: (_projectId, histogramId, itemId, data) => {
-        set((state) => {
-          const next = {
-            ...state,
-            histogram: state.histogram.map(h => 
-              h.id === histogramId 
-                ? { ...h, items: h.items.map(item => item.id === itemId ? { ...item, ...data } : item) } 
-                : h
-            )
-          };
-          return { ...next, ...syncProject(next) };
-        });
-      },
-      deleteHistogramItem: (_projectId, histogramId, itemId) => {
-        set((state) => {
-          const next = {
-            ...state,
-            histogram: state.histogram.map(h => h.id === histogramId ? { ...h, items: h.items.filter(item => item.id !== itemId) } : h)
-          };
-          return { ...next, ...syncProject(next) };
-        });
-      },
-      updateHistogramTitle: (_projectId, histogramId, title) => {
-        set((state) => {
-          const next = {
-            ...state,
-            histogram: state.histogram.map(h => h.id === histogramId ? { ...h, title } : h)
-          };
-          return { ...next, ...syncProject(next) };
-        });
-      },
-      deleteHistogramProject: (_projectId, histogramId) => {
-        set((state) => {
-          const next = { ...state, histogram: state.histogram.filter(h => h.id !== histogramId) };
-          return { ...next, ...syncProject(next) };
-        });
-      },
 
       // Decision Matrix Actions
       decision: [],
