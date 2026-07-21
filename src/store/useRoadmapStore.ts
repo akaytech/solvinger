@@ -33,6 +33,10 @@ import { createWaterfallSlice } from './slices/createWaterfallSlice';
 import type { WaterfallSlice, WaterfallPhase, WaterfallItem, WaterfallProject } from './slices/createWaterfallSlice';
 export type { WaterfallPhase, WaterfallItem, WaterfallProject };
 
+import { createFtaSlice } from './slices/createFtaSlice';
+import type { FtaSlice, FtaNodeType, FtaNodeData, FtaNode } from './slices/createFtaSlice';
+export type { FtaNodeType, FtaNodeData, FtaNode };
+
 
 type GoalStatus = 'To Do' | 'In Progress' | 'Done' | 'Failed';
 
@@ -121,15 +125,7 @@ export type FlowchartNodeData = {
 
 export type FlowchartNode = Node<FlowchartNodeData>;
 
-export type FtaNodeType = 'topEvent' | 'event' | 'andGate' | 'orGate' | 'basicEvent';
 
-export type FtaNodeData = {
-  label: string;
-  type: FtaNodeType;
-  description?: string;
-};
-
-export type FtaNode = Node<FtaNodeData>;
 
 export interface Project {
   id: string;
@@ -153,7 +149,7 @@ export interface Project {
   userId: string;
 }
 
-export interface RoadmapState extends NotepadSlice, FiveWhysSlice, SwotSlice, IshikawaSlice, PdcaSlice, WaterfallSlice {
+export interface RoadmapState extends NotepadSlice, FiveWhysSlice, SwotSlice, IshikawaSlice, PdcaSlice, WaterfallSlice, FtaSlice {
   // Auth
   user: { uid: string; email: string; name: string; photoURL?: string } | null;
   login: (uid: string, email: string, name: string, photoURL?: string) => void;
@@ -214,15 +210,7 @@ export interface RoadmapState extends NotepadSlice, FiveWhysSlice, SwotSlice, Is
   updateFlowchartNode: (id: string, data: Partial<FlowchartNodeData>) => void;
   deleteFlowchartNode: (id: string) => void;
 
-  // FTA
-  ftaNodes: FtaNode[];
-  ftaEdges: Edge[];
-  onFtaNodesChange: (changes: NodeChange[]) => void;
-  onFtaEdgesChange: (changes: EdgeChange[]) => void;
-  onFtaConnect: (connection: Connection) => void;
-  addFtaNode: (parentId: string, type: FtaNodeType, label: string) => void;
-  updateFtaNode: (id: string, data: Partial<FtaNodeData>) => void;
-  deleteFtaNode: (id: string) => void;
+
 
   // Active Roadmap
   nodes: GoalNode[];
@@ -248,41 +236,7 @@ export interface RoadmapState extends NotepadSlice, FiveWhysSlice, SwotSlice, Is
 
 }
 
-const getFtaDescendants = (id: string, edges: Edge[]): string[] => {
-  const children = edges.filter(e => e.source === id).map(e => e.target);
-  return children.reduce((acc, child) => [...acc, child, ...getFtaDescendants(child, edges)], [] as string[]);
-};
 
-const getFtaLayoutedElements = (nodes: FtaNode[], edges: Edge[]) => {
-  const dagreGraph = new dagre.graphlib.Graph();
-  dagreGraph.setDefaultEdgeLabel(() => ({}));
-  dagreGraph.setGraph({ rankdir: 'TB', nodesep: 50, ranksep: 60 }); 
-
-  nodes.forEach((node) => {
-    const width = 180;
-    const height = node.data.type === 'basicEvent' ? 80 : 60; 
-    dagreGraph.setNode(node.id, { width, height });
-  });
-
-  edges.forEach((edge) => {
-    dagreGraph.setEdge(edge.source, edge.target);
-  });
-
-  dagre.layout(dagreGraph);
-
-  const newNodes = nodes.map((node) => {
-    const nodeWithPosition = dagreGraph.node(node.id);
-    return {
-      ...node,
-      position: {
-        x: nodeWithPosition.x - 90,
-        y: nodeWithPosition.y - 30,
-      },
-    };
-  });
-
-  return { nodes: newNodes, edges };
-};
 
 export const getDescendants = (parentId: string, edges: Edge[]): string[] => {
   const children = edges.filter((e) => e.source === parentId).map((e) => e.target);
@@ -493,6 +447,7 @@ export const useRoadmapStore = create<RoadmapState>()(
       ...createIshikawaSlice(set, get, api),
       ...createPdcaSlice(set, get, api),
       ...createWaterfallSlice(set, get, api),
+      ...createFtaSlice(set, get, api),
       user: null,
       login: (uid, email, name, photoURL) => set({ user: { uid, email, name, photoURL } }),
       logout: () => set({ user: null, projects: [], currentProjectId: null, nodes: [], edges: [], fiveWhys: [], swot: [], ishikawa: [], pdca: [], waterfall: [], pareto: [], histogram: [],
@@ -775,76 +730,7 @@ export const useRoadmapStore = create<RoadmapState>()(
         });
       },
 
-      ftaNodes: [],
-      ftaEdges: [],
-      onFtaNodesChange: (changes) => {
-        set({ ftaNodes: applyNodeChanges(changes, get().ftaNodes) as FtaNode[] });
-        const state = get();
-        if (state.currentProjectId && state.user) {
-          setDoc(doc(db, 'projects', state.currentProjectId), { ftaNodes: state.ftaNodes, updatedAt: Date.now() }, { merge: true }).catch(console.error);
-        }
-      },
-      onFtaEdgesChange: (changes) => {
-        set({ ftaEdges: applyEdgeChanges(changes, get().ftaEdges) as Edge[] });
-        const state = get();
-        if (state.currentProjectId && state.user) {
-          setDoc(doc(db, 'projects', state.currentProjectId), { ftaEdges: state.ftaEdges, updatedAt: Date.now() }, { merge: true }).catch(console.error);
-        }
-      },
-      onFtaConnect: (connection) => {
-        const newEdges = addEdge(connection, get().ftaEdges);
-        set({ ftaEdges: newEdges });
-        const state = get();
-        if (state.currentProjectId && state.user) {
-          setDoc(doc(db, 'projects', state.currentProjectId), { ftaEdges: newEdges, updatedAt: Date.now() }, { merge: true }).catch(console.error);
-        }
-      },
-      addFtaNode: (parentId, type, label) => {
-        const state = get();
-        const newNodeId = uuidv4();
-        const newNode: FtaNode = {
-          id: newNodeId,
-          type: 'ftaNode',
-          position: { x: 0, y: 0 }, // layout algorithm will handle this
-          data: { label, type }
-        };
-        const newEdge: Edge = {
-          id: uuidv4(),
-          source: parentId,
-          target: newNodeId,
-          type: 'smoothstep'
-        };
-        const newNodes = [...state.ftaNodes, newNode];
-        const newEdges = [...state.ftaEdges, newEdge];
-        
-        const { nodes: layoutedNodes, edges: layoutedEdges } = getFtaLayoutedElements(newNodes, newEdges);
-        set({ ftaNodes: layoutedNodes, ftaEdges: layoutedEdges });
-        
-        if (state.currentProjectId && state.user) {
-           setDoc(doc(db, 'projects', state.currentProjectId), { ftaNodes: layoutedNodes, ftaEdges: layoutedEdges, updatedAt: Date.now() }, { merge: true }).catch(console.error);
-        }
-      },
-      updateFtaNode: (id, data) => {
-        const state = get();
-        const newNodes = state.ftaNodes.map(n => n.id === id ? { ...n, data: { ...n.data, ...data } } : n);
-        set({ ftaNodes: newNodes });
-        if (state.currentProjectId && state.user) {
-           setDoc(doc(db, 'projects', state.currentProjectId), { ftaNodes: newNodes, updatedAt: Date.now() }, { merge: true }).catch(console.error);
-        }
-      },
-      deleteFtaNode: (id) => {
-        const state = get();
-        if (id === 'root') return;
-        const descendants = getFtaDescendants(id, state.ftaEdges);
-        const toDelete = new Set([id, ...descendants]);
-        const newNodes = state.ftaNodes.filter(n => !toDelete.has(n.id));
-        const newEdges = state.ftaEdges.filter(e => !toDelete.has(e.source) && !toDelete.has(e.target));
-        const { nodes: layoutedNodes, edges: layoutedEdges } = getFtaLayoutedElements(newNodes, newEdges);
-        set({ ftaNodes: layoutedNodes, ftaEdges: layoutedEdges });
-        if (state.currentProjectId && state.user) {
-           setDoc(doc(db, 'projects', state.currentProjectId), { ftaNodes: layoutedNodes, ftaEdges: layoutedEdges, updatedAt: Date.now() }, { merge: true }).catch(console.error);
-        }
-      },
+
 
       nodes: getDefaultNodes(),
       edges: [],
