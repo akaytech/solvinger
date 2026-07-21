@@ -41,6 +41,10 @@ import { createFlowchartSlice } from './slices/createFlowchartSlice';
 import type { FlowchartSlice, FlowchartNodeType, FlowchartNodeData, FlowchartNode } from './slices/createFlowchartSlice';
 export type { FlowchartNodeType, FlowchartNodeData, FlowchartNode };
 
+import { createParetoSlice } from './slices/createParetoSlice';
+import type { ParetoSlice, ParetoItem, ParetoProject } from './slices/createParetoSlice';
+export type { ParetoItem, ParetoProject };
+
 
 type GoalStatus = 'To Do' | 'In Progress' | 'Done' | 'Failed';
 
@@ -78,17 +82,7 @@ export interface DecisionOption {
   scores: Record<string, number>;
 }
 
-export interface ParetoItem {
-  id: string;
-  category: string;
-  frequency: number;
-}
 
-export interface ParetoProject {
-  id: string;
-  title: string;
-  items: ParetoItem[];
-}
 
 export interface HistogramItem {
   id: string;
@@ -146,7 +140,7 @@ export interface Project {
   userId: string;
 }
 
-export interface RoadmapState extends NotepadSlice, FiveWhysSlice, SwotSlice, IshikawaSlice, PdcaSlice, WaterfallSlice, FtaSlice, FlowchartSlice {
+export interface RoadmapState extends NotepadSlice, FiveWhysSlice, SwotSlice, IshikawaSlice, PdcaSlice, WaterfallSlice, FtaSlice, FlowchartSlice, ParetoSlice {
   // Auth
   user: { uid: string; email: string; name: string; photoURL?: string } | null;
   login: (uid: string, email: string, name: string, photoURL?: string) => void;
@@ -166,14 +160,7 @@ export interface RoadmapState extends NotepadSlice, FiveWhysSlice, SwotSlice, Is
   deleteProject: (id: string) => void;
   clearToolData: (projectId: string, toolName: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta' | 'decision' | 'flowchart' | 'pareto' | 'histogram' | 'notepad') => void;
 
-  // Decision Matrix State
-  pareto: ParetoProject[];
-  addParetoProject: (projectId: string, paretoId: string, title: string) => void;
-  addParetoItem: (projectId: string, paretoId: string, category: string, frequency: number) => void;
-  updateParetoItem: (projectId: string, paretoId: string, itemId: string, data: Partial<ParetoItem>) => void;
-  deleteParetoItem: (projectId: string, paretoId: string, itemId: string) => void;
-  updateParetoTitle: (projectId: string, paretoId: string, title: string) => void;
-  deleteParetoProject: (projectId: string, paretoId: string) => void;
+
 
   histogram: HistogramProject[];
   addHistogramProject: (projectId: string, histogramId: string, title: string) => void;
@@ -438,6 +425,7 @@ export const useRoadmapStore = create<RoadmapState>()(
       ...createWaterfallSlice(set, get, api),
       ...createFtaSlice(set, get, api),
       ...createFlowchartSlice(set, get, api),
+      ...createParetoSlice(set, get, api),
       user: null,
       login: (uid, email, name, photoURL) => set({ user: { uid, email, name, photoURL } }),
       logout: () => set({ user: null, projects: [], currentProjectId: null, nodes: [], edges: [], fiveWhys: [], swot: [], ishikawa: [], pdca: [], waterfall: [], pareto: [], histogram: [],
@@ -814,64 +802,9 @@ export const useRoadmapStore = create<RoadmapState>()(
 
 
 
-      // Pareto Actions
-      pareto: [],
+
       histogram: [],
-          notepad: [],
-      addParetoProject: (_projectId, paretoId, title) => {
-        set((state) => {
-          const newPareto: ParetoProject = { id: paretoId, title, items: [] };
-          const next = { ...state, pareto: [...state.pareto, newPareto] };
-          return { ...next, ...syncProject(next) };
-        });
-      },
-      addParetoItem: (_projectId, paretoId, category, frequency) => {
-        set((state) => {
-          const newItem: ParetoItem = { id: uuidv4(), category, frequency };
-          const next = {
-            ...state,
-            pareto: state.pareto.map(p => p.id === paretoId ? { ...p, items: [...p.items, newItem] } : p)
-          };
-          return { ...next, ...syncProject(next) };
-        });
-      },
-      updateParetoItem: (_projectId, paretoId, itemId, data) => {
-        set((state) => {
-          const next = {
-            ...state,
-            pareto: state.pareto.map(p => 
-              p.id === paretoId 
-                ? { ...p, items: p.items.map(item => item.id === itemId ? { ...item, ...data } : item) } 
-                : p
-            )
-          };
-          return { ...next, ...syncProject(next) };
-        });
-      },
-      deleteParetoItem: (_projectId, paretoId, itemId) => {
-        set((state) => {
-          const next = {
-            ...state,
-            pareto: state.pareto.map(p => p.id === paretoId ? { ...p, items: p.items.filter(item => item.id !== itemId) } : p)
-          };
-          return { ...next, ...syncProject(next) };
-        });
-      },
-      updateParetoTitle: (_projectId, paretoId, title) => {
-        set((state) => {
-          const next = {
-            ...state,
-            pareto: state.pareto.map(p => p.id === paretoId ? { ...p, title } : p)
-          };
-          return { ...next, ...syncProject(next) };
-        });
-      },
-      deleteParetoProject: (_projectId, paretoId) => {
-        set((state) => {
-          const next = { ...state, pareto: state.pareto.filter(p => p.id !== paretoId) };
-          return { ...next, ...syncProject(next) };
-        });
-      },
+      notepad: [],
 
       addHistogramProject: (_projectId, histogramId, title) => {
         set((state) => {
