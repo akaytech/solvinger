@@ -1,4 +1,4 @@
-import { Network, Activity, Target, Fish, RefreshCcw, Layers, AlertOctagon, Scale, GitMerge, BarChart2, BarChart, FileText } from 'lucide-react';
+import { Network, Activity, Target, Fish, RefreshCcw, Layers, AlertOctagon, Scale, GitMerge, BarChart2, BarChart, FileText, ListTodo } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useRoadmapStore } from '../store/useRoadmapStore';
 import { useShallow } from 'zustand/react/shallow';
@@ -136,6 +136,15 @@ export default function WelcomeScreen() {
             <FileText size={40} className="mb-4 text-slate-400 transition-colors group-hover:text-fuchsia-500" />
             <h3 className="mb-2 text-xl font-bold text-slate-800 dark:text-slate-100">{t('notepad_title')}</h3>
             <p className="text-sm text-slate-500 dark:text-slate-400">{t('notepad_desc')}</p>
+          </button>
+
+          <button
+            onClick={() => handleToolClick('eod')}
+            className="group flex flex-col items-center rounded-3xl border-2 border-slate-200 bg-white p-8 transition-all hover:border-orange-500 hover:shadow-2xl dark:border-slate-800 dark:bg-slate-800 dark:hover:border-orange-500"
+          >
+            <ListTodo size={40} className="mb-4 text-slate-400 transition-colors group-hover:text-orange-500" />
+            <h3 className="mb-2 text-xl font-bold text-slate-800 dark:text-slate-100">{t('tool_eod')}</h3>
+            <p className="text-sm text-slate-500 dark:text-slate-400">{t('eod_desc')}</p>
           </button>
         </div>
       </div>

@@ -5,6 +5,20 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 const resources = {
   tr: {
     translation: {
+      "tool_eod": "EOD Planner",
+      "eod_title": "EOD Planner",
+      "eod_desc": "Gün sonunda ertesi gün için en önemli 6 hedefinizi belirleyip önceliklendirin.",
+      "eod_subtitle": "Yarının Hedefleri (EOD Planner)",
+      "eod_add_task": "Yeni Hedef Ekle",
+      "eod_placeholder": "Hedef veya görev adı...",
+      "eod_desc_placeholder": "Detaylı açıklama (isteğe bağlı)...",
+      "eod_empty": "Henüz yarın için bir hedef planlamadınız.",
+      "eod_priority": "Öncelik",
+      "eod_high": "Yüksek",
+      "eod_medium": "Orta",
+      "eod_low": "Düşük",
+      "eod_max_limit": "Ivy Lee metoduna göre günde en fazla 6 hedefe odaklanmalısınız.",
+
       notepad_title: "Not Defteri",
       notepad_desc: "Fikirlerinizi, taslaklarınızı ve notlarınızı güvenle saklayın.",
       notepad_add_note: "Yeni Not",
@@ -217,6 +231,20 @@ const resources = {
   },
   en: {
     translation: {
+      "tool_eod": "EOD Planner",
+      "eod_title": "EOD Planner",
+      "eod_desc": "Plan and prioritize your top 6 goals for tomorrow at the end of the day.",
+      "eod_subtitle": "Tomorrow's Goals",
+      "eod_add_task": "Add New Goal",
+      "eod_placeholder": "Goal or task name...",
+      "eod_desc_placeholder": "Detailed description (optional)...",
+      "eod_empty": "You haven't planned any goals for tomorrow yet.",
+      "eod_priority": "Priority",
+      "eod_high": "High",
+      "eod_medium": "Medium",
+      "eod_low": "Low",
+      "eod_max_limit": "According to the Ivy Lee method, you should focus on a maximum of 6 goals per day.",
+
       notepad_title: "Notepad",
       notepad_desc: "Safely store your ideas, drafts, and notes.",
       notepad_add_note: "New Note",
@@ -428,6 +456,20 @@ const resources = {
   },
   es: {
     translation: {
+      "tool_eod": "EOD Planner",
+      "eod_title": "EOD Planner",
+      "eod_desc": "Planifica y prioriza tus 6 objetivos principales para mañana al final del día.",
+      "eod_subtitle": "Objetivos de mañana",
+      "eod_add_task": "Añadir nuevo objetivo",
+      "eod_placeholder": "Nombre del objetivo o tarea...",
+      "eod_desc_placeholder": "Descripción detallada (opcional)...",
+      "eod_empty": "Aún no has planeado ningún objetivo para mañana.",
+      "eod_priority": "Prioridad",
+      "eod_high": "Alta",
+      "eod_medium": "Media",
+      "eod_low": "Baja",
+      "eod_max_limit": "Según el método Ivy Lee, debes centrarte en un máximo de 6 objetivos por día.",
+
       notepad_title: "Bloc de Notas",
       notepad_desc: "Guarde de forma segura sus ideas, borradores y notas.",
       notepad_add_note: "Nueva Nota",
@@ -639,6 +681,20 @@ const resources = {
   },
   fr: {
     translation: {
+      "tool_eod": "EOD Planner",
+      "eod_title": "EOD Planner",
+      "eod_desc": "Planifiez et hiérarchisez vos 6 objectifs principaux pour demain à la fin de la journée.",
+      "eod_subtitle": "Objectifs de demain",
+      "eod_add_task": "Ajouter un nouvel objectif",
+      "eod_placeholder": "Nom de l'objectif ou de la tâche...",
+      "eod_desc_placeholder": "Description détaillée (facultatif)...",
+      "eod_empty": "Vous n'avez pas encore prévu d'objectifs pour demain.",
+      "eod_priority": "Priorité",
+      "eod_high": "Haute",
+      "eod_medium": "Moyenne",
+      "eod_low": "Basse",
+      "eod_max_limit": "Selon la méthode Ivy Lee, vous devriez vous concentrer sur un maximum de 6 objectifs par jour.",
+
       notepad_title: "Bloc-notes",
       notepad_desc: "Stockez en toute sécurité vos idées, brouillons et notes.",
       notepad_add_note: "Nouvelle Note",
@@ -850,6 +906,20 @@ const resources = {
   },
   de: {
     translation: {
+      "tool_eod": "EOD Planner",
+      "eod_title": "EOD Planner",
+      "eod_desc": "Planen und priorisieren Sie Ihre 6 wichtigsten Ziele für morgen am Ende des Tages.",
+      "eod_subtitle": "Ziele für morgen",
+      "eod_add_task": "Neues Ziel hinzufügen",
+      "eod_placeholder": "Ziel oder Aufgabenname...",
+      "eod_desc_placeholder": "Detaillierte Beschreibung (optional)...",
+      "eod_empty": "Sie haben noch keine Ziele für morgen geplant.",
+      "eod_priority": "Priorität",
+      "eod_high": "Hoch",
+      "eod_medium": "Mittel",
+      "eod_low": "Niedrig",
+      "eod_max_limit": "Nach der Ivy-Lee-Methode sollten Sie sich auf maximal 6 Ziele pro Tag konzentrieren.",
+
       notepad_title: "Notizblock",
       notepad_desc: "Speichern Sie Ihre Ideen, Entwürfe und Notizen sicher.",
       notepad_add_note: "Neue Notiz",

@@ -11,6 +11,10 @@ import type { WbsSlice, GoalStatus, GoalNodeData, GoalNode } from './slices/crea
 export type { GoalStatus, GoalNodeData, GoalNode };
 export { getDescendants };
 
+import { createEodSlice } from './slices/createEodSlice';
+import type { EodSlice, EodTask } from './slices/createEodSlice';
+export type { EodTask };
+
 import { createNotepadSlice } from './slices/createNotepadSlice';
 import type { NotepadSlice } from './slices/createNotepadSlice';
 import { createFiveWhysSlice } from './slices/createFiveWhysSlice';
@@ -104,19 +108,20 @@ export interface Project {
   flowchartEdges?: Edge[];
   ftaNodes?: FtaNode[];
   ftaEdges?: Edge[];
+  eod?: EodTask[];
   updatedAt: number;
   userId: string;
 }
 
-export interface RoadmapState extends NotepadSlice, FiveWhysSlice, SwotSlice, IshikawaSlice, PdcaSlice, WaterfallSlice, FtaSlice, FlowchartSlice, ParetoSlice, HistogramSlice, DecisionSlice, WbsSlice {
+export interface RoadmapState extends EodSlice, NotepadSlice, FiveWhysSlice, SwotSlice, IshikawaSlice, PdcaSlice, WaterfallSlice, FtaSlice, FlowchartSlice, ParetoSlice, HistogramSlice, DecisionSlice, WbsSlice {
   // Auth
   user: { uid: string; email: string; name: string; photoURL?: string } | null;
   login: (uid: string, email: string, name: string, photoURL?: string) => void;
   logout: () => void;
 
   // UI State
-  activeTool: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta' | 'decision' | 'flowchart' | 'pareto' | 'histogram' | 'notepad' | null;
-  setActiveTool: (tool: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta' | 'decision' | 'flowchart' | null) => void;
+  activeTool: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta' | 'decision' | 'flowchart' | 'pareto' | 'histogram' | 'notepad' | 'eod' | null;
+  setActiveTool: (tool: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta' | 'decision' | 'flowchart' | 'eod' | null) => void;
 
   // Projects
   projects: Project[];
@@ -126,7 +131,7 @@ export interface RoadmapState extends NotepadSlice, FiveWhysSlice, SwotSlice, Is
   loadProject: (id: string) => void;
   updateProjectName: (id: string, name: string) => void;
   deleteProject: (id: string) => void;
-  clearToolData: (projectId: string, toolName: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta' | 'decision' | 'flowchart' | 'pareto' | 'histogram' | 'notepad') => void;
+  clearToolData: (projectId: string, toolName: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta' | 'decision' | 'flowchart' | 'pareto' | 'histogram' | 'notepad' | 'eod') => void;
 
 
 
@@ -174,6 +179,7 @@ export const syncProject = (state: RoadmapState): Partial<RoadmapState> => {
     waterfall: state.waterfall || [],
     pareto: state.pareto || [],
     histogram: state.histogram || [],
+    eod: state.eod || [],
     
     decision: state.decision || [],
     flowchartNodes: state.flowchartNodes,
@@ -204,6 +210,7 @@ export const syncProject = (state: RoadmapState): Partial<RoadmapState> => {
 export const useRoadmapStore = create<RoadmapState>()(
   persist(
     (set, get, api) => ({
+      ...createEodSlice(set, get, api),
       ...createNotepadSlice(set, get, api),
       ...createFiveWhysSlice(set, get, api),
       ...createSwotSlice(set, get, api),
@@ -218,7 +225,7 @@ export const useRoadmapStore = create<RoadmapState>()(
       ...createWbsSlice(set, get, api),
       user: null,
       login: (uid, email, name, photoURL) => set({ user: { uid, email, name, photoURL } }),
-      logout: () => set({ user: null, projects: [], currentProjectId: null, nodes: [], edges: [], fiveWhysNodes: [], fiveWhysEdges: [], swot: [], ishikawa: [], pdca: [], waterfall: [], pareto: [], histogram: [],
+      logout: () => set({ user: null, projects: [], currentProjectId: null, nodes: [], edges: [], fiveWhysNodes: [], fiveWhysEdges: [], swot: [], ishikawa: [], pdca: [], waterfall: [], pareto: [], histogram: [], eod: [],
           decision: [], flowchartNodes: [], flowchartEdges: [], ftaNodes: [], ftaEdges: [], activeTool: null }),
 
       activeTool: null,
@@ -271,6 +278,7 @@ export const useRoadmapStore = create<RoadmapState>()(
           waterfall: [],
           pareto: [],
           histogram: [],
+          eod: [],
           notepad: [],
           decision: [],
           flowchartNodes: activeToolToUse === 'flowchart' ? [{ id: "root", type: "flowchartNode", position: { x: 0, y: 0 }, data: { label: i18n.t('flowchart_start'), shape: "start" } }] : [],
@@ -297,6 +305,7 @@ export const useRoadmapStore = create<RoadmapState>()(
           waterfall: newProject.waterfall,
           pareto: newProject.pareto || [],
           histogram: newProject.histogram || [],
+          eod: newProject.eod || [],
           notepad: newProject.notepad || [],
           decision: newProject.decision || [],
           flowchartNodes: newProject.flowchartNodes || [],
@@ -331,6 +340,7 @@ export const useRoadmapStore = create<RoadmapState>()(
             waterfall: project.waterfall || [],
             pareto: project.pareto || [],
             histogram: project.histogram || [],
+            eod: project.eod || [],
             decision: project.decision || [],
             flowchartNodes: project.flowchartNodes || [],
             flowchartEdges: project.flowchartEdges || [],
@@ -374,6 +384,7 @@ export const useRoadmapStore = create<RoadmapState>()(
             waterfall: isCurrent ? [] : state.waterfall,
             pareto: isCurrent ? [] : state.pareto,
             histogram: isCurrent ? [] : state.histogram,
+            eod: isCurrent ? [] : state.eod,
             decision: isCurrent ? [] : state.decision,
             flowchartNodes: isCurrent ? [] : state.flowchartNodes,
             flowchartEdges: isCurrent ? [] : state.flowchartEdges,

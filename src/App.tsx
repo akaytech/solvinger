@@ -22,6 +22,7 @@ const FlowchartCanvas = React.lazy(() => import('./components/FlowchartCanvas'))
 const ParetoCanvas = React.lazy(() => import('./components/ParetoCanvas'));
 const HistogramCanvas = React.lazy(() => import('./components/HistogramCanvas'));
 const NotepadCanvas = React.lazy(() => import('./components/NotepadCanvas'));
+const EodCanvas = React.lazy(() => import('./components/EodCanvas'));
 
 function DecisionMatrixWrapper() {
   const { currentProjectId, projects, addDecisionProject } = useRoadmapStore(useShallow((state) => ({
@@ -134,6 +135,7 @@ function App() {
               {activeTool === 'pareto' && <ParetoCanvas />}
               {activeTool === 'histogram' && <HistogramCanvas />}
               {activeTool === 'notepad' && <NotepadCanvas />}
+              {activeTool === 'eod' && <EodCanvas />}
               {activeTool === 'decision' && <DecisionMatrixWrapper />}
             </Suspense>
           </div>
