@@ -3,9 +3,11 @@ import { persist } from 'zustand/middleware';
 import { temporal } from 'zundo';
 import type { Edge } from '@xyflow/react';
 import { v4 as uuidv4 } from 'uuid';
-import { doc, setDoc, deleteDoc, collection, query, where, getDocs } from 'firebase/firestore';
+import { doc, setDoc, deleteDoc, collection, query, where, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase';
 import i18n from '../i18n';
+
+export let isRemoteUpdate = false;
 
 import { createWbsSlice, getDescendants, getDefaultNodes } from './slices/createWbsSlice';
 import type { WbsSlice, GoalStatus, GoalNodeData, GoalNode } from './slices/createWbsSlice';
@@ -115,6 +117,7 @@ export interface Project {
 }
 
 export interface RoadmapState extends EodSlice, NotepadSlice, FiveWhysSlice, SwotSlice, IshikawaSlice, PdcaSlice, WaterfallSlice, FtaSlice, FlowchartSlice, ParetoSlice, HistogramSlice, DecisionSlice, WbsSlice {
+  projectUnsubscribe: (() => void) | null;
   // Auth
   user: { uid: string; email: string; name: string; photoURL?: string } | null;
   login: (uid: string, email: string, name: string, photoURL?: string) => void;
@@ -186,10 +189,16 @@ export const useRoadmapStore = create<RoadmapState>()(
           /* deprecated */
         },
 
+        projectUnsubscribe: null,
+
         user: null,
         login: (uid, email, name, photoURL) => set({ user: { uid, email, name, photoURL } }),
-        logout: () => set({ user: null, projects: [], currentProjectId: null, nodes: [], edges: [], fiveWhysNodes: [], fiveWhysEdges: [], swot: [], ishikawa: [], pdca: [], waterfall: [], pareto: [], histogram: [], eod: [],
-            decision: [], flowchartNodes: [], flowchartEdges: [], ftaNodes: [], ftaEdges: [], activeTool: null }),
+        logout: () => {
+          const sub = get().projectUnsubscribe;
+          if (sub) sub();
+          set({ user: null, projects: [], currentProjectId: null, nodes: [], edges: [], fiveWhysNodes: [], fiveWhysEdges: [], swot: [], ishikawa: [], pdca: [], waterfall: [], pareto: [], histogram: [], eod: [],
+            decision: [], flowchartNodes: [], flowchartEdges: [], ftaNodes: [], ftaEdges: [], activeTool: null, projectUnsubscribe: null });
+        },
 
       activeTool: null,
       setActiveTool: (tool) => set({ activeTool: tool }),
@@ -199,34 +208,74 @@ export const useRoadmapStore = create<RoadmapState>()(
 
       fetchProjects: async (userId) => {
         try {
+          const currentSub = get().projectUnsubscribe;
+          if (currentSub) currentSub();
+
           const q = query(collection(db, 'projects'), where('userId', '==', userId));
-          const snapshot = await getDocs(q);
-          const fetchedProjects = snapshot.docs.map(doc => {
-            const data = doc.data() as Project;
-            let safeSwot = data.swot || [];
-            if (safeSwot.length > 0 && 'type' in safeSwot[0]) {
-              safeSwot = [{
-                id: 'migrated-swot',
-                title: i18n.t('default_swot_title'),
-                items: safeSwot as any,
-                createdAt: Date.now()
-              }];
+          const unsubscribe = onSnapshot(q, (snapshot) => {
+            const fetchedProjects = snapshot.docs.map(doc => {
+              const data = doc.data() as Project;
+              let safeSwot = data.swot || [];
+              if (safeSwot.length > 0 && 'type' in safeSwot[0]) {
+                safeSwot = [{
+                  id: 'migrated-swot',
+                  title: i18n.t('default_swot_title'),
+                  items: safeSwot as any,
+                  createdAt: Date.now()
+                }];
+              }
+              let safeWaterfall = data.waterfall || [];
+              safeWaterfall = safeWaterfall.map(proj => ({
+                ...proj,
+                currentPhaseIndex: proj.currentPhaseIndex ?? 0,
+                items: proj.items.map(item => ({
+                  ...item,
+                  phase: (item.phase as string) === 'Design' ? 'High-Level Design' : item.phase
+                }))
+              }));
+              return { ...data, swot: safeSwot, waterfall: safeWaterfall };
+            });
+            
+            isRemoteUpdate = true;
+            const currentState = get();
+            const updates: any = { projects: fetchedProjects };
+
+            if (currentState.currentProjectId) {
+              const activeProj = fetchedProjects.find(p => p.id === currentState.currentProjectId);
+              if (activeProj) {
+                updates.nodes = activeProj.nodes || [];
+                updates.edges = activeProj.edges || [];
+                updates.fiveWhysNodes = activeProj.fiveWhysNodes || [];
+                updates.fiveWhysEdges = activeProj.fiveWhysEdges || [];
+                updates.swot = activeProj.swot || [];
+                updates.ishikawa = activeProj.ishikawa || [];
+                updates.pdca = activeProj.pdca || [];
+                updates.waterfall = activeProj.waterfall || [];
+                updates.pareto = activeProj.pareto || [];
+                updates.histogram = activeProj.histogram || [];
+                updates.eod = activeProj.eod || [];
+                updates.notepad = activeProj.notepad || [];
+                updates.decision = activeProj.decision || [];
+                updates.flowchartNodes = activeProj.flowchartNodes || [];
+                updates.flowchartEdges = activeProj.flowchartEdges || [];
+                updates.ftaNodes = activeProj.ftaNodes || [];
+                updates.ftaEdges = activeProj.ftaEdges || [];
+              }
             }
-            let safeWaterfall = data.waterfall || [];
-            safeWaterfall = safeWaterfall.map(proj => ({
-              ...proj,
-              currentPhaseIndex: proj.currentPhaseIndex ?? 0,
-              items: proj.items.map(item => ({
-                ...item,
-                phase: (item.phase as string) === 'Design' ? 'High-Level Design' : item.phase
-              }))
-            }));
-            return { ...data, swot: safeSwot, waterfall: safeWaterfall };
+
+            set(updates);
+
+            setTimeout(() => {
+              isRemoteUpdate = false;
+            }, 0);
+            
+          }, (error) => {
+            console.error("Fetch projects error:", error);
           });
           
-          set({ projects: fetchedProjects });
+          set({ projectUnsubscribe: unsubscribe });
         } catch (error) {
-          console.error("Fetch projects error:", error);
+          console.error("Setup listen projects error:", error);
         }
       },
 
@@ -503,6 +552,7 @@ let saveTimeout: any;
 let isSyncing = false;
 
 useRoadmapStore.subscribe((state, _prevState) => {
+  if (isRemoteUpdate) return;
   if (isSyncing) return;
   if (!state.currentProjectId || !state.user) return;
   
