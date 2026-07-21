@@ -29,6 +29,10 @@ import { createPdcaSlice } from './slices/createPdcaSlice';
 import type { PdcaSlice, PdcaPhase, PdcaItem, PdcaCycle } from './slices/createPdcaSlice';
 export type { PdcaPhase, PdcaItem, PdcaCycle };
 
+import { createWaterfallSlice } from './slices/createWaterfallSlice';
+import type { WaterfallSlice, WaterfallPhase, WaterfallItem, WaterfallProject } from './slices/createWaterfallSlice';
+export type { WaterfallPhase, WaterfallItem, WaterfallProject };
+
 
 type GoalStatus = 'To Do' | 'In Progress' | 'Done' | 'Failed';
 
@@ -52,21 +56,7 @@ export type GoalNode = Node<GoalNodeData>;
 
 
 
-export type WaterfallPhase = 'Requirements' | 'Design' | 'Implementation' | 'Verification' | 'Maintenance';
 
-interface WaterfallItem {
-  id: string;
-  phase: WaterfallPhase;
-  text: string;
-  createdAt: number;
-}
-
-interface WaterfallProject {
-  id: string;
-  name: string;
-  items: WaterfallItem[];
-  createdAt: number;
-}
 
 export interface DecisionCriteria {
   id: string;
@@ -163,7 +153,7 @@ export interface Project {
   userId: string;
 }
 
-export interface RoadmapState extends NotepadSlice, FiveWhysSlice, SwotSlice, IshikawaSlice, PdcaSlice {
+export interface RoadmapState extends NotepadSlice, FiveWhysSlice, SwotSlice, IshikawaSlice, PdcaSlice, WaterfallSlice {
   // Auth
   user: { uid: string; email: string; name: string; photoURL?: string } | null;
   login: (uid: string, email: string, name: string, photoURL?: string) => void;
@@ -255,14 +245,7 @@ export interface RoadmapState extends NotepadSlice, FiveWhysSlice, SwotSlice, Is
 
 
 
-  // Waterfall State
-  waterfall: WaterfallProject[];
-  addWaterfallProject: (name: string) => void;
-  updateWaterfallProjectName: (id: string, name: string) => void;
-  deleteWaterfallProject: (id: string) => void;
-  addWaterfallItem: (projectId: string, phase: WaterfallPhase, text: string) => void;
-  updateWaterfallItem: (projectId: string, itemId: string, text: string) => void;
-  deleteWaterfallItem: (projectId: string, itemId: string) => void;
+
 }
 
 const getFtaDescendants = (id: string, edges: Edge[]): string[] => {
@@ -509,6 +492,7 @@ export const useRoadmapStore = create<RoadmapState>()(
       ...createSwotSlice(set, get, api),
       ...createIshikawaSlice(set, get, api),
       ...createPdcaSlice(set, get, api),
+      ...createWaterfallSlice(set, get, api),
       user: null,
       login: (uid, email, name, photoURL) => set({ user: { uid, email, name, photoURL } }),
       logout: () => set({ user: null, projects: [], currentProjectId: null, nodes: [], edges: [], fiveWhys: [], swot: [], ishikawa: [], pdca: [], waterfall: [], pareto: [], histogram: [],
@@ -1220,56 +1204,7 @@ export const useRoadmapStore = create<RoadmapState>()(
         set({ decision: newDecision, ...syncProject({ ...get(), decision: newDecision }) });
       },
 
-      // Waterfall Actions
-      waterfall: [],
-      addWaterfallProject: (name) => {
-        const newItem: WaterfallProject = {
-          id: uuidv4(),
-          name,
-          items: [],
-          createdAt: Date.now(),
-        };
-        const newWaterfall = [newItem, ...get().waterfall];
-        set({ waterfall: newWaterfall, ...syncProject({ ...get(), waterfall: newWaterfall }) });
-      },
-      updateWaterfallProjectName: (id, name) => {
-        const newWaterfall = get().waterfall.map(p => p.id === id ? { ...p, name } : p);
-        set({ waterfall: newWaterfall, ...syncProject({ ...get(), waterfall: newWaterfall }) });
-      },
-      deleteWaterfallProject: (id) => {
-        const newWaterfall = get().waterfall.filter(p => p.id !== id);
-        set({ waterfall: newWaterfall, ...syncProject({ ...get(), waterfall: newWaterfall }) });
-      },
-      addWaterfallItem: (projectId, phase, text) => {
-        const newItem: WaterfallItem = {
-          id: uuidv4(),
-          phase,
-          text,
-          createdAt: Date.now(),
-        };
-        const newWaterfall = get().waterfall.map(project => 
-          project.id === projectId 
-            ? { ...project, items: [...project.items, newItem] } 
-            : project
-        );
-        set({ waterfall: newWaterfall, ...syncProject({ ...get(), waterfall: newWaterfall }) });
-      },
-      updateWaterfallItem: (projectId, itemId, text) => {
-        const newWaterfall = get().waterfall.map(project => 
-          project.id === projectId 
-            ? { ...project, items: project.items.map(item => item.id === itemId ? { ...item, text } : item) } 
-            : project
-        );
-        set({ waterfall: newWaterfall, ...syncProject({ ...get(), waterfall: newWaterfall }) });
-      },
-      deleteWaterfallItem: (projectId, itemId) => {
-        const newWaterfall = get().waterfall.map(project => 
-          project.id === projectId 
-            ? { ...project, items: project.items.filter(item => item.id !== itemId) } 
-            : project
-        );
-        set({ waterfall: newWaterfall, ...syncProject({ ...get(), waterfall: newWaterfall }) });
-      }
+
     }),
     {
       name: 'roadmap-storage',
