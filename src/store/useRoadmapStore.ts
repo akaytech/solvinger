@@ -480,6 +480,20 @@ export const useRoadmapStore = create<RoadmapState>()(
       return true;
     },
     limit: 50,
+    handleSet: (handleSet) => {
+      let timeout: any;
+      let firstState: any = null;
+      return (state) => {
+        if (!firstState) {
+          firstState = state;
+        }
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+          handleSet(firstState);
+          firstState = null;
+        }, 1000);
+      };
+    },
   }
 )
 );
