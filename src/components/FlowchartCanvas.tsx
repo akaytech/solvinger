@@ -83,7 +83,7 @@ export default function FlowchartCanvas() {
   }, []);
 
   return (
-    <div className="!w-48 !h-48 !rounded-full overflow-hidden border-4 border-slate-200 dark:border-slate-700 shadow-2xl dark:bg-slate-800 bg-white" ref={reactFlowWrapper}>
+    <div className="flex-1 h-full w-full relative transition-colors bg-slate-50 dark:bg-slate-900" ref={reactFlowWrapper}>
       <ReactFlow
         nodes={flowchartNodes}
         edges={flowchartEdges}
