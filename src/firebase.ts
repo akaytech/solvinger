@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
+import { getAnalytics, isSupported, logEvent, Analytics } from 'firebase/analytics';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCIUiD3Pk3x6LE0YkPWg8caib_8XVakT90",
@@ -15,3 +16,21 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
+
+export let analytics: Analytics | null = null;
+
+isSupported().then((supported) => {
+  if (supported) {
+    analytics = getAnalytics(app);
+  }
+}).catch(console.error);
+
+export const logAppEvent = (eventName: string, eventParams?: Record<string, any>) => {
+  if (analytics) {
+    try {
+      logEvent(analytics, eventName, eventParams);
+    } catch (e) {
+      console.warn("Analytics blocked or failed");
+    }
+  }
+};

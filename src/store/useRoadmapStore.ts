@@ -4,7 +4,7 @@ import { temporal } from 'zundo';
 import type { Edge } from '@xyflow/react';
 import { v4 as uuidv4 } from 'uuid';
 import { doc, setDoc, deleteDoc, collection, query, where, onSnapshot, or, arrayUnion, arrayRemove, getDoc, updateDoc } from 'firebase/firestore';
-import { db } from '../firebase';
+import { db, logAppEvent } from '../firebase';
 import i18n from '../i18n';
 
 export let isRemoteUpdate = false;
@@ -145,7 +145,10 @@ export const useRoadmapStore = create<RoadmapState>()(
         projectUnsubscribe: null,
 
         user: null,
-        login: (uid, email, name, photoURL) => set({ user: { uid, email, name, photoURL } }),
+        login: (uid, email, name, photoURL) => {
+          set({ user: { uid, email, name, photoURL } });
+          logAppEvent('login');
+        },
         logout: () => {
           const sub = get().projectUnsubscribe;
           if (sub) sub();
@@ -154,7 +157,12 @@ export const useRoadmapStore = create<RoadmapState>()(
         },
 
       activeTool: null,
-      setActiveTool: (tool) => set({ activeTool: tool }),
+      setActiveTool: (tool) => {
+        set({ activeTool: tool });
+        if (tool) {
+          logAppEvent('tool_opened', { tool });
+        }
+      },
 
       projects: [],
       currentProjectId: null,
@@ -236,6 +244,7 @@ export const useRoadmapStore = create<RoadmapState>()(
         if (!state.user) return;
 
         const activeToolToUse = initialTool || state.activeTool;
+        logAppEvent('project_created', { tool: activeToolToUse });
 
         const id = uuidv4();
         const newProject: Project = {
@@ -345,6 +354,7 @@ export const useRoadmapStore = create<RoadmapState>()(
       deleteProject: (id) => {
         const state = get();
         if (state.user) {
+           logAppEvent('project_deleted');
            const project = state.projects.find(p => p.id === id);
            if (project && project.userId !== state.user.uid) {
              updateDoc(doc(db, 'projects', id), { sharedWith: arrayRemove(state.user.uid) }).catch(e => alert("Silme Hatası (Ortak): " + e.message));
