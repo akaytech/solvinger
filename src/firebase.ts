@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
-import { getAnalytics, isSupported, logEvent, Analytics } from 'firebase/analytics';
+import { getAnalytics, isSupported, logEvent, type Analytics } from 'firebase/analytics';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCIUiD3Pk3x6LE0YkPWg8caib_8XVakT90",
