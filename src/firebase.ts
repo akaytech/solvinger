@@ -2,6 +2,7 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getAnalytics, isSupported, logEvent, type Analytics } from 'firebase/analytics';
+import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCIUiD3Pk3x6LE0YkPWg8caib_8XVakT90",
@@ -14,6 +15,17 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+
+if (typeof window !== 'undefined') {
+  if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+    (window as any).FIREBASE_APPCHECK_DEBUG_TOKEN = true;
+  }
+  
+  initializeAppCheck(app, {
+    provider: new ReCaptchaV3Provider('6Lcczl4tAAAAAIFtS_ZJ3s26SPSl6sCvNkRJDuZx'),
+    isTokenAutoRefreshEnabled: true
+  });
+}
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 
