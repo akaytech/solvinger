@@ -635,7 +635,6 @@ useRoadmapStore.subscribe((state, _prevState) => {
       ftaNodes: state.ftaNodes || [],
       ftaEdges: state.ftaEdges || [],
       updatedAt: Date.now(),
-      userId: state.user.uid,
     };
 
     useRoadmapStore.setState({
