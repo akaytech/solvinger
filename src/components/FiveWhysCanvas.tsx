@@ -64,6 +64,21 @@ function FiveWhysCanvasInner() {
     setMenu(null);
   }, []);
 
+  const onNodeClick = useCallback(
+    (event: React.MouseEvent, node: any) => {
+      if (event.ctrlKey || event.metaKey) {
+        event.preventDefault();
+        event.stopPropagation();
+        addFiveWhysNode(node.id, 'why', t('whys_placeholder') || 'Neden?');
+      } else if (event.shiftKey) {
+        event.preventDefault();
+        event.stopPropagation();
+        addFiveWhysNode(node.id, 'solution', t('whys_solution_placeholder') || 'Çözüm');
+      }
+    },
+    [addFiveWhysNode, t]
+  );
+
   return (
     <div className="flex h-full w-full flex-col bg-slate-50 dark:bg-slate-900 transition-colors">
       <ToolHeader title={t('tool_5whys')} subtitle={t('whys_subtitle')} icon={<Activity />} iconColor="text-indigo-500" />
@@ -77,6 +92,7 @@ function FiveWhysCanvasInner() {
           onConnect={onFiveWhysConnect}
           nodeTypes={nodeTypes}
           onNodeContextMenu={onNodeContextMenu}
+          onNodeClick={onNodeClick}
           onPaneClick={onPaneClick}
           fitView
           fitViewOptions={{ padding: 0.2 }}

@@ -1,12 +1,34 @@
-import { memo } from 'react';
+import { memo, useState, useRef, useEffect } from 'react';
 import { Handle, Position } from '@xyflow/react';
 import { AlertCircle, HelpCircle, CheckCircle2 } from 'lucide-react';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
+import { useRoadmapStore } from '../store/useRoadmapStore';
 import type { FiveWhysNodeData } from '../store/useRoadmapStore';
 
-export default memo(function FiveWhysNode({ data }: { data: FiveWhysNodeData }) {
+export default memo(function FiveWhysNode({ id, data }: { id: string, data: FiveWhysNodeData }) {
   const { t } = useTranslation();
+  const updateFiveWhysNode = useRoadmapStore((state) => state.updateFiveWhysNode);
+  
+  const [isEditing, setIsEditing] = useState(false);
+  const [editValue, setEditValue] = useState(data.label);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    if (isEditing && inputRef.current) {
+      inputRef.current.focus();
+      inputRef.current.selectionStart = inputRef.current.value.length;
+    }
+  }, [isEditing]);
+
+  const handleSave = () => {
+    if (editValue.trim() !== data.label) {
+      updateFiveWhysNode(id, { label: editValue.trim() || t('whys_placeholder') });
+    } else {
+      setEditValue(data.label);
+    }
+    setIsEditing(false);
+  };
   const isProblem = data.type === 'problem';
   const isSolution = data.type === 'solution';
   
@@ -59,9 +81,36 @@ export default memo(function FiveWhysNode({ data }: { data: FiveWhysNodeData }) 
           </span>
         </div>
         
-        <div className="text-sm font-medium text-slate-800 dark:text-slate-100 leading-relaxed line-clamp-3">
-          {data.label || '...'}
-        </div>
+        {isEditing ? (
+          <textarea
+            ref={inputRef}
+            className="w-full bg-white/70 dark:bg-slate-800/70 border border-indigo-400 dark:border-indigo-500 rounded p-1.5 text-sm font-medium text-slate-800 dark:text-slate-100 outline-none resize-none nodrag nopan"
+            value={editValue}
+            onChange={(e) => setEditValue(e.target.value)}
+            onBlur={handleSave}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleSave();
+              } else if (e.key === 'Escape') {
+                setEditValue(data.label);
+                setIsEditing(false);
+              }
+            }}
+            rows={3}
+          />
+        ) : (
+          <div 
+            className="text-sm font-medium text-slate-800 dark:text-slate-100 leading-relaxed cursor-text break-words"
+            onDoubleClick={(e) => {
+              e.stopPropagation();
+              setEditValue(data.label);
+              setIsEditing(true);
+            }}
+          >
+            {data.label || '...'}
+          </div>
+        )}
       </div>
 
       {!isSolution && (
