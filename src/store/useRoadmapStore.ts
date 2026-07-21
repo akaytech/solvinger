@@ -173,7 +173,7 @@ export const useRoadmapStore = create<RoadmapState>()(
                 safeSwot = [{
                   id: 'migrated-swot',
                   title: i18n.t('default_swot_title'),
-                  items: safeSwot as any,
+                  items: safeSwot as unknown as import('./slices/createSwotSlice').SwotItem[],
                   createdAt: Date.now()
                 }];
               }
@@ -191,7 +191,7 @@ export const useRoadmapStore = create<RoadmapState>()(
             
             isRemoteUpdate = true;
             const currentState = get();
-            const updates: any = { projects: fetchedProjects };
+            const updates: Partial<RoadmapState> & Record<string, any> = { projects: fetchedProjects };
 
             if (currentState.currentProjectId) {
               const activeProj = fetchedProjects.find(p => p.id === currentState.currentProjectId);
@@ -207,7 +207,6 @@ export const useRoadmapStore = create<RoadmapState>()(
                 updates.pareto = activeProj.pareto || [];
                 updates.histogram = activeProj.histogram || [];
                 updates.eod = activeProj.eod || [];
-                updates.notepad = activeProj.notepad || [];
                 updates.decision = activeProj.decision || [];
                 updates.flowchartNodes = activeProj.flowchartNodes || [];
                 updates.flowchartEdges = activeProj.flowchartEdges || [];
@@ -286,7 +285,7 @@ export const useRoadmapStore = create<RoadmapState>()(
           flowchartEdges: newProject.flowchartEdges || [],
           ftaNodes: newProject.ftaNodes || [],
           ftaEdges: newProject.ftaEdges || [],
-          activeTool: (initialTool as any) || null,
+          activeTool: (initialTool as RoadmapState['activeTool']) || null,
         }));
       },
 
@@ -298,7 +297,7 @@ export const useRoadmapStore = create<RoadmapState>()(
             safeSwot = [{
               id: 'migrated-swot',
               title: i18n.t('default_swot_title'),
-              items: safeSwot as any,
+              items: safeSwot as unknown as import('./slices/createSwotSlice').SwotItem[],
               createdAt: Date.now()
             }];
           }
@@ -421,7 +420,7 @@ export const useRoadmapStore = create<RoadmapState>()(
               nextP.ftaNodes = [{ id: "root", type: "ftaNode", position: { x: 0, y: 0 }, data: { label: i18n.t('fta_top_event'), type: "topEvent" } }];
               nextP.ftaEdges = [];
             } else {
-              (nextP as any)[toolName] = [];
+              (nextP as Record<string, unknown>)[toolName] = [];
             }
             nextP.updatedAt = Date.now();
             if (state.user) {
@@ -501,7 +500,7 @@ export const useRoadmapStore = create<RoadmapState>()(
     },
     limit: 50,
     handleSet: (handleSet) => {
-      let timeout: any;
+      let timeout: ReturnType<typeof setTimeout>;
       let firstState: any = null;
       return (state) => {
         if (!firstState) {
@@ -518,7 +517,7 @@ export const useRoadmapStore = create<RoadmapState>()(
 )
 );
 
-let saveTimeout: any;
+let saveTimeout: ReturnType<typeof setTimeout>;
 let isSyncing = false;
 
 useRoadmapStore.subscribe((state, _prevState) => {
