@@ -3,7 +3,7 @@ import { persist } from 'zustand/middleware';
 import { temporal } from 'zundo';
 import type { Edge } from '@xyflow/react';
 import { v4 as uuidv4 } from 'uuid';
-import { doc, setDoc, deleteDoc, collection, query, where, onSnapshot, or, arrayUnion, getDoc, updateDoc } from 'firebase/firestore';
+import { doc, setDoc, deleteDoc, collection, query, where, onSnapshot, or, arrayUnion, arrayRemove, getDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase';
 import i18n from '../i18n';
 
@@ -345,7 +345,12 @@ export const useRoadmapStore = create<RoadmapState>()(
       deleteProject: (id) => {
         const state = get();
         if (state.user) {
-           deleteDoc(doc(db, 'projects', id)).catch(console.error);
+           const project = state.projects.find(p => p.id === id);
+           if (project && project.userId !== state.user.uid) {
+             updateDoc(doc(db, 'projects', id), { sharedWith: arrayRemove(state.user.uid) }).catch(console.error);
+           } else {
+             deleteDoc(doc(db, 'projects', id)).catch(console.error);
+           }
         }
         set((state) => {
           const newProjects = state.projects.filter((p) => p.id !== id);
