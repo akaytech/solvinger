@@ -1,6 +1,5 @@
 import type { StateCreator } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
-import { syncProject } from '../useRoadmapStore';
 import type { RoadmapState } from '../useRoadmapStore';
 
 export interface DecisionCriteria {
@@ -53,15 +52,15 @@ export const createDecisionSlice: StateCreator<
       createdAt: Date.now(),
     };
     const newDecision = [...(get().decision || []), newItem];
-    set({ decision: newDecision, ...syncProject({ ...get(), decision: newDecision }) });
+    set({ decision: newDecision });
   },
   updateDecisionProjectName: (id, name) => {
     const newDecision = (get().decision || []).map(d => d.id === id ? { ...d, name } : d);
-    set({ decision: newDecision, ...syncProject({ ...get(), decision: newDecision }) });
+    set({ decision: newDecision });
   },
   deleteDecisionProject: (id) => {
     const newDecision = (get().decision || []).filter(d => d.id !== id);
-    set({ decision: newDecision, ...syncProject({ ...get(), decision: newDecision }) });
+    set({ decision: newDecision });
   },
   addDecisionCriteria: (projectId, name, weight) => {
     const newDecision = (get().decision || []).map(d => 
@@ -69,7 +68,7 @@ export const createDecisionSlice: StateCreator<
         ? { ...d, criteria: [...d.criteria, { id: uuidv4(), name, weight }] }
         : d
     );
-    set({ decision: newDecision, ...syncProject({ ...get(), decision: newDecision }) });
+    set({ decision: newDecision });
   },
   updateDecisionCriteria: (projectId, criteriaId, name, weight) => {
     const newDecision = (get().decision || []).map(d => 
@@ -77,7 +76,7 @@ export const createDecisionSlice: StateCreator<
         ? { ...d, criteria: d.criteria.map(c => c.id === criteriaId ? { ...c, name, weight } : c) }
         : d
     );
-    set({ decision: newDecision, ...syncProject({ ...get(), decision: newDecision }) });
+    set({ decision: newDecision });
   },
   deleteDecisionCriteria: (projectId, criteriaId) => {
     const newDecision = (get().decision || []).map(d => 
@@ -93,7 +92,7 @@ export const createDecisionSlice: StateCreator<
           }
         : d
     );
-    set({ decision: newDecision, ...syncProject({ ...get(), decision: newDecision }) });
+    set({ decision: newDecision });
   },
   addDecisionOption: (projectId, name) => {
     const newDecision = (get().decision || []).map(d => 
@@ -101,7 +100,7 @@ export const createDecisionSlice: StateCreator<
         ? { ...d, options: [...d.options, { id: uuidv4(), name, scores: {} }] }
         : d
     );
-    set({ decision: newDecision, ...syncProject({ ...get(), decision: newDecision }) });
+    set({ decision: newDecision });
   },
   updateDecisionOptionName: (projectId, optionId, name) => {
     const newDecision = (get().decision || []).map(d => 
@@ -109,7 +108,7 @@ export const createDecisionSlice: StateCreator<
         ? { ...d, options: d.options.map(o => o.id === optionId ? { ...o, name } : o) }
         : d
     );
-    set({ decision: newDecision, ...syncProject({ ...get(), decision: newDecision }) });
+    set({ decision: newDecision });
   },
   deleteDecisionOption: (projectId, optionId) => {
     const newDecision = (get().decision || []).map(d => 
@@ -117,7 +116,7 @@ export const createDecisionSlice: StateCreator<
         ? { ...d, options: d.options.filter(o => o.id !== optionId) }
         : d
     );
-    set({ decision: newDecision, ...syncProject({ ...get(), decision: newDecision }) });
+    set({ decision: newDecision });
   },
   updateDecisionScore: (projectId, optionId, criteriaId, score) => {
     const newDecision = (get().decision || []).map(d => 
@@ -132,6 +131,6 @@ export const createDecisionSlice: StateCreator<
           }
         : d
     );
-    set({ decision: newDecision, ...syncProject({ ...get(), decision: newDecision }) });
+    set({ decision: newDecision });
   },
 });

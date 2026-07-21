@@ -1,6 +1,5 @@
 import type { StateCreator } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
-import { syncProject } from '../useRoadmapStore';
 import type { RoadmapState } from '../useRoadmapStore';
 
 export type WaterfallPhase = 'Requirements' | 'High-Level Design' | 'Low-Level Design' | 'Implementation' | 'Verification' | 'Maintenance';
@@ -47,15 +46,15 @@ export const createWaterfallSlice: StateCreator<
       createdAt: Date.now(),
     };
     const newWaterfall = [newItem, ...get().waterfall];
-    set({ waterfall: newWaterfall, ...syncProject({ ...get(), waterfall: newWaterfall }) });
+    set({ waterfall: newWaterfall });
   },
   updateWaterfallProjectName: (id, name) => {
     const newWaterfall = get().waterfall.map(p => p.id === id ? { ...p, name } : p);
-    set({ waterfall: newWaterfall, ...syncProject({ ...get(), waterfall: newWaterfall }) });
+    set({ waterfall: newWaterfall });
   },
   deleteWaterfallProject: (id) => {
     const newWaterfall = get().waterfall.filter(p => p.id !== id);
-    set({ waterfall: newWaterfall, ...syncProject({ ...get(), waterfall: newWaterfall }) });
+    set({ waterfall: newWaterfall });
   },
   addWaterfallItem: (projectId, phase, text) => {
     const newItem: WaterfallItem = {
@@ -69,7 +68,7 @@ export const createWaterfallSlice: StateCreator<
         ? { ...project, items: [...project.items, newItem] } 
         : project
     );
-    set({ waterfall: newWaterfall, ...syncProject({ ...get(), waterfall: newWaterfall }) });
+    set({ waterfall: newWaterfall });
   },
   updateWaterfallItem: (projectId, itemId, text) => {
     const newWaterfall = get().waterfall.map(project => 
@@ -77,7 +76,7 @@ export const createWaterfallSlice: StateCreator<
         ? { ...project, items: project.items.map(item => item.id === itemId ? { ...item, text } : item) } 
         : project
     );
-    set({ waterfall: newWaterfall, ...syncProject({ ...get(), waterfall: newWaterfall }) });
+    set({ waterfall: newWaterfall });
   },
   deleteWaterfallItem: (projectId, itemId) => {
     const newWaterfall = get().waterfall.map(project => 
@@ -85,7 +84,7 @@ export const createWaterfallSlice: StateCreator<
         ? { ...project, items: project.items.filter(item => item.id !== itemId) } 
         : project
     );
-    set({ waterfall: newWaterfall, ...syncProject({ ...get(), waterfall: newWaterfall }) });
+    set({ waterfall: newWaterfall });
   },
   advanceWaterfallPhase: (projectId) => {
     const newWaterfall = get().waterfall.map(project => 
@@ -93,6 +92,6 @@ export const createWaterfallSlice: StateCreator<
         ? { ...project, currentPhaseIndex: Math.min(5, project.currentPhaseIndex + 1) } 
         : project
     );
-    set({ waterfall: newWaterfall, ...syncProject({ ...get(), waterfall: newWaterfall }) });
+    set({ waterfall: newWaterfall });
   },
 });

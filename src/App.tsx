@@ -65,6 +65,11 @@ function App() {
   const location = useLocation();
 
   useEffect(() => {
+    // Clear undo/redo history when active tool or project changes
+    useRoadmapStore.temporal.getState().clear();
+  }, [activeTool, currentProjectId]);
+
+  useEffect(() => {
     if (user) {
       // Fetch latest cloud data when app opens on any device
       fetchProjects(user.uid).then(() => {

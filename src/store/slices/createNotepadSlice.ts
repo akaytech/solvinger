@@ -1,6 +1,5 @@
 import type { StateCreator } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
-import { syncProject } from '../useRoadmapStore';
 import type { RoadmapState } from '../useRoadmapStore';
 
 export interface NotepadSlice {
@@ -36,7 +35,6 @@ export const createNotepadSlice: StateCreator<
       return p;
     });
     set({ projects: updatedProjects });
-    syncProject(get());
     return noteId;
   },
 
@@ -53,7 +51,6 @@ export const createNotepadSlice: StateCreator<
       return p;
     });
     set({ projects: updatedProjects });
-    syncProject(get());
   },
 
   deleteNotepadNote: (noteId) => {
@@ -69,6 +66,5 @@ export const createNotepadSlice: StateCreator<
       return p;
     });
     set({ projects: updatedProjects });
-    syncProject(get());
   },
 });

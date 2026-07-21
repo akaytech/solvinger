@@ -1,6 +1,5 @@
 import type { StateCreator } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
-import { syncProject } from '../useRoadmapStore';
 import type { RoadmapState } from '../useRoadmapStore';
 
 export interface ParetoItem {
@@ -36,7 +35,7 @@ export const createParetoSlice: StateCreator<
     set((state) => {
       const newPareto: ParetoProject = { id: paretoId, title, items: [] };
       const next = { ...state, pareto: [...state.pareto, newPareto] };
-      return { ...next, ...syncProject(next) };
+      return { ...next };
     });
   },
   addParetoItem: (_projectId, paretoId, category, frequency) => {
@@ -46,7 +45,7 @@ export const createParetoSlice: StateCreator<
         ...state,
         pareto: state.pareto.map(p => p.id === paretoId ? { ...p, items: [...p.items, newItem] } : p)
       };
-      return { ...next, ...syncProject(next) };
+      return { ...next };
     });
   },
   updateParetoItem: (_projectId, paretoId, itemId, data) => {
@@ -59,7 +58,7 @@ export const createParetoSlice: StateCreator<
             : p
         )
       };
-      return { ...next, ...syncProject(next) };
+      return { ...next };
     });
   },
   deleteParetoItem: (_projectId, paretoId, itemId) => {
@@ -68,7 +67,7 @@ export const createParetoSlice: StateCreator<
         ...state,
         pareto: state.pareto.map(p => p.id === paretoId ? { ...p, items: p.items.filter(item => item.id !== itemId) } : p)
       };
-      return { ...next, ...syncProject(next) };
+      return { ...next };
     });
   },
   updateParetoTitle: (_projectId, paretoId, title) => {
@@ -77,13 +76,13 @@ export const createParetoSlice: StateCreator<
         ...state,
         pareto: state.pareto.map(p => p.id === paretoId ? { ...p, title } : p)
       };
-      return { ...next, ...syncProject(next) };
+      return { ...next };
     });
   },
   deleteParetoProject: (_projectId, paretoId) => {
     set((state) => {
       const next = { ...state, pareto: state.pareto.filter(p => p.id !== paretoId) };
-      return { ...next, ...syncProject(next) };
+      return { ...next };
     });
   },
 });

@@ -1,6 +1,5 @@
 import type { StateCreator } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
-import { syncProject } from '../useRoadmapStore';
 import type { RoadmapState } from '../useRoadmapStore';
 
 export type SwotType = 'S' | 'W' | 'O' | 'T';
@@ -44,15 +43,15 @@ export const createSwotSlice: StateCreator<
       createdAt: Date.now(),
     };
     const newSwot = [newItem, ...get().swot];
-    set({ swot: newSwot, ...syncProject({ ...get(), swot: newSwot }) });
+    set({ swot: newSwot });
   },
   updateSwotTitle: (id, title) => {
     const newSwot = get().swot.map(s => s.id === id ? { ...s, title } : s);
-    set({ swot: newSwot, ...syncProject({ ...get(), swot: newSwot }) });
+    set({ swot: newSwot });
   },
   deleteSwot: (id) => {
     const newSwot = get().swot.filter(s => s.id !== id);
-    set({ swot: newSwot, ...syncProject({ ...get(), swot: newSwot }) });
+    set({ swot: newSwot });
   },
   addSwotItem: (analysisId, type, text) => {
     const newItem: SwotItem = {
@@ -66,7 +65,7 @@ export const createSwotSlice: StateCreator<
         ? { ...analysis, items: [...analysis.items, newItem] } 
         : analysis
     );
-    set({ swot: newSwot, ...syncProject({ ...get(), swot: newSwot }) });
+    set({ swot: newSwot });
   },
   updateSwotItem: (analysisId, itemId, text) => {
     const newSwot = get().swot.map(analysis => 
@@ -74,7 +73,7 @@ export const createSwotSlice: StateCreator<
         ? { ...analysis, items: analysis.items.map(i => i.id === itemId ? { ...i, text } : i) } 
         : analysis
     );
-    set({ swot: newSwot, ...syncProject({ ...get(), swot: newSwot }) });
+    set({ swot: newSwot });
   },
   deleteSwotItem: (analysisId, itemId) => {
     const newSwot = get().swot.map(analysis => 
@@ -82,6 +81,6 @@ export const createSwotSlice: StateCreator<
         ? { ...analysis, items: analysis.items.filter(i => i.id !== itemId) } 
         : analysis
     );
-    set({ swot: newSwot, ...syncProject({ ...get(), swot: newSwot }) });
+    set({ swot: newSwot });
   },
 });

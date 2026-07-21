@@ -14,7 +14,6 @@ import {
   applyEdgeChanges,
 } from '@xyflow/react';
 import dagre from 'dagre';
-import { syncProject } from '../useRoadmapStore';
 import type { RoadmapState } from '../useRoadmapStore';
 
 export type FiveWhysNodeType = 'problem' | 'why' | 'solution';
@@ -84,14 +83,14 @@ export const createFiveWhysSlice: StateCreator<
     set((state) => {
       const nextNodes = applyNodeChanges(changes, state.fiveWhysNodes) as FiveWhysNode[];
       const next = { ...state, fiveWhysNodes: nextNodes };
-      return { ...next, ...syncProject(next) };
+      return { ...next };
     });
   },
   onFiveWhysEdgesChange: (changes) => {
     set((state) => {
       const nextEdges = applyEdgeChanges(changes, state.fiveWhysEdges);
       const next = { ...state, fiveWhysEdges: nextEdges };
-      return { ...next, ...syncProject(next) };
+      return { ...next };
     });
   },
   onFiveWhysConnect: (connection: Connection) => {
@@ -99,7 +98,7 @@ export const createFiveWhysSlice: StateCreator<
       const nextEdges = addEdge({ ...connection, type: 'smoothstep', animated: true, style: { strokeWidth: 3, stroke: '#94a3b8' } }, state.fiveWhysEdges);
       const { layoutedNodes, layoutedEdges } = getFiveWhysLayoutedElements(state.fiveWhysNodes, nextEdges);
       const next = { ...state, fiveWhysNodes: layoutedNodes, fiveWhysEdges: layoutedEdges };
-      return { ...next, ...syncProject(next) };
+      return { ...next };
     });
   },
   addFiveWhysNode: (parentId, type, label, position) => {
@@ -130,7 +129,7 @@ export const createFiveWhysSlice: StateCreator<
 
       const { layoutedNodes, layoutedEdges } = getFiveWhysLayoutedElements(newNodes, newEdges);
       const next = { ...state, fiveWhysNodes: layoutedNodes, fiveWhysEdges: layoutedEdges };
-      return { ...next, ...syncProject(next) };
+      return { ...next };
     });
   },
   updateFiveWhysNode: (id, data) => {
@@ -139,7 +138,7 @@ export const createFiveWhysSlice: StateCreator<
         node.id === id ? { ...node, data: { ...node.data, ...data } } : node
       );
       const next = { ...state, fiveWhysNodes: newNodes };
-      return { ...next, ...syncProject(next) };
+      return { ...next };
     });
   },
   deleteFiveWhysNode: (id) => {
@@ -152,7 +151,7 @@ export const createFiveWhysSlice: StateCreator<
       
       const { layoutedNodes, layoutedEdges } = getFiveWhysLayoutedElements(newNodes, newEdges);
       const next = { ...state, fiveWhysNodes: layoutedNodes, fiveWhysEdges: layoutedEdges };
-      return { ...next, ...syncProject(next) };
+      return { ...next };
     });
   }
 });

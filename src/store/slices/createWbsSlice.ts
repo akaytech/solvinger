@@ -8,7 +8,6 @@ import {
 import type { Edge, NodeChange, EdgeChange, Connection, Node } from '@xyflow/react';
 import dagre from 'dagre';
 import i18n from '../../i18n';
-import { syncProject } from '../useRoadmapStore';
 import type { RoadmapState } from '../useRoadmapStore';
 import type { SwotAnalysis, IshikawaAnalysis, PdcaCycle, WaterfallProject } from '../useRoadmapStore';
 
@@ -237,21 +236,21 @@ export const createWbsSlice: StateCreator<
 
       const finalNodes = applyNodeChanges(changes, nextNodes) as GoalNode[];
       const next = { ...state, nodes: finalNodes };
-      return { ...next, ...syncProject(next) };
+      return { ...next };
     });
   },
 
   onEdgesChange: (changes: EdgeChange[]) => {
     set((state) => {
       const next = { ...state, edges: applyEdgeChanges(changes, state.edges) };
-      return { ...next, ...syncProject(next) };
+      return { ...next };
     });
   },
 
   onConnect: (connection: Connection) => {
     set((state) => {
       const next = { ...state, edges: addEdge(connection, state.edges) };
-      return { ...next, ...syncProject(next) };
+      return { ...next };
     });
   },
 
@@ -297,7 +296,7 @@ export const createWbsSlice: StateCreator<
       const { nodes: updatedNodes, edges: updatedEdges } = computeVisibility(nextNodes, newEdges);
       nextNodes = getLayoutedElements(updatedNodes, updatedEdges);
       const next = { ...s, nodes: nextNodes, edges: updatedEdges };
-      return { ...next, ...syncProject(next) };
+      return { ...next };
     });
 
     if (parentId && parentNode && !parentNode.data.isExpanded) {
@@ -319,7 +318,7 @@ export const createWbsSlice: StateCreator<
       const finalNodes = getLayoutedElements(updatedNodes, updatedEdges);
       
       const next = { ...state, nodes: finalNodes, edges: updatedEdges };
-      return { ...next, ...syncProject(next) };
+      return { ...next };
     });
   },
 
@@ -334,7 +333,7 @@ export const createWbsSlice: StateCreator<
       const { nodes: updatedNodes, edges: updatedEdges } = computeVisibility(nextNodes, nextEdges);
       const finalNodes = getLayoutedElements(updatedNodes, updatedEdges);
       const next = { ...state, nodes: finalNodes, edges: updatedEdges };
-      return { ...next, ...syncProject(next) };
+      return { ...next };
     });
   },
 
@@ -351,7 +350,7 @@ export const createWbsSlice: StateCreator<
       const { nodes: updatedNodes, edges: updatedEdges } = computeVisibility(nextNodes, state.edges);
       const finalNodes = getLayoutedElements(updatedNodes, updatedEdges);
       const next = { ...state, nodes: finalNodes, edges: updatedEdges };
-      return { ...next, ...syncProject(next) };
+      return { ...next };
     });
   },
 
@@ -368,7 +367,7 @@ export const createWbsSlice: StateCreator<
       const { nodes: updatedNodes, edges: updatedEdges } = computeVisibility(nextNodes, state.edges);
       const finalNodes = getLayoutedElements(updatedNodes, updatedEdges);
       const next = { ...state, nodes: finalNodes, edges: updatedEdges };
-      return { ...next, ...syncProject(next) };
+      return { ...next };
     });
   },
 
@@ -384,14 +383,14 @@ export const createWbsSlice: StateCreator<
       const { nodes: updatedNodes, edges: updatedEdges } = computeVisibility(nextNodes, state.edges);
       const finalNodes = getLayoutedElements(updatedNodes, updatedEdges);
       const next = { ...state, nodes: finalNodes, edges: updatedEdges };
-      return { ...next, ...syncProject(next) };
+      return { ...next };
     });
   },
 
   loadData: (nodes, edges, swot = [], ishikawa = [], pdca = [], waterfall = []) => 
     set((state) => {
       const next = { ...state, nodes, edges, swot, ishikawa, pdca, waterfall };
-      return { ...next, ...syncProject(next) };
+      return { ...next };
     }),
 
 });

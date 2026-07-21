@@ -1,6 +1,5 @@
 import type { StateCreator } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
-import { syncProject } from '../useRoadmapStore';
 import type { RoadmapState } from '../useRoadmapStore';
 
 export type EodPriority = 'high' | 'medium' | 'low';
@@ -40,24 +39,24 @@ export const createEodSlice: StateCreator<
       createdAt: Date.now(),
     };
     const newEod = [...get().eod, newTask];
-    set({ eod: newEod, ...syncProject({ ...get(), eod: newEod }) });
+    set({ eod: newEod });
   },
   updateEodTask: (id, data) => {
     const newEod = get().eod.map((t) => (t.id === id ? { ...t, ...data } : t));
-    set({ eod: newEod, ...syncProject({ ...get(), eod: newEod }) });
+    set({ eod: newEod });
   },
   deleteEodTask: (id) => {
     const newEod = get().eod.filter((t) => t.id !== id);
-    set({ eod: newEod, ...syncProject({ ...get(), eod: newEod }) });
+    set({ eod: newEod });
   },
   toggleEodTask: (id) => {
     const newEod = get().eod.map((t) => (t.id === id ? { ...t, isCompleted: !t.isCompleted } : t));
-    set({ eod: newEod, ...syncProject({ ...get(), eod: newEod }) });
+    set({ eod: newEod });
   },
   reorderEodTasks: (startIndex, endIndex) => {
     const newEod = Array.from(get().eod);
     const [removed] = newEod.splice(startIndex, 1);
     newEod.splice(endIndex, 0, removed);
-    set({ eod: newEod, ...syncProject({ ...get(), eod: newEod }) });
+    set({ eod: newEod });
   }
 });

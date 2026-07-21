@@ -1,6 +1,5 @@
 import type { StateCreator } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
-import { syncProject } from '../useRoadmapStore';
 import type { RoadmapState } from '../useRoadmapStore';
 
 export type IshikawaCategory = 'Manpower' | 'Machine' | 'Material' | 'Method' | 'Measurement' | 'Milieu';
@@ -44,15 +43,15 @@ export const createIshikawaSlice: StateCreator<
       createdAt: Date.now(),
     };
     const newIshikawa = [newItem, ...get().ishikawa];
-    set({ ishikawa: newIshikawa, ...syncProject({ ...get(), ishikawa: newIshikawa }) });
+    set({ ishikawa: newIshikawa });
   },
   updateIshikawaProblem: (id, problemStatement) => {
     const newIshikawa = get().ishikawa.map(i => i.id === id ? { ...i, problemStatement } : i);
-    set({ ishikawa: newIshikawa, ...syncProject({ ...get(), ishikawa: newIshikawa }) });
+    set({ ishikawa: newIshikawa });
   },
   deleteIshikawa: (id) => {
     const newIshikawa = get().ishikawa.filter(i => i.id !== id);
-    set({ ishikawa: newIshikawa, ...syncProject({ ...get(), ishikawa: newIshikawa }) });
+    set({ ishikawa: newIshikawa });
   },
   addIshikawaItem: (analysisId, category, text) => {
     const newItem: IshikawaItem = {
@@ -66,7 +65,7 @@ export const createIshikawaSlice: StateCreator<
         ? { ...analysis, items: [...analysis.items, newItem] } 
         : analysis
     );
-    set({ ishikawa: newIshikawa, ...syncProject({ ...get(), ishikawa: newIshikawa }) });
+    set({ ishikawa: newIshikawa });
   },
   updateIshikawaItem: (analysisId, itemId, text) => {
     const newIshikawa = get().ishikawa.map(analysis => 
@@ -74,7 +73,7 @@ export const createIshikawaSlice: StateCreator<
         ? { ...analysis, items: analysis.items.map(item => item.id === itemId ? { ...item, text } : item) } 
         : analysis
     );
-    set({ ishikawa: newIshikawa, ...syncProject({ ...get(), ishikawa: newIshikawa }) });
+    set({ ishikawa: newIshikawa });
   },
   deleteIshikawaItem: (analysisId, itemId) => {
     const newIshikawa = get().ishikawa.map(analysis => 
@@ -82,6 +81,6 @@ export const createIshikawaSlice: StateCreator<
         ? { ...analysis, items: analysis.items.filter(item => item.id !== itemId) } 
         : analysis
     );
-    set({ ishikawa: newIshikawa, ...syncProject({ ...get(), ishikawa: newIshikawa }) });
+    set({ ishikawa: newIshikawa });
   },
 });

@@ -6,7 +6,6 @@ import {
   addEdge,
 } from '@xyflow/react';
 import type { NodeChange, EdgeChange, Connection, Edge, Node } from '@xyflow/react';
-import { syncProject } from '../useRoadmapStore';
 import type { RoadmapState } from '../useRoadmapStore';
 
 export type FlowchartNodeType = 'start' | 'process' | 'decision' | 'end';
@@ -41,14 +40,14 @@ export const createFlowchartSlice: StateCreator<
   onFlowchartNodesChange: (changes: NodeChange[]) => {
     set((state) => {
       const next = { ...state, flowchartNodes: applyNodeChanges(changes, state.flowchartNodes) as FlowchartNode[] };
-      return { ...next, ...syncProject(next) };
+      return { ...next };
     });
   },
 
   onFlowchartEdgesChange: (changes: EdgeChange[]) => {
     set((state) => {
       const next = { ...state, flowchartEdges: applyEdgeChanges(changes, state.flowchartEdges) as Edge[] };
-      return { ...next, ...syncProject(next) };
+      return { ...next };
     });
   },
 
@@ -56,7 +55,7 @@ export const createFlowchartSlice: StateCreator<
     set((state) => {
       const edge = { ...connection, id: uuidv4() };
       const next = { ...state, flowchartEdges: addEdge(edge, state.flowchartEdges as any) as Edge[] };
-      return { ...next, ...syncProject(next) };
+      return { ...next };
     });
   },
 
@@ -71,7 +70,7 @@ export const createFlowchartSlice: StateCreator<
       const newNodes = [...state.flowchartNodes, newNode];
       const newEdges = parentId ? [...state.flowchartEdges, { id: uuidv4(), source: parentId, target: newNode.id }] : state.flowchartEdges;
       const next = { ...state, flowchartNodes: newNodes, flowchartEdges: newEdges };
-      return { ...next, ...syncProject(next) };
+      return { ...next };
     });
   },
 
@@ -83,7 +82,7 @@ export const createFlowchartSlice: StateCreator<
           n.id === id ? { ...n, data: { ...n.data, ...data } } : n
         ),
       };
-      return { ...next, ...syncProject(next) };
+      return { ...next };
     });
   },
 
@@ -92,7 +91,7 @@ export const createFlowchartSlice: StateCreator<
       const newNodes = state.flowchartNodes.filter(n => n.id !== id);
       const newEdges = state.flowchartEdges.filter(e => e.source !== id && e.target !== id);
       const next = { ...state, flowchartNodes: newNodes, flowchartEdges: newEdges };
-      return { ...next, ...syncProject(next) };
+      return { ...next };
     });
   },
 });

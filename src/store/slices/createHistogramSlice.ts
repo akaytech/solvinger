@@ -1,6 +1,5 @@
 import type { StateCreator } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
-import { syncProject } from '../useRoadmapStore';
 import type { RoadmapState } from '../useRoadmapStore';
 
 export interface HistogramItem {
@@ -37,7 +36,7 @@ export const createHistogramSlice: StateCreator<
     set((state) => {
       const newProj: HistogramProject = { id: histogramId, title, items: [], createdAt: Date.now() };
       const next = { ...state, histogram: [...state.histogram, newProj] };
-      return { ...next, ...syncProject(next) };
+      return { ...next };
     });
   },
   addHistogramItem: (_projectId, histogramId, category, frequency) => {
@@ -47,7 +46,7 @@ export const createHistogramSlice: StateCreator<
         ...state,
         histogram: state.histogram.map(h => h.id === histogramId ? { ...h, items: [...h.items, newItem] } : h)
       };
-      return { ...next, ...syncProject(next) };
+      return { ...next };
     });
   },
   updateHistogramItem: (_projectId, histogramId, itemId, data) => {
@@ -60,7 +59,7 @@ export const createHistogramSlice: StateCreator<
             : h
         )
       };
-      return { ...next, ...syncProject(next) };
+      return { ...next };
     });
   },
   deleteHistogramItem: (_projectId, histogramId, itemId) => {
@@ -69,7 +68,7 @@ export const createHistogramSlice: StateCreator<
         ...state,
         histogram: state.histogram.map(h => h.id === histogramId ? { ...h, items: h.items.filter(item => item.id !== itemId) } : h)
       };
-      return { ...next, ...syncProject(next) };
+      return { ...next };
     });
   },
   updateHistogramTitle: (_projectId, histogramId, title) => {
@@ -78,13 +77,13 @@ export const createHistogramSlice: StateCreator<
         ...state,
         histogram: state.histogram.map(h => h.id === histogramId ? { ...h, title } : h)
       };
-      return { ...next, ...syncProject(next) };
+      return { ...next };
     });
   },
   deleteHistogramProject: (_projectId, histogramId) => {
     set((state) => {
       const next = { ...state, histogram: state.histogram.filter(h => h.id !== histogramId) };
-      return { ...next, ...syncProject(next) };
+      return { ...next };
     });
   },
 });

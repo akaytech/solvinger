@@ -1,6 +1,5 @@
 import type { StateCreator } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
-import { syncProject } from '../useRoadmapStore';
 import type { RoadmapState } from '../useRoadmapStore';
 
 export type PdcaPhase = 'Plan' | 'Do' | 'Check' | 'Act';
@@ -46,15 +45,15 @@ export const createPdcaSlice: StateCreator<
       createdAt: Date.now(),
     };
     const newPdca = [newItem, ...get().pdca];
-    set({ pdca: newPdca, ...syncProject({ ...get(), pdca: newPdca }) });
+    set({ pdca: newPdca });
   },
   updatePdcaGoal: (id, goal) => {
     const newPdca = get().pdca.map(p => p.id === id ? { ...p, goal } : p);
-    set({ pdca: newPdca, ...syncProject({ ...get(), pdca: newPdca }) });
+    set({ pdca: newPdca });
   },
   deletePdcaCycle: (id) => {
     const newPdca = get().pdca.filter(p => p.id !== id);
-    set({ pdca: newPdca, ...syncProject({ ...get(), pdca: newPdca }) });
+    set({ pdca: newPdca });
   },
   addPdcaItem: (cycleId, phase, text) => {
     const newItem: PdcaItem = {
@@ -69,7 +68,7 @@ export const createPdcaSlice: StateCreator<
         ? { ...cycle, items: [...cycle.items, newItem] } 
         : cycle
     );
-    set({ pdca: newPdca, ...syncProject({ ...get(), pdca: newPdca }) });
+    set({ pdca: newPdca });
   },
   updatePdcaItem: (cycleId, itemId, text) => {
     const newPdca = get().pdca.map(cycle => 
@@ -77,7 +76,7 @@ export const createPdcaSlice: StateCreator<
         ? { ...cycle, items: cycle.items.map(item => item.id === itemId ? { ...item, text } : item) } 
         : cycle
     );
-    set({ pdca: newPdca, ...syncProject({ ...get(), pdca: newPdca }) });
+    set({ pdca: newPdca });
   },
   deletePdcaItem: (cycleId, itemId) => {
     const newPdca = get().pdca.map(cycle => 
@@ -85,7 +84,7 @@ export const createPdcaSlice: StateCreator<
         ? { ...cycle, items: cycle.items.filter(item => item.id !== itemId) } 
         : cycle
     );
-    set({ pdca: newPdca, ...syncProject({ ...get(), pdca: newPdca }) });
+    set({ pdca: newPdca });
   },
   togglePdcaItemStatus: (cycleId, itemId) => {
     const newPdca = get().pdca.map(cycle => 
@@ -93,6 +92,6 @@ export const createPdcaSlice: StateCreator<
         ? { ...cycle, items: cycle.items.map(item => item.id === itemId ? { ...item, status: (item.status === 'pending' ? 'completed' : 'pending') as 'pending' | 'completed' } : item) } 
         : cycle
     );
-    set({ pdca: newPdca, ...syncProject({ ...get(), pdca: newPdca }) });
+    set({ pdca: newPdca });
   },
 });

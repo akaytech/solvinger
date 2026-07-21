@@ -161,51 +161,6 @@ export interface RoadmapState extends EodSlice, NotepadSlice, FiveWhysSlice, Swo
 
 
 
-let saveTimeout: any;
-
-export const syncProject = (state: RoadmapState): Partial<RoadmapState> => {
-  if (!state.currentProjectId || !state.user) return {};
-
-  const currentProjectName = state.projects.find(p => p.id === state.currentProjectId)?.name || 'Proje';
-  
-  const updatedProject: Project = {
-    id: state.currentProjectId,
-    name: currentProjectName,
-    nodes: state.nodes,
-    edges: state.edges,
-    fiveWhysNodes: state.fiveWhysNodes || [],
-    fiveWhysEdges: state.fiveWhysEdges || [],
-    swot: state.swot || [],
-    ishikawa: state.ishikawa || [],
-    pdca: state.pdca || [],
-    waterfall: state.waterfall || [],
-    pareto: state.pareto || [],
-    histogram: state.histogram || [],
-    eod: state.eod || [],
-    
-    decision: state.decision || [],
-    flowchartNodes: state.flowchartNodes,
-    flowchartEdges: state.flowchartEdges,
-    ftaNodes: state.ftaNodes,
-    ftaEdges: state.ftaEdges,
-    updatedAt: Date.now(),
-    userId: state.user.uid,
-  };
-
-  // Debounce Firestore save to avoid huge costs on drag
-  clearTimeout(saveTimeout);
-  saveTimeout = setTimeout(() => {
-    setDoc(doc(db, 'projects', state.currentProjectId!), updatedProject, { merge: true }).catch(err => {
-      console.error("Firestore Save Error:", err);
-    });
-  }, 1000);
-
-  return {
-    projects: state.projects.map((p) =>
-      p.id === state.currentProjectId ? updatedProject : p
-    ),
-  };
-};
 
 
 
@@ -228,9 +183,7 @@ export const useRoadmapStore = create<RoadmapState>()(
         ...createWbsSlice(set, get, api),
         
         forceSync: () => {
-          const state = get();
-          const synced = syncProject(state);
-          set(synced as Partial<RoadmapState>);
+          /* deprecated */
         },
 
         user: null,
@@ -530,3 +483,75 @@ export const useRoadmapStore = create<RoadmapState>()(
   }
 )
 );
+
+
+let saveTimeout: any;
+let isSyncing = false;
+
+useRoadmapStore.subscribe((state, _prevState) => {
+  if (isSyncing) return;
+  if (!state.currentProjectId || !state.user) return;
+  
+  const currentProj = state.projects.find(p => p.id === state.currentProjectId);
+  if (!currentProj) return;
+
+  // Sığ (Shallow) karşılaştırma ile tool datalarının değişip değişmediğini anla
+  const hasChanges = (
+    state.nodes !== currentProj.nodes ||
+    state.edges !== currentProj.edges ||
+    state.fiveWhysNodes !== currentProj.fiveWhysNodes ||
+    state.fiveWhysEdges !== currentProj.fiveWhysEdges ||
+    state.swot !== currentProj.swot ||
+    state.ishikawa !== currentProj.ishikawa ||
+    state.pdca !== currentProj.pdca ||
+    state.waterfall !== currentProj.waterfall ||
+    state.pareto !== currentProj.pareto ||
+    state.histogram !== currentProj.histogram ||
+    state.eod !== currentProj.eod ||
+    
+    state.decision !== currentProj.decision ||
+    state.flowchartNodes !== currentProj.flowchartNodes ||
+    state.flowchartEdges !== currentProj.flowchartEdges ||
+    state.ftaNodes !== currentProj.ftaNodes ||
+    state.ftaEdges !== currentProj.ftaEdges
+  );
+
+  if (hasChanges) {
+    isSyncing = true;
+    
+    const updatedProject: Project = {
+      ...currentProj,
+      nodes: state.nodes,
+      edges: state.edges,
+      fiveWhysNodes: state.fiveWhysNodes || [],
+      fiveWhysEdges: state.fiveWhysEdges || [],
+      swot: state.swot || [],
+      ishikawa: state.ishikawa || [],
+      pdca: state.pdca || [],
+      waterfall: state.waterfall || [],
+      pareto: state.pareto || [],
+      histogram: state.histogram || [],
+      eod: state.eod || [],
+      decision: state.decision || [],
+      flowchartNodes: state.flowchartNodes || [],
+      flowchartEdges: state.flowchartEdges || [],
+      ftaNodes: state.ftaNodes || [],
+      ftaEdges: state.ftaEdges || [],
+      updatedAt: Date.now(),
+      userId: state.user.uid,
+    };
+
+    useRoadmapStore.setState({
+      projects: state.projects.map(p => p.id === state.currentProjectId ? updatedProject : p)
+    });
+
+    clearTimeout(saveTimeout);
+    saveTimeout = setTimeout(() => {
+      setDoc(doc(db, 'projects', state.currentProjectId!), updatedProject, { merge: true }).catch(err => {
+        console.error("Firestore Save Error:", err);
+      });
+    }, 1000);
+    
+    isSyncing = false;
+  }
+});
