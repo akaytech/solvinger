@@ -12,7 +12,7 @@ import { useShallow } from 'zustand/react/shallow';
 import GoalNode from './GoalNode';
 import ContextMenu from './ContextMenu';
 import PaneContextMenu from './PaneContextMenu';
-import DescriptionModal from './DescriptionModal';
+import InlineDescriptionMenu from './InlineDescriptionMenu';
 import { useTranslation } from 'react-i18next';
 
 const nodeTypes = {
@@ -47,7 +47,7 @@ export default function RoadmapCanvas({ onNodeSelect }: { onNodeSelect: (id: str
   const { setCenter, getZoom, screenToFlowPosition } = useReactFlow();
   const [menu, setMenu] = useState<{ id: string; top: number; left: number } | null>(null);
   const [paneMenu, setPaneMenu] = useState<{ top: number; left: number; clientX: number; clientY: number } | null>(null);
-  const [descriptionModalNodeId, setDescriptionModalNodeId] = useState<string | null>(null);
+  const [inlineDescription, setInlineDescription] = useState<{ id: string; top: number; left: number } | null>(null);
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
 
   const [isShiftPressed, setIsShiftPressed] = useState(false);
@@ -113,6 +113,7 @@ export default function RoadmapCanvas({ onNodeSelect }: { onNodeSelect: (id: str
           left,
         });
         setPaneMenu(null);
+        setInlineDescription(null);
       }
     },
     []
@@ -159,6 +160,7 @@ export default function RoadmapCanvas({ onNodeSelect }: { onNodeSelect: (id: str
     }
     setMenu(null);
     setPaneMenu(null);
+    setInlineDescription(null);
     onNodeSelect(null);
   }, [onNodeSelect, screenToFlowPosition, addGoal, t]);
 
@@ -202,7 +204,10 @@ export default function RoadmapCanvas({ onNodeSelect }: { onNodeSelect: (id: str
             addGoal(menu.id, label);
           }}
           onUpdate={(data) => updateGoal(menu.id, data)}
-          onOpenDescription={() => setDescriptionModalNodeId(menu.id)}
+          onOpenDescription={() => {
+            setInlineDescription({ id: menu.id, top: menu.top, left: menu.left });
+            setMenu(null);
+          }}
           onDelete={() => deleteGoal(menu.id)}
         />
       )}
@@ -223,10 +228,13 @@ export default function RoadmapCanvas({ onNodeSelect }: { onNodeSelect: (id: str
         />
       )}
 
-      {descriptionModalNodeId && (
-        <DescriptionModal
-          nodeId={descriptionModalNodeId}
-          onClose={() => setDescriptionModalNodeId(null)}
+      {inlineDescription && (
+        <InlineDescriptionMenu
+          x={inlineDescription.left}
+          y={inlineDescription.top}
+          node={nodes.find((n) => n.id === inlineDescription.id)!}
+          onClose={() => setInlineDescription(null)}
+          onSave={(text) => updateGoal(inlineDescription.id, { description: text })}
         />
       )}
     </div>
