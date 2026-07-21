@@ -1,0 +1,45 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+  
+    // Tüm koleksiyonlara varsayılan erişimi kapat.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+    
+    // Sadece 'projects' koleksiyonuna belirli kurallarla erişime izin ver.
+    match /projects/{projectId} {
+      
+      // CREATE: Sadece giriş yapmış kullanıcılar proje oluşturabilir 
+      // VE oluşturan kişi kendini 'userId' olarak ayarlamak zorundadır.
+      allow create: if request.auth != null 
+                    && request.resource.data.userId == request.auth.uid;
+      
+      // READ: Sadece giriş yapmış kullanıcılar okuyabilir 
+      // VE (Projenin sahibi ise VEYA projenin 'sharedWith' dizisinde var ise).
+      // NOT: joinSharedProject fonksiyonu, kullanıcı sharedWith dizisinde olmasa bile
+      // isPublic=true olan projeyi okumaya çalışır (getDoc). Bu nedenle isPublic kuralı eklendi.
+      allow read: if request.auth != null 
+                  && (
+                    resource.data.userId == request.auth.uid || 
+                    request.auth.uid in resource.data.sharedWith ||
+                    resource.data.isPublic == true
+                  );
+      
+      // UPDATE: Sadece giriş yapmış kullanıcılar güncelleyebilir 
+      // VE (Projenin sahibi ise VEYA projenin 'sharedWith' dizisinde var ise)
+      // VE (Kullanıcı, projenin 'userId' yani sahiplik alanını DEĞİŞTİREMEZ).
+      allow update: if request.auth != null 
+                    && (
+                      resource.data.userId == request.auth.uid || 
+                      request.auth.uid in resource.data.sharedWith ||
+                      (resource.data.isPublic == true) // Ortak çalışmaya katılma esnasında arrayUnion için gerekli
+                    )
+                    && request.resource.data.userId == resource.data.userId; // Sahiplik çalınmasını (Ownership Stealing) veritabanı seviyesinde yasaklar!
+      
+      // DELETE: Sadece projenin orijinal sahibi projeyi silebilir.
+      allow delete: if request.auth != null 
+                    && resource.data.userId == request.auth.uid;
+    }
+  }
+}
