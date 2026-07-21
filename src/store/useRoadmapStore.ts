@@ -13,6 +13,8 @@ import dagre from 'dagre';
 import i18n from '../i18n';
 import { createNotepadSlice } from './slices/createNotepadSlice';
 import type { NotepadSlice } from './slices/createNotepadSlice';
+import { createFiveWhysSlice } from './slices/createFiveWhysSlice';
+import type { FiveWhysSlice, FiveWhysAnalysis } from './slices/createFiveWhysSlice';
 
 
 type GoalStatus = 'To Do' | 'In Progress' | 'Done' | 'Failed';
@@ -29,13 +31,7 @@ export type GoalNodeData = {
 
 export type GoalNode = Node<GoalNodeData>;
 
-interface FiveWhysAnalysis {
-  id: string;
-  problemStatement: string;
-  whys: string[];
-  rootCause: string;
-  createdAt: number;
-}
+
 
 export type SwotType = 'S' | 'W' | 'O' | 'T';
 
@@ -197,7 +193,7 @@ export interface Project {
   userId: string;
 }
 
-export interface RoadmapState extends NotepadSlice {
+export interface RoadmapState extends NotepadSlice, FiveWhysSlice {
   // Auth
   user: { uid: string; email: string; name: string; photoURL?: string } | null;
   login: (uid: string, email: string, name: string, photoURL?: string) => void;
@@ -281,11 +277,7 @@ export interface RoadmapState extends NotepadSlice {
   toggleHideCompleted: (id: string) => void;
   loadData: (nodes: GoalNode[], edges: Edge[], fiveWhys?: FiveWhysAnalysis[], swot?: SwotAnalysis[], ishikawa?: IshikawaAnalysis[], pdca?: PdcaCycle[], waterfall?: WaterfallProject[]) => void;
 
-  // 5 Whys State
-  fiveWhys: FiveWhysAnalysis[];
-  addFiveWhys: (problemStatement: string) => void;
-  updateFiveWhys: (id: string, data: Partial<FiveWhysAnalysis>) => void;
-  deleteFiveWhys: (id: string) => void;
+
 
   // SWOT State
   swot: SwotAnalysis[];
@@ -565,6 +557,7 @@ export const useRoadmapStore = create<RoadmapState>()(
   persist(
     (set, get, api) => ({
       ...createNotepadSlice(set, get, api),
+      ...createFiveWhysSlice(set, get, api),
       user: null,
       login: (uid, email, name, photoURL) => set({ user: { uid, email, name, photoURL } }),
       logout: () => set({ user: null, projects: [], currentProjectId: null, nodes: [], edges: [], fiveWhys: [], swot: [], ishikawa: [], pdca: [], waterfall: [], pareto: [], histogram: [],
@@ -1061,27 +1054,7 @@ export const useRoadmapStore = create<RoadmapState>()(
 
       loadData: (nodes, edges, fiveWhys = [], swot = [], ishikawa = [], pdca = [], waterfall = []) => set({ nodes, edges, fiveWhys, swot, ishikawa, pdca, waterfall, ...syncProject({ ...get(), nodes, edges, fiveWhys, swot, ishikawa, pdca, waterfall }) }),
 
-      // 5 Whys Actions
-      fiveWhys: [],
-      addFiveWhys: (problemStatement) => {
-        const newItem: FiveWhysAnalysis = {
-          id: uuidv4(),
-          problemStatement,
-          whys: ['', '', '', '', ''],
-          rootCause: '',
-          createdAt: Date.now(),
-        };
-        const newFiveWhys = [newItem, ...get().fiveWhys];
-        set({ fiveWhys: newFiveWhys, ...syncProject({ ...get(), fiveWhys: newFiveWhys }) });
-      },
-      updateFiveWhys: (id, data) => {
-        const newFiveWhys = get().fiveWhys.map(fw => fw.id === id ? { ...fw, ...data } : fw);
-        set({ fiveWhys: newFiveWhys, ...syncProject({ ...get(), fiveWhys: newFiveWhys }) });
-      },
-      deleteFiveWhys: (id) => {
-        const newFiveWhys = get().fiveWhys.filter(fw => fw.id !== id);
-        set({ fiveWhys: newFiveWhys, ...syncProject({ ...get(), fiveWhys: newFiveWhys }) });
-      },
+
 
       // SWOT Actions
       swot: [],
