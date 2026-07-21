@@ -12,24 +12,14 @@ export default function AuthModal() {
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [error, setError] = useState('');
   
-  const {  login, fetchProjects, createProject, loadProject  } = useRoadmapStore(useShallow((state) => ({
+  const {  login, fetchProjects  } = useRoadmapStore(useShallow((state) => ({
       login: state.login,
-      fetchProjects: state.fetchProjects,
-      createProject: state.createProject,
-      loadProject: state.loadProject
+      fetchProjects: state.fetchProjects
     })));
 
   const handleSuccess = async (user: any) => {
     login(user.uid, user.email || '', user.displayName || t('default_user'), user.photoURL);
-    await fetchProjects(user.uid);
-    
-    // Auto-create or load after fetching projects
-    const currentProjects = useRoadmapStore.getState().projects;
-    if (currentProjects.length === 0) {
-      createProject(t('first_project'));
-    } else {
-      loadProject(currentProjects[0].id);
-    }
+    fetchProjects(user.uid);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
