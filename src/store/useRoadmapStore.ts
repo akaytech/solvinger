@@ -186,7 +186,7 @@ export const useRoadmapStore = create<RoadmapState>()(
                   phase: (item.phase as string) === 'Design' ? 'High-Level Design' : item.phase
                 }))
               }));
-              return { ...data, swot: safeSwot, waterfall: safeWaterfall };
+              return { ...data, id: doc.id, swot: safeSwot, waterfall: safeWaterfall };
             });
             
             isRemoteUpdate = true;
