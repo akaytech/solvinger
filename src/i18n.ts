@@ -5,6 +5,11 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 export const resources = {
   "ar": {
     "translation": {
+      "nav_cat_root_cause": "Root Cause & Brainstorming",
+      "nav_cat_data_analysis": "Data & Statistical Analysis",
+      "nav_cat_decision_risk": "Decision & Risk Analysis",
+      "nav_cat_process_design": "Process & System Design",
+      "nav_cat_docs": "Documentation & Reporting",
       "flowchart_group_flow": "FLOWCHART",
       "flowchart_group_dfd": "DATA FLOW (DFD)",
       "flowchart_new_external": "New External Entity",
@@ -223,6 +228,11 @@ export const resources = {
   },
   "de": {
     "translation": {
+      "nav_cat_root_cause": "Root Cause & Brainstorming",
+      "nav_cat_data_analysis": "Data & Statistical Analysis",
+      "nav_cat_decision_risk": "Decision & Risk Analysis",
+      "nav_cat_process_design": "Process & System Design",
+      "nav_cat_docs": "Documentation & Reporting",
       "flowchart_group_flow": "FLOWCHART",
       "flowchart_group_dfd": "DATA FLOW (DFD)",
       "flowchart_new_external": "New External Entity",
@@ -470,6 +480,11 @@ export const resources = {
   },
   "en": {
     "translation": {
+      "nav_cat_root_cause": "Root Cause & Brainstorming",
+      "nav_cat_data_analysis": "Data & Statistical Analysis",
+      "nav_cat_decision_risk": "Decision & Risk Analysis",
+      "nav_cat_process_design": "Process & System Design",
+      "nav_cat_docs": "Documentation & Reporting",
       "flowchart_group_flow": "FLOWCHART",
       "flowchart_group_dfd": "DATA FLOW (DFD)",
       "flowchart_new_external": "New External Entity",
@@ -717,6 +732,11 @@ export const resources = {
   },
   "es": {
     "translation": {
+      "nav_cat_root_cause": "Root Cause & Brainstorming",
+      "nav_cat_data_analysis": "Data & Statistical Analysis",
+      "nav_cat_decision_risk": "Decision & Risk Analysis",
+      "nav_cat_process_design": "Process & System Design",
+      "nav_cat_docs": "Documentation & Reporting",
       "flowchart_group_flow": "FLOWCHART",
       "flowchart_group_dfd": "DATA FLOW (DFD)",
       "flowchart_new_external": "New External Entity",
@@ -964,6 +984,11 @@ export const resources = {
   },
   "fr": {
     "translation": {
+      "nav_cat_root_cause": "Root Cause & Brainstorming",
+      "nav_cat_data_analysis": "Data & Statistical Analysis",
+      "nav_cat_decision_risk": "Decision & Risk Analysis",
+      "nav_cat_process_design": "Process & System Design",
+      "nav_cat_docs": "Documentation & Reporting",
       "flowchart_group_flow": "FLOWCHART",
       "flowchart_group_dfd": "DATA FLOW (DFD)",
       "flowchart_new_external": "New External Entity",
@@ -1211,6 +1236,11 @@ export const resources = {
   },
   "ja": {
     "translation": {
+      "nav_cat_root_cause": "Root Cause & Brainstorming",
+      "nav_cat_data_analysis": "Data & Statistical Analysis",
+      "nav_cat_decision_risk": "Decision & Risk Analysis",
+      "nav_cat_process_design": "Process & System Design",
+      "nav_cat_docs": "Documentation & Reporting",
       "flowchart_group_flow": "FLOWCHART",
       "flowchart_group_dfd": "DATA FLOW (DFD)",
       "flowchart_new_external": "New External Entity",
@@ -1437,6 +1467,11 @@ export const resources = {
   },
   "pt": {
     "translation": {
+      "nav_cat_root_cause": "Root Cause & Brainstorming",
+      "nav_cat_data_analysis": "Data & Statistical Analysis",
+      "nav_cat_decision_risk": "Decision & Risk Analysis",
+      "nav_cat_process_design": "Process & System Design",
+      "nav_cat_docs": "Documentation & Reporting",
       "flowchart_group_flow": "FLOWCHART",
       "flowchart_group_dfd": "DATA FLOW (DFD)",
       "flowchart_new_external": "New External Entity",
@@ -1663,6 +1698,11 @@ export const resources = {
   },
   "ru": {
     "translation": {
+      "nav_cat_root_cause": "Root Cause & Brainstorming",
+      "nav_cat_data_analysis": "Data & Statistical Analysis",
+      "nav_cat_decision_risk": "Decision & Risk Analysis",
+      "nav_cat_process_design": "Process & System Design",
+      "nav_cat_docs": "Documentation & Reporting",
       "flowchart_group_flow": "FLOWCHART",
       "flowchart_group_dfd": "DATA FLOW (DFD)",
       "flowchart_new_external": "New External Entity",
@@ -1889,6 +1929,11 @@ export const resources = {
   },
   "tr": {
     "translation": {
+      "nav_cat_root_cause": "Kök Neden ve Beyin Fırtınası",
+      "nav_cat_data_analysis": "Veri ve İstatistiksel Analiz",
+      "nav_cat_decision_risk": "Karar ve Risk Analizi",
+      "nav_cat_process_design": "Süreç ve Sistem Tasarımı",
+      "nav_cat_docs": "Belgelendirme ve Raporlama",
       "flowchart_group_flow": "AKIŞ DİYAGRAMI",
       "flowchart_group_dfd": "VERİ AKIŞI (DFD)",
       "flowchart_new_external": "Yeni Dış Kaynak",
@@ -2136,6 +2181,11 @@ export const resources = {
   },
   "zh": {
     "translation": {
+      "nav_cat_root_cause": "Root Cause & Brainstorming",
+      "nav_cat_data_analysis": "Data & Statistical Analysis",
+      "nav_cat_decision_risk": "Decision & Risk Analysis",
+      "nav_cat_process_design": "Process & System Design",
+      "nav_cat_docs": "Documentation & Reporting",
       "flowchart_group_flow": "FLOWCHART",
       "flowchart_group_dfd": "DATA FLOW (DFD)",
       "flowchart_new_external": "New External Entity",
