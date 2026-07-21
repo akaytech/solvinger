@@ -97,6 +97,7 @@ function FiveWhysCanvasInner() {
           fitView
           fitViewOptions={{ padding: 0.2 }}
           minZoom={0.1}
+          deleteKeyCode={['Delete']}
           defaultEdgeOptions={{
             type: 'smoothstep',
             animated: true,
