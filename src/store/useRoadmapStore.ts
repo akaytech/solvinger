@@ -517,6 +517,15 @@ export const useRoadmapStore = create<RoadmapState>()(
       ftaNodes: state.ftaNodes,
       ftaEdges: state.ftaEdges,
     }),
+    equality: (pastState, currentState) => {
+      // Shallow compare all keys
+      for (const key in pastState) {
+        if (pastState[key as keyof typeof pastState] !== currentState[key as keyof typeof currentState]) {
+          return false;
+        }
+      }
+      return true;
+    },
     limit: 50,
   }
 )
