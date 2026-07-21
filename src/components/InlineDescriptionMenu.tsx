@@ -23,7 +23,7 @@ export default function InlineDescriptionMenu({
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    textareaRef.current?.focus();
+    textareaRef.current?.focus({ preventScroll: true });
   }, []);
 
   const handleSaveAndClose = () => {
@@ -57,7 +57,7 @@ export default function InlineDescriptionMenu({
           }
         }}
         placeholder={t('desc_placeholder')}
-        className="w-full min-h-[140px] resize-none rounded-2xl border border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 p-3 text-sm font-medium text-slate-700 dark:text-slate-200 outline-none transition-colors focus:border-indigo-500 dark:focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-800 focus:ring-2 focus:ring-indigo-500/10 custom-scrollbar"
+        className="w-full min-h-[280px] resize-none rounded-2xl border border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 p-3 text-sm font-medium text-slate-700 dark:text-slate-200 outline-none transition-colors focus:border-indigo-500 dark:focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-800 focus:ring-2 focus:ring-indigo-500/10 custom-scrollbar"
       />
     </div>
   );
