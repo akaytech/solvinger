@@ -10,7 +10,7 @@ import dagre from 'dagre';
 import i18n from '../../i18n';
 import { syncProject } from '../useRoadmapStore';
 import type { RoadmapState } from '../useRoadmapStore';
-import type { FiveWhysAnalysis, SwotAnalysis, IshikawaAnalysis, PdcaCycle, WaterfallProject } from '../useRoadmapStore';
+import type { SwotAnalysis, IshikawaAnalysis, PdcaCycle, WaterfallProject } from '../useRoadmapStore';
 
 export type GoalStatus = 'To Do' | 'In Progress' | 'Done' | 'Failed';
 
@@ -37,7 +37,7 @@ export interface WbsSlice {
   deleteGoal: (id: string) => void;
   toggleExpand: (id: string) => void;
   toggleHideCompleted: (id: string) => void;
-  loadData: (nodes: GoalNode[], edges: Edge[], fiveWhys?: FiveWhysAnalysis[], swot?: SwotAnalysis[], ishikawa?: IshikawaAnalysis[], pdca?: PdcaCycle[], waterfall?: WaterfallProject[]) => void;
+  loadData: (nodes: GoalNode[], edges: Edge[], swot?: SwotAnalysis[], ishikawa?: IshikawaAnalysis[], pdca?: PdcaCycle[], waterfall?: WaterfallProject[]) => void;
 }
 
 export const getDescendants = (parentId: string, edges: Edge[]): string[] => {
@@ -336,9 +336,9 @@ export const createWbsSlice: StateCreator<
     });
   },
 
-  loadData: (nodes, edges, fiveWhys = [], swot = [], ishikawa = [], pdca = [], waterfall = []) => 
+  loadData: (nodes, edges, swot = [], ishikawa = [], pdca = [], waterfall = []) => 
     set((state) => {
-      const next = { ...state, nodes, edges, fiveWhys, swot, ishikawa, pdca, waterfall };
+      const next = { ...state, nodes, edges, swot, ishikawa, pdca, waterfall };
       return { ...next, ...syncProject(next) };
     }),
 

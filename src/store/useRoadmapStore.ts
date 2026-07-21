@@ -14,8 +14,8 @@ export { getDescendants };
 import { createNotepadSlice } from './slices/createNotepadSlice';
 import type { NotepadSlice } from './slices/createNotepadSlice';
 import { createFiveWhysSlice } from './slices/createFiveWhysSlice';
-import type { FiveWhysSlice, FiveWhysAnalysis } from './slices/createFiveWhysSlice';
-export type { FiveWhysAnalysis };
+import type { FiveWhysSlice, FiveWhysNode, FiveWhysNodeType, FiveWhysNodeData } from './slices/createFiveWhysSlice';
+export type { FiveWhysNode, FiveWhysNodeType, FiveWhysNodeData };
 
 import { createSwotSlice } from './slices/createSwotSlice';
 import type { SwotSlice, SwotType, SwotItem, SwotAnalysis } from './slices/createSwotSlice';
@@ -90,7 +90,8 @@ export interface Project {
   name: string;
   nodes: GoalNode[];
   edges: Edge[];
-  fiveWhys: FiveWhysAnalysis[];
+  fiveWhysNodes?: FiveWhysNode[];
+  fiveWhysEdges?: Edge[];
   swot: SwotAnalysis[];
   ishikawa: IshikawaAnalysis[];
   pdca: PdcaCycle[];
@@ -165,7 +166,8 @@ export const syncProject = (state: RoadmapState): Partial<RoadmapState> => {
     name: currentProjectName,
     nodes: state.nodes,
     edges: state.edges,
-    fiveWhys: state.fiveWhys || [],
+    fiveWhysNodes: state.fiveWhysNodes || [],
+    fiveWhysEdges: state.fiveWhysEdges || [],
     swot: state.swot || [],
     ishikawa: state.ishikawa || [],
     pdca: state.pdca || [],
@@ -216,7 +218,7 @@ export const useRoadmapStore = create<RoadmapState>()(
       ...createWbsSlice(set, get, api),
       user: null,
       login: (uid, email, name, photoURL) => set({ user: { uid, email, name, photoURL } }),
-      logout: () => set({ user: null, projects: [], currentProjectId: null, nodes: [], edges: [], fiveWhys: [], swot: [], ishikawa: [], pdca: [], waterfall: [], pareto: [], histogram: [],
+      logout: () => set({ user: null, projects: [], currentProjectId: null, nodes: [], edges: [], fiveWhysNodes: [], fiveWhysEdges: [], swot: [], ishikawa: [], pdca: [], waterfall: [], pareto: [], histogram: [],
           decision: [], flowchartNodes: [], flowchartEdges: [], ftaNodes: [], ftaEdges: [], activeTool: null }),
 
       activeTool: null,
@@ -261,7 +263,8 @@ export const useRoadmapStore = create<RoadmapState>()(
           name,
           nodes: activeToolToUse === 'wbs' ? getDefaultNodes() : [],
           edges: [],
-          fiveWhys: [],
+          fiveWhysNodes: [],
+          fiveWhysEdges: [],
           swot: [],
           ishikawa: [],
           pdca: [],
@@ -286,7 +289,8 @@ export const useRoadmapStore = create<RoadmapState>()(
           currentProjectId: newProject.id,
           nodes: newProject.nodes,
           edges: newProject.edges,
-          fiveWhys: newProject.fiveWhys,
+          fiveWhysNodes: newProject.fiveWhysNodes || [],
+          fiveWhysEdges: newProject.fiveWhysEdges || [],
           swot: newProject.swot,
           ishikawa: newProject.ishikawa,
           pdca: newProject.pdca,
@@ -319,7 +323,8 @@ export const useRoadmapStore = create<RoadmapState>()(
             currentProjectId: id,
             nodes: project.nodes,
             edges: project.edges,
-            fiveWhys: project.fiveWhys || [],
+            fiveWhysNodes: project.fiveWhysNodes || [],
+            fiveWhysEdges: project.fiveWhysEdges || [],
             swot: safeSwot,
             ishikawa: project.ishikawa || [],
             pdca: project.pdca || [],
@@ -361,7 +366,8 @@ export const useRoadmapStore = create<RoadmapState>()(
             activeTool: newProjects.length === 0 ? null : state.activeTool,
             nodes: isCurrent ? [] : state.nodes,
             edges: isCurrent ? [] : state.edges,
-            fiveWhys: isCurrent ? [] : state.fiveWhys,
+            fiveWhysNodes: isCurrent ? [] : state.fiveWhysNodes,
+            fiveWhysEdges: isCurrent ? [] : state.fiveWhysEdges,
             swot: isCurrent ? [] : state.swot,
             ishikawa: isCurrent ? [] : state.ishikawa,
             pdca: isCurrent ? [] : state.pdca,
@@ -385,8 +391,8 @@ export const useRoadmapStore = create<RoadmapState>()(
             if (toolName === 'wbs') {
               nextP.nodes = [];
               nextP.edges = [];
-            } else if (toolName === '5whys') {
-              nextP.fiveWhys = [];
+              nextP.fiveWhysNodes = [{ id: "root", type: "fiveWhysNode", position: { x: 0, y: 0 }, data: { label: i18n.t('whys_problem'), type: "problem", depth: 0 } }];
+              nextP.fiveWhysEdges = [];
             } else if (toolName === 'flowchart') {
               nextP.flowchartNodes = [{ id: "root", type: "flowchartNode", position: { x: 0, y: 0 }, data: { label: i18n.t('flowchart_start'), shape: "start" } }];
               nextP.flowchartEdges = [];
@@ -394,7 +400,7 @@ export const useRoadmapStore = create<RoadmapState>()(
               nextP.ftaNodes = [{ id: "root", type: "ftaNode", position: { x: 0, y: 0 }, data: { label: i18n.t('fta_top_event'), type: "topEvent" } }];
               nextP.ftaEdges = [];
             } else {
-              nextP[toolName] = [];
+              (nextP as any)[toolName] = [];
             }
             nextP.updatedAt = Date.now();
             if (state.user) {
@@ -414,7 +420,8 @@ export const useRoadmapStore = create<RoadmapState>()(
                 updates.nodes = activeProject.nodes;
                 updates.edges = activeProject.edges;
               } else if (toolName === '5whys') {
-                updates.fiveWhys = [];
+                updates.fiveWhysNodes = activeProject.fiveWhysNodes;
+                updates.fiveWhysEdges = activeProject.fiveWhysEdges;
               } else if (toolName === 'pareto') {
                 updates.pareto = [];
               } else if (toolName === 'histogram') {

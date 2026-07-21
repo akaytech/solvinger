@@ -1,128 +1,145 @@
-import { useState } from 'react';
+import { useState, useCallback, useRef } from 'react';
+import {
+  ReactFlow,
+  Background,
+  MiniMap,
+  Panel,
+  ReactFlowProvider
+} from '@xyflow/react';
+import '@xyflow/react/dist/style.css';
 import { useRoadmapStore } from '../store/useRoadmapStore';
 import { useShallow } from 'zustand/react/shallow';
-import { Plus, Trash2, ArrowDown, Activity } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { Activity } from 'lucide-react';
 import ToolHeader from './ToolHeader';
 
-export default function FiveWhysCanvas() {
+import FiveWhysNode from './FiveWhysNode';
+import FiveWhysContextMenu from './FiveWhysContextMenu';
+
+const nodeTypes = {
+  fiveWhysNode: FiveWhysNode,
+};
+
+function FiveWhysCanvasInner() {
   const { t } = useTranslation();
-  const {  fiveWhys, addFiveWhys, updateFiveWhys, deleteFiveWhys  } = useRoadmapStore(useShallow((state) => ({
-      fiveWhys: state.fiveWhys,
-      addFiveWhys: state.addFiveWhys,
-      updateFiveWhys: state.updateFiveWhys,
-      deleteFiveWhys: state.deleteFiveWhys
-    })));
-  const [newProblem, setNewProblem] = useState('');
+  const reactFlowWrapper = useRef<HTMLDivElement>(null);
+  const [menu, setMenu] = useState<{ id: string; top: number; left: number } | null>(null);
 
-  const handleAdd = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newProblem.trim()) return;
-    addFiveWhys(newProblem);
-    setNewProblem('');
-  };
+  const {
+    fiveWhysNodes,
+    fiveWhysEdges,
+    onFiveWhysNodesChange,
+    onFiveWhysEdgesChange,
+    onFiveWhysConnect,
+    addFiveWhysNode,
+    updateFiveWhysNode,
+    deleteFiveWhysNode
+  } = useRoadmapStore(useShallow((state) => ({
+    fiveWhysNodes: state.fiveWhysNodes || [],
+    fiveWhysEdges: state.fiveWhysEdges || [],
+    onFiveWhysNodesChange: state.onFiveWhysNodesChange,
+    onFiveWhysEdgesChange: state.onFiveWhysEdgesChange,
+    onFiveWhysConnect: state.onFiveWhysConnect,
+    addFiveWhysNode: state.addFiveWhysNode,
+    updateFiveWhysNode: state.updateFiveWhysNode,
+    deleteFiveWhysNode: state.deleteFiveWhysNode
+  })));
 
-  const updateWhy = (id: string, index: number, value: string) => {
-    const analysis = fiveWhys.find(fw => fw.id === id);
-    if (!analysis) return;
-    
-    const newWhys = [...analysis.whys];
-    newWhys[index] = value;
-    updateFiveWhys(id, { whys: newWhys });
-  };
+  const onNodeContextMenu = useCallback(
+    (event: React.MouseEvent, node: any) => {
+      event.preventDefault();
+      const pane = reactFlowWrapper.current?.getBoundingClientRect();
+      if (pane) {
+        setMenu({
+          id: node.id,
+          top: event.clientY - pane.top,
+          left: event.clientX - pane.left,
+        });
+      }
+    },
+    []
+  );
+
+  const onPaneClick = useCallback(() => {
+    setMenu(null);
+  }, []);
 
   return (
     <div className="flex h-full w-full flex-col bg-slate-50 dark:bg-slate-900 transition-colors">
-      <ToolHeader title={t('tool_5whys')} subtitle={t('whys_subtitle')} icon={<Activity />} iconColor="text-rose-500" />
-
-      <div className="flex-1 overflow-auto p-6 md:p-8 space-y-12">
-        {/* Create Form */}
-        <div className="mx-auto max-w-3xl">
-          <form onSubmit={handleAdd} className="flex gap-3">
-            <input
-              type="text"
-              value={newProblem}
-              onChange={(e) => setNewProblem(e.target.value)}
-              placeholder={t('whys_placeholder')}
-              className="flex-1 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-6 py-4 text-lg outline-none focus:border-emerald-500 dark:focus:border-emerald-500 shadow-sm text-slate-800 dark:text-slate-100"
-            />
-            <button
-              type="submit"
-              disabled={!newProblem.trim()}
-              className="flex items-center gap-2 rounded-2xl bg-emerald-600 px-8 py-4 text-white shadow-sm transition-all hover:bg-emerald-700 active:scale-95 disabled:opacity-50"
-            >
-              <Plus size={24} />
-              <span className="font-bold">{t('whys_start')}</span>
-            </button>
-          </form>
-        </div>
-
-        <div className="mx-auto flex max-w-7xl gap-6 overflow-x-auto pb-8 snap-x">
-          {fiveWhys.map(analysis => (
-            <div key={analysis.id} className="w-[400px] shrink-0 snap-center">
-              <div className="rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800 shadow-xl overflow-hidden flex flex-col h-full">
-                <div className="p-5 bg-emerald-50 dark:bg-emerald-900/20 border-b border-slate-200 dark:border-slate-800 flex justify-between items-start gap-4">
-                  <div>
-                     <div className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 mb-1">{t('whys_problem')}</div>
-                     <h3 className="text-lg font-bold text-slate-800 dark:text-slate-100">{analysis.problemStatement}</h3>
-                  </div>
-                  <button 
-                    onClick={() => deleteFiveWhys(analysis.id)}
-                    className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-lg transition-colors shrink-0"
-                  >
-                    <Trash2 size={18} />
-                  </button>
-                </div>
-                
-                <div className="flex-1 p-5 space-y-4 overflow-y-auto">
-                  {analysis.whys.map((why, index) => (
-                    <div key={index} className="relative">
-                      {index > 0 && (
-                        <div className="absolute -top-4 left-1/2 -translate-x-1/2 flex items-center justify-center text-slate-300 dark:text-slate-600">
-                          <ArrowDown size={16} />
-                        </div>
-                      )}
-                      <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 p-3">
-                        <label className="text-xs font-bold text-slate-500 dark:text-slate-400 mb-1 block">
-                          {index + 1}. {t('whys_why')}
-                        </label>
-                        <textarea
-                          value={why}
-                          onChange={(e) => updateWhy(analysis.id, index, e.target.value)}
-                          placeholder={t('whys_why_placeholder')}
-                          rows={2}
-                          className="w-full resize-none bg-transparent outline-none text-slate-700 dark:text-slate-300 text-sm placeholder-slate-400"
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="p-5 bg-slate-50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800">
-                  <label className="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 mb-2 block">
-                    {t('whys_root')}
-                  </label>
-                  <textarea
-                    value={analysis.rootCause}
-                    onChange={(e) => updateFiveWhys(analysis.id, { rootCause: e.target.value })}
-                    placeholder={t('whys_root_placeholder')}
-                    rows={3}
-                    className="w-full rounded-xl border border-emerald-200 dark:border-emerald-900/50 bg-white dark:bg-slate-800 p-3 text-sm outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 text-slate-800 dark:text-slate-100 transition-all"
-                  />
-                </div>
-
-              </div>
-            </div>
-          ))}
+      <ToolHeader title={t('tool_5whys')} subtitle={t('whys_subtitle')} icon={<Activity />} iconColor="text-indigo-500" />
+      
+      <div className="flex-1 w-full relative" ref={reactFlowWrapper}>
+        <ReactFlow
+          nodes={fiveWhysNodes}
+          edges={fiveWhysEdges}
+          onNodesChange={onFiveWhysNodesChange}
+          onEdgesChange={onFiveWhysEdgesChange}
+          onConnect={onFiveWhysConnect}
+          nodeTypes={nodeTypes}
+          onNodeContextMenu={onNodeContextMenu}
+          onPaneClick={onPaneClick}
+          fitView
+          fitViewOptions={{ padding: 0.2 }}
+          minZoom={0.1}
+          defaultEdgeOptions={{
+            type: 'smoothstep',
+            animated: true,
+            style: { strokeWidth: 3, stroke: '#94a3b8' },
+          }}
+          proOptions={{ hideAttribution: true }}
+        >
+          <MiniMap position="bottom-right" className="!w-48 !h-48 !rounded-full overflow-hidden border-4 border-slate-200 dark:border-slate-700 shadow-2xl dark:bg-slate-800 bg-white" maskColor="var(--minimap-mask, rgba(200, 200, 225, 0.2))" nodeColor="var(--minimap-node, #a5b4fc)" zoomable pannable />
+          <Background color="#cbd5e1" gap={24} size={2} />
           
-          {fiveWhys.length === 0 && (
-            <div className="w-full py-20 flex flex-col items-center justify-center text-slate-400 dark:text-slate-600">
-              <Activity size={64} className="mb-4 opacity-50" />
-              <p className="text-lg">{t('whys_empty')}</p>
-            </div>
+          {fiveWhysNodes.length === 0 && (
+             <Panel position="top-center" className="mt-20">
+               <div className="bg-white/90 dark:bg-slate-800/90 backdrop-blur border border-slate-200 dark:border-slate-700 rounded-2xl p-8 shadow-2xl text-center max-w-md">
+                 <div className="w-16 h-16 bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                   <Activity size={32} />
+                 </div>
+                 <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-2">
+                   {t('whys_empty')}
+                 </h3>
+                 <p className="text-slate-500 dark:text-slate-400 mb-6 text-sm">
+                   Kanvasa ilk "Ana Sorun" düğümünü ekleyerek analize başlayın.
+                 </p>
+                 <button
+                   onClick={() => addFiveWhysNode(null, 'problem', t('whys_placeholder'))}
+                   className="w-full py-3 px-6 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold transition-all hover:shadow-lg hover:shadow-indigo-500/20 active:scale-95"
+                 >
+                   Ana Sorun Ekle
+                 </button>
+               </div>
+             </Panel>
           )}
-        </div>
+        </ReactFlow>
+
+        {menu && (
+          <FiveWhysContextMenu
+            x={menu.left}
+            y={menu.top}
+            node={fiveWhysNodes.find((n) => n.id === menu.id)!}
+            onClose={() => setMenu(null)}
+            onAddNode={(type, label) => {
+              addFiveWhysNode(menu.id, type, label);
+              setMenu(null);
+            }}
+            onUpdate={(data) => updateFiveWhysNode(menu.id, data)}
+            onDelete={() => {
+              deleteFiveWhysNode(menu.id);
+              setMenu(null);
+            }}
+          />
+        )}
       </div>
     </div>
+  );
+}
+
+export default function FiveWhysCanvas() {
+  return (
+    <ReactFlowProvider>
+      <FiveWhysCanvasInner />
+    </ReactFlowProvider>
   );
 }
