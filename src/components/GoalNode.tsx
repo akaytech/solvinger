@@ -46,7 +46,7 @@ export default function GoalNode({ data, selected }: { data: GoalNodeData; selec
   return (
     <div
       className={clsx(
-        'group relative flex w-[440px] min-h-[110px] items-center rounded-[2rem] p-5 shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl',
+        'group relative flex w-[440px] min-h-[55px] items-center rounded-2xl px-5 py-2 shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl',
         selected ? 'ring-4 ring-white/50 dark:ring-slate-500/50 shadow-black/20 dark:shadow-black/50' : '',
         isFailed ? 'bg-red-500 dark:bg-red-600 text-white' : isDone ? 'bg-blue-500 dark:bg-blue-600 text-white' : isInProgress ? 'bg-emerald-500 dark:bg-emerald-600 text-white' : 'bg-[#ffff00] dark:bg-yellow-500 text-slate-800'
       )}
@@ -78,10 +78,10 @@ export default function GoalNode({ data, selected }: { data: GoalNodeData; selec
       <div className="flex w-full items-center gap-4">
         <div
           className={clsx(
-            'flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/20 shadow-inner'
+            'flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/20 shadow-inner'
           )}
         >
-          {isFailed ? <XCircle size={26} /> : isDone ? <CheckCircle2 size={26} /> : isInProgress ? <PlayCircle size={26} /> : <CircleDashed size={26} />}
+          {isFailed ? <XCircle size={20} /> : isDone ? <CheckCircle2 size={20} /> : isInProgress ? <PlayCircle size={20} /> : <CircleDashed size={20} />}
         </div>
         <div className="flex-1" onDoubleClick={() => setIsEditing(true)}>
           {isEditing ? (
