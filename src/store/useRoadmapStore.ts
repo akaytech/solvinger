@@ -249,7 +249,16 @@ export const useRoadmapStore = create<RoadmapState>()(
                 createdAt: Date.now()
               }];
             }
-            return { ...data, swot: safeSwot };
+            let safeWaterfall = data.waterfall || [];
+            safeWaterfall = safeWaterfall.map(proj => ({
+              ...proj,
+              currentPhaseIndex: proj.currentPhaseIndex ?? 0,
+              items: proj.items.map(item => ({
+                ...item,
+                phase: (item.phase as string) === 'Design' ? 'High-Level Design' : item.phase
+              }))
+            }));
+            return { ...data, swot: safeSwot, waterfall: safeWaterfall };
           });
           
           set({ projects: fetchedProjects });
@@ -337,7 +346,14 @@ export const useRoadmapStore = create<RoadmapState>()(
             swot: safeSwot,
             ishikawa: project.ishikawa || [],
             pdca: project.pdca || [],
-            waterfall: project.waterfall || [],
+            waterfall: (project.waterfall || []).map(proj => ({
+              ...proj,
+              currentPhaseIndex: proj.currentPhaseIndex ?? 0,
+              items: proj.items.map(item => ({
+                ...item,
+                phase: (item.phase as string) === 'Design' ? 'High-Level Design' : item.phase
+              }))
+            })),
             pareto: project.pareto || [],
             histogram: project.histogram || [],
             eod: project.eod || [],

@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { syncProject } from '../useRoadmapStore';
 import type { RoadmapState } from '../useRoadmapStore';
 
-export type WaterfallPhase = 'Requirements' | 'Design' | 'Implementation' | 'Verification' | 'Maintenance';
+export type WaterfallPhase = 'Requirements' | 'High-Level Design' | 'Low-Level Design' | 'Implementation' | 'Verification' | 'Maintenance';
 
 export interface WaterfallItem {
   id: string;
@@ -15,6 +15,7 @@ export interface WaterfallItem {
 export interface WaterfallProject {
   id: string;
   name: string;
+  currentPhaseIndex: number;
   items: WaterfallItem[];
   createdAt: number;
 }
@@ -27,6 +28,7 @@ export interface WaterfallSlice {
   addWaterfallItem: (projectId: string, phase: WaterfallPhase, text: string) => void;
   updateWaterfallItem: (projectId: string, itemId: string, text: string) => void;
   deleteWaterfallItem: (projectId: string, itemId: string) => void;
+  advanceWaterfallPhase: (projectId: string) => void;
 }
 
 export const createWaterfallSlice: StateCreator<
@@ -40,6 +42,7 @@ export const createWaterfallSlice: StateCreator<
     const newItem: WaterfallProject = {
       id: uuidv4(),
       name,
+      currentPhaseIndex: 0,
       items: [],
       createdAt: Date.now(),
     };
@@ -80,6 +83,14 @@ export const createWaterfallSlice: StateCreator<
     const newWaterfall = get().waterfall.map(project => 
       project.id === projectId 
         ? { ...project, items: project.items.filter(item => item.id !== itemId) } 
+        : project
+    );
+    set({ waterfall: newWaterfall, ...syncProject({ ...get(), waterfall: newWaterfall }) });
+  },
+  advanceWaterfallPhase: (projectId) => {
+    const newWaterfall = get().waterfall.map(project => 
+      project.id === projectId 
+        ? { ...project, currentPhaseIndex: Math.min(5, project.currentPhaseIndex + 1) } 
         : project
     );
     set({ waterfall: newWaterfall, ...syncProject({ ...get(), waterfall: newWaterfall }) });
