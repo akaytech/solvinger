@@ -25,6 +25,10 @@ import { createIshikawaSlice } from './slices/createIshikawaSlice';
 import type { IshikawaSlice, IshikawaCategory, IshikawaItem, IshikawaAnalysis } from './slices/createIshikawaSlice';
 export type { IshikawaCategory, IshikawaItem, IshikawaAnalysis };
 
+import { createPdcaSlice } from './slices/createPdcaSlice';
+import type { PdcaSlice, PdcaPhase, PdcaItem, PdcaCycle } from './slices/createPdcaSlice';
+export type { PdcaPhase, PdcaItem, PdcaCycle };
+
 
 type GoalStatus = 'To Do' | 'In Progress' | 'Done' | 'Failed';
 
@@ -46,22 +50,7 @@ export type GoalNode = Node<GoalNodeData>;
 
 
 
-export type PdcaPhase = 'Plan' | 'Do' | 'Check' | 'Act';
 
-interface PdcaItem {
-  id: string;
-  phase: PdcaPhase;
-  text: string;
-  status: 'pending' | 'completed';
-  createdAt: number;
-}
-
-interface PdcaCycle {
-  id: string;
-  goal: string;
-  items: PdcaItem[];
-  createdAt: number;
-}
 
 export type WaterfallPhase = 'Requirements' | 'Design' | 'Implementation' | 'Verification' | 'Maintenance';
 
@@ -174,7 +163,7 @@ export interface Project {
   userId: string;
 }
 
-export interface RoadmapState extends NotepadSlice, FiveWhysSlice, SwotSlice, IshikawaSlice {
+export interface RoadmapState extends NotepadSlice, FiveWhysSlice, SwotSlice, IshikawaSlice, PdcaSlice {
   // Auth
   user: { uid: string; email: string; name: string; photoURL?: string } | null;
   login: (uid: string, email: string, name: string, photoURL?: string) => void;
@@ -264,15 +253,7 @@ export interface RoadmapState extends NotepadSlice, FiveWhysSlice, SwotSlice, Is
 
 
 
-  // PDCA State
-  pdca: PdcaCycle[];
-  addPdcaCycle: (goal: string) => void;
-  updatePdcaGoal: (id: string, goal: string) => void;
-  deletePdcaCycle: (id: string) => void;
-  addPdcaItem: (cycleId: string, phase: PdcaPhase, text: string) => void;
-  updatePdcaItem: (cycleId: string, itemId: string, text: string) => void;
-  deletePdcaItem: (cycleId: string, itemId: string) => void;
-  togglePdcaItemStatus: (cycleId: string, itemId: string) => void;
+
 
   // Waterfall State
   waterfall: WaterfallProject[];
@@ -527,6 +508,7 @@ export const useRoadmapStore = create<RoadmapState>()(
       ...createFiveWhysSlice(set, get, api),
       ...createSwotSlice(set, get, api),
       ...createIshikawaSlice(set, get, api),
+      ...createPdcaSlice(set, get, api),
       user: null,
       login: (uid, email, name, photoURL) => set({ user: { uid, email, name, photoURL } }),
       logout: () => set({ user: null, projects: [], currentProjectId: null, nodes: [], edges: [], fiveWhys: [], swot: [], ishikawa: [], pdca: [], waterfall: [], pareto: [], histogram: [],
@@ -1029,65 +1011,7 @@ export const useRoadmapStore = create<RoadmapState>()(
 
 
 
-      // PDCA Actions
-      pdca: [],
-      addPdcaCycle: (goal) => {
-        const newItem: PdcaCycle = {
-          id: uuidv4(),
-          goal,
-          items: [],
-          createdAt: Date.now(),
-        };
-        const newPdca = [newItem, ...get().pdca];
-        set({ pdca: newPdca, ...syncProject({ ...get(), pdca: newPdca }) });
-      },
-      updatePdcaGoal: (id, goal) => {
-        const newPdca = get().pdca.map(p => p.id === id ? { ...p, goal } : p);
-        set({ pdca: newPdca, ...syncProject({ ...get(), pdca: newPdca }) });
-      },
-      deletePdcaCycle: (id) => {
-        const newPdca = get().pdca.filter(p => p.id !== id);
-        set({ pdca: newPdca, ...syncProject({ ...get(), pdca: newPdca }) });
-      },
-      addPdcaItem: (cycleId, phase, text) => {
-        const newItem: PdcaItem = {
-          id: uuidv4(),
-          phase,
-          text,
-          status: 'pending',
-          createdAt: Date.now(),
-        };
-        const newPdca = get().pdca.map(cycle => 
-          cycle.id === cycleId 
-            ? { ...cycle, items: [...cycle.items, newItem] } 
-            : cycle
-        );
-        set({ pdca: newPdca, ...syncProject({ ...get(), pdca: newPdca }) });
-      },
-      updatePdcaItem: (cycleId, itemId, text) => {
-        const newPdca = get().pdca.map(cycle => 
-          cycle.id === cycleId 
-            ? { ...cycle, items: cycle.items.map(item => item.id === itemId ? { ...item, text } : item) } 
-            : cycle
-        );
-        set({ pdca: newPdca, ...syncProject({ ...get(), pdca: newPdca }) });
-      },
-      deletePdcaItem: (cycleId, itemId) => {
-        const newPdca = get().pdca.map(cycle => 
-          cycle.id === cycleId 
-            ? { ...cycle, items: cycle.items.filter(item => item.id !== itemId) } 
-            : cycle
-        );
-        set({ pdca: newPdca, ...syncProject({ ...get(), pdca: newPdca }) });
-      },
-      togglePdcaItemStatus: (cycleId, itemId) => {
-        const newPdca = get().pdca.map(cycle => 
-          cycle.id === cycleId 
-            ? { ...cycle, items: cycle.items.map(item => item.id === itemId ? { ...item, status: (item.status === 'pending' ? 'completed' : 'pending') as 'pending' | 'completed' } : item) } 
-            : cycle
-        );
-        set({ pdca: newPdca, ...syncProject({ ...get(), pdca: newPdca }) });
-      },
+
 
       // Pareto Actions
       pareto: [],
