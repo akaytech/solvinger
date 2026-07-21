@@ -5,6 +5,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 export const resources = {
   "ar": {
     "translation": {
+      "export_image": "تصدير كصورة",
       "tool_flowchart": "مخطط انسيابي",
       "flowchart_title": "مخطط انسيابي",
       "flowchart_desc": "تخطيط خطوات العملية ونقاط اتخاذ القرار.",
@@ -206,6 +207,7 @@ export const resources = {
   },
   "de": {
     "translation": {
+      "export_image": "Als Bild exportieren",
       "wf_hld": "2. High-Level-Design (HLD)",
       "wf_lld": "3. Low-Level-Design (LLD)",
       "wf_hld_desc": "Entwerfen Sie die Gesamtarchitektur und die Beziehungen zwischen den Komponenten.",
@@ -436,6 +438,7 @@ export const resources = {
   },
   "en": {
     "translation": {
+      "export_image": "Export as Image",
       "wf_hld": "2. High-Level Design (HLD)",
       "wf_lld": "3. Low-Level Design (LLD)",
       "wf_hld_desc": "Design the overall architecture and relations between components.",
@@ -666,6 +669,7 @@ export const resources = {
   },
   "es": {
     "translation": {
+      "export_image": "Exportar como imagen",
       "wf_hld": "2. Diseño de Alto Nivel (HLD)",
       "wf_lld": "3. Diseño de Bajo Nivel (LLD)",
       "wf_hld_desc": "Diseñe la arquitectura general y las relaciones entre componentes.",
@@ -896,6 +900,7 @@ export const resources = {
   },
   "fr": {
     "translation": {
+      "export_image": "Exporter en image",
       "wf_hld": "2. Conception de Haut Niveau (HLD)",
       "wf_lld": "3. Conception de Bas Niveau (LLD)",
       "wf_hld_desc": "Concevez l'architecture globale et les relations entre les composants.",
@@ -1126,6 +1131,7 @@ export const resources = {
   },
   "ja": {
     "translation": {
+      "export_image": "画像としてエクスポート",
       "notepad_title": "メモ帳",
       "notepad_desc": "アイデア、下書き、メモを安全に保管します。",
       "notepad_add_note": "新しいメモ",
@@ -1335,6 +1341,7 @@ export const resources = {
   },
   "pt": {
     "translation": {
+      "export_image": "Exportar como imagem",
       "notepad_title": "Bloco de Notas",
       "notepad_desc": "Guarde com segurança suas ideias, rascunhos e notas.",
       "notepad_add_note": "Nova Nota",
@@ -1544,6 +1551,7 @@ export const resources = {
   },
   "ru": {
     "translation": {
+      "export_image": "Экспортировать как изображение",
       "notepad_title": "Блокнот",
       "notepad_desc": "Надежно храните свои идеи, черновики и заметки.",
       "notepad_add_note": "Новая заметка",
@@ -1753,6 +1761,7 @@ export const resources = {
   },
   "tr": {
     "translation": {
+      "export_image": "İndir",
       "wf_hld": "2. Üst Düzey Tasarım (HLD)",
       "wf_lld": "3. Alt Düzey Tasarım (LLD)",
       "wf_hld_desc": "Sistemin genel mimarisini ve bileşenler arası ilişkileri tasarlayın.",
@@ -1983,6 +1992,7 @@ export const resources = {
   },
   "zh": {
     "translation": {
+      "export_image": "导出为图片",
       "notepad_title": "记事本",
       "notepad_desc": "安全地存储您的想法、草稿和笔记。",
       "notepad_add_note": "新笔记",
