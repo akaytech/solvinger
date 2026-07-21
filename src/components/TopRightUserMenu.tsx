@@ -2,7 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRoadmapStore } from '../store/useRoadmapStore';
 import { useShallow } from 'zustand/react/shallow';
-import { LogOut, Sun, Moon, User } from 'lucide-react';
+import { LogOut, Sun, Moon, User, Shield, FileText } from 'lucide-react';
+import LegalModal from './LegalModal';
 
 export default function TopRightUserMenu() {
   const { t, i18n } = useTranslation();
@@ -12,6 +13,7 @@ export default function TopRightUserMenu() {
     })));
   const [isOpen, setIsOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(() => document.documentElement.classList.contains('dark'));
+  const [legalType, setLegalType] = useState<'privacy' | 'terms' | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -59,24 +61,27 @@ export default function TopRightUserMenu() {
   return (
     <div 
       ref={menuRef}
-      className="absolute top-4 right-4 z-50 flex flex-col items-end"
+      className="absolute top-4 right-4 z-[100]"
     >
       <button 
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 shadow-md hover:scale-105 transition-transform text-indigo-500 overflow-hidden"
+        onClick={(e) => {
+           e.stopPropagation();
+           setIsOpen(!isOpen);
+        }}
+        className="flex h-10 w-10 items-center justify-center rounded-full bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
       >
         {user.photoURL ? (
-          <img src={user.photoURL} alt={user.name} className="h-full w-full object-cover" />
+          <img src={user.photoURL} alt={user.name} className="h-full w-full rounded-full object-cover" />
         ) : (
-          <User size={24} />
+          <User size={20} className="text-slate-600 dark:text-slate-300" />
         )}
       </button>
 
       <div 
-        className={`absolute top-14 right-0 w-64 origin-top-right rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-2 shadow-2xl transition-all duration-300 ${isOpen ? 'scale-100 opacity-100' : 'scale-95 opacity-0 pointer-events-none'}`}
+        className={`absolute right-0 top-12 w-64 origin-top-right rounded-2xl bg-white dark:bg-slate-800 p-2 shadow-xl border border-slate-200 dark:border-slate-700 transition-all duration-200 ease-out ${isOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}
       >
-        <div className="px-3 py-2 border-b border-slate-100 dark:border-slate-700 mb-2">
-          <p className="truncate text-sm font-bold text-slate-800 dark:text-slate-100">{user.name}</p>
+        <div className="mb-2 px-3 py-2 border-b border-slate-100 dark:border-slate-700">
+          <p className="truncate font-bold text-slate-800 dark:text-slate-100">{user.name || t('user')}</p>
           <p className="truncate text-xs text-slate-500 dark:text-slate-400">{user.email}</p>
         </div>
 
@@ -116,6 +121,23 @@ export default function TopRightUserMenu() {
         </div>
 
         <div className="my-2 h-px w-full bg-slate-100 dark:bg-slate-700" />
+        
+        <div className="mb-2">
+           <button
+             onClick={() => setLegalType('terms')}
+             className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+           >
+             <FileText size={18} />
+             {t('terms_of_use_title') || 'Terms of Use'}
+           </button>
+           <button
+             onClick={() => setLegalType('privacy')}
+             className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+           >
+             <Shield size={18} />
+             {t('privacy_policy_title') || 'Privacy Policy'}
+           </button>
+        </div>
 
         <button
           onClick={logout}
@@ -125,6 +147,12 @@ export default function TopRightUserMenu() {
           {t('logout')}
         </button>
       </div>
+
+      <LegalModal 
+        isOpen={legalType !== null} 
+        onClose={() => setLegalType(null)} 
+        type={legalType || 'privacy'} 
+      />
     </div>
   );
 }

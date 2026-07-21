@@ -4,6 +4,7 @@ import { useShallow } from 'zustand/react/shallow';
 import { auth } from '../firebase';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { useTranslation } from 'react-i18next';
+import LegalModal from './LegalModal';
 
 export default function AuthModal() {
   const { t } = useTranslation();
@@ -11,6 +12,7 @@ export default function AuthModal() {
   const [password, setPassword] = useState('');
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [error, setError] = useState('');
+  const [legalType, setLegalType] = useState<'privacy' | 'terms' | null>(null);
   
   const {  login, fetchProjects  } = useRoadmapStore(useShallow((state) => ({
       login: state.login,
@@ -155,8 +157,22 @@ export default function AuthModal() {
               {isLoginMode ? t('register_now') : t('login')}
             </button>
           </p>
+
+          <p className="mt-8 text-center text-xs text-slate-400 dark:text-slate-500 leading-relaxed">
+            {t('login') === 'Giriş Yap' ? (
+              <>Devam ederek <button type="button" onClick={() => setLegalType('terms')} className="font-bold hover:text-indigo-500 hover:underline">Kullanım Koşulları</button> ve <button type="button" onClick={() => setLegalType('privacy')} className="font-bold hover:text-indigo-500 hover:underline">KVKK Aydınlatma Metni</button>'ni kabul etmiş sayılırsınız.</>
+            ) : (
+              <>By continuing, you agree to our <button type="button" onClick={() => setLegalType('terms')} className="font-bold hover:text-indigo-500 hover:underline">Terms of Use</button> and <button type="button" onClick={() => setLegalType('privacy')} className="font-bold hover:text-indigo-500 hover:underline">Privacy Policy</button>.</>
+            )}
+          </p>
         </div>
       </div>
+
+      <LegalModal 
+        isOpen={legalType !== null} 
+        onClose={() => setLegalType(null)} 
+        type={legalType || 'privacy'} 
+      />
     </div>
   );
 }

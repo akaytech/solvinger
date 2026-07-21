@@ -5,6 +5,9 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 export const resources = {
   "ar": {
     "translation": {
+      "auth_legal_text": "بالمتابعة، أنت توافق على <button type='button' class='font-bold hover:underline' onClick='__TERMS__'>شروط الاستخدام</button> و <button type='button' class='font-bold hover:underline' onClick='__PRIVACY__'>سياسة الخصوصية</button>.",
+      "terms_of_use_title": "شروط الاستخدام",
+      "privacy_policy_title": "سياسة الخصوصية",
       "nav_cat_root_cause": "Root Cause & Brainstorming",
       "nav_cat_data_analysis": "Data & Statistical Analysis",
       "nav_cat_decision_risk": "Decision & Risk Analysis",
@@ -228,6 +231,9 @@ export const resources = {
   },
   "de": {
     "translation": {
+      "auth_legal_text": "Indem Sie fortfahren, stimmen Sie unseren <button type='button' class='font-bold hover:underline' onClick='__TERMS__'>Nutzungsbedingungen</button> und der <button type='button' class='font-bold hover:underline' onClick='__PRIVACY__'>Datenschutzerklärung</button> zu.",
+      "terms_of_use_title": "Nutzungsbedingungen",
+      "privacy_policy_title": "Datenschutzerklärung",
       "nav_cat_root_cause": "Root Cause & Brainstorming",
       "nav_cat_data_analysis": "Data & Statistical Analysis",
       "nav_cat_decision_risk": "Decision & Risk Analysis",
@@ -480,6 +486,9 @@ export const resources = {
   },
   "en": {
     "translation": {
+      "auth_legal_text": "By continuing, you agree to our <button type='button' class='font-bold hover:underline' onClick='__TERMS__'>Terms of Use</button> and <button type='button' class='font-bold hover:underline' onClick='__PRIVACY__'>Privacy Policy</button>.",
+      "terms_of_use_title": "Terms of Use",
+      "privacy_policy_title": "Privacy Policy",
       "nav_cat_root_cause": "Root Cause & Brainstorming",
       "nav_cat_data_analysis": "Data & Statistical Analysis",
       "nav_cat_decision_risk": "Decision & Risk Analysis",
@@ -732,6 +741,9 @@ export const resources = {
   },
   "es": {
     "translation": {
+      "auth_legal_text": "Al continuar, aceptas nuestros <button type='button' class='font-bold hover:underline' onClick='__TERMS__'>Términos de Uso</button> y <button type='button' class='font-bold hover:underline' onClick='__PRIVACY__'>Política de Privacidad</button>.",
+      "terms_of_use_title": "Términos de Uso",
+      "privacy_policy_title": "Política de Privacidad",
       "nav_cat_root_cause": "Root Cause & Brainstorming",
       "nav_cat_data_analysis": "Data & Statistical Analysis",
       "nav_cat_decision_risk": "Decision & Risk Analysis",
@@ -984,6 +996,9 @@ export const resources = {
   },
   "fr": {
     "translation": {
+      "auth_legal_text": "En continuant, vous acceptez nos <button type='button' class='font-bold hover:underline' onClick='__TERMS__'>Conditions d'utilisation</button> et notre <button type='button' class='font-bold hover:underline' onClick='__PRIVACY__'>Politique de confidentialité</button>.",
+      "terms_of_use_title": "Conditions d'utilisation",
+      "privacy_policy_title": "Politique de confidentialité",
       "nav_cat_root_cause": "Root Cause & Brainstorming",
       "nav_cat_data_analysis": "Data & Statistical Analysis",
       "nav_cat_decision_risk": "Decision & Risk Analysis",
@@ -1929,6 +1944,9 @@ export const resources = {
   },
   "tr": {
     "translation": {
+      "auth_legal_text": "Devam ederek <button type='button' class='font-bold hover:underline' onClick='__TERMS__'>Kullanım Koşulları</button> ve <button type='button' class='font-bold hover:underline' onClick='__PRIVACY__'>KVKK Aydınlatma Metni</button>'ni kabul etmiş sayılırsınız.",
+      "terms_of_use_title": "Kullanım Koşulları",
+      "privacy_policy_title": "Gizlilik Politikası (KVKK)",
       "nav_cat_root_cause": "Kök Neden ve Beyin Fırtınası",
       "nav_cat_data_analysis": "Veri ve İstatistiksel Analiz",
       "nav_cat_decision_risk": "Karar ve Risk Analizi",
