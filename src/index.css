@@ -27,3 +27,14 @@ input:disabled,
 select:disabled {
   cursor: not-allowed !important;
 }
+
+@layer utilities {
+  .clip-path-diamond {
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  }
+  .clip-path-hexagon {
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+  }
+}
+
+/* Base styles for react flow and other components */

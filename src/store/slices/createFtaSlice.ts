@@ -11,12 +11,23 @@ import { db } from '../../firebase';
 import dagre from 'dagre';
 import type { RoadmapState } from '../useRoadmapStore';
 
-export type FtaNodeType = 'topEvent' | 'event' | 'andGate' | 'orGate' | 'basicEvent';
+export type FtaNodeType = 
+  | 'topEvent' 
+  | 'event' 
+  | 'andGate' 
+  | 'orGate' 
+  | 'basicEvent'
+  | 'undevelopedEvent'
+  | 'conditioningEvent'
+  | 'exclusiveOrGate'
+  | 'priorityAndGate'
+  | 'inhibitGate';
 
 export type FtaNodeData = {
   label: string;
   type: FtaNodeType;
   description?: string;
+  probability?: number;
 };
 
 export type FtaNode = Node<FtaNodeData>;
@@ -44,7 +55,14 @@ const getFtaLayoutedElements = (nodes: FtaNode[], edges: Edge[]) => {
 
   nodes.forEach((node) => {
     const width = 180;
-    const height = node.data.type === 'basicEvent' ? 80 : 60; 
+    let height = 60;
+    if (['basicEvent', 'conditioningEvent'].includes(node.data.type)) {
+      height = 80;
+    } else if (node.data.type === 'undevelopedEvent') {
+      height = 100;
+    } else if (node.data.type === 'inhibitGate') {
+      height = 90;
+    }
     dagreGraph.setNode(node.id, { width, height });
   });
 
