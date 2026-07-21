@@ -163,19 +163,18 @@ const cascadeStatus = (nodes: GoalNode[], edges: Edge[], changedId: string): Goa
     const childrenIds = getDirectChildren(parentId, edges);
     const childrenNodes = childrenIds.map(cid => currentNodes.find(n => n.id === cid)).filter(Boolean) as GoalNode[];
 
-    const allDone = childrenNodes.length > 0 && childrenNodes.every(n => n.data.status === 'Done');
-    const anyFailed = childrenNodes.some(n => n.data.status === 'Failed');
-    const anyInProgressOrDone = childrenNodes.some(n => n.data.status === 'In Progress' || n.data.status === 'Done');
+    if (childrenNodes.length === 0) break;
+
+    const allDone = childrenNodes.every(n => n.data.status === 'Done');
+    const allToDoOrFailed = childrenNodes.every(n => n.data.status === 'To Do' || n.data.status === 'Failed');
 
     let newStatus = currentNodes[parentIndex].data.status;
     
-    if (allDone && !anyFailed) {
+    if (allDone) {
       newStatus = 'Done';
-    } else if (anyInProgressOrDone && currentNodes[parentIndex].data.status === 'To Do') {
-      newStatus = 'In Progress';
-    } else if (!anyInProgressOrDone && currentNodes[parentIndex].data.status === 'Done' && !anyFailed) {
+    } else if (allToDoOrFailed) {
       newStatus = 'To Do';
-    } else if (anyInProgressOrDone && !allDone && currentNodes[parentIndex].data.status === 'Done' && !anyFailed) {
+    } else {
       newStatus = 'In Progress';
     }
 
