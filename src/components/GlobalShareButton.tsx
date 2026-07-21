@@ -20,7 +20,7 @@ const GlobalShareButton: React.FC = () => {
     
     try {
       await setProjectPublic(currentProjectId, true);
-      const url = `${window.location.origin}/project/${currentProjectId}/${activeTool}`;
+      const url = `${window.location.origin}${window.location.pathname}#/project/${currentProjectId}/${activeTool}`;
       await navigator.clipboard.writeText(url);
       
       setIsCopied(true);
