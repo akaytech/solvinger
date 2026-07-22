@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react';
 import { ReactFlowProvider } from '@xyflow/react';
+import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useRoadmapStore } from '../store/useRoadmapStore';
 import { useShallow } from 'zustand/react/shallow';
@@ -50,7 +51,11 @@ function DecisionMatrixWrapper() {
 }
 
 export default function Workspace() {
-  const activeTool = useRoadmapStore(s => s.activeTool);
+  const { activeTool, projectsLoaded } = useRoadmapStore(useShallow((state) => ({
+    activeTool: state.activeTool,
+    projectsLoaded: state.projectsLoaded
+  })));
+  const location = useLocation();
 
   return (
     <ReactFlowProvider>
@@ -68,7 +73,15 @@ export default function Workspace() {
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
           </div>
         }>
-          {!activeTool && <WelcomeScreen />}
+          {!activeTool && (
+            (!projectsLoaded && location.pathname.startsWith('/project/')) ? (
+              <div className="flex h-full w-full items-center justify-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+              </div>
+            ) : (
+              <WelcomeScreen />
+            )
+          )}
           {activeTool === 'wbs' && <RoadmapCanvas onNodeSelect={() => {}} />}
           {activeTool === '5whys' && <FiveWhysCanvas />}
           {activeTool === 'swot' && <SwotCanvas />}
