@@ -1,4 +1,4 @@
-import { StrictMode } from 'react'
+import { StrictMode, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
 import { HashRouter } from 'react-router-dom'
 import * as Sentry from '@sentry/react'
@@ -20,9 +20,11 @@ Sentry.init({
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Sentry.ErrorBoundary fallback={<div className="flex items-center justify-center min-h-screen p-4 text-center"><h1>Bir şeyler ters gitti. Ekibimiz bilgilendirildi! Lütfen sayfayı yenileyin.</h1></div>}>
-      <HashRouter>
-        <App />
-      </HashRouter>
+      <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-slate-50 dark:bg-slate-900"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div></div>}>
+        <HashRouter>
+          <App />
+        </HashRouter>
+      </Suspense>
     </Sentry.ErrorBoundary>
   </StrictMode>,
 )
