@@ -8,14 +8,174 @@ interface LegalModalProps {
   type: 'privacy' | 'terms';
 }
 
+const CONTACT_EMAIL = 'abdullahkilicaslanyavuz@gmail.com';
+const heading = 'text-lg font-bold text-slate-900 dark:text-white mt-6';
+
 const LegalModal: React.FC<LegalModalProps> = ({ isOpen, onClose, type }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   if (!isOpen) return null;
 
+  // KVKK Türkiye'ye özgü bir kanun olduğundan, Türkçe kullanıcılar tam KVKK
+  // metnini görür; diğer tüm diller aynı içeriğin genel İngilizce karşılığını görür.
+  const isTurkish = (i18n.language || '').toLowerCase().startsWith('tr');
+
+  const privacyTR = (
+    <>
+      <p className="font-semibold text-xs text-slate-500 mb-4">Son Güncelleme: 22 Temmuz 2026</p>
+
+      <h3 className={heading}>1. Veri Sorumlusu</h3>
+      <p>
+        Bu aydınlatma metni, 6698 sayılı Kişisel Verilerin Korunması Kanunu ("KVKK") uyarınca, "Solvinger" (bundan sonra "Uygulama" olarak anılacaktır) tarafından kişisel verilerinizin toplanması, işlenmesi ve aktarılması süreçlerine ilişkin olarak sizi bilgilendirmek amacıyla hazırlanmıştır.
+      </p>
+
+      <h3 className={heading}>2. İşlenen Kişisel Verileriniz</h3>
+      <p>Uygulamayı kullanımınız kapsamında aşağıdaki kişisel verileriniz işlenmektedir:</p>
+      <ul className="list-disc pl-5 space-y-2">
+        <li><strong>Kimlik ve İletişim Verileri:</strong> Ad, soyad, e-posta adresi, profil fotoğrafı (Google ile giriş yapılması veya manuel kayıt olunması durumunda).</li>
+        <li><strong>Kullanıcı İşlem Verileri:</strong> Uygulama içerisinde oluşturduğunuz projeler, diyagramlar, notlar ve paylaştığınız içerikler.</li>
+        <li><strong>İşlem Güvenliği Verileri:</strong> IP adresi, sisteme giriş-çıkış saatleri, cihaz bilgileri, Firebase tarafından atanan benzersiz kullanıcı kimliği (User ID).</li>
+      </ul>
+
+      <h3 className={heading}>3. Kişisel Verilerin İşlenme Amacı</h3>
+      <p>Toplanan kişisel verileriniz aşağıdaki amaçlarla işlenmektedir:</p>
+      <ul className="list-disc pl-5 space-y-2">
+        <li>Kullanıcı hesaplarının oluşturulması ve yönetilmesi,</li>
+        <li>Uygulamanın temel işlevlerinin (proje oluşturma, kaydetme, eş zamanlı ortak çalışma) yerine getirilmesi,</li>
+        <li>Ortak çalışma (multiplayer/share) özelliği kapsamında, yetkilendirdiğiniz diğer kullanıcılarla projelerinizin paylaşılması,</li>
+        <li>Sistem güvenliğinin sağlanması, hataların tespit edilmesi ve uygulamanın geliştirilmesi.</li>
+      </ul>
+
+      <h3 className={heading}>4. Kişisel Verilerin Aktarımı</h3>
+      <p>Kişisel verileriniz, yukarıda belirtilen amaçların gerçekleştirilmesi doğrultusunda;</p>
+      <ul className="list-disc pl-5 space-y-2">
+        <li>Veritabanı ve sunucu hizmetleri için altyapı sağlayıcımız olan <strong>Google (Firebase)</strong> sunucularında barındırılmaktadır (Sunucuların yurt dışında bulunması sebebiyle yurt dışına aktarım söz konusudur).</li>
+        <li>Ortak çalışma özelliği kullandığınızda, projenizi paylaştığınız diğer uygulama kullanıcıları (sadece ilgili proje verileri ile sınırlı olmak üzere) ile paylaşılır.</li>
+      </ul>
+
+      <h3 className={heading}>5. KVKK Madde 11 Kapsamındaki Haklarınız</h3>
+      <p>Kanun’un 11. maddesi uyarınca veri sahibi olarak verilerinizin işlenip işlenmediğini öğrenme, silinmesini talep etme ve diğer haklarınızı kullanmak için aşağıdaki adres üzerinden iletişime geçebilirsiniz.</p>
+
+      <div className="mt-8 p-4 bg-slate-100 dark:bg-slate-700/50 rounded-lg">
+        <p><strong>İletişim:</strong> {CONTACT_EMAIL}</p>
+      </div>
+    </>
+  );
+
+  const privacyEN = (
+    <>
+      <p className="font-semibold text-xs text-slate-500 mb-4">Last Updated: July 22, 2026</p>
+
+      <h3 className={heading}>1. Data Controller</h3>
+      <p>
+        This Privacy Policy explains how "Solvinger" (the "Application") collects, processes, and transfers your personal data, and informs you about your related rights.
+      </p>
+
+      <h3 className={heading}>2. Personal Data We Process</h3>
+      <p>The following personal data is processed in connection with your use of the Application:</p>
+      <ul className="list-disc pl-5 space-y-2">
+        <li><strong>Identity &amp; Contact Data:</strong> Name, email address, and profile photo (when signing in with Google or registering manually).</li>
+        <li><strong>User Activity Data:</strong> The projects, diagrams, notes, and content you create and share within the Application.</li>
+        <li><strong>Transaction Security Data:</strong> IP address, login/logout times, device information, and the unique user identifier (User ID) assigned by Firebase.</li>
+      </ul>
+
+      <h3 className={heading}>3. Purposes of Processing</h3>
+      <p>Your personal data is processed for the following purposes:</p>
+      <ul className="list-disc pl-5 space-y-2">
+        <li>Creating and managing user accounts,</li>
+        <li>Delivering the core functions of the Application (creating and saving projects, and real-time collaboration),</li>
+        <li>Sharing your projects with other users you authorize through the collaboration (multiplayer/share) feature,</li>
+        <li>Ensuring system security, detecting errors, and improving the Application.</li>
+      </ul>
+
+      <h3 className={heading}>4. Transfer of Personal Data</h3>
+      <p>In order to fulfil the purposes stated above, your personal data may be:</p>
+      <ul className="list-disc pl-5 space-y-2">
+        <li>Hosted on the servers of our infrastructure provider <strong>Google (Firebase)</strong>. As these servers may be located abroad, your data may be transferred internationally.</li>
+        <li>Shared, when you use the collaboration feature, with the other users you share your project with (limited to the relevant project data only).</li>
+      </ul>
+
+      <h3 className={heading}>5. Your Rights</h3>
+      <p>You have the right to learn whether your personal data is being processed, to request its deletion, and to exercise your other data protection rights. To do so, please contact us at the address below.</p>
+
+      <div className="mt-8 p-4 bg-slate-100 dark:bg-slate-700/50 rounded-lg">
+        <p><strong>Contact:</strong> {CONTACT_EMAIL}</p>
+      </div>
+    </>
+  );
+
+  const termsTR = (
+    <>
+      <p className="font-semibold text-xs text-slate-500 mb-4">Son Güncelleme: 22 Temmuz 2026</p>
+
+      <h3 className={heading}>1. Taraflar ve Kabul</h3>
+      <p>
+        Bu Kullanım Koşulları, "Solvinger" uygulamasını kullanım şartlarını düzenlemektedir. Uygulamaya kayıt olarak veya uygulamayı kullanarak bu koşulları kabul etmiş sayılırsınız.
+      </p>
+
+      <h3 className={heading}>2. Hizmetin Kapsamı</h3>
+      <p>
+        Solvinger, kullanıcıların problem çözme tekniklerini (WBS, SWOT, Ishikawa, Pareto vb.) kullanarak projeler oluşturmasını ve bu projeleri diğer kullanıcılarla paylaşarak ortaklaşa çalışmasını sağlayan bir üretkenlik aracıdır. Hizmet, "olduğu gibi" sunulmakta olup, kesintisiz veya hatasız çalışma garantisi verilmemektedir.
+      </p>
+
+      <h3 className={heading}>3. Kullanıcı Yükümlülükleri</h3>
+      <ul className="list-disc pl-5 space-y-2">
+        <li>Kullanıcı, hesabının güvenliğinden bizzat sorumludur.</li>
+        <li>Uygulama içerisine girilen verilerin (projeler, notlar) hukuka aykırı, telif hakkı ihlali içeren veya üçüncü şahıslara zarar verici nitelikte olmaması kullanıcının sorumluluğundadır.</li>
+        <li>"Ortak Çalışma (Paylaşım)" özelliği kullanıldığında, projenin linkini kimlerle paylaştığınız tamamen sizin sorumluluğunuzdadır.</li>
+      </ul>
+
+      <h3 className={heading}>4. Sorumluluğun Sınırlandırılması</h3>
+      <p>
+        Uygulamanın kullanımından, veri kayıplarından, sunucu kesintilerinden (Google Firebase kaynaklı sorunlar dahil) veya diğer kullanıcıların ortak projelerdeki eylemlerinden doğabilecek doğrudan veya dolaylı hiçbir zarardan Solvinger (geliştirici) sorumlu tutulamaz.
+      </p>
+
+      <div className="mt-8 p-4 bg-slate-100 dark:bg-slate-700/50 rounded-lg">
+        <p><strong>İletişim:</strong> {CONTACT_EMAIL}</p>
+      </div>
+    </>
+  );
+
+  const termsEN = (
+    <>
+      <p className="font-semibold text-xs text-slate-500 mb-4">Last Updated: July 22, 2026</p>
+
+      <h3 className={heading}>1. Parties and Acceptance</h3>
+      <p>
+        These Terms of Use govern your use of the "Solvinger" application. By registering for or using the Application, you are deemed to have accepted these terms.
+      </p>
+
+      <h3 className={heading}>2. Scope of Service</h3>
+      <p>
+        Solvinger is a productivity tool that enables users to create projects using problem-solving techniques (WBS, SWOT, Ishikawa, Pareto, etc.) and to collaborate by sharing these projects with other users. The service is provided "as is", with no guarantee of uninterrupted or error-free operation.
+      </p>
+
+      <h3 className={heading}>3. User Obligations</h3>
+      <ul className="list-disc pl-5 space-y-2">
+        <li>The user is personally responsible for the security of their account.</li>
+        <li>The user is responsible for ensuring that data entered into the Application (projects, notes) is not unlawful, does not infringe copyright, and is not harmful to third parties.</li>
+        <li>When using the "Collaboration (Sharing)" feature, you are solely responsible for whom you share the project link with.</li>
+      </ul>
+
+      <h3 className={heading}>4. Limitation of Liability</h3>
+      <p>
+        Solvinger (the developer) cannot be held liable for any direct or indirect damages arising from the use of the Application, data loss, server outages (including issues originating from Google Firebase), or the actions of other users in shared projects.
+      </p>
+
+      <div className="mt-8 p-4 bg-slate-100 dark:bg-slate-700/50 rounded-lg">
+        <p><strong>Contact:</strong> {CONTACT_EMAIL}</p>
+      </div>
+    </>
+  );
+
+  const content =
+    type === 'privacy'
+      ? (isTurkish ? privacyTR : privacyEN)
+      : (isTurkish ? termsTR : termsEN);
+
   return (
     <div className="fixed inset-0 bg-slate-900/50 flex items-center justify-center p-4 z-[9999] backdrop-blur-sm" onClick={onClose}>
-      <div 
+      <div
         className="bg-white dark:bg-slate-800 rounded-xl shadow-2xl w-full max-w-3xl flex flex-col max-h-[90vh] overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
@@ -32,77 +192,7 @@ const LegalModal: React.FC<LegalModalProps> = ({ isOpen, onClose, type }) => {
         </div>
 
         <div className="p-6 overflow-y-auto custom-scrollbar flex-1 text-slate-700 dark:text-slate-300 space-y-4 text-sm md:text-base">
-          {type === 'privacy' ? (
-            <>
-              <p className="font-semibold text-xs text-slate-500 mb-4">Son Güncelleme: 22 Temmuz 2026</p>
-              
-              <h3 className="text-lg font-bold text-slate-900 dark:text-white mt-6">1. Veri Sorumlusu</h3>
-              <p>
-                Bu aydınlatma metni, 6698 sayılı Kişisel Verilerin Korunması Kanunu ("KVKK") uyarınca, "Solvinger" (bundan sonra "Uygulama" olarak anılacaktır) tarafından kişisel verilerinizin toplanması, işlenmesi ve aktarılması süreçlerine ilişkin olarak sizi bilgilendirmek amacıyla hazırlanmıştır.
-              </p>
-
-              <h3 className="text-lg font-bold text-slate-900 dark:text-white mt-6">2. İşlenen Kişisel Verileriniz</h3>
-              <p>Uygulamayı kullanımınız kapsamında aşağıdaki kişisel verileriniz işlenmektedir:</p>
-              <ul className="list-disc pl-5 space-y-2">
-                <li><strong>Kimlik ve İletişim Verileri:</strong> Ad, soyad, e-posta adresi, profil fotoğrafı (Google ile giriş yapılması veya manuel kayıt olunması durumunda).</li>
-                <li><strong>Kullanıcı İşlem Verileri:</strong> Uygulama içerisinde oluşturduğunuz projeler, diyagramlar, notlar ve paylaştığınız içerikler.</li>
-                <li><strong>İşlem Güvenliği Verileri:</strong> IP adresi, sisteme giriş-çıkış saatleri, cihaz bilgileri, Firebase tarafından atanan benzersiz kullanıcı kimliği (User ID).</li>
-              </ul>
-
-              <h3 className="text-lg font-bold text-slate-900 dark:text-white mt-6">3. Kişisel Verilerin İşlenme Amacı</h3>
-              <p>Toplanan kişisel verileriniz aşağıdaki amaçlarla işlenmektedir:</p>
-              <ul className="list-disc pl-5 space-y-2">
-                <li>Kullanıcı hesaplarının oluşturulması ve yönetilmesi,</li>
-                <li>Uygulamanın temel işlevlerinin (proje oluşturma, kaydetme, eş zamanlı ortak çalışma) yerine getirilmesi,</li>
-                <li>Ortak çalışma (multiplayer/share) özelliği kapsamında, yetkilendirdiğiniz diğer kullanıcılarla projelerinizin paylaşılması,</li>
-                <li>Sistem güvenliğinin sağlanması, hataların tespit edilmesi ve uygulamanın geliştirilmesi.</li>
-              </ul>
-
-              <h3 className="text-lg font-bold text-slate-900 dark:text-white mt-6">4. Kişisel Verilerin Aktarımı</h3>
-              <p>Kişisel verileriniz, yukarıda belirtilen amaçların gerçekleştirilmesi doğrultusunda;</p>
-              <ul className="list-disc pl-5 space-y-2">
-                <li>Veritabanı ve sunucu hizmetleri için altyapı sağlayıcımız olan <strong>Google (Firebase)</strong> sunucularında barındırılmaktadır (Sunucuların yurt dışında bulunması sebebiyle yurt dışına aktarım söz konusudur).</li>
-                <li>Ortak çalışma özelliği kullandığınızda, projenizi paylaştığınız diğer uygulama kullanıcıları (sadece ilgili proje verileri ile sınırlı olmak üzere) ile paylaşılır.</li>
-              </ul>
-
-              <h3 className="text-lg font-bold text-slate-900 dark:text-white mt-6">5. KVKK Madde 11 Kapsamındaki Haklarınız</h3>
-              <p>Kanun’un 11. maddesi uyarınca veri sahibi olarak verilerinizin işlenip işlenmediğini öğrenme, silinmesini talep etme ve diğer haklarınızı kullanmak için aşağıdaki adres üzerinden iletişime geçebilirsiniz.</p>
-              
-              <div className="mt-8 p-4 bg-slate-100 dark:bg-slate-700/50 rounded-lg">
-                <p><strong>İletişim:</strong> abdullahkilicaslanyavuz@gmail.com</p>
-              </div>
-            </>
-          ) : (
-            <>
-              <p className="font-semibold text-xs text-slate-500 mb-4">Son Güncelleme: 22 Temmuz 2026</p>
-              
-              <h3 className="text-lg font-bold text-slate-900 dark:text-white mt-6">1. Taraflar ve Kabul</h3>
-              <p>
-                Bu Kullanım Koşulları, "Solvinger" uygulamasını kullanım şartlarını düzenlemektedir. Uygulamaya kayıt olarak veya uygulamayı kullanarak bu koşulları kabul etmiş sayılırsınız.
-              </p>
-
-              <h3 className="text-lg font-bold text-slate-900 dark:text-white mt-6">2. Hizmetin Kapsamı</h3>
-              <p>
-                Solvinger, kullanıcıların problem çözme tekniklerini (WBS, SWOT, Ishikawa, Pareto vb.) kullanarak projeler oluşturmasını ve bu projeleri diğer kullanıcılarla paylaşarak ortaklaşa çalışmasını sağlayan bir üretkenlik aracıdır. Hizmet, "olduğu gibi" sunulmakta olup, kesintisiz veya hatasız çalışma garantisi verilmemektedir.
-              </p>
-
-              <h3 className="text-lg font-bold text-slate-900 dark:text-white mt-6">3. Kullanıcı Yükümlülükleri</h3>
-              <ul className="list-disc pl-5 space-y-2">
-                <li>Kullanıcı, hesabının güvenliğinden bizzat sorumludur.</li>
-                <li>Uygulama içerisine girilen verilerin (projeler, notlar) hukuka aykırı, telif hakkı ihlali içeren veya üçüncü şahıslara zarar verici nitelikte olmaması kullanıcının sorumluluğundadır.</li>
-                <li>"Ortak Çalışma (Paylaşım)" özelliği kullanıldığında, projenin linkini kimlerle paylaştığınız tamamen sizin sorumluluğunuzdadır.</li>
-              </ul>
-
-              <h3 className="text-lg font-bold text-slate-900 dark:text-white mt-6">4. Sorumluluğun Sınırlandırılması</h3>
-              <p>
-                Uygulamanın kullanımından, veri kayıplarından, sunucu kesintilerinden (Google Firebase kaynaklı sorunlar dahil) veya diğer kullanıcıların ortak projelerdeki eylemlerinden doğabilecek doğrudan veya dolaylı hiçbir zarardan Solvinger (geliştirici) sorumlu tutulamaz.
-              </p>
-
-              <div className="mt-8 p-4 bg-slate-100 dark:bg-slate-700/50 rounded-lg">
-                <p><strong>İletişim:</strong> abdullahkilicaslanyavuz@gmail.com</p>
-              </div>
-            </>
-          )}
+          {content}
         </div>
       </div>
     </div>
