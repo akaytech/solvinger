@@ -271,5 +271,20 @@
   "swot_example_hint": "Você pode carregar um modelo de exemplo para ver como uma análise SWOT é feita através de um cenário real.",
   "eod_max_reached": "Você atingiu o limite máximo de metas (6). Exclua uma das metas existentes para adicionar uma nova.",
   "fta_prob_placeholder": "ex.: 5",
-  "delete_error": "Erro ao excluir: "
+  "delete_error": "Erro ao excluir: ",
+  "swot_example_title": "Exemplo: Abrir uma nova cafeteria",
+  "swot_example_s1": "Localização central e movimentada",
+  "swot_example_s2": "Fornecedor de grãos de café de qualidade",
+  "swot_example_w1": "Ainda pouca notoriedade da marca",
+  "swot_example_w2": "Altos custos de aluguel",
+  "swot_example_o1": "Aumento de estudantes universitários na região",
+  "swot_example_o2": "Demanda crescente em apps de entrega de comida",
+  "swot_example_t1": "Abertura de uma grande rede de cafeterias na rua ao lado",
+  "swot_example_t2": "Flutuações nos preços de importação de grãos de café",
+  "whys_example_problem": "Exemplo: As entregas aos clientes atrasam constantemente",
+  "whys_example_w1": "Por quê? Porque o produto é entregue tarde à transportadora",
+  "whys_example_w2": "Por quê? Porque o serviço de embalagem trabalha devagar",
+  "whys_example_w3": "Por quê? Porque a máquina de embalagem quebra com frequência",
+  "whys_example_w4": "Por quê? A manutenção periódica da máquina não foi feita (Causa raiz)",
+  "whys_example_solution": "Solução: Vincular o cronograma de manutenção a um calendário digital"
 }

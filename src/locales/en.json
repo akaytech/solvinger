@@ -271,5 +271,20 @@
   "swot_example_hint": "You can load an example template to see how a SWOT analysis is done through a real scenario.",
   "eod_max_reached": "You've reached the maximum goal limit (6). Delete one of the existing goals to add a new one.",
   "fta_prob_placeholder": "e.g. 5",
-  "delete_error": "Delete error: "
+  "delete_error": "Delete error: ",
+  "swot_example_title": "Example: Opening a New Coffee Shop",
+  "swot_example_s1": "Central and busy location",
+  "swot_example_s2": "Supplier of quality coffee beans",
+  "swot_example_w1": "Lack of brand awareness yet",
+  "swot_example_w2": "High rent costs",
+  "swot_example_o1": "Increasing number of university students in the area",
+  "swot_example_o2": "Growing demand on food delivery apps",
+  "swot_example_t1": "A large chain café opening on the next street",
+  "swot_example_t2": "Fluctuations in coffee bean import prices",
+  "whys_example_problem": "Example: Customer deliveries are constantly delayed",
+  "whys_example_w1": "Why? Because the product is handed to the courier late",
+  "whys_example_w2": "Why? Because the packaging service works slowly",
+  "whys_example_w3": "Why? Because the packaging machine breaks down frequently",
+  "whys_example_w4": "Why? The machine's periodic maintenance was not done (Root Cause)",
+  "whys_example_solution": "Solution: Tie the maintenance schedule to a digital calendar"
 }

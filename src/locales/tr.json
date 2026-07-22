@@ -271,5 +271,20 @@
   "swot_example_hint": "Gerçek bir senaryo üzerinden SWOT analizinin nasıl yapıldığını görmek için örnek şablonu yükleyebilirsiniz.",
   "eod_max_reached": "Maksimum hedef sınırına (6) ulaştınız. Yeni bir hedef eklemek için mevcutlardan birini silin.",
   "fta_prob_placeholder": "Örn: 5",
-  "delete_error": "Silme Hatası: "
+  "delete_error": "Silme Hatası: ",
+  "swot_example_title": "Örnek: Yeni Bir Kahve Dükkanı Açmak",
+  "swot_example_s1": "Merkezi ve işlek lokasyon",
+  "swot_example_s2": "Kaliteli kahve çekirdekleri tedarikçisi",
+  "swot_example_w1": "Marka bilinirliğinin henüz olmaması",
+  "swot_example_w2": "Yüksek kira maliyetleri",
+  "swot_example_o1": "Bölgedeki üniversite öğrencilerinin artışı",
+  "swot_example_o2": "Paket servis uygulamalarındaki talep artışı",
+  "swot_example_t1": "Yan sokakta açılan büyük zincir kahveci",
+  "swot_example_t2": "Kahve çekirdeği ithalat fiyatlarındaki dalgalanma",
+  "whys_example_problem": "Örnek: Müşteri teslimatları sürekli gecikiyor",
+  "whys_example_w1": "Neden? Çünkü ürün kargoya geç teslim ediliyor",
+  "whys_example_w2": "Neden? Çünkü paketleme servisi yavaş çalışıyor",
+  "whys_example_w3": "Neden? Çünkü paketleme makinesi sık sık bozuluyor",
+  "whys_example_w4": "Neden? Makinenin periyodik bakımları yapılmamış (Kök Neden)",
+  "whys_example_solution": "Çözüm: Bakım periyodunu dijital takvime bağla"
 }

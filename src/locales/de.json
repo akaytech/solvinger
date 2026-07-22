@@ -271,5 +271,20 @@
   "swot_example_hint": "Sie können eine Beispielvorlage laden, um zu sehen, wie eine SWOT-Analyse anhand eines realen Szenarios durchgeführt wird.",
   "eod_max_reached": "Sie haben das maximale Ziellimit (6) erreicht. Löschen Sie eines der vorhandenen Ziele, um ein neues hinzuzufügen.",
   "fta_prob_placeholder": "z. B. 5",
-  "delete_error": "Löschfehler: "
+  "delete_error": "Löschfehler: ",
+  "swot_example_title": "Beispiel: Eröffnung eines neuen Cafés",
+  "swot_example_s1": "Zentrale und belebte Lage",
+  "swot_example_s2": "Lieferant für hochwertige Kaffeebohnen",
+  "swot_example_w1": "Noch fehlende Markenbekanntheit",
+  "swot_example_w2": "Hohe Mietkosten",
+  "swot_example_o1": "Steigende Zahl von Studierenden in der Umgebung",
+  "swot_example_o2": "Wachsende Nachfrage über Lieferdienst-Apps",
+  "swot_example_t1": "Eröffnung eines großen Kettencafés in der Nachbarstraße",
+  "swot_example_t2": "Schwankungen der Importpreise für Kaffeebohnen",
+  "whys_example_problem": "Beispiel: Kundenlieferungen verspäten sich ständig",
+  "whys_example_w1": "Warum? Weil das Produkt zu spät an den Kurier übergeben wird",
+  "whys_example_w2": "Warum? Weil der Verpackungsservice langsam arbeitet",
+  "whys_example_w3": "Warum? Weil die Verpackungsmaschine häufig ausfällt",
+  "whys_example_w4": "Warum? Die regelmäßige Wartung der Maschine wurde nicht durchgeführt (Grundursache)",
+  "whys_example_solution": "Lösung: Den Wartungsplan mit einem digitalen Kalender verknüpfen"
 }

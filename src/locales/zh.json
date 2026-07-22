@@ -271,5 +271,20 @@
   "swot_example_hint": "您可以加载示例模板，通过真实场景了解如何进行 SWOT 分析。",
   "eod_max_reached": "您已达到目标上限（6 个）。请删除一个现有目标以添加新目标。",
   "fta_prob_placeholder": "例如 5",
-  "delete_error": "删除错误："
+  "delete_error": "删除错误：",
+  "swot_example_title": "示例：开一家新咖啡馆",
+  "swot_example_s1": "中心且繁华的位置",
+  "swot_example_s2": "优质咖啡豆供应商",
+  "swot_example_w1": "尚缺乏品牌知名度",
+  "swot_example_w2": "高昂的租金成本",
+  "swot_example_o1": "该地区大学生数量增加",
+  "swot_example_o2": "外卖应用需求增长",
+  "swot_example_t1": "隔壁街道开了一家大型连锁咖啡馆",
+  "swot_example_t2": "咖啡豆进口价格波动",
+  "whys_example_problem": "示例：客户交付持续延误",
+  "whys_example_w1": "为什么？因为产品交给快递太晚",
+  "whys_example_w2": "为什么？因为包装服务速度慢",
+  "whys_example_w3": "为什么？因为包装机经常故障",
+  "whys_example_w4": "为什么？机器的定期维护没有做（根本原因）",
+  "whys_example_solution": "解决方案：将维护周期与数字日历关联"
 }

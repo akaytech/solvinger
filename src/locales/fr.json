@@ -271,5 +271,20 @@
   "swot_example_hint": "Vous pouvez charger un modèle d'exemple pour voir comment réaliser une analyse SWOT à travers un scénario réel.",
   "eod_max_reached": "Vous avez atteint la limite maximale d'objectifs (6). Supprimez l'un des objectifs existants pour en ajouter un nouveau.",
   "fta_prob_placeholder": "ex. : 5",
-  "delete_error": "Erreur de suppression : "
+  "delete_error": "Erreur de suppression : ",
+  "swot_example_title": "Exemple : Ouvrir un nouveau café",
+  "swot_example_s1": "Emplacement central et fréquenté",
+  "swot_example_s2": "Fournisseur de grains de café de qualité",
+  "swot_example_w1": "Manque de notoriété de la marque pour l'instant",
+  "swot_example_w2": "Coûts de loyer élevés",
+  "swot_example_o1": "Augmentation du nombre d'étudiants dans le quartier",
+  "swot_example_o2": "Demande croissante sur les applications de livraison",
+  "swot_example_t1": "Ouverture d'un grand café de chaîne dans la rue voisine",
+  "swot_example_t2": "Fluctuations des prix d'importation des grains de café",
+  "whys_example_problem": "Exemple : Les livraisons aux clients sont constamment retardées",
+  "whys_example_w1": "Pourquoi ? Parce que le produit est remis trop tard au coursier",
+  "whys_example_w2": "Pourquoi ? Parce que le service d'emballage est lent",
+  "whys_example_w3": "Pourquoi ? Parce que la machine d'emballage tombe souvent en panne",
+  "whys_example_w4": "Pourquoi ? La maintenance périodique de la machine n'a pas été effectuée (cause racine)",
+  "whys_example_solution": "Solution : Lier le calendrier de maintenance à un agenda numérique"
 }

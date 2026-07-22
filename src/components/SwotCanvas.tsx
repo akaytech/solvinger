@@ -184,22 +184,22 @@ export default function SwotCanvas() {
                   // Since addSwot generates an ID internally, we can just call it, then find the newly created one.
                   // Wait, addSwot pushes to the array. We can just use the store's set function if we had access, 
                   // but we can just use the existing actions sequentially.
-                  useRoadmapStore.getState().addSwot("Örnek: Yeni Bir Kahve Dükkanı Açmak");
-                  
+                  useRoadmapStore.getState().addSwot(t('swot_example_title'));
+
                   // Wait for state to update, then get the newest SWOT ID to add items.
                   setTimeout(() => {
                     const latestSwot = useRoadmapStore.getState().swot[0]; // because unshift is used, or push?
                     if (latestSwot) {
                       const sId = latestSwot.id;
                       const { addSwotItem } = useRoadmapStore.getState();
-                      addSwotItem(sId, 'S', 'Merkezi ve işlek lokasyon');
-                      addSwotItem(sId, 'S', 'Kaliteli kahve çekirdekleri tedarikçisi');
-                      addSwotItem(sId, 'W', 'Marka bilinirliğinin henüz olmaması');
-                      addSwotItem(sId, 'W', 'Yüksek kira maliyetleri');
-                      addSwotItem(sId, 'O', 'Bölgedeki üniversite öğrencilerinin artışı');
-                      addSwotItem(sId, 'O', 'Paket servis uygulamalarındaki talep artışı');
-                      addSwotItem(sId, 'T', 'Yan sokakta açılan büyük zincir kahveci');
-                      addSwotItem(sId, 'T', 'Kahve çekirdeği ithalat fiyatlarındaki dalgalanma');
+                      addSwotItem(sId, 'S', t('swot_example_s1'));
+                      addSwotItem(sId, 'S', t('swot_example_s2'));
+                      addSwotItem(sId, 'W', t('swot_example_w1'));
+                      addSwotItem(sId, 'W', t('swot_example_w2'));
+                      addSwotItem(sId, 'O', t('swot_example_o1'));
+                      addSwotItem(sId, 'O', t('swot_example_o2'));
+                      addSwotItem(sId, 'T', t('swot_example_t1'));
+                      addSwotItem(sId, 'T', t('swot_example_t2'));
                     }
                   }, 50);
                 }}

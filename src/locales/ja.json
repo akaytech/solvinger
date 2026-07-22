@@ -271,5 +271,20 @@
   "swot_example_hint": "実際のシナリオを通してSWOT分析の進め方を見るには、サンプルテンプレートを読み込めます。",
   "eod_max_reached": "目標の上限（6件）に達しました。新しい目標を追加するには、既存の目標を1つ削除してください。",
   "fta_prob_placeholder": "例: 5",
-  "delete_error": "削除エラー: "
+  "delete_error": "削除エラー: ",
+  "swot_example_title": "例：新しいカフェをオープンする",
+  "swot_example_s1": "中心的で人通りの多い立地",
+  "swot_example_s2": "高品質なコーヒー豆の仕入れ先",
+  "swot_example_w1": "まだブランド認知度が低い",
+  "swot_example_w2": "高い賃料コスト",
+  "swot_example_o1": "地域の大学生の増加",
+  "swot_example_o2": "フードデリバリーアプリの需要増加",
+  "swot_example_t1": "隣の通りにオープンする大手チェーンカフェ",
+  "swot_example_t2": "コーヒー豆の輸入価格の変動",
+  "whys_example_problem": "例：顧客への配達が常に遅れている",
+  "whys_example_w1": "なぜ？ 製品が配送業者に渡されるのが遅いから",
+  "whys_example_w2": "なぜ？ 梱包サービスの作業が遅いから",
+  "whys_example_w3": "なぜ？ 梱包機が頻繁に故障するから",
+  "whys_example_w4": "なぜ？ 機械の定期メンテナンスが行われていなかったから（根本原因）",
+  "whys_example_solution": "解決策：メンテナンス周期をデジタルカレンダーに連携する"
 }

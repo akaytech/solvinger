@@ -271,5 +271,20 @@
   "swot_example_hint": "Puedes cargar una plantilla de ejemplo para ver cómo se realiza un análisis SWOT a través de un escenario real.",
   "eod_max_reached": "Has alcanzado el límite máximo de objetivos (6). Elimina uno de los objetivos existentes para añadir uno nuevo.",
   "fta_prob_placeholder": "p. ej. 5",
-  "delete_error": "Error al eliminar: "
+  "delete_error": "Error al eliminar: ",
+  "swot_example_title": "Ejemplo: Abrir una nueva cafetería",
+  "swot_example_s1": "Ubicación céntrica y concurrida",
+  "swot_example_s2": "Proveedor de granos de café de calidad",
+  "swot_example_w1": "Falta de reconocimiento de marca todavía",
+  "swot_example_w2": "Altos costos de alquiler",
+  "swot_example_o1": "Aumento de estudiantes universitarios en la zona",
+  "swot_example_o2": "Creciente demanda en apps de entrega de comida",
+  "swot_example_t1": "Apertura de una gran cafetería de cadena en la calle de al lado",
+  "swot_example_t2": "Fluctuaciones en los precios de importación de granos de café",
+  "whys_example_problem": "Ejemplo: Las entregas a clientes se retrasan constantemente",
+  "whys_example_w1": "¿Por qué? Porque el producto se entrega tarde al mensajero",
+  "whys_example_w2": "¿Por qué? Porque el servicio de embalaje trabaja lento",
+  "whys_example_w3": "¿Por qué? Porque la máquina de embalaje se avería con frecuencia",
+  "whys_example_w4": "¿Por qué? No se realizó el mantenimiento periódico de la máquina (Causa raíz)",
+  "whys_example_solution": "Solución: Vincular el calendario de mantenimiento a una agenda digital"
 }

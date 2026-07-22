@@ -1,6 +1,7 @@
 import type { StateCreator } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
 import { logAppEvent } from '../../firebase';
+import i18n from '../../i18n';
 import type {
   Edge,
   Node,
@@ -167,12 +168,12 @@ export const createFiveWhysSlice: StateCreator<
       const sId = uuidv4();
 
       const nodes: FiveWhysNode[] = [
-        { id: pId, type: 'fiveWhysNode', position: { x: 0, y: 0 }, data: { label: 'Örnek: Müşteri teslimatları sürekli gecikiyor', type: 'problem', depth: 0 } },
-        { id: w1Id, type: 'fiveWhysNode', position: { x: 0, y: 0 }, data: { label: 'Neden? Çünkü ürün kargoya geç teslim ediliyor', type: 'why', depth: 1 } },
-        { id: w2Id, type: 'fiveWhysNode', position: { x: 0, y: 0 }, data: { label: 'Neden? Çünkü paketleme servisi yavaş çalışıyor', type: 'why', depth: 2 } },
-        { id: w3Id, type: 'fiveWhysNode', position: { x: 0, y: 0 }, data: { label: 'Neden? Çünkü paketleme makinesi sık sık bozuluyor', type: 'why', depth: 3 } },
-        { id: w4Id, type: 'fiveWhysNode', position: { x: 0, y: 0 }, data: { label: 'Neden? Makinenin periyodik bakımları yapılmamış (Kök Neden)', type: 'why', depth: 4 } },
-        { id: sId, type: 'fiveWhysNode', position: { x: 0, y: 0 }, data: { label: 'Çözüm: Bakım periyodunu dijital takvime bağla', type: 'solution', depth: 5 } },
+        { id: pId, type: 'fiveWhysNode', position: { x: 0, y: 0 }, data: { label: i18n.t('whys_example_problem'), type: 'problem', depth: 0 } },
+        { id: w1Id, type: 'fiveWhysNode', position: { x: 0, y: 0 }, data: { label: i18n.t('whys_example_w1'), type: 'why', depth: 1 } },
+        { id: w2Id, type: 'fiveWhysNode', position: { x: 0, y: 0 }, data: { label: i18n.t('whys_example_w2'), type: 'why', depth: 2 } },
+        { id: w3Id, type: 'fiveWhysNode', position: { x: 0, y: 0 }, data: { label: i18n.t('whys_example_w3'), type: 'why', depth: 3 } },
+        { id: w4Id, type: 'fiveWhysNode', position: { x: 0, y: 0 }, data: { label: i18n.t('whys_example_w4'), type: 'why', depth: 4 } },
+        { id: sId, type: 'fiveWhysNode', position: { x: 0, y: 0 }, data: { label: i18n.t('whys_example_solution'), type: 'solution', depth: 5 } },
       ];
 
       const edges: Edge[] = [
