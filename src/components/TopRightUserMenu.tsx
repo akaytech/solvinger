@@ -68,7 +68,7 @@ export default function TopRightUserMenu() {
            e.stopPropagation();
            setIsOpen(!isOpen);
         }}
-        className="flex h-10 w-10 items-center justify-center rounded-full bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+        className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 shadow-md hover:scale-105 transition-transform text-indigo-500 dark:text-indigo-400 overflow-hidden focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
       >
         {user.photoURL ? (
           <img src={user.photoURL} alt={user.name} className="h-full w-full rounded-full object-cover" />
