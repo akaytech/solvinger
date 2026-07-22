@@ -35,6 +35,7 @@ export interface FiveWhysSlice {
   addFiveWhysNode: (parentId: string | null, type: FiveWhysNodeType, label: string, position?: { x: number; y: number }) => void;
   updateFiveWhysNode: (id: string, data: Partial<FiveWhysNodeData>) => void;
   deleteFiveWhysNode: (id: string) => void;
+  loadFiveWhysExample: () => void;
 }
 
 const getFiveWhysDescendants = (id: string, edges: Edge[]): string[] => {
@@ -146,12 +147,42 @@ export const createFiveWhysSlice: StateCreator<
       const descendants = getFiveWhysDescendants(id, state.fiveWhysEdges);
       const toDelete = [id, ...descendants];
       
-      const newNodes = state.fiveWhysNodes.filter(n => !toDelete.includes(n.id));
-      const newEdges = state.fiveWhysEdges.filter(e => !toDelete.includes(e.source) && !toDelete.includes(e.target));
+      const newNodes = state.fiveWhysNodes.filter(node => !toDelete.includes(node.id));
+      const newEdges = state.fiveWhysEdges.filter(edge => !toDelete.includes(edge.source) && !toDelete.includes(edge.target));
       
       const { layoutedNodes, layoutedEdges } = getFiveWhysLayoutedElements(newNodes, newEdges);
       const next = { ...state, fiveWhysNodes: layoutedNodes, fiveWhysEdges: layoutedEdges };
       return { ...next };
+    });
+  },
+  loadFiveWhysExample: () => {
+    set((state) => {
+      const pId = uuidv4();
+      const w1Id = uuidv4();
+      const w2Id = uuidv4();
+      const w3Id = uuidv4();
+      const w4Id = uuidv4();
+      const sId = uuidv4();
+
+      const nodes: FiveWhysNode[] = [
+        { id: pId, type: 'fiveWhysNode', position: { x: 0, y: 0 }, data: { label: 'Örnek: Müşteri teslimatları sürekli gecikiyor', type: 'problem', depth: 0 } },
+        { id: w1Id, type: 'fiveWhysNode', position: { x: 0, y: 0 }, data: { label: 'Neden? Çünkü ürün kargoya geç teslim ediliyor', type: 'why', depth: 1 } },
+        { id: w2Id, type: 'fiveWhysNode', position: { x: 0, y: 0 }, data: { label: 'Neden? Çünkü paketleme servisi yavaş çalışıyor', type: 'why', depth: 2 } },
+        { id: w3Id, type: 'fiveWhysNode', position: { x: 0, y: 0 }, data: { label: 'Neden? Çünkü paketleme makinesi sık sık bozuluyor', type: 'why', depth: 3 } },
+        { id: w4Id, type: 'fiveWhysNode', position: { x: 0, y: 0 }, data: { label: 'Neden? Makinenin periyodik bakımları yapılmamış (Kök Neden)', type: 'why', depth: 4 } },
+        { id: sId, type: 'fiveWhysNode', position: { x: 0, y: 0 }, data: { label: 'Çözüm: Bakım periyodunu dijital takvime bağla', type: 'solution', depth: 5 } },
+      ];
+
+      const edges: Edge[] = [
+        { id: uuidv4(), source: pId, target: w1Id, type: 'smoothstep', animated: true, style: { strokeWidth: 3, stroke: '#94a3b8' } },
+        { id: uuidv4(), source: w1Id, target: w2Id, type: 'smoothstep', animated: true, style: { strokeWidth: 3, stroke: '#94a3b8' } },
+        { id: uuidv4(), source: w2Id, target: w3Id, type: 'smoothstep', animated: true, style: { strokeWidth: 3, stroke: '#94a3b8' } },
+        { id: uuidv4(), source: w3Id, target: w4Id, type: 'smoothstep', animated: true, style: { strokeWidth: 3, stroke: '#94a3b8' } },
+        { id: uuidv4(), source: w4Id, target: sId, type: 'smoothstep', animated: true, style: { strokeWidth: 3, stroke: '#94a3b8' } },
+      ];
+
+      const { layoutedNodes, layoutedEdges } = getFiveWhysLayoutedElements(nodes, edges);
+      return { ...state, fiveWhysNodes: layoutedNodes, fiveWhysEdges: layoutedEdges };
     });
   }
 });

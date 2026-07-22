@@ -170,8 +170,45 @@ export default function SwotCanvas() {
 
         {swot.length === 0 && (
           <div className="flex flex-col items-center justify-center py-20 text-slate-400 dark:text-slate-500">
-            <Target size={64} className="mb-4 opacity-20" />
-            <p className="text-lg">{t('swot_no_analysis')}</p>
+            <Target size={64} className="mb-6 opacity-20" />
+            <p className="text-lg mb-8">{t('swot_no_analysis')}</p>
+            
+            <div className="flex flex-col items-center p-8 bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-xl max-w-md text-center">
+              <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-2">Nereden Başlayacağınızı Bilmiyor Musunuz?</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">
+                Gerçek bir senaryo üzerinden SWOT analizinin nasıl yapıldığını görmek için örnek şablonu yükleyebilirsiniz.
+              </p>
+              <button
+                onClick={() => {
+                  // We simulate addSwot but we need to do it via store.
+                  // Since addSwot generates an ID internally, we can just call it, then find the newly created one.
+                  // Wait, addSwot pushes to the array. We can just use the store's set function if we had access, 
+                  // but we can just use the existing actions sequentially.
+                  useRoadmapStore.getState().addSwot("Örnek: Yeni Bir Kahve Dükkanı Açmak");
+                  
+                  // Wait for state to update, then get the newest SWOT ID to add items.
+                  setTimeout(() => {
+                    const latestSwot = useRoadmapStore.getState().swot[0]; // because unshift is used, or push?
+                    if (latestSwot) {
+                      const sId = latestSwot.id;
+                      const { addSwotItem } = useRoadmapStore.getState();
+                      addSwotItem(sId, 'S', 'Merkezi ve işlek lokasyon');
+                      addSwotItem(sId, 'S', 'Kaliteli kahve çekirdekleri tedarikçisi');
+                      addSwotItem(sId, 'W', 'Marka bilinirliğinin henüz olmaması');
+                      addSwotItem(sId, 'W', 'Yüksek kira maliyetleri');
+                      addSwotItem(sId, 'O', 'Bölgedeki üniversite öğrencilerinin artışı');
+                      addSwotItem(sId, 'O', 'Paket servis uygulamalarındaki talep artışı');
+                      addSwotItem(sId, 'T', 'Yan sokakta açılan büyük zincir kahveci');
+                      addSwotItem(sId, 'T', 'Kahve çekirdeği ithalat fiyatlarındaki dalgalanma');
+                    }
+                  }, 50);
+                }}
+                className="flex items-center gap-2 rounded-xl bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 px-6 py-3 font-bold transition-all hover:bg-indigo-200 dark:hover:bg-indigo-900 hover:-translate-y-0.5 active:translate-y-0"
+              >
+                <Zap size={20} />
+                Örnek Şablon Yükle
+              </button>
+            </div>
           </div>
         )}
       </div>
