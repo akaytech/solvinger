@@ -107,6 +107,7 @@ export interface RoadmapState extends EodSlice, NotepadSlice, FiveWhysSlice, Swo
   // Projects
   projects: Project[];
   currentProjectId: string | null;
+  activeListenersUserId: string | null;
   fetchProjects: (userId: string) => Promise<void>;
   createProject: (name: string, initialTool?: string) => void;
   loadProject: (id: string) => void;
@@ -145,12 +146,13 @@ export const useRoadmapStore = create<RoadmapState>()(
         resetState: () => {
           const sub = get().projectUnsubscribe;
           if (sub) sub();
-          set({ projects: [], currentProjectId: null, activeTool: null, nodes: [], edges: [], fiveWhysNodes: [], fiveWhysEdges: [], swot: [], ishikawa: [], pdca: [], waterfall: [], pareto: [], histogram: [], eod: [],
+          set({ projects: [], currentProjectId: null, activeTool: null, activeListenersUserId: null, nodes: [], edges: [], fiveWhysNodes: [], fiveWhysEdges: [], swot: [], ishikawa: [], pdca: [], waterfall: [], pareto: [], histogram: [], eod: [],
             decision: [], flowchartNodes: [], flowchartEdges: [], ftaNodes: [], ftaEdges: [], projectUnsubscribe: null });
         },
 
         
       activeTool: null,
+      activeListenersUserId: null,
       setActiveTool: (tool) => {
         set({ activeTool: tool });
         if (tool) {
@@ -162,6 +164,8 @@ export const useRoadmapStore = create<RoadmapState>()(
       currentProjectId: null,
 
       fetchProjects: async (userId) => {
+        if (get().activeListenersUserId === userId) return;
+
         try {
           const currentSub = get().projectUnsubscribe;
           if (currentSub) currentSub();
@@ -235,15 +239,24 @@ export const useRoadmapStore = create<RoadmapState>()(
           const unsubMy = onSnapshot(qMy, (snapshot) => {
             myProjects = snapshot.docs.map(parseDoc);
             updateStore();
-          }, (error) => console.error("Fetch my projects error:", error));
+          }, (error) => {
+            console.error("Fetch my projects error:", error);
+            set({ activeListenersUserId: null });
+          });
 
           const qShared = query(collection(db, 'projects'), where('sharedWith', 'array-contains', userId));
           const unsubShared = onSnapshot(qShared, (snapshot) => {
             sharedProjects = snapshot.docs.map(parseDoc);
             updateStore();
-          }, (error) => console.error("Fetch shared projects error:", error));
+          }, (error) => {
+            console.error("Fetch shared projects error:", error);
+            set({ activeListenersUserId: null });
+          });
           
-          set({ projectUnsubscribe: () => { unsubMy(); unsubShared(); } });
+          set({ 
+            projectUnsubscribe: () => { unsubMy(); unsubShared(); },
+            activeListenersUserId: userId
+          });
         } catch (error) {
           console.error("Setup listen projects error:", error);
         }
