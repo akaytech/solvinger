@@ -166,30 +166,14 @@ export const useRoadmapStore = create<RoadmapState>()(
           const currentSub = get().projectUnsubscribe;
           if (currentSub) currentSub();
 
-          const q = query(collection(db, 'projects'), or(where('userId', '==', userId), where('sharedWith', 'array-contains', userId)));
-          const unsubscribe = onSnapshot(q, (snapshot) => {
-            const fetchedProjects = snapshot.docs.map(doc => {
-              const data = doc.data() as Project;
-              let safeSwot = data.swot || [];
-              if (safeSwot.length > 0 && 'type' in safeSwot[0]) {
-                safeSwot = [{
-                  id: 'migrated-swot',
-                  title: i18n.t('default_swot_title'),
-                  items: safeSwot as unknown as import('./slices/createSwotSlice').SwotItem[],
-                  createdAt: Date.now()
-                }];
-              }
-              let safeWaterfall = data.waterfall || [];
-              safeWaterfall = safeWaterfall.map(proj => ({
-                ...proj,
-                currentPhaseIndex: proj.currentPhaseIndex ?? 0,
-                items: proj.items.map(item => ({
-                  ...item,
-                  phase: (item.phase as string) === 'Design' ? 'High-Level Design' : item.phase
-                }))
-              }));
-              return { ...data, id: doc.id, swot: safeSwot, waterfall: safeWaterfall };
-            });
+          let myProjects: Project[] = [];
+          let sharedProjects: Project[] = [];
+
+          const updateStore = () => {
+            const allProjects = [...myProjects, ...sharedProjects];
+            const uniqueMap = new Map();
+            allProjects.forEach(p => uniqueMap.set(p.id, p));
+            const fetchedProjects = Array.from(uniqueMap.values());
             
             isRemoteUpdate = true;
             const currentState = get();
@@ -222,12 +206,44 @@ export const useRoadmapStore = create<RoadmapState>()(
             setTimeout(() => {
               isRemoteUpdate = false;
             }, 0);
-            
-          }, (error) => {
-            console.error("Fetch projects error:", error);
-          });
+          };
+
+          const parseDoc = (doc: any) => {
+              const data = doc.data() as Project;
+              let safeSwot = data.swot || [];
+              if (safeSwot.length > 0 && 'type' in safeSwot[0]) {
+                safeSwot = [{
+                  id: 'migrated-swot',
+                  title: i18n.t('default_swot_title'),
+                  items: safeSwot as unknown as import('./slices/createSwotSlice').SwotItem[],
+                  createdAt: Date.now()
+                }];
+              }
+              let safeWaterfall = data.waterfall || [];
+              safeWaterfall = safeWaterfall.map((proj: any) => ({
+                ...proj,
+                currentPhaseIndex: proj.currentPhaseIndex ?? 0,
+                items: proj.items.map((item: any) => ({
+                  ...item,
+                  phase: (item.phase as string) === 'Design' ? 'High-Level Design' : item.phase
+                }))
+              }));
+              return { ...data, id: doc.id, swot: safeSwot, waterfall: safeWaterfall };
+          };
+
+          const qMy = query(collection(db, 'projects'), where('userId', '==', userId));
+          const unsubMy = onSnapshot(qMy, (snapshot) => {
+            myProjects = snapshot.docs.map(parseDoc);
+            updateStore();
+          }, (error) => console.error("Fetch my projects error:", error));
+
+          const qShared = query(collection(db, 'projects'), where('sharedWith', 'array-contains', userId));
+          const unsubShared = onSnapshot(qShared, (snapshot) => {
+            sharedProjects = snapshot.docs.map(parseDoc);
+            updateStore();
+          }, (error) => console.error("Fetch shared projects error:", error));
           
-          set({ projectUnsubscribe: unsubscribe });
+          set({ projectUnsubscribe: () => { unsubMy(); unsubShared(); } });
         } catch (error) {
           console.error("Setup listen projects error:", error);
         }
