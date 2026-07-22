@@ -10,6 +10,25 @@ import { useAuthStore } from './useAuthStore';
 
 export let isRemoteUpdate = false;
 
+// --- Otomatik kaydetme altyapısı --------------------------------------------
+// Bir projenin verisi iki yerde yaşıyor: düz (flat) araç state'i (nodes, swot...)
+// ve doğrudan `projects` dizisi içinde tutulan alanlar (ör. notepad). Değişiklik
+// tespitini tek bir alan listesinden türetip buna ek olarak proje nesnesinin
+// kimliğini karşılaştırıyoruz; böylece her iki tür değişiklik de yakalanıyor.
+const TOOL_STATE_KEYS = [
+  'nodes', 'edges', 'fiveWhysNodes', 'fiveWhysEdges', 'swot', 'ishikawa',
+  'pdca', 'waterfall', 'pareto', 'histogram', 'eod', 'decision',
+  'flowchartNodes', 'flowchartEdges', 'ftaNodes', 'ftaEdges',
+] as const;
+
+const SAVE_DEBOUNCE_MS = 1000;
+
+// Bekleyen kayıtlar proje bazında tutulur. Tek bir global zamanlayıcı, proje
+// değiştirildiğinde önceki projenin bekleyen kaydını sessizce iptal ediyordu.
+const pendingSaves = new Map<string, { project: Project; timer: ReturnType<typeof setTimeout> }>();
+// Sunucuya en son yazdığımız / sunucudan en son aldığımız proje nesnesi.
+const lastSynced = new Map<string, Project>();
+
 import { createWbsSlice, getDescendants, getDefaultNodes } from './slices/createWbsSlice';
 import type { WbsSlice, GoalStatus, GoalNodeData, GoalNode } from './slices/createWbsSlice';
 export type { GoalStatus, GoalNodeData, GoalNode };
@@ -145,6 +164,11 @@ export const useRoadmapStore = create<RoadmapState>()(
         resetState: () => {
           const sub = get().projectUnsubscribe;
           if (sub) sub();
+          // Oturum kapanırken bekleyen yazmaları iptal et: token gittiği için
+          // başarısız olurlar ve bir sonraki kullanıcının state'ine sızmamalılar.
+          pendingSaves.forEach((p) => clearTimeout(p.timer));
+          pendingSaves.clear();
+          lastSynced.clear();
           set({ projects: [], currentProjectId: null, activeTool: null, nodes: [], edges: [], fiveWhysNodes: [], fiveWhysEdges: [], swot: [], ishikawa: [], pdca: [], waterfall: [], pareto: [], histogram: [], eod: [],
             decision: [], flowchartNodes: [], flowchartEdges: [], ftaNodes: [], ftaEdges: [], projectUnsubscribe: null });
         },
@@ -166,7 +190,7 @@ export const useRoadmapStore = create<RoadmapState>()(
           const currentSub = get().projectUnsubscribe;
           if (currentSub) currentSub();
 
-          const parseDoc = (doc: any) => {
+          const parseDoc = (doc: any): Project | null => {
             try {
               const data = doc.data() as Project;
               let safeSwot = data.swot || [];
@@ -189,8 +213,11 @@ export const useRoadmapStore = create<RoadmapState>()(
               }));
               return { ...data, id: doc.id, swot: safeSwot, waterfall: safeWaterfall };
             } catch (error) {
+              // Bozuk dokümanın yerine sahte bir proje koymuyoruz: bu, kullanıcıya
+              // projesi silinmiş/boşalmış gibi görünmesine ve sonraki kaydetmenin
+              // gerçek veriyi ezmesine yol açıyordu. Bunun yerine listeden çıkarıyoruz.
               console.error("Parse doc error for project ID", doc.id, error);
-              return { id: doc.id, name: 'Hatalı Proje Verisi', userId: 'error', updatedAt: 0, nodes: [], edges: [], swot: [], ishikawa: [], pdca: [], waterfall: [] } as unknown as Project;
+              return null;
             }
           };
 
@@ -200,7 +227,13 @@ export const useRoadmapStore = create<RoadmapState>()(
           // olarak yeniden kurarak kalıcı olarak boş kalmasını önlüyoruz.
           const q = query(collection(db, 'projects'), or(where('userId', '==', userId), where('sharedWith', 'array-contains', userId)));
           const unsubscribe = onSnapshot(q, (snapshot) => {
-            const fetchedProjects = snapshot.docs.map(parseDoc);
+            const fetchedProjects = snapshot.docs
+              .map(parseDoc)
+              .filter((p): p is Project => p !== null);
+
+            // Sunucudan gelen hali "senkron" olarak işaretle; aksi halde otomatik
+            // kaydetme her uzak güncellemeden sonra gereksiz bir yazma tetikler.
+            fetchedProjects.forEach((p) => lastSynced.set(p.id, p));
 
             isRemoteUpdate = true;
             const currentState = get();
@@ -540,73 +573,90 @@ export const useRoadmapStore = create<RoadmapState>()(
 )
 );
 
-let saveTimeout: ReturnType<typeof setTimeout>;
 let isSyncing = false;
 
-useRoadmapStore.subscribe((state, _prevState) => {
+const writeProject = (projectId: string, project: Project) => {
+  setDoc(doc(db, 'projects', projectId), project, { merge: true }).catch((err) => {
+    console.error("Firestore Save Error:", err);
+  });
+};
+
+// Bekleyen kaydı beklemeden hemen gönderir.
+const flushProjectSave = (projectId: string) => {
+  const pending = pendingSaves.get(projectId);
+  if (!pending) return;
+  clearTimeout(pending.timer);
+  pendingSaves.delete(projectId);
+  writeProject(projectId, pending.project);
+};
+
+const flushAllSaves = () => {
+  Array.from(pendingSaves.keys()).forEach(flushProjectSave);
+};
+
+// Sekme kapatılırken/gizlenirken bekleyen kaydı hemen gönder. Aksi halde bir
+// düzenlemeden sonraki 1 saniye içinde yapılan sert yenileme (Ctrl+Shift+R),
+// debounce edilmiş kaydın hiç çalışmamasına ve değişikliğin kaybolmasına yol açıyordu.
+if (typeof window !== 'undefined') {
+  window.addEventListener('pagehide', flushAllSaves);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') flushAllSaves();
+  });
+}
+
+useRoadmapStore.subscribe((state, prevState) => {
+  // Proje değiştiyse, önceki projenin bekleyen kaydını iptal etmeden gönder.
+  if (prevState.currentProjectId && prevState.currentProjectId !== state.currentProjectId) {
+    flushProjectSave(prevState.currentProjectId);
+  }
+
   if (isRemoteUpdate) return;
   if (isSyncing) return;
   if (!state.currentProjectId || !useAuthStore.getState().user) return;
-  
-  const currentProj = state.projects.find(p => p.id === state.currentProjectId);
+
+  const projectId = state.currentProjectId;
+  const currentProj = state.projects.find((p) => p.id === projectId);
   if (!currentProj) return;
 
-  // Sığ (Shallow) karşılaştırma ile tool datalarının değişip değişmediğini anla
-  const hasChanges = (
-    state.nodes !== currentProj.nodes ||
-    state.edges !== currentProj.edges ||
-    state.fiveWhysNodes !== currentProj.fiveWhysNodes ||
-    state.fiveWhysEdges !== currentProj.fiveWhysEdges ||
-    state.swot !== currentProj.swot ||
-    state.ishikawa !== currentProj.ishikawa ||
-    state.pdca !== currentProj.pdca ||
-    state.waterfall !== currentProj.waterfall ||
-    state.pareto !== currentProj.pareto ||
-    state.histogram !== currentProj.histogram ||
-    state.eod !== currentProj.eod ||
-    
-    state.decision !== currentProj.decision ||
-    state.flowchartNodes !== currentProj.flowchartNodes ||
-    state.flowchartEdges !== currentProj.flowchartEdges ||
-    state.ftaNodes !== currentProj.ftaNodes ||
-    state.ftaEdges !== currentProj.ftaEdges
-  );
+  const stateRecord = state as unknown as Record<string, unknown>;
+  const projRecord = currentProj as unknown as Record<string, unknown>;
 
-  if (hasChanges) {
-    isSyncing = true;
-    
-    const updatedProject: Project = {
-      ...currentProj,
-      nodes: state.nodes,
-      edges: state.edges,
-      fiveWhysNodes: state.fiveWhysNodes || [],
-      fiveWhysEdges: state.fiveWhysEdges || [],
-      swot: state.swot || [],
-      ishikawa: state.ishikawa || [],
-      pdca: state.pdca || [],
-      waterfall: state.waterfall || [],
-      pareto: state.pareto || [],
-      histogram: state.histogram || [],
-      eod: state.eod || [],
-      decision: state.decision || [],
-      flowchartNodes: state.flowchartNodes || [],
-      flowchartEdges: state.flowchartEdges || [],
-      ftaNodes: state.ftaNodes || [],
-      ftaEdges: state.ftaEdges || [],
-      updatedAt: Date.now(),
-    };
+  // 1) Düz araç state'i projeden farklı mı?
+  const toolStateChanged = TOOL_STATE_KEYS.some((key) => {
+    const value = stateRecord[key];
+    return value !== undefined && value !== projRecord[key];
+  });
 
-    useRoadmapStore.setState({
-      projects: state.projects.map(p => p.id === state.currentProjectId ? updatedProject : p)
-    });
+  // 2) Yalnızca `projects` dizisi içinde yaşayan veriler (ör. notepad) değişti mi?
+  //    Bunlar düz state'e yansımadığı için tek yakalama yolu nesne kimliği.
+  const projectObjectChanged = lastSynced.get(projectId) !== currentProj;
 
-    clearTimeout(saveTimeout);
-    saveTimeout = setTimeout(() => {
-      setDoc(doc(db, 'projects', state.currentProjectId!), updatedProject, { merge: true }).catch(err => {
-        console.error("Firestore Save Error:", err);
-      });
-    }, 1000);
-    
-    isSyncing = false;
-  }
+  if (!toolStateChanged && !projectObjectChanged) return;
+
+  isSyncing = true;
+
+  const merged: Record<string, unknown> = { ...projRecord, updatedAt: Date.now() };
+  TOOL_STATE_KEYS.forEach((key) => {
+    const value = stateRecord[key];
+    if (value !== undefined) merged[key] = value;
+  });
+  const updatedProject = merged as unknown as Project;
+
+  lastSynced.set(projectId, updatedProject);
+
+  useRoadmapStore.setState({
+    projects: state.projects.map((p) => (p.id === projectId ? updatedProject : p)),
+  });
+
+  const existing = pendingSaves.get(projectId);
+  if (existing) clearTimeout(existing.timer);
+  pendingSaves.set(projectId, {
+    project: updatedProject,
+    timer: setTimeout(() => {
+      pendingSaves.delete(projectId);
+      writeProject(projectId, updatedProject);
+    }, SAVE_DEBOUNCE_MS),
+  });
+
+  isSyncing = false;
 });
