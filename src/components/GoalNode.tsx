@@ -1,5 +1,5 @@
 import { Handle, Position, useNodeId, NodeToolbar } from '@xyflow/react';
-import { CheckCircle2, CircleDashed, PlayCircle, Plus, Eye, EyeOff, XCircle, LayoutGrid } from 'lucide-react';
+import { CheckCircle2, CircleDashed, PlayCircle, Plus, Eye, EyeOff, XCircle, LayoutGrid, AlignLeft } from 'lucide-react';
 import clsx from 'clsx';
 import type { GoalNodeData } from '../store/useRoadmapStore';
 import { useRoadmapStore } from '../store/useRoadmapStore';
@@ -87,6 +87,15 @@ export default function GoalNode({ data, selected }: { data: GoalNodeData; selec
         >
           <LayoutGrid size={14} />
         </button>
+      )}
+
+      {data.description && data.description.trim() !== '' && (
+        <div
+          className="absolute -bottom-3 right-4 flex h-7 w-7 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 text-slate-500 dark:text-slate-300 shadow-md border border-slate-200 dark:border-slate-600 transition-all z-10"
+          title={t('has_description') || 'Açıklama mevcut'}
+        >
+          <AlignLeft size={14} />
+        </div>
       )}
 
       {isEditingDescription && (
