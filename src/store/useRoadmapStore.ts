@@ -1,5 +1,4 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
 import { temporal } from 'zundo';
 import type { Edge } from '@xyflow/react';
 import { v4 as uuidv4 } from 'uuid';
@@ -140,7 +139,6 @@ export interface RoadmapState extends EodSlice, NotepadSlice, FiveWhysSlice, Swo
 
 export const useRoadmapStore = create<RoadmapState>()(
   temporal(
-    persist(
       (set, get, api) => ({
         ...createEodSlice(set, get, api),
         ...createNotepadSlice(set, get, api),
@@ -519,14 +517,6 @@ export const useRoadmapStore = create<RoadmapState>()(
       },
 
     }),
-    {
-      name: 'roadmap-storage',
-      partialize: (state) => ({
-        currentProjectId: state.currentProjectId,
-        activeTool: state.activeTool,
-      }),
-    }
-  ),
   {
     partialize: (state) => ({
       nodes: state.nodes,
