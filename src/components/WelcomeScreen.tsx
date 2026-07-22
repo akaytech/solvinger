@@ -69,33 +69,47 @@ export default function WelcomeScreen() {
           </div>
         </section>
 
-        {/* Categories */}
+                {/* Categories */}
         <div className="space-y-12">
           
           <section>
-            <h3 className="mb-6 text-xl font-bold text-slate-700 dark:text-slate-300">{t('ws_cat_root_cause') || 'Kök Neden ve Problem Analizi'}</h3>
+            <h3 className="mb-6 text-xl font-bold text-slate-700 dark:text-slate-300">{t('cat_root_cause')}</h3>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              <ToolCard id="5whys" icon={Activity} title={t('tool_5whys')} desc={t('whys_desc')} color="text-emerald-500" bg="bg-emerald-100 dark:bg-emerald-900/40" />
               <ToolCard id="ishikawa" icon={Fish} title={t('tool_ishikawa')} desc={t('ishi_desc')} color="text-cyan-500" bg="bg-cyan-100 dark:bg-cyan-900/40" />
-              <ToolCard id="wbs" icon={Network} title={t('tool_wbs')} desc={t('wbs_desc')} color="text-indigo-500" bg="bg-indigo-100 dark:bg-indigo-900/40" />
-              <ToolCard id="fta" icon={AlertOctagon} title={t('fta_title')} desc={t('fta_desc')} color="text-rose-500" bg="bg-rose-100 dark:bg-rose-900/40" />
             </div>
           </section>
 
           <section>
-            <h3 className="mb-6 text-xl font-bold text-slate-700 dark:text-slate-300">{t('ws_cat_strategy') || 'Strateji ve Karar Verme'}</h3>
+            <h3 className="mb-6 text-xl font-bold text-slate-700 dark:text-slate-300">{t('cat_data_stats')}</h3>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              <ToolCard id="decision" icon={Scale} title={t('decision_title')} desc={t('decision_desc')} color="text-violet-500" bg="bg-violet-100 dark:bg-violet-900/40" />
               <ToolCard id="pareto" icon={BarChart2} title={t('tool_pareto')} desc={t('pareto_desc')} color="text-blue-500" bg="bg-blue-100 dark:bg-blue-900/40" />
               <ToolCard id="histogram" icon={BarChart} title={t('tool_histogram')} desc={t('histogram_desc')} color="text-indigo-500" bg="bg-indigo-100 dark:bg-indigo-900/40" />
             </div>
           </section>
 
           <section>
-            <h3 className="mb-6 text-xl font-bold text-slate-700 dark:text-slate-300">{t('ws_cat_process') || 'Süreç, Planlama ve Yardımcı Araçlar'}</h3>
+            <h3 className="mb-6 text-xl font-bold text-slate-700 dark:text-slate-300">{t('cat_strategy_decision_risk')}</h3>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              <ToolCard id="swot" icon={Target} title={t('tool_swot')} desc={t('swot_desc')} color="text-rose-500" bg="bg-rose-100 dark:bg-rose-900/40" />
+              <ToolCard id="decision" icon={Scale} title={t('decision_title')} desc={t('decision_desc')} color="text-violet-500" bg="bg-violet-100 dark:bg-violet-900/40" />
+              <ToolCard id="fta" icon={AlertOctagon} title={t('fta_title')} desc={t('fta_desc')} color="text-rose-500" bg="bg-rose-100 dark:bg-rose-900/40" />
+            </div>
+          </section>
+
+          <section>
+            <h3 className="mb-6 text-xl font-bold text-slate-700 dark:text-slate-300">{t('cat_process_project')}</h3>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+              <ToolCard id="wbs" icon={Network} title={t('tool_wbs')} desc={t('wbs_desc')} color="text-indigo-500" bg="bg-indigo-100 dark:bg-indigo-900/40" />
               <ToolCard id="pdca" icon={RefreshCcw} title={t('tool_pdca')} desc={t('pdca_desc')} color="text-teal-500" bg="bg-teal-100 dark:bg-teal-900/40" />
               <ToolCard id="waterfall" icon={Layers} title={t('tool_waterfall')} desc={t('wf_desc')} color="text-blue-500" bg="bg-blue-100 dark:bg-blue-900/40" />
               <ToolCard id="flowchart" icon={GitMerge} title={t('tool_flowchart')} desc={t('flowchart_desc')} color="text-amber-500" bg="bg-amber-100 dark:bg-amber-900/40" />
+            </div>
+          </section>
+
+          <section>
+            <h3 className="mb-6 text-xl font-bold text-slate-700 dark:text-slate-300">{t('cat_productivity_docs')}</h3>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               <ToolCard id="eod" icon={ListTodo} title={t('tool_eod')} desc={t('eod_desc')} color="text-orange-500" bg="bg-orange-100 dark:bg-orange-900/40" />
               <ToolCard id="notepad" icon={FileText} title={t('notepad_title')} desc={t('notepad_desc')} color="text-fuchsia-500" bg="bg-fuchsia-100 dark:bg-fuchsia-900/40" />
             </div>

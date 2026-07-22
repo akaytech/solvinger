@@ -2,11 +2,6 @@
   "auth_legal_text": "By continuing, you agree to our <button type='button' class='font-bold hover:underline' onClick='__TERMS__'>Terms of Use</button> and <button type='button' class='font-bold hover:underline' onClick='__PRIVACY__'>Privacy Policy</button>.",
   "terms_of_use_title": "Terms of Use",
   "privacy_policy_title": "Privacy Policy",
-  "nav_cat_root_cause": "Root Cause & Brainstorming",
-  "nav_cat_data_analysis": "Data & Statistical Analysis",
-  "nav_cat_decision_risk": "Decision & Risk Analysis",
-  "nav_cat_process_design": "Process & System Design",
-  "nav_cat_docs": "Documentation & Reporting",
   "flowchart_group_flow": "FLOWCHART",
   "flowchart_group_dfd": "DATA FLOW (DFD)",
   "flowchart_new_external": "New External Entity",
@@ -287,8 +282,9 @@
   "whys_example_w3": "Why? Because the packaging machine breaks down frequently",
   "whys_example_w4": "Why? The machine's periodic maintenance was not done (Root Cause)",
   "whys_example_solution": "Solution: Tie the maintenance schedule to a digital calendar",
-  "ws_cat_recommended": "Recommended Starter Tools",
-  "ws_cat_root_cause": "Root Cause and Problem Analysis",
-  "ws_cat_strategy": "Strategy and Decision Making",
-  "ws_cat_process": "Process, Planning and Auxiliary Tools"
+  "cat_root_cause": "Root Cause Analysis",
+  "cat_data_stats": "Data & Statistical Analysis",
+  "cat_strategy_decision_risk": "Strategy, Decision & Risk Analysis",
+  "cat_process_project": "Process & Project Management",
+  "cat_productivity_docs": "Daily Productivity & Documentation"
 }

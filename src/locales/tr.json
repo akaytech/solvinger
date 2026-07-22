@@ -2,11 +2,6 @@
   "auth_legal_text": "Devam ederek <button type='button' class='font-bold hover:underline' onClick='__TERMS__'>Kullanım Koşulları</button> ve <button type='button' class='font-bold hover:underline' onClick='__PRIVACY__'>KVKK Aydınlatma Metni</button>'ni kabul etmiş sayılırsınız.",
   "terms_of_use_title": "Kullanım Koşulları",
   "privacy_policy_title": "Gizlilik Politikası (KVKK)",
-  "nav_cat_root_cause": "Kök Neden ve Beyin Fırtınası",
-  "nav_cat_data_analysis": "Veri ve İstatistiksel Analiz",
-  "nav_cat_decision_risk": "Karar ve Risk Analizi",
-  "nav_cat_process_design": "Süreç ve Sistem Tasarımı",
-  "nav_cat_docs": "Belgelendirme ve Raporlama",
   "flowchart_group_flow": "AKIŞ DİYAGRAMI",
   "flowchart_group_dfd": "VERİ AKIŞI (DFD)",
   "flowchart_new_external": "Yeni Dış Kaynak",
@@ -287,8 +282,9 @@
   "whys_example_w3": "Neden? Çünkü paketleme makinesi sık sık bozuluyor",
   "whys_example_w4": "Neden? Makinenin periyodik bakımları yapılmamış (Kök Neden)",
   "whys_example_solution": "Çözüm: Bakım periyodunu dijital takvime bağla",
-  "ws_cat_recommended": "Önerilen Başlangıç Araçları",
-  "ws_cat_root_cause": "Kök Neden ve Problem Analizi",
-  "ws_cat_strategy": "Strateji ve Karar Verme",
-  "ws_cat_process": "Süreç, Planlama ve Yardımcı Araçlar"
+  "cat_root_cause": "Kök Neden Analizi",
+  "cat_data_stats": "Veri ve İstatistiksel Analiz",
+  "cat_strategy_decision_risk": "Strateji, Karar ve Risk Analizi",
+  "cat_process_project": "Süreç ve Proje Yönetimi",
+  "cat_productivity_docs": "Günlük Verimlilik ve Belgeleme"
 }

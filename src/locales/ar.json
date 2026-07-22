@@ -2,11 +2,6 @@
   "auth_legal_text": "بالمتابعة، أنت توافق على <button type='button' class='font-bold hover:underline' onClick='__TERMS__'>شروط الاستخدام</button> و <button type='button' class='font-bold hover:underline' onClick='__PRIVACY__'>سياسة الخصوصية</button>.",
   "terms_of_use_title": "شروط الاستخدام",
   "privacy_policy_title": "سياسة الخصوصية",
-  "nav_cat_root_cause": "Root Cause & Brainstorming",
-  "nav_cat_data_analysis": "Data & Statistical Analysis",
-  "nav_cat_decision_risk": "Decision & Risk Analysis",
-  "nav_cat_process_design": "Process & System Design",
-  "nav_cat_docs": "Documentation & Reporting",
   "flowchart_group_flow": "FLOWCHART",
   "flowchart_group_dfd": "DATA FLOW (DFD)",
   "flowchart_new_external": "New External Entity",
@@ -287,8 +282,9 @@
   "whys_example_w3": "لماذا؟ لأن آلة التغليف تتعطّل كثيراً",
   "whys_example_w4": "لماذا؟ لم تُجرَ الصيانة الدورية للآلة (السبب الجذري)",
   "whys_example_solution": "الحل: ربط جدول الصيانة بتقويم رقمي",
-  "ws_cat_recommended": "الأدوات الموصى بها للبدء",
-  "ws_cat_root_cause": "السبب الجذري وتحليل المشكلات",
-  "ws_cat_strategy": "الاستراتيجية واتخاذ القرار",
-  "ws_cat_process": "العمليات والتخطيط والأدوات المساعدة"
+  "cat_root_cause": "تحليل السبب الجذري",
+  "cat_data_stats": "تحليل البيانات والإحصاءات",
+  "cat_strategy_decision_risk": "الاستراتيجية والقرار وتحليل المخاطر",
+  "cat_process_project": "إدارة العمليات والمشاريع",
+  "cat_productivity_docs": "الإنتاجية اليومية والتوثيق"
 }

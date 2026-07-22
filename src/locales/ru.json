@@ -1,9 +1,4 @@
 {
-  "nav_cat_root_cause": "Root Cause & Brainstorming",
-  "nav_cat_data_analysis": "Data & Statistical Analysis",
-  "nav_cat_decision_risk": "Decision & Risk Analysis",
-  "nav_cat_process_design": "Process & System Design",
-  "nav_cat_docs": "Documentation & Reporting",
   "flowchart_group_flow": "FLOWCHART",
   "flowchart_group_dfd": "DATA FLOW (DFD)",
   "flowchart_new_external": "New External Entity",
@@ -287,8 +282,9 @@
   "whys_example_w3": "Почему? Потому что упаковочная машина часто ломается",
   "whys_example_w4": "Почему? Не проводилось периодическое обслуживание машины (Первопричина)",
   "whys_example_solution": "Решение: Привязать график обслуживания к цифровому календарю",
-  "ws_cat_recommended": "Рекомендуемые начальные инструменты",
-  "ws_cat_root_cause": "Анализ первопричин и проблем",
-  "ws_cat_strategy": "Стратегия и принятие решений",
-  "ws_cat_process": "Процессы, планирование и вспомогательные инструменты"
+  "cat_root_cause": "Анализ корневых причин",
+  "cat_data_stats": "Анализ данных и статистика",
+  "cat_strategy_decision_risk": "Стратегия, принятие решений и анализ рисков",
+  "cat_process_project": "Управление процессами и проектами",
+  "cat_productivity_docs": "Ежедневная продуктивность и документация"
 }

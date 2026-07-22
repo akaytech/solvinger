@@ -2,11 +2,6 @@
   "auth_legal_text": "Indem Sie fortfahren, stimmen Sie unseren <button type='button' class='font-bold hover:underline' onClick='__TERMS__'>Nutzungsbedingungen</button> und der <button type='button' class='font-bold hover:underline' onClick='__PRIVACY__'>Datenschutzerklärung</button> zu.",
   "terms_of_use_title": "Nutzungsbedingungen",
   "privacy_policy_title": "Datenschutzerklärung",
-  "nav_cat_root_cause": "Root Cause & Brainstorming",
-  "nav_cat_data_analysis": "Data & Statistical Analysis",
-  "nav_cat_decision_risk": "Decision & Risk Analysis",
-  "nav_cat_process_design": "Process & System Design",
-  "nav_cat_docs": "Documentation & Reporting",
   "flowchart_group_flow": "FLOWCHART",
   "flowchart_group_dfd": "DATA FLOW (DFD)",
   "flowchart_new_external": "New External Entity",
@@ -287,8 +282,9 @@
   "whys_example_w3": "Warum? Weil die Verpackungsmaschine häufig ausfällt",
   "whys_example_w4": "Warum? Die regelmäßige Wartung der Maschine wurde nicht durchgeführt (Grundursache)",
   "whys_example_solution": "Lösung: Den Wartungsplan mit einem digitalen Kalender verknüpfen",
-  "ws_cat_recommended": "Empfohlene Startwerkzeuge",
-  "ws_cat_root_cause": "Ursachen- und Problemanalyse",
-  "ws_cat_strategy": "Strategie und Entscheidungsfindung",
-  "ws_cat_process": "Prozesse, Planung und Hilfswerkzeuge"
+  "cat_root_cause": "Ursachenanalyse",
+  "cat_data_stats": "Daten- & Statistische Analyse",
+  "cat_strategy_decision_risk": "Strategie, Entscheidungs- & Risikoanalyse",
+  "cat_process_project": "Prozess- & Projektmanagement",
+  "cat_productivity_docs": "Tägliche Produktivität & Dokumentation"
 }

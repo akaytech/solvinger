@@ -2,11 +2,6 @@
   "auth_legal_text": "En continuant, vous acceptez nos <button type='button' class='font-bold hover:underline' onClick='__TERMS__'>Conditions d'utilisation</button> et notre <button type='button' class='font-bold hover:underline' onClick='__PRIVACY__'>Politique de confidentialité</button>.",
   "terms_of_use_title": "Conditions d'utilisation",
   "privacy_policy_title": "Politique de confidentialité",
-  "nav_cat_root_cause": "Root Cause & Brainstorming",
-  "nav_cat_data_analysis": "Data & Statistical Analysis",
-  "nav_cat_decision_risk": "Decision & Risk Analysis",
-  "nav_cat_process_design": "Process & System Design",
-  "nav_cat_docs": "Documentation & Reporting",
   "flowchart_group_flow": "FLOWCHART",
   "flowchart_group_dfd": "DATA FLOW (DFD)",
   "flowchart_new_external": "New External Entity",
@@ -287,8 +282,9 @@
   "whys_example_w3": "Pourquoi ? Parce que la machine d'emballage tombe souvent en panne",
   "whys_example_w4": "Pourquoi ? La maintenance périodique de la machine n'a pas été effectuée (cause racine)",
   "whys_example_solution": "Solution : Lier le calendrier de maintenance à un agenda numérique",
-  "ws_cat_recommended": "Outils de démarrage recommandés",
-  "ws_cat_root_cause": "Analyse des causes profondes et des problèmes",
-  "ws_cat_strategy": "Stratégie et prise de décision",
-  "ws_cat_process": "Processus, planification et outils auxiliaires"
+  "cat_root_cause": "Analyse des Causes Profondes",
+  "cat_data_stats": "Analyse des Données et Statistiques",
+  "cat_strategy_decision_risk": "Stratégie, Décision et Analyse des Risques",
+  "cat_process_project": "Gestion de Processus et de Projets",
+  "cat_productivity_docs": "Productivité Quotidienne et Documentation"
 }

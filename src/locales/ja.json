@@ -1,9 +1,4 @@
 {
-  "nav_cat_root_cause": "Root Cause & Brainstorming",
-  "nav_cat_data_analysis": "Data & Statistical Analysis",
-  "nav_cat_decision_risk": "Decision & Risk Analysis",
-  "nav_cat_process_design": "Process & System Design",
-  "nav_cat_docs": "Documentation & Reporting",
   "flowchart_group_flow": "FLOWCHART",
   "flowchart_group_dfd": "DATA FLOW (DFD)",
   "flowchart_new_external": "New External Entity",
@@ -287,8 +282,9 @@
   "whys_example_w3": "なぜ？ 梱包機が頻繁に故障するから",
   "whys_example_w4": "なぜ？ 機械の定期メンテナンスが行われていなかったから（根本原因）",
   "whys_example_solution": "解決策：メンテナンス周期をデジタルカレンダーに連携する",
-  "ws_cat_recommended": "推奨される初期ツール",
-  "ws_cat_root_cause": "根本原因と問題分析",
-  "ws_cat_strategy": "戦略と意思決定",
-  "ws_cat_process": "プロセス、計画、補助ツール"
+  "cat_root_cause": "根本原因分析",
+  "cat_data_stats": "データと統計分析",
+  "cat_strategy_decision_risk": "戦略、意思決定、リスク分析",
+  "cat_process_project": "プロセスとプロジェクト管理",
+  "cat_productivity_docs": "日々の生産性と文書化"
 }

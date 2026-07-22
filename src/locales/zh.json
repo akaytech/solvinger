@@ -1,9 +1,4 @@
 {
-  "nav_cat_root_cause": "Root Cause & Brainstorming",
-  "nav_cat_data_analysis": "Data & Statistical Analysis",
-  "nav_cat_decision_risk": "Decision & Risk Analysis",
-  "nav_cat_process_design": "Process & System Design",
-  "nav_cat_docs": "Documentation & Reporting",
   "flowchart_group_flow": "FLOWCHART",
   "flowchart_group_dfd": "DATA FLOW (DFD)",
   "flowchart_new_external": "New External Entity",
@@ -287,8 +282,9 @@
   "whys_example_w3": "为什么？因为包装机经常故障",
   "whys_example_w4": "为什么？机器的定期维护没有做（根本原因）",
   "whys_example_solution": "解决方案：将维护周期与数字日历关联",
-  "ws_cat_recommended": "推荐的入门工具",
-  "ws_cat_root_cause": "根本原因与问题分析",
-  "ws_cat_strategy": "战略与决策",
-  "ws_cat_process": "流程、计划与辅助工具"
+  "cat_root_cause": "根本原因分析",
+  "cat_data_stats": "数据与统计分析",
+  "cat_strategy_decision_risk": "战略、决策与风险分析",
+  "cat_process_project": "流程与项目管理",
+  "cat_productivity_docs": "日常生产力与文档编制"
 }

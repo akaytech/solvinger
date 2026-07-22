@@ -80,11 +80,11 @@ export default function Navbar() {
         </button>
       </div>
 
-      <div className="flex-1 flex flex-col py-2 px-3 gap-1 overflow-y-auto custom-scrollbar">
+            <div className="flex-1 flex flex-col py-2 px-3 gap-1 overflow-y-auto custom-scrollbar">
         
-        {/* Kategori 1 */}
+        {/* Kategori 1: Kök Neden Analizi */}
         <div className="mt-2 mb-1 px-3 shrink-0">
-          <h3 className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">{t('nav_cat_root_cause') || 'Kök Neden ve Beyin Fırtınası'}</h3>
+          <h3 className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">{t('cat_root_cause')}</h3>
         </div>
         
         <button
@@ -113,23 +113,9 @@ export default function Navbar() {
           <span>{t('tool_ishikawa')}</span>
         </button>
 
-        <button
-          onClick={() => handleToolClick('swot')}
-          className={clsx(
-            "flex w-full items-center gap-3 rounded-xl px-3 py-1.5 text-sm font-semibold transition-colors",
-            activeTool === 'swot' ? "bg-rose-50 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400" : "text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800"
-          )}
-        >
-          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-rose-100 text-rose-600 dark:bg-rose-900/50 dark:text-rose-400">
-             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 12h18"/><path d="M12 3v18"/></svg>
-          </div>
-          <span>{t('tool_swot')}</span>
-        </button>
-
-
-        {/* Kategori 2 */}
+        {/* Kategori 2: Veri ve İstatistiksel Analiz */}
         <div className="mt-4 mb-1 px-3 shrink-0">
-          <h3 className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">{t('nav_cat_data_analysis') || 'Veri ve İstatistiksel Analiz'}</h3>
+          <h3 className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">{t('cat_data_stats')}</h3>
         </div>
 
         <button
@@ -158,24 +144,24 @@ export default function Navbar() {
           <span>{t('tool_histogram')}</span>
         </button>
 
+
+        {/* Kategori 3: Strateji, Karar ve Risk Analizi */}
+        <div className="mt-4 mb-1 px-3 shrink-0">
+          <h3 className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">{t('cat_strategy_decision_risk')}</h3>
+        </div>
+
         <button
-          onClick={() => handleToolClick('waterfall')}
+          onClick={() => handleToolClick('swot')}
           className={clsx(
             "flex w-full items-center gap-3 rounded-xl px-3 py-1.5 text-sm font-semibold transition-colors",
-            activeTool === 'waterfall' ? "bg-cyan-50 text-cyan-700 dark:bg-cyan-900/30 dark:text-cyan-400" : "text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800"
+            activeTool === 'swot' ? "bg-rose-50 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400" : "text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800"
           )}
         >
-          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-cyan-100 text-cyan-600 dark:bg-cyan-900/50 dark:text-cyan-400">
-             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg>
+          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-rose-100 text-rose-600 dark:bg-rose-900/50 dark:text-rose-400">
+             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 12h18"/><path d="M12 3v18"/></svg>
           </div>
-          <span>{t('tool_waterfall')}</span>
+          <span>{t('tool_swot')}</span>
         </button>
-
-
-        {/* Kategori 3 */}
-        <div className="mt-4 mb-1 px-3 shrink-0">
-          <h3 className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">{t('nav_cat_decision_risk') || 'Karar ve Risk Analizi'}</h3>
-        </div>
 
         <button
           onClick={() => handleToolClick('decision')}
@@ -204,9 +190,9 @@ export default function Navbar() {
         </button>
 
 
-        {/* Kategori 4 */}
+        {/* Kategori 4: Süreç ve Proje Yönetimi */}
         <div className="mt-4 mb-1 px-3 shrink-0">
-          <h3 className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">{t('nav_cat_process_design') || 'Süreç ve Sistem Tasarımı'}</h3>
+          <h3 className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">{t('cat_process_project')}</h3>
         </div>
 
         <button
@@ -223,6 +209,32 @@ export default function Navbar() {
         </button>
 
         <button
+          onClick={() => handleToolClick('pdca')}
+          className={clsx(
+            "flex w-full items-center gap-3 rounded-xl px-3 py-1.5 text-sm font-semibold transition-colors",
+            activeTool === 'pdca' ? "bg-teal-50 text-teal-700 dark:bg-teal-900/30 dark:text-teal-400" : "text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800"
+          )}
+        >
+          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-teal-100 text-teal-600 dark:bg-teal-900/50 dark:text-teal-400">
+             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21v-5h5"/></svg>
+          </div>
+          <span>{t('tool_pdca')}</span>
+        </button>
+
+        <button
+          onClick={() => handleToolClick('waterfall')}
+          className={clsx(
+            "flex w-full items-center gap-3 rounded-xl px-3 py-1.5 text-sm font-semibold transition-colors",
+            activeTool === 'waterfall' ? "bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400" : "text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800"
+          )}
+        >
+          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-blue-100 text-blue-600 dark:bg-blue-900/50 dark:text-blue-400">
+             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg>
+          </div>
+          <span>{t('tool_waterfall')}</span>
+        </button>
+
+        <button
           onClick={() => handleToolClick('flowchart')}
           className={clsx(
             "flex w-full items-center gap-3 rounded-xl px-3 py-1.5 text-sm font-semibold transition-colors",
@@ -235,37 +247,11 @@ export default function Navbar() {
           <span>{t('tool_flowchart')}</span>
         </button>
 
-        <button
-          onClick={() => handleToolClick('pdca')}
-          className={clsx(
-            "flex w-full items-center gap-3 rounded-xl px-3 py-1.5 text-sm font-semibold transition-colors",
-            activeTool === 'pdca' ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400" : "text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800"
-          )}
-        >
-          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600 dark:bg-emerald-900/50 dark:text-emerald-400">
-             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 21v-5h5"/></svg>
-          </div>
-          <span>{t('tool_pdca')}</span>
-        </button>
 
-
-        {/* Kategori 5 */}
+        {/* Kategori 5: Günlük Verimlilik ve Belgeleme */}
         <div className="mt-4 mb-1 px-3 shrink-0">
-          <h3 className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">{t('nav_cat_docs') || 'Belgelendirme'}</h3>
+          <h3 className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">{t('cat_productivity_docs')}</h3>
         </div>
-
-        <button
-          onClick={() => handleToolClick('notepad')}
-          className={clsx(
-            "flex w-full items-center gap-3 rounded-xl px-3 py-1.5 text-sm font-semibold transition-colors",
-            activeTool === 'notepad' ? "bg-fuchsia-50 text-fuchsia-700 dark:bg-fuchsia-900/30 dark:text-fuchsia-400" : "text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800"
-          )}
-        >
-          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-fuchsia-100 text-fuchsia-600 dark:bg-fuchsia-900/50 dark:text-fuchsia-400">
-             <FileText size={14} />
-          </div>
-          <span>{t('notepad_title')}</span>
-        </button>
 
         <button
           onClick={() => handleToolClick('eod')}
@@ -278,6 +264,19 @@ export default function Navbar() {
              <ListTodo size={14} />
           </div>
           <span>{t('tool_eod')}</span>
+        </button>
+
+        <button
+          onClick={() => handleToolClick('notepad')}
+          className={clsx(
+            "flex w-full items-center gap-3 rounded-xl px-3 py-1.5 text-sm font-semibold transition-colors",
+            activeTool === 'notepad' ? "bg-fuchsia-50 text-fuchsia-700 dark:bg-fuchsia-900/30 dark:text-fuchsia-400" : "text-slate-600 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-800"
+          )}
+        >
+          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-fuchsia-100 text-fuchsia-600 dark:bg-fuchsia-900/50 dark:text-fuchsia-400">
+             <FileText size={14} />
+          </div>
+          <span>{t('notepad_title')}</span>
         </button>
 
       </div>
