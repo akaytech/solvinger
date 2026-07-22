@@ -14,9 +14,10 @@ export default function AuthModal() {
   const [error, setError] = useState('');
   const [legalType, setLegalType] = useState<'privacy' | 'terms' | null>(null);
   
-  const {  login, fetchProjects  } = useRoadmapStore(useShallow((state) => ({
+  const {  login, fetchProjects, setAuthModalOpen  } = useRoadmapStore(useShallow((state) => ({
       login: state.login,
-      fetchProjects: state.fetchProjects
+      fetchProjects: state.fetchProjects,
+      setAuthModalOpen: state.setAuthModalOpen
     })));
 
   const handleSuccess = async (user: any) => {
@@ -54,7 +55,15 @@ export default function AuthModal() {
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/50 backdrop-blur-md p-4 md:p-8">
-      <div className="flex w-full max-w-6xl overflow-hidden rounded-3xl bg-white dark:bg-slate-900 shadow-2xl flex-col md:flex-row h-auto md:h-[600px]">
+      <div className="relative flex w-full max-w-6xl overflow-hidden rounded-3xl bg-white dark:bg-slate-900 shadow-2xl flex-col md:flex-row h-auto md:h-[600px]">
+        
+        {/* Close Button */}
+        <button 
+          onClick={() => setAuthModalOpen(false)}
+          className="absolute top-4 right-4 z-10 rounded-full p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-300 transition-colors"
+        >
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
         
         {/* Left Side (2/3) - Promotional Content */}
         <div className="hidden md:flex flex-col justify-between w-2/3 bg-slate-50 dark:bg-slate-800 p-12 border-r border-slate-200 dark:border-slate-700">

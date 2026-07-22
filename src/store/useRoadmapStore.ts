@@ -98,8 +98,10 @@ export interface RoadmapState extends EodSlice, NotepadSlice, FiveWhysSlice, Swo
   projectUnsubscribe: (() => void) | null;
   // Auth
   user: { uid: string; email: string; name: string; photoURL?: string } | null;
+  isAuthModalOpen: boolean;
   login: (uid: string, email: string, name: string, photoURL?: string) => void;
   logout: () => void;
+  setAuthModalOpen: (isOpen: boolean) => void;
 
   // UI State
   activeTool: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta' | 'decision' | 'flowchart' | 'pareto' | 'histogram' | 'notepad' | 'eod' | null;
@@ -145,16 +147,18 @@ export const useRoadmapStore = create<RoadmapState>()(
         projectUnsubscribe: null,
 
         user: null,
+        isAuthModalOpen: false,
         login: (uid, email, name, photoURL) => {
-          set({ user: { uid, email, name, photoURL } });
+          set({ user: { uid, email, name, photoURL }, isAuthModalOpen: false });
           logAppEvent('login');
         },
         logout: () => {
           const sub = get().projectUnsubscribe;
           if (sub) sub();
-          set({ user: null, projects: [], currentProjectId: null, nodes: [], edges: [], fiveWhysNodes: [], fiveWhysEdges: [], swot: [], ishikawa: [], pdca: [], waterfall: [], pareto: [], histogram: [], eod: [],
-            decision: [], flowchartNodes: [], flowchartEdges: [], ftaNodes: [], ftaEdges: [], activeTool: null, projectUnsubscribe: null });
+          set({ user: null, projects: [], currentProjectId: null, activeTool: null, isAuthModalOpen: false, nodes: [], edges: [], fiveWhysNodes: [], fiveWhysEdges: [], swot: [], ishikawa: [], pdca: [], waterfall: [], pareto: [], histogram: [], eod: [],
+            decision: [], flowchartNodes: [], flowchartEdges: [], ftaNodes: [], ftaEdges: [], projectUnsubscribe: null });
         },
+        setAuthModalOpen: (isOpen) => set({ isAuthModalOpen: isOpen }),
 
       activeTool: null,
       setActiveTool: (tool) => {

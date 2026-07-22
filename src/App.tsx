@@ -2,6 +2,7 @@ import React, { useEffect, Suspense } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import AuthModal from './components/AuthModal';
+import LandingPage from './components/LandingPage';
 import TopRightUserMenu from './components/TopRightUserMenu';
 import TopRightProjectsMenu from './components/TopRightProjectsMenu';
 import { useRoadmapStore } from './store/useRoadmapStore';
@@ -9,8 +10,9 @@ import { useShallow } from 'zustand/react/shallow';
 const Workspace = React.lazy(() => import('./components/Workspace'));
 
 function App() {
-  const { user, fetchProjects, currentProjectId, loadProject, activeTool, setActiveTool, projects, joinSharedProject } = useRoadmapStore(useShallow((state) => ({
+  const { user, isAuthModalOpen, fetchProjects, currentProjectId, loadProject, activeTool, setActiveTool, projects, joinSharedProject } = useRoadmapStore(useShallow((state) => ({
     user: state.user,
+    isAuthModalOpen: state.isAuthModalOpen,
     fetchProjects: state.fetchProjects,
     currentProjectId: state.currentProjectId,
     loadProject: state.loadProject,
@@ -79,7 +81,8 @@ function App() {
 
   return (
     <div className="flex h-screen w-screen overflow-hidden bg-slate-50 dark:bg-slate-900 font-sans text-slate-800 dark:text-slate-100 transition-colors">
-      {!user && <AuthModal />}
+      {!user && <LandingPage />}
+      {isAuthModalOpen && <AuthModal />}
       
       {user && (
         <>
