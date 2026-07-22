@@ -468,6 +468,7 @@ export const useRoadmapStore = create<RoadmapState>()(
             if (toolName === 'wbs') {
               nextP.nodes = [];
               nextP.edges = [];
+            } else if (toolName === '5whys') {
               nextP.fiveWhysNodes = [{ id: "root", type: "fiveWhysNode", position: { x: 0, y: 0 }, data: { label: i18n.t('whys_problem'), type: "problem", depth: 0 } }];
               nextP.fiveWhysEdges = [];
             } else if (toolName === 'flowchart') {
