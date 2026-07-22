@@ -48,7 +48,7 @@ export default function IshikawaCanvas() {
 
   return (
     <div className="flex h-full w-full flex-col bg-slate-50 dark:bg-slate-900 transition-colors overflow-hidden">
-      <ToolHeader title={t('ishi_title')} subtitle={t('ishi_subtitle')} icon={<Fish />} iconColor="text-cyan-500" />
+      <ToolHeader title={t('ishi_title')} subtitle={t('ishi_subtitle')} icon={<Fish />} iconColor="text-cyan-500" dividerOnTop={true} />
 
       <div className="flex-1 overflow-auto p-6 md:p-8 space-y-12">
         {/* Create Form */}

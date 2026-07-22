@@ -50,7 +50,7 @@ export default function WaterfallCanvas() {
 
   return (
     <div className="flex h-full w-full flex-col bg-slate-50 dark:bg-slate-900 transition-colors overflow-hidden">
-      <ToolHeader title={t('wf_title')} subtitle={t('wf_subtitle')} icon={<Layers />} iconColor="text-blue-500" />
+      <ToolHeader title={t('wf_title')} subtitle={t('wf_subtitle')} icon={<Layers />} iconColor="text-blue-500" dividerOnTop={true} />
 
       <div className="flex-1 overflow-auto p-6 md:p-8 space-y-12">
         <div className="mx-auto max-w-4xl">
