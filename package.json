@@ -1,13 +1,14 @@
 {
   "name": "solvinger",
   "private": true,
-  "version": "0.7.3-8",
+  "version": "0.7.3-9",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "export-code": "node scripts/export_code.cjs"
   },
   "dependencies": {
     "@sentry/react": "^10.67.0",
