@@ -1,4 +1,4 @@
-import React, { useEffect, Suspense } from 'react';
+import React, { useEffect, Suspense, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import TopRightUserMenu from './components/TopRightUserMenu';
@@ -42,43 +42,68 @@ export default function AuthenticatedApp() {
     }
   }, [user, user?.uid, fetchProjects, currentProjectId, location.pathname]);
 
-  // URL -> State (Back button, manual URL entry)
-  useEffect(() => {
-    if (!user || !projectsLoaded) return;
-    const path = location.pathname;
-    if (path === '/') {
-      if (activeTool !== null) setActiveTool(null);
-    } else if (path.startsWith('/project/')) {
-      const parts = path.split('/');
-      const pId = parts[2];
-      const tId = parts[3];
-      if (pId && pId !== currentProjectId) {
-         const exists = projects.find(p => p.id === pId);
-         if (exists) {
-           loadProject(pId);
-         } else {
-           joinSharedProject(pId);
-         }
-      }
-      if (tId && tId !== activeTool) {
-         setActiveTool(tId as any);
-      }
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname, user, currentProjectId, projects, loadProject, joinSharedProject, projectsLoaded]);
+  const isFirstSyncRef = useRef(true);
+  const lastPathnameRef = useRef(location.pathname);
 
-  // State -> URL (Clicking buttons in the app)
+  // Unified URL <-> State Synchronization
   useEffect(() => {
     if (!user || !projectsLoaded) return;
+    
     const path = location.pathname;
-    if (!activeTool) {
-      if (path !== '/') navigate('/');
-    } else if (currentProjectId && activeTool) {
-      const newPath = `/project/${currentProjectId}/${activeTool}`;
-      if (path !== newPath) navigate(newPath);
+    const urlChanged = path !== lastPathnameRef.current;
+    lastPathnameRef.current = path;
+
+    let isUrlSyncRunning = false;
+
+    // 1. URL -> State (Priority 1: Sync state from URL if URL changed or initial load)
+    if (urlChanged || isFirstSyncRef.current) {
+      if (path === '/') {
+        if (activeTool !== null) {
+          setActiveTool(null);
+          isUrlSyncRunning = true;
+        }
+      } else if (path.startsWith('/project/')) {
+        const parts = path.split('/');
+        const pId = parts[2];
+        const tId = parts[3];
+        
+        let needsStateUpdate = false;
+        if (pId && pId !== currentProjectId) {
+           const exists = projects.find(p => p.id === pId);
+           if (exists) {
+             loadProject(pId);
+           } else {
+             joinSharedProject(pId);
+           }
+           needsStateUpdate = true;
+        }
+        if (tId && tId !== activeTool) {
+           setActiveTool(tId as any);
+           needsStateUpdate = true;
+        }
+        
+        if (needsStateUpdate) {
+           isUrlSyncRunning = true;
+        }
+      }
+    }
+
+    if (isFirstSyncRef.current) {
+      isFirstSyncRef.current = false;
+    }
+
+    // 2. State -> URL (Priority 2: Sync URL from state if state changed via UI interaction)
+    // We only execute this if we didn't just trigger a state update to match the URL.
+    if (!isUrlSyncRunning) {
+      if (!activeTool) {
+        if (path !== '/') navigate('/');
+      } else if (currentProjectId && activeTool) {
+        const newPath = `/project/${currentProjectId}/${activeTool}`;
+        if (path !== newPath) navigate(newPath);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentProjectId, activeTool, user, projectsLoaded]);
+  }, [location.pathname, user, currentProjectId, activeTool, projects, loadProject, joinSharedProject, projectsLoaded, navigate, setActiveTool]);
 
   return (
     <>
