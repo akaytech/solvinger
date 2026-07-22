@@ -249,5 +249,13 @@
   "pareto_empty": "Ajoutez d'abord des catégories et des fréquences.",
   "default_pareto_title": "Nouvelle Analyse de Pareto",
   "pareto_add_analysis": "Ajouter Nouvelle Analyse de Pareto",
-  "pareto_delete_analysis": "Êtes-vous sûr de vouloir supprimer cette analyse de Pareto?"
+  "pareto_delete_analysis": "Êtes-vous sûr de vouloir supprimer cette analyse de Pareto?",
+  "landing_explore_tools": "Découvrir les outils",
+  "landing_tools_heading": "Des outils d'analyse complets",
+  "landing_tools_subtitle": "Que vous réalisiez une analyse des causes profondes ou une évaluation des risques, tous les outils de gestion modernes dont votre projet a besoin sont à portée de main sur une seule plateforme.",
+  "landing_use_now": "Utiliser maintenant",
+  "landing_cta_heading": "Commencez à vous améliorer en continu dès aujourd'hui.",
+  "landing_cta_subtitle": "Résoudre des problèmes et prendre des décisions stratégiques n'a jamais été aussi simple. Essayez gratuitement avec votre équipe.",
+  "landing_cta_button": "Créer un compte gratuit",
+  "landing_rights_reserved": "Tous droits réservés."
 }

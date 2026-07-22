@@ -82,7 +82,7 @@ export default function LandingPage() {
               }}
               className="flex items-center gap-2 rounded-full border-2 border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-800/50 backdrop-blur-md px-8 py-4 text-lg font-bold text-slate-700 dark:text-slate-300 transition-all hover:bg-slate-50 dark:hover:bg-slate-800 w-full sm:w-auto justify-center"
             >
-              Araçları Keşfet
+              {t('landing_explore_tools')}
             </button>
           </div>
         </div>
@@ -92,9 +92,9 @@ export default function LandingPage() {
       <section id="tools" className="py-24 bg-white dark:bg-slate-950 relative border-t border-slate-100 dark:border-slate-900">
         <div className="container mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto mb-20">
-            <h2 className="text-3xl md:text-5xl font-black mb-6 tracking-tight">Kapsamlı Analiz Araçları</h2>
+            <h2 className="text-3xl md:text-5xl font-black mb-6 tracking-tight">{t('landing_tools_heading')}</h2>
             <p className="text-lg text-slate-500 dark:text-slate-400 leading-relaxed">
-              İster kök neden analizi yapın, ister risk değerlendirmesi... Projenizin ihtiyacı olan tüm modern yönetim araçları tek bir platformda elinizin altında.
+              {t('landing_tools_subtitle')}
             </p>
           </div>
 
@@ -116,7 +116,7 @@ export default function LandingPage() {
                     onClick={() => setAuthModalOpen(true)}
                     className="flex items-center gap-2 text-sm font-bold text-indigo-600 dark:text-indigo-400 group-hover:text-indigo-700 dark:group-hover:text-indigo-300"
                   >
-                    Hemen Kullan <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+                    {t('landing_use_now')} <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
                   </button>
                 </div>
               </div>
@@ -130,15 +130,15 @@ export default function LandingPage() {
         <div className="absolute inset-0 bg-indigo-600 dark:bg-indigo-900"></div>
         <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
         <div className="container mx-auto px-6 relative z-10 text-center">
-          <h2 className="text-4xl md:text-6xl font-black text-white mb-8 tracking-tight">Sürekli gelişmeye<br/>bugün başlayın.</h2>
+          <h2 className="text-4xl md:text-6xl font-black text-white mb-8 tracking-tight">{t('landing_cta_heading')}</h2>
           <p className="text-xl text-indigo-100 max-w-2xl mx-auto mb-12">
-            Sorunları çözmek ve stratejik kararlar almak hiç bu kadar kolay olmamıştı. Ekibinizle birlikte ücretsiz deneyin.
+            {t('landing_cta_subtitle')}
           </p>
           <button
             onClick={() => setAuthModalOpen(true)}
             className="rounded-full bg-white px-10 py-5 text-xl font-black text-indigo-600 shadow-2xl transition-transform hover:scale-105 active:scale-95"
           >
-            Ücretsiz Hesap Oluştur
+            {t('landing_cta_button')}
           </button>
         </div>
       </section>
@@ -151,7 +151,7 @@ export default function LandingPage() {
             <span className="text-lg font-bold text-slate-400">Solvinger</span>
           </div>
           <div className="text-sm text-slate-500 dark:text-slate-400">
-            &copy; {new Date().getFullYear()} Solvinger. Tüm hakları saklıdır.
+            &copy; {new Date().getFullYear()} Solvinger. {t('landing_rights_reserved')}
           </div>
         </div>
       </footer>

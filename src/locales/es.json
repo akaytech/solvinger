@@ -249,5 +249,13 @@
   "pareto_empty": "Añada categorías y frecuencias primero para generar el diagrama.",
   "default_pareto_title": "Nuevo Análisis de Pareto",
   "pareto_add_analysis": "Añadir Nuevo Análisis de Pareto",
-  "pareto_delete_analysis": "¿Estás seguro de que quieres eliminar este análisis de Pareto?"
+  "pareto_delete_analysis": "¿Estás seguro de que quieres eliminar este análisis de Pareto?",
+  "landing_explore_tools": "Explorar herramientas",
+  "landing_tools_heading": "Herramientas de análisis completas",
+  "landing_tools_subtitle": "Ya sea que realices un análisis de causa raíz o una evaluación de riesgos, todas las herramientas de gestión modernas que tu proyecto necesita están a tu alcance en una sola plataforma.",
+  "landing_use_now": "Usar ahora",
+  "landing_cta_heading": "Empieza a mejorar continuamente hoy mismo.",
+  "landing_cta_subtitle": "Resolver problemas y tomar decisiones estratégicas nunca ha sido tan fácil. Pruébalo gratis con tu equipo.",
+  "landing_cta_button": "Crear cuenta gratis",
+  "landing_rights_reserved": "Todos los derechos reservados."
 }

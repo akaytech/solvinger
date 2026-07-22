@@ -249,5 +249,13 @@
   "eod_high": "Alta",
   "eod_medium": "Média",
   "eod_low": "Baixa",
-  "eod_max_limit": "De acordo com o método Ivy Lee, você deve focar em no máximo 6 metas por dia."
+  "eod_max_limit": "De acordo com o método Ivy Lee, você deve focar em no máximo 6 metas por dia.",
+  "landing_explore_tools": "Explorar ferramentas",
+  "landing_tools_heading": "Ferramentas de análise completas",
+  "landing_tools_subtitle": "Seja para uma análise de causa raiz ou uma avaliação de riscos, todas as ferramentas de gestão modernas que o seu projeto precisa estão ao seu alcance em uma única plataforma.",
+  "landing_use_now": "Usar agora",
+  "landing_cta_heading": "Comece a melhorar continuamente hoje mesmo.",
+  "landing_cta_subtitle": "Resolver problemas e tomar decisões estratégicas nunca foi tão fácil. Experimente gratuitamente com a sua equipe.",
+  "landing_cta_button": "Criar conta gratuita",
+  "landing_rights_reserved": "Todos os direitos reservados."
 }

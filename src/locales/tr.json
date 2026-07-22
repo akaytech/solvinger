@@ -249,5 +249,13 @@
   "pareto_empty": "Grafik oluşturmak için önce kategori ve frekans ekleyin.",
   "default_pareto_title": "Yeni Pareto Analizi",
   "pareto_add_analysis": "Yeni Pareto Analizi Ekle",
-  "pareto_delete_analysis": "Bu Pareto analizini silmek istediğinize emin misiniz?"
+  "pareto_delete_analysis": "Bu Pareto analizini silmek istediğinize emin misiniz?",
+  "landing_explore_tools": "Araçları Keşfet",
+  "landing_tools_heading": "Kapsamlı Analiz Araçları",
+  "landing_tools_subtitle": "İster kök neden analizi yapın, ister risk değerlendirmesi... Projenizin ihtiyacı olan tüm modern yönetim araçları tek bir platformda elinizin altında.",
+  "landing_use_now": "Hemen Kullan",
+  "landing_cta_heading": "Sürekli gelişmeye bugün başlayın.",
+  "landing_cta_subtitle": "Sorunları çözmek ve stratejik kararlar almak hiç bu kadar kolay olmamıştı. Ekibinizle birlikte ücretsiz deneyin.",
+  "landing_cta_button": "Ücretsiz Hesap Oluştur",
+  "landing_rights_reserved": "Tüm hakları saklıdır."
 }

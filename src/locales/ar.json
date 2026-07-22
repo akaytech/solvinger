@@ -249,5 +249,13 @@
   "notepad_type_title": "عنوان الملاحظة...",
   "notepad_type_content": "ابدأ الكتابة هنا...",
   "notepad_no_notes": "لم يتم إنشاء أي ملاحظات بعد. أضف ملاحظة جديدة من أعلى اليسار.",
-  "notepad_delete_note": "حذف الملاحظة"
+  "notepad_delete_note": "حذف الملاحظة",
+  "landing_explore_tools": "استكشف الأدوات",
+  "landing_tools_heading": "أدوات تحليل شاملة",
+  "landing_tools_subtitle": "سواء كنت تُجري تحليلاً للسبب الجذري أو تقييماً للمخاطر، فإن جميع أدوات الإدارة الحديثة التي يحتاجها مشروعك في متناول يدك على منصة واحدة.",
+  "landing_use_now": "استخدم الآن",
+  "landing_cta_heading": "ابدأ التحسين المستمر اليوم.",
+  "landing_cta_subtitle": "لم يكن حل المشكلات واتخاذ القرارات الاستراتيجية أسهل من أي وقت مضى. جرّبه مجاناً مع فريقك.",
+  "landing_cta_button": "أنشئ حساباً مجانياً",
+  "landing_rights_reserved": "جميع الحقوق محفوظة."
 }

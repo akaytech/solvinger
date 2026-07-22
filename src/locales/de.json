@@ -249,5 +249,13 @@
   "pareto_empty": "Fügen Sie zuerst Kategorien und Häufigkeiten hinzu.",
   "default_pareto_title": "Neue Pareto-Analyse",
   "pareto_add_analysis": "Neue Pareto-Analyse",
-  "pareto_delete_analysis": "Möchten Sie diese Analyse wirklich löschen?"
+  "pareto_delete_analysis": "Möchten Sie diese Analyse wirklich löschen?",
+  "landing_explore_tools": "Werkzeuge entdecken",
+  "landing_tools_heading": "Umfassende Analysewerkzeuge",
+  "landing_tools_subtitle": "Ob Ursachenanalyse oder Risikobewertung – alle modernen Management-Werkzeuge, die Ihr Projekt benötigt, sind auf einer einzigen Plattform griffbereit.",
+  "landing_use_now": "Jetzt nutzen",
+  "landing_cta_heading": "Beginnen Sie noch heute mit kontinuierlicher Verbesserung.",
+  "landing_cta_subtitle": "Probleme zu lösen und strategische Entscheidungen zu treffen war noch nie so einfach. Testen Sie es kostenlos mit Ihrem Team.",
+  "landing_cta_button": "Kostenloses Konto erstellen",
+  "landing_rights_reserved": "Alle Rechte vorbehalten."
 }

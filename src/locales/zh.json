@@ -249,5 +249,13 @@
   "eod_high": "高",
   "eod_medium": "中",
   "eod_low": "低",
-  "eod_max_limit": "根据艾维·李方法，您每天最多应专注于 6 个目标。"
+  "eod_max_limit": "根据艾维·李方法，您每天最多应专注于 6 个目标。",
+  "landing_explore_tools": "探索工具",
+  "landing_tools_heading": "全面的分析工具",
+  "landing_tools_subtitle": "无论是进行根本原因分析还是风险评估，您的项目所需的所有现代管理工具都尽在单一平台，触手可及。",
+  "landing_use_now": "立即使用",
+  "landing_cta_heading": "从今天开始持续改进。",
+  "landing_cta_subtitle": "解决问题和制定战略决策从未如此简单。与您的团队一起免费试用。",
+  "landing_cta_button": "创建免费账户",
+  "landing_rights_reserved": "保留所有权利。"
 }

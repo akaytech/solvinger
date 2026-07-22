@@ -249,5 +249,13 @@
   "eod_high": "高",
   "eod_medium": "中",
   "eod_low": "低",
-  "eod_max_limit": "アイビー・リー・メソッドによれば、1日に集中すべき目標は最大6つです。"
+  "eod_max_limit": "アイビー・リー・メソッドによれば、1日に集中すべき目標は最大6つです。",
+  "landing_explore_tools": "ツールを見る",
+  "landing_tools_heading": "包括的な分析ツール",
+  "landing_tools_subtitle": "根本原因分析でもリスク評価でも、プロジェクトに必要なあらゆる最新のマネジメントツールが、単一のプラットフォームで手に入ります。",
+  "landing_use_now": "今すぐ使う",
+  "landing_cta_heading": "継続的な改善を今日から始めましょう。",
+  "landing_cta_subtitle": "問題解決と戦略的な意思決定が、かつてないほど簡単に。チームで無料でお試しください。",
+  "landing_cta_button": "無料アカウントを作成",
+  "landing_rights_reserved": "無断転載を禁じます。"
 }

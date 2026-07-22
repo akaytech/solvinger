@@ -249,5 +249,13 @@
   "pareto_empty": "Add categories and frequencies first to generate the chart.",
   "default_pareto_title": "New Pareto Analysis",
   "pareto_add_analysis": "Add New Pareto Analysis",
-  "pareto_delete_analysis": "Are you sure you want to delete this Pareto analysis?"
+  "pareto_delete_analysis": "Are you sure you want to delete this Pareto analysis?",
+  "landing_explore_tools": "Explore Tools",
+  "landing_tools_heading": "Comprehensive Analysis Tools",
+  "landing_tools_subtitle": "Whether you're doing root cause analysis or risk assessment, all the modern management tools your project needs are at your fingertips on a single platform.",
+  "landing_use_now": "Use Now",
+  "landing_cta_heading": "Start improving continuously today.",
+  "landing_cta_subtitle": "Solving problems and making strategic decisions has never been easier. Try it free with your team.",
+  "landing_cta_button": "Create Free Account",
+  "landing_rights_reserved": "All rights reserved."
 }
