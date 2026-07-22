@@ -213,9 +213,10 @@ export const useRoadmapStore = create<RoadmapState>()(
           };
 
           const parseDoc = (doc: any) => {
+            try {
               const data = doc.data() as Project;
               let safeSwot = data.swot || [];
-              if (safeSwot.length > 0 && 'type' in safeSwot[0]) {
+              if (safeSwot.length > 0 && typeof safeSwot[0] === 'object' && safeSwot[0] !== null && 'type' in safeSwot[0]) {
                 safeSwot = [{
                   id: 'migrated-swot',
                   title: i18n.t('default_swot_title'),
@@ -227,12 +228,16 @@ export const useRoadmapStore = create<RoadmapState>()(
               safeWaterfall = safeWaterfall.map((proj: any) => ({
                 ...proj,
                 currentPhaseIndex: proj.currentPhaseIndex ?? 0,
-                items: proj.items.map((item: any) => ({
+                items: Array.isArray(proj.items) ? proj.items.map((item: any) => ({
                   ...item,
                   phase: (item.phase as string) === 'Design' ? 'High-Level Design' : item.phase
-                }))
+                })) : []
               }));
               return { ...data, id: doc.id, swot: safeSwot, waterfall: safeWaterfall };
+            } catch (error) {
+              console.error("Parse doc error for project ID", doc.id, error);
+              return { id: doc.id, name: 'Hatalı Proje Verisi', userId: 'error', updatedAt: 0, nodes: [], edges: [], swot: [], ishikawa: [], pdca: [], waterfall: [] } as unknown as Project;
+            }
           };
 
           const qMy = query(collection(db, 'projects'), where('userId', '==', userId));
