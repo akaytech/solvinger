@@ -1,13 +1,11 @@
 import { useTranslation } from 'react-i18next';
-import { useRoadmapStore } from '../store/useRoadmapStore';
+import { useAuthStore } from '../store/useAuthStore';
 import { useShallow } from 'zustand/react/shallow';
 import { Network, Activity, Target, Fish, RefreshCcw, Layers, AlertOctagon, Scale, GitMerge, BarChart2, BarChart, ListTodo, ArrowRight } from 'lucide-react';
 
 export default function LandingPage() {
   const { t } = useTranslation();
-  const { setAuthModalOpen } = useRoadmapStore(useShallow((state) => ({
-    setAuthModalOpen: state.setAuthModalOpen,
-  })));
+  const setAuthModalOpen = useAuthStore(useShallow((state) => state.setAuthModalOpen));
 
   const tools = [
     { id: 'wbs', icon: Network, title: t('tool_wbs'), desc: t('wbs_desc'), color: 'text-indigo-500', bg: 'bg-indigo-100 dark:bg-indigo-900/50' },

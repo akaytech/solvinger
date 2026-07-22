@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { useRoadmapStore } from '../store/useRoadmapStore';
+import { useAuthStore } from '../store/useAuthStore';
 import { useShallow } from 'zustand/react/shallow';
-import { auth } from '../firebase';
+import { auth } from '../firebaseCore';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { useTranslation } from 'react-i18next';
 import LegalModal from './LegalModal';
@@ -14,15 +14,13 @@ export default function AuthModal() {
   const [error, setError] = useState('');
   const [legalType, setLegalType] = useState<'privacy' | 'terms' | null>(null);
   
-  const {  login, fetchProjects, setAuthModalOpen  } = useRoadmapStore(useShallow((state) => ({
+  const { login, setAuthModalOpen } = useAuthStore(useShallow((state) => ({
       login: state.login,
-      fetchProjects: state.fetchProjects,
       setAuthModalOpen: state.setAuthModalOpen
     })));
 
   const handleSuccess = async (user: any) => {
     login(user.uid, user.email || '', user.displayName || t('default_user'), user.photoURL);
-    fetchProjects(user.uid);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {

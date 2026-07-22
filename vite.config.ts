@@ -32,17 +32,5 @@ export default defineConfig({
       }
     })
   ],
-  base: '/solvinger/',
-  build: {
-    rollupOptions: {
-      output: {
-        manualChunks(id) {
-          if (id.includes('node_modules/firebase')) return 'firebase';
-          if (id.includes('node_modules/@xyflow') || id.includes('node_modules/dagre')) return 'xyflow';
-          if (id.includes('node_modules/@sentry')) return 'sentry';
-          if (id.includes('node_modules/i18next') || id.includes('node_modules/react-i18next')) return 'i18n';
-        }
-      }
-    }
-  }
+  base: '/solvinger/'
 })

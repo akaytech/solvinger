@@ -8,6 +8,7 @@ import {
 import type { NodeChange, EdgeChange, Connection, Edge, Node } from '@xyflow/react';
 import { setDoc, doc } from 'firebase/firestore';
 import { db } from '../../firebase';
+import { useAuthStore } from '../useAuthStore';
 import dagre from 'dagre';
 import type { RoadmapState } from '../useRoadmapStore';
 
@@ -97,14 +98,14 @@ export const createFtaSlice: StateCreator<
   onFtaNodesChange: (changes) => {
     set({ ftaNodes: applyNodeChanges(changes, get().ftaNodes) as FtaNode[] });
     const state = get();
-    if (state.currentProjectId && state.user) {
+    if (state.currentProjectId && useAuthStore.getState().user) {
       setDoc(doc(db, 'projects', state.currentProjectId), { ftaNodes: state.ftaNodes, updatedAt: Date.now() }, { merge: true }).catch(console.error);
     }
   },
   onFtaEdgesChange: (changes) => {
     set({ ftaEdges: applyEdgeChanges(changes, get().ftaEdges) as Edge[] });
     const state = get();
-    if (state.currentProjectId && state.user) {
+    if (state.currentProjectId && useAuthStore.getState().user) {
       setDoc(doc(db, 'projects', state.currentProjectId), { ftaEdges: state.ftaEdges, updatedAt: Date.now() }, { merge: true }).catch(console.error);
     }
   },
@@ -112,7 +113,7 @@ export const createFtaSlice: StateCreator<
     const newEdges = addEdge(connection, get().ftaEdges);
     set({ ftaEdges: newEdges });
     const state = get();
-    if (state.currentProjectId && state.user) {
+    if (state.currentProjectId && useAuthStore.getState().user) {
       setDoc(doc(db, 'projects', state.currentProjectId), { ftaEdges: newEdges, updatedAt: Date.now() }, { merge: true }).catch(console.error);
     }
   },
@@ -137,7 +138,7 @@ export const createFtaSlice: StateCreator<
     const { nodes: layoutedNodes, edges: layoutedEdges } = getFtaLayoutedElements(newNodes, newEdges);
     set({ ftaNodes: layoutedNodes, ftaEdges: layoutedEdges });
     
-    if (state.currentProjectId && state.user) {
+    if (state.currentProjectId && useAuthStore.getState().user) {
        setDoc(doc(db, 'projects', state.currentProjectId), { ftaNodes: layoutedNodes, ftaEdges: layoutedEdges, updatedAt: Date.now() }, { merge: true }).catch(console.error);
     }
   },
@@ -145,7 +146,7 @@ export const createFtaSlice: StateCreator<
     const state = get();
     const newNodes = state.ftaNodes.map(n => n.id === id ? { ...n, data: { ...n.data, ...data } } : n);
     set({ ftaNodes: newNodes });
-    if (state.currentProjectId && state.user) {
+    if (state.currentProjectId && useAuthStore.getState().user) {
        setDoc(doc(db, 'projects', state.currentProjectId), { ftaNodes: newNodes, updatedAt: Date.now() }, { merge: true }).catch(console.error);
     }
   },
@@ -158,7 +159,7 @@ export const createFtaSlice: StateCreator<
     const newEdges = state.ftaEdges.filter(e => !toDelete.has(e.source) && !toDelete.has(e.target));
     const { nodes: layoutedNodes, edges: layoutedEdges } = getFtaLayoutedElements(newNodes, newEdges);
     set({ ftaNodes: layoutedNodes, ftaEdges: layoutedEdges });
-    if (state.currentProjectId && state.user) {
+    if (state.currentProjectId && useAuthStore.getState().user) {
        setDoc(doc(db, 'projects', state.currentProjectId), { ftaNodes: layoutedNodes, ftaEdges: layoutedEdges, updatedAt: Date.now() }, { merge: true }).catch(console.error);
     }
   },

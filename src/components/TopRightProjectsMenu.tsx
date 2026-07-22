@@ -321,11 +321,10 @@ export default function TopRightProjectsMenu() {
   const [confirmState, setConfirmState] = useState<{isOpen: boolean, title: string, message: string, onConfirm: () => void}>({ isOpen: false, title: '', message: '', onConfirm: () => {} });
   const requestDelete = (title: string, message: string, onConfirm: () => void) => { setConfirmState({ isOpen: true, title, message, onConfirm }); };
   const { t } = useTranslation();
-  const {  projects, currentProjectId, createProject, user  } = useRoadmapStore(useShallow((state) => ({
+  const {  projects, currentProjectId, createProject  } = useRoadmapStore(useShallow((state) => ({
       projects: state.projects,
       currentProjectId: state.currentProjectId,
-      createProject: state.createProject,
-      user: state.user
+      createProject: state.createProject
     })));
   const [isOpen, setIsOpen] = useState(false);
   const [newProjectName, setNewProjectName] = useState('');
@@ -348,7 +347,6 @@ export default function TopRightProjectsMenu() {
     };
   }, []);
 
-  if (!user) return null;
 
   return (
     <div 

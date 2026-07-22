@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { doc, setDoc, deleteDoc, collection, query, where, onSnapshot, or, arrayUnion, arrayRemove, getDoc, updateDoc } from 'firebase/firestore';
 import { db, logAppEvent } from '../firebase';
 import i18n from '../i18n';
+import { useAuthStore } from './useAuthStore';
 
 export let isRemoteUpdate = false;
 
@@ -96,12 +97,8 @@ export interface Project {
 
 export interface RoadmapState extends EodSlice, NotepadSlice, FiveWhysSlice, SwotSlice, IshikawaSlice, PdcaSlice, WaterfallSlice, FtaSlice, FlowchartSlice, ParetoSlice, HistogramSlice, DecisionSlice, WbsSlice {
   projectUnsubscribe: (() => void) | null;
-  // Auth
-  user: { uid: string; email: string; name: string; photoURL?: string } | null;
-  isAuthModalOpen: boolean;
-  login: (uid: string, email: string, name: string, photoURL?: string) => void;
-  logout: () => void;
-  setAuthModalOpen: (isOpen: boolean) => void;
+  // Removed Auth state, moved to useAuthStore
+  resetState: () => void;
 
   // UI State
   activeTool: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta' | 'decision' | 'flowchart' | 'pareto' | 'histogram' | 'notepad' | 'eod' | null;
@@ -145,21 +142,14 @@ export const useRoadmapStore = create<RoadmapState>()(
         },
 
         projectUnsubscribe: null,
-
-        user: null,
-        isAuthModalOpen: false,
-        login: (uid, email, name, photoURL) => {
-          set({ user: { uid, email, name, photoURL }, isAuthModalOpen: false });
-          logAppEvent('login');
-        },
-        logout: () => {
+        resetState: () => {
           const sub = get().projectUnsubscribe;
           if (sub) sub();
-          set({ user: null, projects: [], currentProjectId: null, activeTool: null, isAuthModalOpen: false, nodes: [], edges: [], fiveWhysNodes: [], fiveWhysEdges: [], swot: [], ishikawa: [], pdca: [], waterfall: [], pareto: [], histogram: [], eod: [],
+          set({ projects: [], currentProjectId: null, activeTool: null, nodes: [], edges: [], fiveWhysNodes: [], fiveWhysEdges: [], swot: [], ishikawa: [], pdca: [], waterfall: [], pareto: [], histogram: [], eod: [],
             decision: [], flowchartNodes: [], flowchartEdges: [], ftaNodes: [], ftaEdges: [], projectUnsubscribe: null });
         },
-        setAuthModalOpen: (isOpen) => set({ isAuthModalOpen: isOpen }),
 
+        
       activeTool: null,
       setActiveTool: (tool) => {
         set({ activeTool: tool });
@@ -243,11 +233,11 @@ export const useRoadmapStore = create<RoadmapState>()(
         }
       },
 
-      createProject: (name, initialTool) => {
-        const state = get();
-        if (!state.user) return;
+      createProject: (name, initialTool = 'wbs') => {
+        const user = useAuthStore.getState().user;
+        if (!user) return;
 
-        const activeToolToUse = initialTool || state.activeTool;
+        const activeToolToUse = initialTool || get().activeTool;
         logAppEvent('project_created', { tool: activeToolToUse });
 
         const id = uuidv4();
@@ -272,7 +262,7 @@ export const useRoadmapStore = create<RoadmapState>()(
           ftaNodes: [{ id: "root", type: "ftaNode", position: { x: 0, y: 0 }, data: { label: i18n.t('fta_top_event'), type: "topEvent" } }],
           ftaEdges: [],
           updatedAt: Date.now(),
-          userId: state.user.uid,
+          userId: user.uid,
         };
 
         // Save immediately
@@ -344,8 +334,8 @@ export const useRoadmapStore = create<RoadmapState>()(
       },
 
       updateProjectName: (id, name) => {
-        const state = get();
-        if (state.user) {
+        const user = useAuthStore.getState().user;
+        if (user) {
            setDoc(doc(db, 'projects', id), { name, updatedAt: Date.now() }, { merge: true }).catch(console.error);
         }
         set((state) => ({
@@ -355,17 +345,19 @@ export const useRoadmapStore = create<RoadmapState>()(
         }));
       },
 
-      deleteProject: (id) => {
+      deleteProject: async (id) => {
+        const user = useAuthStore.getState().user;
+        if (!user) return;
+        
+        logAppEvent('project_deleted');
         const state = get();
-        if (state.user) {
-           logAppEvent('project_deleted');
-           const project = state.projects.find(p => p.id === id);
-           if (project && project.userId !== state.user.uid) {
-             updateDoc(doc(db, 'projects', id), { sharedWith: arrayRemove(state.user.uid) }).catch(e => alert("Silme Hatası (Ortak): " + e.message));
-           } else {
+        const project = state.projects.find(p => p.id === id);
+        if (project && project.userId !== user.uid) {
+             updateDoc(doc(db, 'projects', id), { sharedWith: arrayRemove(user.uid) }).catch(e => alert("Silme Hatası (Ortak): " + e.message));
+        } else {
              deleteDoc(doc(db, 'projects', id)).catch(e => alert("Silme Hatası (Sahip): " + e.message));
-           }
         }
+
         set((state) => {
           const newProjects = state.projects.filter((p) => p.id !== id);
           const isCurrent = state.currentProjectId === id;
@@ -403,15 +395,15 @@ export const useRoadmapStore = create<RoadmapState>()(
       },
 
       joinSharedProject: async (id) => {
-        const state = get();
-        if (!state.user) return false;
+        const user = useAuthStore.getState().user;
+        if (!user) return false;
         try {
           const docRef = doc(db, 'projects', id);
           const docSnap = await getDoc(docRef);
           if (docSnap.exists()) {
             const data = docSnap.data() as Project;
             if (data.isPublic) {
-              await updateDoc(docRef, { sharedWith: arrayUnion(state.user.uid) });
+              await updateDoc(docRef, { sharedWith: arrayUnion(user.uid) });
               return true;
             }
           }
@@ -442,7 +434,7 @@ export const useRoadmapStore = create<RoadmapState>()(
               (nextP as Record<string, unknown>)[toolName] = [];
             }
             nextP.updatedAt = Date.now();
-            if (state.user) {
+            if (useAuthStore.getState().user) {
               setDoc(doc(db, 'projects', p.id), nextP, { merge: true }).catch(console.error);
             }
             return nextP;
@@ -483,7 +475,6 @@ export const useRoadmapStore = create<RoadmapState>()(
     {
       name: 'roadmap-storage',
       partialize: (state) => ({
-        user: state.user,
         currentProjectId: state.currentProjectId,
         activeTool: state.activeTool,
       }),
@@ -542,7 +533,7 @@ let isSyncing = false;
 useRoadmapStore.subscribe((state, _prevState) => {
   if (isRemoteUpdate) return;
   if (isSyncing) return;
-  if (!state.currentProjectId || !state.user) return;
+  if (!state.currentProjectId || !useAuthStore.getState().user) return;
   
   const currentProj = state.projects.find(p => p.id === state.currentProjectId);
   if (!currentProj) return;

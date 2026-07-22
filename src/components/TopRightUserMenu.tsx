@@ -1,15 +1,20 @@
 import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRoadmapStore } from '../store/useRoadmapStore';
+import { useAuthStore } from '../store/useAuthStore';
 import { useShallow } from 'zustand/react/shallow';
 import { LogOut, Sun, Moon, User, Shield, FileText } from 'lucide-react';
 import LegalModal from './LegalModal';
 
 export default function TopRightUserMenu() {
   const { t, i18n } = useTranslation();
-  const {  user, logout  } = useRoadmapStore(useShallow((state) => ({
+  const { resetState } = useRoadmapStore(useShallow((state) => ({ resetState: state.resetState })));
+  const {  user, logout  } = useAuthStore(useShallow((state) => ({
       user: state.user,
-      logout: state.logout
+      logout: () => {
+         state.logout();
+         resetState();
+      }
     })));
   const [isOpen, setIsOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(() => document.documentElement.classList.contains('dark'));
