@@ -55,7 +55,7 @@ export default function WelcomeScreen() {
         <section className="mb-16">
           <div className="mb-6 flex items-center gap-3">
             <div className="h-8 w-1 rounded-full bg-indigo-500"></div>
-            <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100">Önerilen Başlangıç Araçları</h2>
+            <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100">{t('ws_cat_recommended') || 'Önerilen Başlangıç Araçları'}</h2>
           </div>
           <div className="grid gap-6 md:grid-cols-2">
             <ToolCard 
@@ -73,7 +73,7 @@ export default function WelcomeScreen() {
         <div className="space-y-12">
           
           <section>
-            <h3 className="mb-6 text-xl font-bold text-slate-700 dark:text-slate-300">Kök Neden ve Problem Analizi</h3>
+            <h3 className="mb-6 text-xl font-bold text-slate-700 dark:text-slate-300">{t('ws_cat_root_cause') || 'Kök Neden ve Problem Analizi'}</h3>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               <ToolCard id="ishikawa" icon={Fish} title={t('tool_ishikawa')} desc={t('ishi_desc')} color="text-cyan-500" bg="bg-cyan-100 dark:bg-cyan-900/40" />
               <ToolCard id="wbs" icon={Network} title={t('tool_wbs')} desc={t('wbs_desc')} color="text-indigo-500" bg="bg-indigo-100 dark:bg-indigo-900/40" />
@@ -82,7 +82,7 @@ export default function WelcomeScreen() {
           </section>
 
           <section>
-            <h3 className="mb-6 text-xl font-bold text-slate-700 dark:text-slate-300">Strateji ve Karar Verme</h3>
+            <h3 className="mb-6 text-xl font-bold text-slate-700 dark:text-slate-300">{t('ws_cat_strategy') || 'Strateji ve Karar Verme'}</h3>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               <ToolCard id="decision" icon={Scale} title={t('decision_title')} desc={t('decision_desc')} color="text-violet-500" bg="bg-violet-100 dark:bg-violet-900/40" />
               <ToolCard id="pareto" icon={BarChart2} title={t('tool_pareto')} desc={t('pareto_desc')} color="text-blue-500" bg="bg-blue-100 dark:bg-blue-900/40" />
@@ -91,7 +91,7 @@ export default function WelcomeScreen() {
           </section>
 
           <section>
-            <h3 className="mb-6 text-xl font-bold text-slate-700 dark:text-slate-300">Süreç, Planlama ve Yardımcı Araçlar</h3>
+            <h3 className="mb-6 text-xl font-bold text-slate-700 dark:text-slate-300">{t('ws_cat_process') || 'Süreç, Planlama ve Yardımcı Araçlar'}</h3>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
               <ToolCard id="pdca" icon={RefreshCcw} title={t('tool_pdca')} desc={t('pdca_desc')} color="text-teal-500" bg="bg-teal-100 dark:bg-teal-900/40" />
               <ToolCard id="waterfall" icon={Layers} title={t('tool_waterfall')} desc={t('wf_desc')} color="text-blue-500" bg="bg-blue-100 dark:bg-blue-900/40" />

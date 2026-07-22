@@ -286,5 +286,9 @@
   "whys_example_w2": "Why? Because the packaging service works slowly",
   "whys_example_w3": "Why? Because the packaging machine breaks down frequently",
   "whys_example_w4": "Why? The machine's periodic maintenance was not done (Root Cause)",
-  "whys_example_solution": "Solution: Tie the maintenance schedule to a digital calendar"
+  "whys_example_solution": "Solution: Tie the maintenance schedule to a digital calendar",
+  "ws_cat_recommended": "Recommended Starter Tools",
+  "ws_cat_root_cause": "Root Cause and Problem Analysis",
+  "ws_cat_strategy": "Strategy and Decision Making",
+  "ws_cat_process": "Process, Planning and Auxiliary Tools"
 }
