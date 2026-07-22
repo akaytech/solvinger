@@ -14,17 +14,17 @@ export default function ToolHeader({ title, subtitle, icon, iconColor = 'text-in
     return (
       <div className="flex-none bg-white dark:bg-slate-900 z-10 flex flex-col">
         {/* Spacer for absolute top buttons */}
-        <div className="h-20 w-full border-b border-slate-200 dark:border-slate-800"></div>
+        <div className="h-16 w-full border-b border-slate-200 dark:border-slate-800"></div>
         {/* Header content below the line */}
-        <div className="p-6 md:p-8 flex justify-between items-center shadow-sm">
+        <div className="px-6 md:px-8 py-3 flex justify-between items-center">
           <div>
-            <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">
-              <span className={iconColor}>
+            <h2 className="text-xl font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">
+              <span className={`[&>svg]:w-5 [&>svg]:h-5 ${iconColor}`}>
                 {icon}
               </span>
               {title}
             </h2>
-            <p className="text-slate-500 dark:text-slate-400 text-sm mt-1">{subtitle}</p>
+            <p className="text-slate-500 dark:text-slate-400 text-xs mt-0.5">{subtitle}</p>
           </div>
           {children && (
             <div className="flex items-center gap-3">
