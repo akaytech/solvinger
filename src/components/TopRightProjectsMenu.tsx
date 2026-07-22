@@ -3,8 +3,24 @@ import { useTranslation } from 'react-i18next';
 import { useRoadmapStore } from '../store/useRoadmapStore';
 import { useShallow } from 'zustand/react/shallow';
 import ConfirmModal from './ConfirmModal';
-import { Folder, Plus, Trash2, ChevronDown, ChevronRight, GitCommit, Target, HelpCircle, Fish, RefreshCcw, Layers, Pencil, AlertOctagon, Scale, GitMerge, BarChart2, BarChart, FileText, ListTodo } from 'lucide-react';
+import { Folder, Plus, Trash2, ChevronDown, ChevronRight, GitCommit, Target, HelpCircle, Fish, RefreshCcw, Layers, Pencil, AlertOctagon, Scale, GitMerge, BarChart2, BarChart, FileText, ListTodo, Activity, Network, Check } from 'lucide-react';
 import type { Project } from '../store/useRoadmapStore';
+
+const TOOL_OPTIONS = [
+  { id: 'wbs', icon: Network, label: 'tool_wbs', color: 'text-indigo-500', bg: 'bg-indigo-100 dark:bg-indigo-900/40' },
+  { id: 'swot', icon: Target, label: 'tool_swot', color: 'text-rose-500', bg: 'bg-rose-100 dark:bg-rose-900/40' },
+  { id: '5whys', icon: Activity, label: 'tool_5whys', color: 'text-emerald-500', bg: 'bg-emerald-100 dark:bg-emerald-900/40' },
+  { id: 'ishikawa', icon: Fish, label: 'tool_ishikawa', color: 'text-cyan-500', bg: 'bg-cyan-100 dark:bg-cyan-900/40' },
+  { id: 'pdca', icon: RefreshCcw, label: 'tool_pdca', color: 'text-teal-500', bg: 'bg-teal-100 dark:bg-teal-900/40' },
+  { id: 'waterfall', icon: Layers, label: 'tool_waterfall', color: 'text-blue-500', bg: 'bg-blue-100 dark:bg-blue-900/40' },
+  { id: 'fta', icon: AlertOctagon, label: 'fta_title', color: 'text-rose-500', bg: 'bg-rose-100 dark:bg-rose-900/40' },
+  { id: 'decision', icon: Scale, label: 'decision_title', color: 'text-violet-500', bg: 'bg-violet-100 dark:bg-violet-900/40' },
+  { id: 'flowchart', icon: GitMerge, label: 'tool_flowchart', color: 'text-amber-500', bg: 'bg-amber-100 dark:bg-amber-900/40' },
+  { id: 'pareto', icon: BarChart2, label: 'tool_pareto', color: 'text-blue-500', bg: 'bg-blue-100 dark:bg-blue-900/40' },
+  { id: 'histogram', icon: BarChart, label: 'tool_histogram', color: 'text-indigo-500', bg: 'bg-indigo-100 dark:bg-indigo-900/40' },
+  { id: 'notepad', icon: FileText, label: 'notepad_title', color: 'text-fuchsia-500', bg: 'bg-fuchsia-100 dark:bg-fuchsia-900/40' },
+  { id: 'eod', icon: ListTodo, label: 'tool_eod', color: 'text-orange-500', bg: 'bg-orange-100 dark:bg-orange-900/40' }
+];
 
 function ProjectTreeItem({ project, isCurrent, onClose, requestDelete }: { project: Project; isCurrent: boolean; onClose: () => void; requestDelete: (t: string, m: string, cb: () => void) => void }) {
   const {  loadProject, setActiveTool, deleteProject, updateProjectName, clearToolData  } = useRoadmapStore(useShallow((state) => ({
@@ -318,18 +334,20 @@ function ProjectTreeItem({ project, isCurrent, onClose, requestDelete }: { proje
 }
 
 export default function TopRightProjectsMenu() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [isCreating, setIsCreating] = useState(false);
+  const [newProjectName, setNewProjectName] = useState('');
+  const [selectedTool, setSelectedTool] = useState<string | null>(null);
   const [confirmState, setConfirmState] = useState<{isOpen: boolean, title: string, message: string, onConfirm: () => void}>({ isOpen: false, title: '', message: '', onConfirm: () => {} });
-  const requestDelete = (title: string, message: string, onConfirm: () => void) => { setConfirmState({ isOpen: true, title, message, onConfirm }); };
+  const menuRef = useRef<HTMLDivElement>(null);
   const { t } = useTranslation();
-  const {  projects, currentProjectId, createProject  } = useRoadmapStore(useShallow((state) => ({
+  const requestDelete = (title: string, message: string, onConfirm: () => void) => { setConfirmState({ isOpen: true, title, message, onConfirm }); };
+  const {  projects, currentProjectId, createProject, setActiveTool  } = useRoadmapStore(useShallow((state) => ({
       projects: state.projects,
       currentProjectId: state.currentProjectId,
-      createProject: state.createProject
+      createProject: state.createProject,
+      setActiveTool: state.setActiveTool
     })));
-  const [isOpen, setIsOpen] = useState(false);
-  const [newProjectName, setNewProjectName] = useState('');
-  const [isCreating, setIsCreating] = useState(false);
-  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -374,25 +392,63 @@ export default function TopRightProjectsMenu() {
         </div>
 
         {isCreating && (
-          <div className="mb-3 flex gap-2 px-2">
-            <input
-              type="text"
-              autoFocus
-              value={newProjectName}
-              onChange={(e) => setNewProjectName(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && newProjectName.trim()) {
-                  createProject(newProjectName.trim());
-                  setNewProjectName('');
-                  setIsCreating(false);
-                } else if (e.key === 'Escape') {
-                  setIsCreating(false);
-                  setNewProjectName('');
-                }
-              }}
-              className="flex-1 rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 px-3 py-1.5 text-sm outline-none focus:border-indigo-500 text-slate-700 dark:text-slate-200"
-              placeholder={t('project_name')}
-            />
+          <div className="mb-3 px-2 flex flex-col gap-2">
+            <div className="flex gap-2">
+              <input
+                type="text"
+                autoFocus
+                value={newProjectName}
+                onChange={(e) => setNewProjectName(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && newProjectName.trim()) {
+                    if (selectedTool) {
+                      createProject(newProjectName.trim(), selectedTool);
+                    } else {
+                      createProject(newProjectName.trim(), ''); // Empty string forces initialTool to fallback or skip
+                      setActiveTool(null); // Force welcome screen
+                    }
+                    setNewProjectName('');
+                    setSelectedTool(null);
+                    setIsCreating(false);
+                  } else if (e.key === 'Escape') {
+                    setIsCreating(false);
+                    setNewProjectName('');
+                    setSelectedTool(null);
+                  }
+                }}
+                className="flex-1 rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 px-3 py-1.5 text-sm outline-none focus:border-indigo-500 text-slate-700 dark:text-slate-200"
+                placeholder={t('project_name')}
+              />
+            </div>
+            
+            <div className="mt-1 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">{t('method')}</div>
+            <div className="grid grid-cols-4 gap-2 pb-2">
+              {TOOL_OPTIONS.map((tool) => {
+                const isSelected = selectedTool === tool.id;
+                const Icon = tool.icon;
+                
+                // Parse tailwind color classes to handle dynamic construction safely if needed,
+                // but since we provide full classes in the object, we just use them.
+                const borderColor = isSelected ? `border-${tool.color.split('-')[1]}-500` : 'border-slate-200 dark:border-slate-700';
+                const bgColor = isSelected ? tool.bg.split(' ')[0] + ' ' + tool.bg.split(' ')[1].replace('/40', '/20') : 'bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/50';
+
+                return (
+                  <button
+                    key={tool.id}
+                    onClick={() => setSelectedTool(tool.id)}
+                    title={t(tool.label)}
+                    className={`relative flex h-10 flex-col items-center justify-center rounded-xl border ${borderColor} ${bgColor} transition-all hover:scale-105 active:scale-95`}
+                  >
+                    <Icon size={16} className={isSelected ? tool.color : 'text-slate-400 dark:text-slate-500'} />
+                    {isSelected && (
+                      <div className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-indigo-500 text-white shadow-sm">
+                        <Check size={10} strokeWidth={3} />
+                      </div>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         )}
 
