@@ -11,7 +11,6 @@ import { useRoadmapStore } from '../store/useRoadmapStore';
 import { useShallow } from 'zustand/react/shallow';
 import { useTranslation } from 'react-i18next';
 import { Activity } from 'lucide-react';
-import ToolHeader from './ToolHeader';
 
 import FiveWhysNode from './FiveWhysNode';
 import FiveWhysContextMenu from './FiveWhysContextMenu';
@@ -82,11 +81,8 @@ function FiveWhysCanvasInner() {
   );
 
   return (
-    <div className="flex h-full w-full flex-col bg-slate-50 dark:bg-slate-900 transition-colors">
-      <ToolHeader title={t('tool_5whys')} subtitle={t('whys_subtitle')} icon={<Activity />} iconColor="text-indigo-500" />
-      
-      <div className="flex-1 w-full relative" ref={reactFlowWrapper}>
-        <ReactFlow
+    <div className="h-full w-full relative bg-slate-50 dark:bg-slate-900 transition-colors" ref={reactFlowWrapper}>
+      <ReactFlow
           nodes={fiveWhysNodes}
           edges={fiveWhysEdges}
           onNodesChange={onFiveWhysNodesChange}
@@ -158,7 +154,6 @@ function FiveWhysCanvasInner() {
             }}
           />
         )}
-      </div>
     </div>
   );
 }
