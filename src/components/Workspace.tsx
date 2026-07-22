@@ -57,7 +57,7 @@ export default function Workspace() {
       <div className="flex-1 relative overflow-hidden bg-slate-50 dark:bg-slate-900 transition-colors duration-200 flex flex-col">
         {activeTool && <UndoRedoControls />}
         {activeTool && (
-          <div className="absolute top-4 end-36 z-[100] flex items-center gap-2">
+          <div className="absolute top-4 end-36 sm:end-40 z-[100] flex items-center gap-2">
             <GlobalShareButton />
             <GlobalExportButton />
           </div>

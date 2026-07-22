@@ -368,7 +368,7 @@ export default function TopRightProjectsMenu() {
   return (
     <div 
       ref={menuRef}
-      className="absolute top-4 right-20 z-50 flex flex-col items-end"
+      className="absolute top-4 end-20 sm:end-24 z-50 flex flex-col items-end"
     >
       <button 
         onClick={() => setIsOpen(!isOpen)}

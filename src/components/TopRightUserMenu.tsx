@@ -76,7 +76,7 @@ export default function TopRightUserMenu() {
   return (
     <div 
       ref={menuRef}
-      className="absolute top-4 right-4 z-[100]"
+      className="absolute top-4 end-4 sm:end-8 z-[100]"
     >
       <button 
         onClick={(e) => {
