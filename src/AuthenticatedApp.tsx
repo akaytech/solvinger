@@ -12,14 +12,15 @@ const Workspace = React.lazy(() => import('./components/Workspace'));
 export default function AuthenticatedApp() {
   const user = useAuthStore(state => state.user);
   
-  const { fetchProjects, currentProjectId, loadProject, activeTool, setActiveTool, projects, joinSharedProject } = useRoadmapStore(useShallow((state) => ({
+  const { fetchProjects, currentProjectId, loadProject, activeTool, setActiveTool, projects, joinSharedProject, projectsLoaded } = useRoadmapStore(useShallow((state) => ({
     fetchProjects: state.fetchProjects,
     currentProjectId: state.currentProjectId,
     loadProject: state.loadProject,
     activeTool: state.activeTool,
     setActiveTool: state.setActiveTool,
     projects: state.projects,
-    joinSharedProject: state.joinSharedProject
+    joinSharedProject: state.joinSharedProject,
+    projectsLoaded: state.projectsLoaded
   })));
   
   const navigate = useNavigate();
@@ -43,7 +44,7 @@ export default function AuthenticatedApp() {
 
   // URL -> State (Back button, manual URL entry)
   useEffect(() => {
-    if (!user) return;
+    if (!user || !projectsLoaded) return;
     const path = location.pathname;
     if (path === '/') {
       if (activeTool !== null) setActiveTool(null);
@@ -64,11 +65,11 @@ export default function AuthenticatedApp() {
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname, user, currentProjectId, projects, loadProject, joinSharedProject]);
+  }, [location.pathname, user, currentProjectId, projects, loadProject, joinSharedProject, projectsLoaded]);
 
   // State -> URL (Clicking buttons in the app)
   useEffect(() => {
-    if (!user) return;
+    if (!user || !projectsLoaded) return;
     const path = location.pathname;
     if (!activeTool) {
       if (path !== '/') navigate('/');
@@ -77,7 +78,7 @@ export default function AuthenticatedApp() {
       if (path !== newPath) navigate(newPath);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentProjectId, activeTool, user]);
+  }, [currentProjectId, activeTool, user, projectsLoaded]);
 
   return (
     <>

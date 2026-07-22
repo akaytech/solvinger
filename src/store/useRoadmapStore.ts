@@ -123,6 +123,7 @@ export interface RoadmapState extends EodSlice, NotepadSlice, FiveWhysSlice, Swo
   setActiveTool: (tool: 'wbs' | '5whys' | 'swot' | 'ishikawa' | 'pdca' | 'waterfall' | 'fta' | 'decision' | 'flowchart' | 'eod' | null) => void;
 
   // Projects
+  projectsLoaded: boolean;
   projects: Project[];
   currentProjectId: string | null;
   fetchProjects: (userId: string) => Promise<void>;
@@ -167,7 +168,7 @@ export const useRoadmapStore = create<RoadmapState>()(
           pendingSaves.forEach((p) => clearTimeout(p.timer));
           pendingSaves.clear();
           lastSynced.clear();
-          set({ projects: [], currentProjectId: null, activeTool: null, nodes: [], edges: [], fiveWhysNodes: [], fiveWhysEdges: [], swot: [], ishikawa: [], pdca: [], waterfall: [], pareto: [], histogram: [], eod: [],
+          set({ projectsLoaded: false, projects: [], currentProjectId: null, activeTool: null, nodes: [], edges: [], fiveWhysNodes: [], fiveWhysEdges: [], swot: [], ishikawa: [], pdca: [], waterfall: [], pareto: [], histogram: [], eod: [],
             decision: [], flowchartNodes: [], flowchartEdges: [], ftaNodes: [], ftaEdges: [], projectUnsubscribe: null });
         },
 
@@ -180,6 +181,7 @@ export const useRoadmapStore = create<RoadmapState>()(
         }
       },
 
+      projectsLoaded: false,
       projects: [],
       currentProjectId: null,
 
@@ -235,7 +237,7 @@ export const useRoadmapStore = create<RoadmapState>()(
 
             isRemoteUpdate = true;
             const currentState = get();
-            const updates: Partial<RoadmapState> & Record<string, any> = { projects: fetchedProjects };
+            const updates: Partial<RoadmapState> & Record<string, any> = { projectsLoaded: true, projects: fetchedProjects };
 
             if (currentState.currentProjectId) {
               const activeProj = fetchedProjects.find(p => p.id === currentState.currentProjectId);
