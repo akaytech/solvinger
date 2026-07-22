@@ -49,7 +49,7 @@ export default function Navbar() {
       ref={menuRef}
       className={clsx(
         "relative flex h-full flex-col bg-white dark:bg-slate-900 transition-all duration-300 z-50",
-        isExpanded ? "w-72 border-r border-slate-200 dark:border-slate-800" : "w-0 border-0"
+        isExpanded ? "w-72 border-e border-slate-200 dark:border-slate-800" : "w-0 border-0"
       )}
     >
       {/* Toggle Button */}
@@ -59,8 +59,8 @@ export default function Navbar() {
           setIsExpanded(!isExpanded);
         }}
         className={clsx(
-          "absolute top-1/2 -translate-y-1/2 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 shadow-md hover:bg-slate-50 dark:hover:bg-slate-700 z-10 text-slate-500 dark:text-slate-400 transition-all hover:scale-110 active:scale-95",
-          isExpanded ? "-right-5" : "left-4"
+          "absolute top-1/2 -translate-y-1/2 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 shadow-md hover:bg-slate-50 dark:hover:bg-slate-700 z-10 text-slate-500 dark:text-slate-400 transition-all hover:scale-110 active:scale-95 rtl:rotate-180",
+          isExpanded ? "-end-5" : "start-4"
         )}
       >
         {isExpanded ? <ChevronLeft size={24} /> : <ChevronRight size={24} />}
