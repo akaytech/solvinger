@@ -61,7 +61,7 @@ export default function ContextMenu({
 
       <button
         onClick={() => { onOpenDescription(); onClose(); }}
-        className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-bold text-slate-700 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+        className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-start text-sm font-bold text-slate-700 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
       >
         <FileText size={18} className={hasDescription ? "text-indigo-500" : ""} /> 
         {hasDescription ? t('read_edit_desc') : t('add_desc')}
@@ -69,7 +69,7 @@ export default function ContextMenu({
 
       <button
         onClick={() => { onAddSubGoal(); onClose(); }}
-        className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-bold text-slate-700 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
+        className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-start text-sm font-bold text-slate-700 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors"
       >
         <Plus size={18} /> {t('add_subgoal')}
       </button>
@@ -80,25 +80,25 @@ export default function ContextMenu({
       
       <button
         onClick={() => { onUpdate({ status: 'To Do' }); onClose(); }}
-        className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+        className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-start text-sm font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
       >
         <CheckCircle size={18} className="text-slate-400 dark:text-slate-500" /> {t('todo_status')}
       </button>
       <button
         onClick={() => { onUpdate({ status: 'In Progress' }); onClose(); }}
-        className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-semibold text-slate-700 dark:text-slate-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 transition-colors"
+        className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-start text-sm font-semibold text-slate-700 dark:text-slate-300 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 transition-colors"
       >
         <CheckCircle size={18} className="text-emerald-500 dark:text-emerald-400" /> {t('in_progress_status')}
       </button>
       <button
         onClick={() => { onUpdate({ status: 'Done' }); onClose(); }}
-        className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-semibold text-slate-700 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors"
+        className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-start text-sm font-semibold text-slate-700 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors"
       >
         <CheckCircle size={18} className="text-indigo-500 dark:text-indigo-400" /> {t('done_status')}
       </button>
       <button
         onClick={() => { onUpdate({ status: 'Failed' }); onClose(); }}
-        className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-semibold text-slate-700 dark:text-slate-300 hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors"
+        className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-start text-sm font-semibold text-slate-700 dark:text-slate-300 hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors"
       >
         <XCircle size={18} className="text-red-500 dark:text-red-400" /> {t('failed_status')}
       </button>
@@ -107,7 +107,7 @@ export default function ContextMenu({
       
       <button
         onClick={() => { onDelete(); onClose(); }}
-        className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-bold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 hover:text-red-700 dark:hover:text-red-300 transition-colors"
+        className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-start text-sm font-bold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 hover:text-red-700 dark:hover:text-red-300 transition-colors"
       >
         <Trash2 size={18} /> {t('delete_goal')}
       </button>

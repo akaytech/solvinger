@@ -28,7 +28,7 @@ export default function WelcomeScreen() {
   const ToolCard = ({ id, icon: Icon, title, desc, color, bg, featured = false }: any) => (
     <button
       onClick={() => handleToolClick(id)}
-      className={`group flex flex-col items-start rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 transition-all hover:-translate-y-1 hover:shadow-xl dark:hover:border-${color.split('-')[1]}-500/50 hover:border-${color.split('-')[1]}-500/50 text-left ${featured ? 'p-8 md:p-10 shadow-sm' : 'p-6'}`}
+      className={`group flex flex-col items-start rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 transition-all hover:-translate-y-1 hover:shadow-xl dark:hover:border-${color.split('-')[1]}-500/50 hover:border-${color.split('-')[1]}-500/50 text-start ${featured ? 'p-8 md:p-10 shadow-sm' : 'p-6'}`}
     >
       <div className={`mb-4 flex h-14 w-14 items-center justify-center rounded-2xl ${bg} transition-transform group-hover:scale-110 group-hover:rotate-3`}>
         <Icon size={28} className={color} />

@@ -56,7 +56,7 @@ export default function FlowchartContextMenu({ x, y, node, onClose, onAddNode, o
         </div>
       ) : (
         <div className="py-1 max-h-80 overflow-y-auto custom-scrollbar">
-          <button onClick={() => setIsEditing(true)} className="w-full px-4 py-2 text-left text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50 flex items-center gap-2 transition-colors">
+          <button onClick={() => setIsEditing(true)} className="w-full px-4 py-2 text-start text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50 flex items-center gap-2 transition-colors">
             <Edit3 size={16} className="text-slate-400" /> {t("flowchart_edit")}
           </button>
           
@@ -64,16 +64,16 @@ export default function FlowchartContextMenu({ x, y, node, onClose, onAddNode, o
           
           <div className="px-3 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider">{t('flowchart_group_flow') || 'AKIŞ DİYAGRAMI'}</div>
           
-          <button onClick={() => onAddNode('process', t('flowchart_new_process'))} className="w-full px-4 py-1.5 text-left text-sm text-blue-600 dark:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 flex items-center gap-2 transition-colors">
+          <button onClick={() => onAddNode('process', t('flowchart_new_process'))} className="w-full px-4 py-1.5 text-start text-sm text-blue-600 dark:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 flex items-center gap-2 transition-colors">
             <Box size={16} /> {t('flowchart_add_process')}
           </button>
-          <button onClick={() => onAddNode('decision', t('flowchart_new_decision'))} className="w-full px-4 py-1.5 text-left text-sm text-amber-600 dark:text-amber-500 hover:bg-amber-50 dark:hover:bg-amber-900/20 flex items-center gap-2 transition-colors">
+          <button onClick={() => onAddNode('decision', t('flowchart_new_decision'))} className="w-full px-4 py-1.5 text-start text-sm text-amber-600 dark:text-amber-500 hover:bg-amber-50 dark:hover:bg-amber-900/20 flex items-center gap-2 transition-colors">
             <GitMerge size={16} /> {t('flowchart_add_decision')}
           </button>
-          <button onClick={() => onAddNode('start', t('flowchart_new_start'))} className="w-full px-4 py-1.5 text-left text-sm text-emerald-600 dark:text-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 flex items-center gap-2 transition-colors">
+          <button onClick={() => onAddNode('start', t('flowchart_new_start'))} className="w-full px-4 py-1.5 text-start text-sm text-emerald-600 dark:text-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 flex items-center gap-2 transition-colors">
             <PlayCircle size={16} /> {t('flowchart_add_start')}
           </button>
-          <button onClick={() => onAddNode('end', t('flowchart_new_end'))} className="w-full px-4 py-1.5 text-left text-sm text-rose-600 dark:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/20 flex items-center gap-2 transition-colors">
+          <button onClick={() => onAddNode('end', t('flowchart_new_end'))} className="w-full px-4 py-1.5 text-start text-sm text-rose-600 dark:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-900/20 flex items-center gap-2 transition-colors">
             <StopCircle size={16} /> {t('flowchart_add_end')}
           </button>
 
@@ -81,16 +81,16 @@ export default function FlowchartContextMenu({ x, y, node, onClose, onAddNode, o
           
           <div className="px-3 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider">{t('flowchart_group_dfd') || 'VERİ AKIŞI (DFD)'}</div>
           
-          <button onClick={() => onAddNode('externalEntity', t('flowchart_new_external') || 'Yeni Dış Kaynak')} className="w-full px-4 py-1.5 text-left text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700/50 flex items-center gap-2 transition-colors">
+          <button onClick={() => onAddNode('externalEntity', t('flowchart_new_external') || 'Yeni Dış Kaynak')} className="w-full px-4 py-1.5 text-start text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700/50 flex items-center gap-2 transition-colors">
             <Building size={16} /> {t('flowchart_add_external') || 'Dış Varlık Ekle'}
           </button>
-          <button onClick={() => onAddNode('dataStore', t('flowchart_new_datastore') || 'Yeni Veri Deposu')} className="w-full px-4 py-1.5 text-left text-sm text-sky-600 dark:text-sky-500 hover:bg-sky-50 dark:hover:bg-sky-900/20 flex items-center gap-2 transition-colors">
+          <button onClick={() => onAddNode('dataStore', t('flowchart_new_datastore') || 'Yeni Veri Deposu')} className="w-full px-4 py-1.5 text-start text-sm text-sky-600 dark:text-sky-500 hover:bg-sky-50 dark:hover:bg-sky-900/20 flex items-center gap-2 transition-colors">
             <Database size={16} /> {t('flowchart_add_datastore') || 'Veri Deposu Ekle'}
           </button>
 
           <div className="h-px bg-slate-100 dark:bg-slate-700/50 my-1"></div>
           
-          <button onClick={onDelete} className="w-full px-4 py-2 text-left text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2 transition-colors">
+          <button onClick={onDelete} className="w-full px-4 py-2 text-start text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 flex items-center gap-2 transition-colors">
             <Trash2 size={16} /> {t('flowchart_delete_node')}
           </button>
         </div>

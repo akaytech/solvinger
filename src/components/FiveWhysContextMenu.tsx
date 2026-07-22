@@ -125,7 +125,7 @@ export default function FiveWhysContextMenu({ x, y, node, onClose, onAddNode, on
               <>
                 <button
                   onClick={() => { setIsAddingNode(true); setNewNodeType('why'); }}
-                  className="flex items-center gap-3 w-full p-2.5 text-sm text-slate-700 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-lg transition-colors text-left font-medium"
+                  className="flex items-center gap-3 w-full p-2.5 text-sm text-slate-700 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-lg transition-colors text-start font-medium"
                 >
                   <div className="w-7 h-7 rounded-md bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center shrink-0">
                     <Plus size={16} className="text-indigo-600 dark:text-indigo-400" />
@@ -134,7 +134,7 @@ export default function FiveWhysContextMenu({ x, y, node, onClose, onAddNode, on
                 </button>
                 <button
                   onClick={() => { setIsAddingNode(true); setNewNodeType('solution'); }}
-                  className="flex items-center gap-3 w-full p-2.5 text-sm text-slate-700 dark:text-slate-300 hover:bg-emerald-50 dark:hover:bg-emerald-500/10 hover:text-emerald-600 dark:hover:text-emerald-400 rounded-lg transition-colors text-left font-medium"
+                  className="flex items-center gap-3 w-full p-2.5 text-sm text-slate-700 dark:text-slate-300 hover:bg-emerald-50 dark:hover:bg-emerald-500/10 hover:text-emerald-600 dark:hover:text-emerald-400 rounded-lg transition-colors text-start font-medium"
                 >
                   <div className="w-7 h-7 rounded-md bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center shrink-0">
                     <Check size={16} className="text-emerald-600 dark:text-emerald-400" />
@@ -146,7 +146,7 @@ export default function FiveWhysContextMenu({ x, y, node, onClose, onAddNode, on
 
             <button
               onClick={() => setIsEditing(true)}
-              className="flex items-center gap-3 w-full p-2.5 text-sm text-slate-700 dark:text-slate-300 hover:bg-amber-50 dark:hover:bg-amber-500/10 hover:text-amber-600 dark:hover:text-amber-400 rounded-lg transition-colors text-left font-medium mt-1"
+              className="flex items-center gap-3 w-full p-2.5 text-sm text-slate-700 dark:text-slate-300 hover:bg-amber-50 dark:hover:bg-amber-500/10 hover:text-amber-600 dark:hover:text-amber-400 rounded-lg transition-colors text-start font-medium mt-1"
             >
               <div className="w-7 h-7 rounded-md bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center shrink-0">
                 <Edit3 size={16} className="text-amber-600 dark:text-amber-400" />
@@ -156,7 +156,7 @@ export default function FiveWhysContextMenu({ x, y, node, onClose, onAddNode, on
 
             <button
               onClick={onDelete}
-              className="flex items-center gap-3 w-full p-2.5 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg transition-colors text-left font-medium"
+              className="flex items-center gap-3 w-full p-2.5 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg transition-colors text-start font-medium"
             >
               <div className="w-7 h-7 rounded-md bg-red-100 dark:bg-red-900/30 flex items-center justify-center shrink-0">
                 <Trash2 size={16} />

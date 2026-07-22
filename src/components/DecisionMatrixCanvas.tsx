@@ -126,7 +126,7 @@ export const DecisionMatrixCanvas: React.FC<DecisionMatrixCanvasProps> = ({ proj
           </div>
         ) : (
           <div className="bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden overflow-x-auto">
-            <table className="w-full text-left border-collapse">
+            <table className="w-full text-start border-collapse">
               <thead>
                 <tr>
                   {/* Top-Left Corner (Criteria/Weight Headers) */}
@@ -237,7 +237,7 @@ export const DecisionMatrixCanvas: React.FC<DecisionMatrixCanvasProps> = ({ proj
                   <tr>
                     <td 
                       colSpan={2} 
-                      className="p-4 border-t-2 border-r border-slate-200 dark:border-slate-700 sticky left-0 z-10 bg-slate-50 dark:bg-slate-800/80 font-bold text-slate-700 dark:text-slate-300 text-right"
+                      className="p-4 border-t-2 border-r border-slate-200 dark:border-slate-700 sticky left-0 z-10 bg-slate-50 dark:bg-slate-800/80 font-bold text-slate-700 dark:text-slate-300 text-end"
                     >
                       {t('decision_total_score')}:
                     </td>

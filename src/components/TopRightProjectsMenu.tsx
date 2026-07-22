@@ -69,7 +69,7 @@ function ProjectTreeItem({ project, isCurrent, onClose, requestDelete }: { proje
             />
           ) : (
             <span 
-              className="flex-1 truncate text-left text-sm font-bold cursor-pointer"
+              className="flex-1 truncate text-start text-sm font-bold cursor-pointer"
               onDoubleClick={() => setIsEditing(true)}
               onClick={() => {
                 if (!isCurrent) loadProject(project.id);

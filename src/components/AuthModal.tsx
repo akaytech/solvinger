@@ -93,7 +93,7 @@ export default function AuthModal() {
 
         {/* Right Side (1/3) - Form */}
         <div className="flex w-full md:w-1/3 flex-col justify-center p-8 lg:p-10 overflow-y-auto">
-          <div className="mb-8 text-center md:text-left">
+          <div className="mb-8 text-center md:text-start">
             <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100">Solvinger</h2>
             <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">{t('welcome_msg')}</p>
           </div>
