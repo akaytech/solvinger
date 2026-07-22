@@ -1,6 +1,7 @@
 import type { StateCreator } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
 import type { RoadmapState } from '../useRoadmapStore';
+import { logAppEvent } from '../../firebase';
 
 export type SwotType = 'S' | 'W' | 'O' | 'T';
 
@@ -54,6 +55,7 @@ export const createSwotSlice: StateCreator<
     set({ swot: newSwot });
   },
   addSwotItem: (analysisId, type, text) => {
+    logAppEvent('node_created', { tool: 'swot', type });
     const newItem: SwotItem = {
       id: uuidv4(),
       type,

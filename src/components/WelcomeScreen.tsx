@@ -1,7 +1,9 @@
+import { useEffect } from 'react';
 import { Network, Activity, Target, Fish, RefreshCcw, Layers, AlertOctagon, Scale, GitMerge, BarChart2, BarChart, FileText, ListTodo } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useRoadmapStore } from '../store/useRoadmapStore';
 import { useShallow } from 'zustand/react/shallow';
+import { logAppEvent } from '../firebase';
 
 export default function WelcomeScreen() {
   const { setActiveTool, projects, createProject } = useRoadmapStore(useShallow((state) => ({
@@ -11,7 +13,12 @@ export default function WelcomeScreen() {
   })));
   const { t } = useTranslation();
 
+  useEffect(() => {
+    logAppEvent('welcome_screen_viewed');
+  }, []);
+
   const handleToolClick = (tool: any) => {
+    logAppEvent('tool_selected', { tool });
     if (projects.length === 0) {
       createProject(t('new_project'), tool);
     }

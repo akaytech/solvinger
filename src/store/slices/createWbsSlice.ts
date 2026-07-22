@@ -1,5 +1,6 @@
 import type { StateCreator } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
+import { logAppEvent } from '../../firebase';
 import {
   applyNodeChanges,
   applyEdgeChanges,
@@ -255,6 +256,7 @@ export const createWbsSlice: StateCreator<
   },
 
   addGoal: (parentId, label, position) => {
+    logAppEvent('node_created', { tool: 'wbs', label });
     const id = uuidv4();
     let newPos = position || { x: 0, y: 0 };
     const state = get();

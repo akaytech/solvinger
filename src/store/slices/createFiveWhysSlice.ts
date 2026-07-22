@@ -1,5 +1,6 @@
 import type { StateCreator } from 'zustand';
 import { v4 as uuidv4 } from 'uuid';
+import { logAppEvent } from '../../firebase';
 import type {
   Edge,
   Node,
@@ -103,6 +104,7 @@ export const createFiveWhysSlice: StateCreator<
     });
   },
   addFiveWhysNode: (parentId, type, label, position) => {
+    logAppEvent('node_created', { tool: '5whys', type });
     set((state) => {
       const parentNode = parentId ? state.fiveWhysNodes.find(n => n.id === parentId) : null;
       const depth = parentNode ? (parentNode.data.depth + 1) : 0;
