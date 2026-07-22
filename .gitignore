@@ -26,3 +26,5 @@ dist-ssr
 # Scratch & Temp Files
 temp_*.js
 scratch/
+solvinger_code_dump.txt
+.claude/
