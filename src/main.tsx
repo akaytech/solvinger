@@ -4,6 +4,12 @@ import { HashRouter } from 'react-router-dom'
 import './index.css'
 import './i18n'
 import App from './App.tsx'
+import { initAuthListener } from './firebaseCore'
+
+// Firebase oturumunu store ile senkronlayan tek listener'ı başlat.
+// Böylece açılışta gerçek oturum durumu doğrulanır; token yenileme veya
+// sunucu tarafı oturum iptali otomatik olarak arayüze yansır.
+initAuthListener();
 
 // Asenkron Sentry başlatma (Ana render'ı bloke etmemesi için gecikmeli)
 setTimeout(() => {

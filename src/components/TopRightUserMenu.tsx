@@ -3,19 +3,29 @@ import { useTranslation } from 'react-i18next';
 import { useRoadmapStore } from '../store/useRoadmapStore';
 import { useAuthStore } from '../store/useAuthStore';
 import { useShallow } from 'zustand/react/shallow';
+import { signOut } from 'firebase/auth';
+import { auth } from '../firebaseCore';
 import { LogOut, Sun, Moon, User, Shield, FileText } from 'lucide-react';
 import LegalModal from './LegalModal';
 
 export default function TopRightUserMenu() {
   const { t, i18n } = useTranslation();
   const { resetState } = useRoadmapStore(useShallow((state) => ({ resetState: state.resetState })));
-  const {  user, logout  } = useAuthStore(useShallow((state) => ({
-      user: state.user,
-      logout: () => {
-         state.logout();
-         resetState();
-      }
-    })));
+  const user = useAuthStore((state) => state.user);
+
+  // Gerçek çıkış: önce Firebase oturumunu kapat (onAuthStateChanged null
+  // bildirince store'daki 'user' temizlenir), sonra roadmap state'ini sıfırla.
+  // signOut başarısız olsa bile (ör. çevrimdışı) yerel state yine temizlenir.
+  const logout = async () => {
+    try {
+      await signOut(auth);
+    } catch (err) {
+      console.error('signOut error:', err);
+      useAuthStore.getState().logout();
+    } finally {
+      resetState();
+    }
+  };
   const [isOpen, setIsOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(() => document.documentElement.classList.contains('dark'));
   const [legalType, setLegalType] = useState<'privacy' | 'terms' | null>(null);

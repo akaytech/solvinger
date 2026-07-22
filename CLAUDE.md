@@ -25,7 +25,11 @@ Solvinger; problem çözme, kök neden analizi ve stratejik planlama tekniklerin
 
 ## ⚠️ Kurallar & Tercihler (Geliştirme Yaparken Dikkat Etmen Gerekenler)
 1. **Versiyonlama (ZORUNLU KURAL):** Projede "Mini Task" bazlı 4 haneli özel bir versiyonlama kullanıyoruz: `Major.Minor.Patch-Mini` (Örn: `0.7.3-8`). NPM kısıtlamaları yüzünden prerelease formatı kullanılıyor. `-9`'a ulaşınca (örn: `0.7.3-9`), Patch versiyonu 1 artar ve ek silinir (`0.7.4`). Kodda yapılacak her bir görev sonrasında `package.json` bu mantıkla güncellenir.
-2. **Kullanıcı İletişimi:** Geliştiricinin ana mühendisi **Antigravity** adında bir yapay zeka ajanıdır (kodu o yazar). Sen (Claude), mimari kararları veren, kodun bütününe bakıp en iyi yolu çizen **Baş Mimarsın**. Sana danışıldığında kodun en optimize halini ve adımlarını ver. Uygulama kısmını kullanıcı Antigravity'ye yaptıracaktır. O yüzden yanıtlarını kod bloklarıyla ve adım adım ver ki kullanıcı kolayca kopyalayıp mühendise iletebilsin.
+2. **Kullanıcı İletişimi:** Bu projede iki ajan aktif olarak birlikte çalışıyor: **Antigravity** ve **Claude Code**. İkisi de bu repoda doğrudan dosya okuyup/düzenleyip/komut çalıştırabiliyor — aranızdaki ortak zemin git deposu, kopyala-yapıştıra gerek yok.
+   - **Claude Code (sen) burada bir danışman değil, aktif geliştiricisin.** Kod incelemesi/mimari değerlendirme istendiğinde önerini sadece anlatma; kullanıcı onay verdiyse ilgili dosyaları doğrudan düzenle, gerekirse build/lint/test komutlarını çalıştır.
+   - Antigravity ile aynı anda çalışırken çakışmayı önlemek için: bir göreve başlamadan önce `git status` ile bekleyen/commit edilmemiş değişiklik olup olmadığını kontrol et (Antigravity'nin o an üstünde çalıştığı bir şey olabilir). Belirsizse kullanıcıya sor.
+   - Sadece "kod bloğu + adım adım açıklama" formatı, kullanıcının işi Antigravity'ye devretmek istediği durumlar için geçerlidir (örn. web/chat üzerinden mimari danışmanlık). Bu terminaldeki normal geliştirme akışında doğrudan uygulama yap.
+   - Yukarıdaki genel "Workflow Rule" (geliştirme promptu verildiğinde önce özetle, onay gelince başla) burada da geçerlidir.
 3. **Modülerlik & Lazy Loading:** Projenin bundle size (paket boyutu) çok önemlidir. Ağır paketleri (Firebase Firestore, XYFlow) Landing Page'e yüklememek için katı bir izolasyon yaptık. Yeni bir özellik eklerken bu izolasyonu bozmamaya (Örn: `LandingPage` veya `AuthModal` içine `useRoadmapStore` import etmemeye) çok dikkat et.
 
 ## 🚀 Claude İçin Kod İnceleme Talimatı

@@ -14,27 +14,23 @@ export default function AuthModal() {
   const [error, setError] = useState('');
   const [legalType, setLegalType] = useState<'privacy' | 'terms' | null>(null);
   
-  const { login, setAuthModalOpen } = useAuthStore(useShallow((state) => ({
-      login: state.login,
+  const { setAuthModalOpen } = useAuthStore(useShallow((state) => ({
       setAuthModalOpen: state.setAuthModalOpen
     })));
 
-  const handleSuccess = async (user: any) => {
-    login(user.uid, user.email || '', user.displayName || t('default_user'), user.photoURL);
-  };
-
+  // Not: Oturumu store'a yazmak artık firebaseCore'daki onAuthStateChanged
+  // listener'ının işi. Burada sadece başarılı girişte modalı kapatıyoruz.
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    
+
     try {
       if (isLoginMode) {
-        const cred = await signInWithEmailAndPassword(auth, email, password);
-        await handleSuccess(cred.user);
+        await signInWithEmailAndPassword(auth, email, password);
       } else {
-        const cred = await createUserWithEmailAndPassword(auth, email, password);
-        await handleSuccess(cred.user);
+        await createUserWithEmailAndPassword(auth, email, password);
       }
+      setAuthModalOpen(false);
     } catch (err: any) {
       setError(err.message || t('auth_error_generic'));
     }
@@ -44,8 +40,8 @@ export default function AuthModal() {
     setError('');
     try {
       const provider = new GoogleAuthProvider();
-      const cred = await signInWithPopup(auth, provider);
-      await handleSuccess(cred.user);
+      await signInWithPopup(auth, provider);
+      setAuthModalOpen(false);
     } catch (err: any) {
       setError(err.message || t('auth_error_google'));
     }
