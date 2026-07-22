@@ -55,7 +55,7 @@ export default function WelcomeScreen() {
         <section className="mb-16">
           <div className="mb-6 flex items-center gap-3">
             <div className="h-8 w-1 rounded-full bg-indigo-500"></div>
-            <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100">{t('ws_cat_recommended') || 'Önerilen Başlangıç Araçları'}</h2>
+            <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100">{t('cat_recommended')}</h2>
           </div>
           <div className="grid gap-6 md:grid-cols-2">
             <ToolCard 
