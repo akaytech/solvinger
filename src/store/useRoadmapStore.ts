@@ -3,7 +3,7 @@ import { persist } from 'zustand/middleware';
 import { temporal } from 'zundo';
 import type { Edge } from '@xyflow/react';
 import { v4 as uuidv4 } from 'uuid';
-import { doc, setDoc, deleteDoc, collection, query, where, onSnapshot, or, arrayUnion, arrayRemove, getDoc, updateDoc } from 'firebase/firestore';
+import { doc, setDoc, deleteDoc, collection, query, where, onSnapshot, arrayUnion, arrayRemove, getDoc, updateDoc } from 'firebase/firestore';
 import { db, logAppEvent } from '../firebase';
 import i18n from '../i18n';
 import { useAuthStore } from './useAuthStore';
