@@ -286,5 +286,9 @@
   "whys_example_w2": "なぜ？ 梱包サービスの作業が遅いから",
   "whys_example_w3": "なぜ？ 梱包機が頻繁に故障するから",
   "whys_example_w4": "なぜ？ 機械の定期メンテナンスが行われていなかったから（根本原因）",
-  "whys_example_solution": "解決策：メンテナンス周期をデジタルカレンダーに連携する"
+  "whys_example_solution": "解決策：メンテナンス周期をデジタルカレンダーに連携する",
+  "ws_cat_recommended": "推奨される初期ツール",
+  "ws_cat_root_cause": "根本原因と問題分析",
+  "ws_cat_strategy": "戦略と意思決定",
+  "ws_cat_process": "プロセス、計画、補助ツール"
 }

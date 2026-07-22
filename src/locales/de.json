@@ -286,5 +286,9 @@
   "whys_example_w2": "Warum? Weil der Verpackungsservice langsam arbeitet",
   "whys_example_w3": "Warum? Weil die Verpackungsmaschine häufig ausfällt",
   "whys_example_w4": "Warum? Die regelmäßige Wartung der Maschine wurde nicht durchgeführt (Grundursache)",
-  "whys_example_solution": "Lösung: Den Wartungsplan mit einem digitalen Kalender verknüpfen"
+  "whys_example_solution": "Lösung: Den Wartungsplan mit einem digitalen Kalender verknüpfen",
+  "ws_cat_recommended": "Empfohlene Startwerkzeuge",
+  "ws_cat_root_cause": "Ursachen- und Problemanalyse",
+  "ws_cat_strategy": "Strategie und Entscheidungsfindung",
+  "ws_cat_process": "Prozesse, Planung und Hilfswerkzeuge"
 }

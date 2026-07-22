@@ -286,5 +286,9 @@
   "whys_example_w2": "Pourquoi ? Parce que le service d'emballage est lent",
   "whys_example_w3": "Pourquoi ? Parce que la machine d'emballage tombe souvent en panne",
   "whys_example_w4": "Pourquoi ? La maintenance périodique de la machine n'a pas été effectuée (cause racine)",
-  "whys_example_solution": "Solution : Lier le calendrier de maintenance à un agenda numérique"
+  "whys_example_solution": "Solution : Lier le calendrier de maintenance à un agenda numérique",
+  "ws_cat_recommended": "Outils de démarrage recommandés",
+  "ws_cat_root_cause": "Analyse des causes profondes et des problèmes",
+  "ws_cat_strategy": "Stratégie et prise de décision",
+  "ws_cat_process": "Processus, planification et outils auxiliaires"
 }

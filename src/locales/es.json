@@ -286,5 +286,9 @@
   "whys_example_w2": "¿Por qué? Porque el servicio de embalaje trabaja lento",
   "whys_example_w3": "¿Por qué? Porque la máquina de embalaje se avería con frecuencia",
   "whys_example_w4": "¿Por qué? No se realizó el mantenimiento periódico de la máquina (Causa raíz)",
-  "whys_example_solution": "Solución: Vincular el calendario de mantenimiento a una agenda digital"
+  "whys_example_solution": "Solución: Vincular el calendario de mantenimiento a una agenda digital",
+  "ws_cat_recommended": "Herramientas de inicio recomendadas",
+  "ws_cat_root_cause": "Análisis de causa raíz y problemas",
+  "ws_cat_strategy": "Estrategia y toma de decisiones",
+  "ws_cat_process": "Procesos, planificación y herramientas auxiliares"
 }

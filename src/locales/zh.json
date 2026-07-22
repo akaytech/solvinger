@@ -286,5 +286,9 @@
   "whys_example_w2": "为什么？因为包装服务速度慢",
   "whys_example_w3": "为什么？因为包装机经常故障",
   "whys_example_w4": "为什么？机器的定期维护没有做（根本原因）",
-  "whys_example_solution": "解决方案：将维护周期与数字日历关联"
+  "whys_example_solution": "解决方案：将维护周期与数字日历关联",
+  "ws_cat_recommended": "推荐的入门工具",
+  "ws_cat_root_cause": "根本原因与问题分析",
+  "ws_cat_strategy": "战略与决策",
+  "ws_cat_process": "流程、计划与辅助工具"
 }

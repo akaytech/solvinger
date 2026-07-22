@@ -286,5 +286,9 @@
   "whys_example_w2": "Por quê? Porque o serviço de embalagem trabalha devagar",
   "whys_example_w3": "Por quê? Porque a máquina de embalagem quebra com frequência",
   "whys_example_w4": "Por quê? A manutenção periódica da máquina não foi feita (Causa raiz)",
-  "whys_example_solution": "Solução: Vincular o cronograma de manutenção a um calendário digital"
+  "whys_example_solution": "Solução: Vincular o cronograma de manutenção a um calendário digital",
+  "ws_cat_recommended": "Ferramentas iniciais recomendadas",
+  "ws_cat_root_cause": "Análise de Causa Raiz e Problemas",
+  "ws_cat_strategy": "Estratégia e Tomada de Decisão",
+  "ws_cat_process": "Processos, Planejamento e Ferramentas Auxiliares"
 }
