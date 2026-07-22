@@ -3,7 +3,7 @@ import { persist } from 'zustand/middleware';
 import { temporal } from 'zundo';
 import type { Edge } from '@xyflow/react';
 import { v4 as uuidv4 } from 'uuid';
-import { doc, setDoc, deleteDoc, collection, query, where, onSnapshot, arrayUnion, arrayRemove, getDoc, updateDoc } from 'firebase/firestore';
+import { doc, setDoc, deleteDoc, collection, query, where, onSnapshot, or, arrayUnion, arrayRemove, getDoc, updateDoc } from 'firebase/firestore';
 import { db, logAppEvent } from '../firebase';
 import i18n from '../i18n';
 import { useAuthStore } from './useAuthStore';
@@ -107,7 +107,6 @@ export interface RoadmapState extends EodSlice, NotepadSlice, FiveWhysSlice, Swo
   // Projects
   projects: Project[];
   currentProjectId: string | null;
-  activeListenersUserId: string | null;
   fetchProjects: (userId: string) => Promise<void>;
   createProject: (name: string, initialTool?: string) => void;
   loadProject: (id: string) => void;
@@ -146,13 +145,12 @@ export const useRoadmapStore = create<RoadmapState>()(
         resetState: () => {
           const sub = get().projectUnsubscribe;
           if (sub) sub();
-          set({ projects: [], currentProjectId: null, activeTool: null, activeListenersUserId: null, nodes: [], edges: [], fiveWhysNodes: [], fiveWhysEdges: [], swot: [], ishikawa: [], pdca: [], waterfall: [], pareto: [], histogram: [], eod: [],
+          set({ projects: [], currentProjectId: null, activeTool: null, nodes: [], edges: [], fiveWhysNodes: [], fiveWhysEdges: [], swot: [], ishikawa: [], pdca: [], waterfall: [], pareto: [], histogram: [], eod: [],
             decision: [], flowchartNodes: [], flowchartEdges: [], ftaNodes: [], ftaEdges: [], projectUnsubscribe: null });
         },
 
         
       activeTool: null,
-      activeListenersUserId: null,
       setActiveTool: (tool) => {
         set({ activeTool: tool });
         if (tool) {
@@ -164,21 +162,46 @@ export const useRoadmapStore = create<RoadmapState>()(
       currentProjectId: null,
 
       fetchProjects: async (userId) => {
-        if (get().activeListenersUserId === userId) return;
-
         try {
           const currentSub = get().projectUnsubscribe;
           if (currentSub) currentSub();
 
-          let myProjects: Project[] = [];
-          let sharedProjects: Project[] = [];
+          const parseDoc = (doc: any) => {
+            try {
+              const data = doc.data() as Project;
+              let safeSwot = data.swot || [];
+              if (safeSwot.length > 0 && typeof safeSwot[0] === 'object' && safeSwot[0] !== null && 'type' in safeSwot[0]) {
+                safeSwot = [{
+                  id: 'migrated-swot',
+                  title: i18n.t('default_swot_title'),
+                  items: safeSwot as unknown as import('./slices/createSwotSlice').SwotItem[],
+                  createdAt: Date.now()
+                }];
+              }
+              let safeWaterfall = data.waterfall || [];
+              safeWaterfall = safeWaterfall.map((proj: any) => ({
+                ...proj,
+                currentPhaseIndex: proj.currentPhaseIndex ?? 0,
+                items: Array.isArray(proj.items) ? proj.items.map((item: any) => ({
+                  ...item,
+                  phase: (item.phase as string) === 'Design' ? 'High-Level Design' : item.phase
+                })) : []
+              }));
+              return { ...data, id: doc.id, swot: safeSwot, waterfall: safeWaterfall };
+            } catch (error) {
+              console.error("Parse doc error for project ID", doc.id, error);
+              return { id: doc.id, name: 'Hatalı Proje Verisi', userId: 'error', updatedAt: 0, nodes: [], edges: [], swot: [], ishikawa: [], pdca: [], waterfall: [] } as unknown as Project;
+            }
+          };
 
-          const updateStore = () => {
-            const allProjects = [...myProjects, ...sharedProjects];
-            const uniqueMap = new Map();
-            allProjects.forEach(p => uniqueMap.set(p.id, p));
-            const fetchedProjects = Array.from(uniqueMap.values());
-            
+          // Sayfa sert yenilendiğinde, Firestore'un dahili auth token'ı bazen
+          // onAuthStateChanged'den bir tık geç bağlanır. İlk istek bu yüzden
+          // permission-denied alırsa, kısa bir gecikmeyle dinleyiciyi otomatik
+          // olarak yeniden kurarak kalıcı olarak boş kalmasını önlüyoruz.
+          const q = query(collection(db, 'projects'), or(where('userId', '==', userId), where('sharedWith', 'array-contains', userId)));
+          const unsubscribe = onSnapshot(q, (snapshot) => {
+            const fetchedProjects = snapshot.docs.map(parseDoc);
+
             isRemoteUpdate = true;
             const currentState = get();
             const updates: Partial<RoadmapState> & Record<string, any> = { projects: fetchedProjects };
@@ -210,58 +233,14 @@ export const useRoadmapStore = create<RoadmapState>()(
             setTimeout(() => {
               isRemoteUpdate = false;
             }, 0);
-          };
-
-          const parseDoc = (doc: any) => {
-            try {
-              const data = doc.data() as Project;
-              let safeSwot = data.swot || [];
-              if (safeSwot.length > 0 && typeof safeSwot[0] === 'object' && safeSwot[0] !== null && 'type' in safeSwot[0]) {
-                safeSwot = [{
-                  id: 'migrated-swot',
-                  title: i18n.t('default_swot_title'),
-                  items: safeSwot as unknown as import('./slices/createSwotSlice').SwotItem[],
-                  createdAt: Date.now()
-                }];
-              }
-              let safeWaterfall = data.waterfall || [];
-              safeWaterfall = safeWaterfall.map((proj: any) => ({
-                ...proj,
-                currentPhaseIndex: proj.currentPhaseIndex ?? 0,
-                items: Array.isArray(proj.items) ? proj.items.map((item: any) => ({
-                  ...item,
-                  phase: (item.phase as string) === 'Design' ? 'High-Level Design' : item.phase
-                })) : []
-              }));
-              return { ...data, id: doc.id, swot: safeSwot, waterfall: safeWaterfall };
-            } catch (error) {
-              console.error("Parse doc error for project ID", doc.id, error);
-              return { id: doc.id, name: 'Hatalı Proje Verisi', userId: 'error', updatedAt: 0, nodes: [], edges: [], swot: [], ishikawa: [], pdca: [], waterfall: [] } as unknown as Project;
+          }, (error) => {
+            console.error("Fetch projects error:", error);
+            if (error.code === 'permission-denied' && useAuthStore.getState().user?.uid === userId) {
+              setTimeout(() => get().fetchProjects(userId), 1500);
             }
-          };
-
-          const qMy = query(collection(db, 'projects'), where('userId', '==', userId));
-          const unsubMy = onSnapshot(qMy, (snapshot) => {
-            myProjects = snapshot.docs.map(parseDoc);
-            updateStore();
-          }, (error) => {
-            console.error("Fetch my projects error:", error);
-            set({ activeListenersUserId: null });
           });
 
-          const qShared = query(collection(db, 'projects'), where('sharedWith', 'array-contains', userId));
-          const unsubShared = onSnapshot(qShared, (snapshot) => {
-            sharedProjects = snapshot.docs.map(parseDoc);
-            updateStore();
-          }, (error) => {
-            console.error("Fetch shared projects error:", error);
-            set({ activeListenersUserId: null });
-          });
-          
-          set({ 
-            projectUnsubscribe: () => { unsubMy(); unsubShared(); },
-            activeListenersUserId: userId
-          });
+          set({ projectUnsubscribe: unsubscribe });
         } catch (error) {
           console.error("Setup listen projects error:", error);
         }
