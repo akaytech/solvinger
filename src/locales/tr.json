@@ -23,7 +23,7 @@
   "fta_prob_input": "Olasılık (%):",
   "fta_events": "OLAYLAR",
   "fta_gates": "MANTIK KAPILARI",
-  "export_image": "İndir",
+  "export_image": "Görsel olarak dışa aktar",
   "wf_hld": "2. Üst Düzey Tasarım (HLD)",
   "wf_lld": "3. Alt Düzey Tasarım (LLD)",
   "wf_hld_desc": "Sistemin genel mimarisini ve bileşenler arası ilişkileri tasarlayın.",

@@ -56,8 +56,12 @@ export default function Workspace() {
     <ReactFlowProvider>
       <div className="flex-1 relative overflow-hidden bg-slate-50 dark:bg-slate-900 transition-colors duration-200 flex flex-col">
         {activeTool && <UndoRedoControls />}
-        {activeTool && <GlobalExportButton />}
-        {activeTool && <GlobalShareButton />}
+        {activeTool && (
+          <div className="absolute top-4 end-36 z-[100] flex items-center gap-2">
+            <GlobalShareButton />
+            <GlobalExportButton />
+          </div>
+        )}
         
         <Suspense fallback={
           <div className="flex h-full w-full items-center justify-center">
