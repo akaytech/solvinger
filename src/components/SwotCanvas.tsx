@@ -174,9 +174,9 @@ export default function SwotCanvas() {
             <p className="text-lg mb-8">{t('swot_no_analysis')}</p>
             
             <div className="flex flex-col items-center p-8 bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-xl max-w-md text-center">
-              <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-2">Nereden Başlayacağınızı Bilmiyor Musunuz?</h3>
+              <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 mb-2">{t('swot_example_heading')}</h3>
               <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">
-                Gerçek bir senaryo üzerinden SWOT analizinin nasıl yapıldığını görmek için örnek şablonu yükleyebilirsiniz.
+                {t('swot_example_hint')}
               </p>
               <button
                 onClick={() => {
@@ -206,7 +206,7 @@ export default function SwotCanvas() {
                 className="flex items-center gap-2 rounded-xl bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 px-6 py-3 font-bold transition-all hover:bg-indigo-200 dark:hover:bg-indigo-900 hover:-translate-y-0.5 active:translate-y-0"
               >
                 <Zap size={20} />
-                Örnek Şablon Yükle
+                {t('load_example')}
               </button>
             </div>
           </div>

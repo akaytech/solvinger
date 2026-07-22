@@ -165,7 +165,7 @@ export default function EodCanvas() {
           
           {isLimitReached && (
             <div className="mt-4 text-sm text-rose-500 font-medium text-center">
-              Maksimum hedef sınırına (6) ulaştınız. Yeni bir hedef eklemek için mevcutlardan birini silin.
+              {t('eod_max_reached')}
             </div>
           )}
         </form>

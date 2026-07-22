@@ -62,7 +62,7 @@ export default function FlowchartContextMenu({ x, y, node, onClose, onAddNode, o
           
           <div className="h-px bg-slate-100 dark:bg-slate-700/50 my-1"></div>
           
-          <div className="px-3 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider">{t('flowchart_group_flow') || 'AKIŞ DİYAGRAMI'}</div>
+          <div className="px-3 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider">{t('flowchart_group_flow')}</div>
           
           <button onClick={() => onAddNode('process', t('flowchart_new_process'))} className="w-full px-4 py-1.5 text-start text-sm text-blue-600 dark:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 flex items-center gap-2 transition-colors">
             <Box size={16} /> {t('flowchart_add_process')}
@@ -79,13 +79,13 @@ export default function FlowchartContextMenu({ x, y, node, onClose, onAddNode, o
 
           <div className="h-px bg-slate-100 dark:bg-slate-700/50 my-1"></div>
           
-          <div className="px-3 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider">{t('flowchart_group_dfd') || 'VERİ AKIŞI (DFD)'}</div>
+          <div className="px-3 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider">{t('flowchart_group_dfd')}</div>
           
-          <button onClick={() => onAddNode('externalEntity', t('flowchart_new_external') || 'Yeni Dış Kaynak')} className="w-full px-4 py-1.5 text-start text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700/50 flex items-center gap-2 transition-colors">
-            <Building size={16} /> {t('flowchart_add_external') || 'Dış Varlık Ekle'}
+          <button onClick={() => onAddNode('externalEntity', t('flowchart_new_external'))} className="w-full px-4 py-1.5 text-start text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700/50 flex items-center gap-2 transition-colors">
+            <Building size={16} /> {t('flowchart_add_external')}
           </button>
-          <button onClick={() => onAddNode('dataStore', t('flowchart_new_datastore') || 'Yeni Veri Deposu')} className="w-full px-4 py-1.5 text-start text-sm text-sky-600 dark:text-sky-500 hover:bg-sky-50 dark:hover:bg-sky-900/20 flex items-center gap-2 transition-colors">
-            <Database size={16} /> {t('flowchart_add_datastore') || 'Veri Deposu Ekle'}
+          <button onClick={() => onAddNode('dataStore', t('flowchart_new_datastore'))} className="w-full px-4 py-1.5 text-start text-sm text-sky-600 dark:text-sky-500 hover:bg-sky-50 dark:hover:bg-sky-900/20 flex items-center gap-2 transition-colors">
+            <Database size={16} /> {t('flowchart_add_datastore')}
           </button>
 
           <div className="h-px bg-slate-100 dark:bg-slate-700/50 my-1"></div>

@@ -1,10 +1,12 @@
 import React, { useEffect, useCallback } from 'react';
 import { Undo2, Redo2 } from 'lucide-react';
 import { useStore } from 'zustand';
+import { useTranslation } from 'react-i18next';
 import { useRoadmapStore } from '../store/useRoadmapStore';
 
 const UndoRedoControls: React.FC = () => {
-  
+  const { t } = useTranslation();
+
   const { undo, redo, pastStates, futureStates } = useStore(useRoadmapStore.temporal, (state) => state);
   const forceSync = useRoadmapStore((state) => state.forceSync);
 
@@ -60,7 +62,7 @@ const UndoRedoControls: React.FC = () => {
             ? 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
             : 'text-slate-300 dark:text-slate-600 cursor-not-allowed'
         }`}
-        title="Geri Al (Ctrl+Z)"
+        title={t('undo')}
       >
         <Undo2 size={18} />
       </button>
@@ -72,7 +74,7 @@ const UndoRedoControls: React.FC = () => {
             ? 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
             : 'text-slate-300 dark:text-slate-600 cursor-not-allowed'
         }`}
-        title="İleri Al (Ctrl+Y)"
+        title={t('redo')}
       >
         <Redo2 size={18} />
       </button>

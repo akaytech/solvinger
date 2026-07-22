@@ -47,6 +47,32 @@ export default function AuthModal() {
     }
   };
 
+  // auth_legal_text çevirisi, __TERMS__/__PRIVACY__ yer tutuculu <button> etiketleri
+  // içerir. Bunları tüm dillerde tıklanabilir gerçek butonlara dönüştürüyoruz.
+  const renderLegalConsent = () => {
+    const parts = t('auth_legal_text').split(/<button[^>]*onClick='(__TERMS__|__PRIVACY__)'[^>]*>(.*?)<\/button>/g);
+    const nodes: React.ReactNode[] = [];
+    for (let i = 0; i < parts.length; i += 3) {
+      if (parts[i]) nodes.push(<span key={`t${i}`}>{parts[i]}</span>);
+      const placeholder = parts[i + 1];
+      const label = parts[i + 2];
+      if (placeholder && label) {
+        const target: 'terms' | 'privacy' = placeholder === '__TERMS__' ? 'terms' : 'privacy';
+        nodes.push(
+          <button
+            key={`b${i}`}
+            type="button"
+            onClick={() => setLegalType(target)}
+            className="font-bold hover:text-indigo-500 hover:underline"
+          >
+            {label}
+          </button>
+        );
+      }
+    }
+    return nodes;
+  };
+
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/50 backdrop-blur-md p-4 md:p-8">
       <div className="relative flex w-full max-w-6xl overflow-hidden rounded-3xl bg-white dark:bg-slate-900 shadow-2xl flex-col md:flex-row h-auto md:h-[600px]">
@@ -162,11 +188,7 @@ export default function AuthModal() {
           </p>
 
           <p className="mt-8 text-center text-xs text-slate-400 dark:text-slate-500 leading-relaxed">
-            {t('login') === 'Giriş Yap' ? (
-              <>Devam ederek <button type="button" onClick={() => setLegalType('terms')} className="font-bold hover:text-indigo-500 hover:underline">Kullanım Koşulları</button> ve <button type="button" onClick={() => setLegalType('privacy')} className="font-bold hover:text-indigo-500 hover:underline">KVKK Aydınlatma Metni</button>'ni kabul etmiş sayılırsınız.</>
-            ) : (
-              <>By continuing, you agree to our <button type="button" onClick={() => setLegalType('terms')} className="font-bold hover:text-indigo-500 hover:underline">Terms of Use</button> and <button type="button" onClick={() => setLegalType('privacy')} className="font-bold hover:text-indigo-500 hover:underline">Privacy Policy</button>.</>
-            )}
+            {renderLegalConsent()}
           </p>
         </div>
       </div>

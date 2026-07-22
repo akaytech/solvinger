@@ -257,5 +257,19 @@
   "landing_cta_heading": "从今天开始持续改进。",
   "landing_cta_subtitle": "解决问题和制定战略决策从未如此简单。与您的团队一起免费试用。",
   "landing_cta_button": "创建免费账户",
-  "landing_rights_reserved": "保留所有权利。"
+  "landing_rights_reserved": "保留所有权利。",
+  "edit": "编辑",
+  "undo": "撤销 (Ctrl+Z)",
+  "redo": "重做 (Ctrl+Y)",
+  "share": "分享",
+  "copied": "已复制",
+  "whys_solution_placeholder": "解决方案",
+  "whys_empty_hint": "在画布上添加第一个「主要问题」节点，开始您的分析。",
+  "whys_add_root": "添加主要问题（空白画布）",
+  "load_example": "加载示例模板",
+  "swot_example_heading": "不确定从哪里开始？",
+  "swot_example_hint": "您可以加载示例模板，通过真实场景了解如何进行 SWOT 分析。",
+  "eod_max_reached": "您已达到目标上限（6 个）。请删除一个现有目标以添加新目标。",
+  "fta_prob_placeholder": "例如 5",
+  "delete_error": "删除错误："
 }

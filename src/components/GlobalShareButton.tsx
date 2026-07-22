@@ -37,7 +37,7 @@ const GlobalShareButton: React.FC = () => {
       onClick={handleShare}
       disabled={isLoading}
       className={`absolute top-4 right-[250px] z-[100] flex items-center gap-2 bg-indigo-50/90 dark:bg-indigo-900/40 backdrop-blur-md px-3 py-2 rounded-xl border border-indigo-200 dark:border-indigo-700 shadow-sm transition-colors text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 font-medium text-sm ${isLoading ? 'opacity-75 cursor-not-allowed' : ''}`}
-      title={t('share') || "Paylaş"}
+      title={t('share')}
     >
       {isLoading ? (
         <Loader2 size={18} className="animate-spin" />
@@ -47,7 +47,7 @@ const GlobalShareButton: React.FC = () => {
         <Link size={18} />
       )}
       <span className="hidden sm:inline">
-        {isCopied ? (t('copied') || "Kopyalandı") : (t('share') || "Paylaş")}
+        {isCopied ? t('copied') : t('share')}
       </span>
     </button>
   );

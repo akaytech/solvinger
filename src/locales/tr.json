@@ -257,5 +257,19 @@
   "landing_cta_heading": "Sürekli gelişmeye bugün başlayın.",
   "landing_cta_subtitle": "Sorunları çözmek ve stratejik kararlar almak hiç bu kadar kolay olmamıştı. Ekibinizle birlikte ücretsiz deneyin.",
   "landing_cta_button": "Ücretsiz Hesap Oluştur",
-  "landing_rights_reserved": "Tüm hakları saklıdır."
+  "landing_rights_reserved": "Tüm hakları saklıdır.",
+  "edit": "Düzenle",
+  "undo": "Geri Al (Ctrl+Z)",
+  "redo": "İleri Al (Ctrl+Y)",
+  "share": "Paylaş",
+  "copied": "Kopyalandı",
+  "whys_solution_placeholder": "Çözüm",
+  "whys_empty_hint": "Kanvasa ilk \"Ana Sorun\" düğümünü ekleyerek analize başlayın.",
+  "whys_add_root": "Ana Sorun Ekle (Boş Tuval)",
+  "load_example": "Örnek Şablon Yükle",
+  "swot_example_heading": "Nereden Başlayacağınızı Bilmiyor Musunuz?",
+  "swot_example_hint": "Gerçek bir senaryo üzerinden SWOT analizinin nasıl yapıldığını görmek için örnek şablonu yükleyebilirsiniz.",
+  "eod_max_reached": "Maksimum hedef sınırına (6) ulaştınız. Yeni bir hedef eklemek için mevcutlardan birini silin.",
+  "fta_prob_placeholder": "Örn: 5",
+  "delete_error": "Silme Hatası: "
 }

@@ -75,7 +75,7 @@ function FiveWhysCanvasInner() {
       } else if (event.shiftKey) {
         event.preventDefault();
         event.stopPropagation();
-        addFiveWhysNode(node.id, 'solution', t('whys_solution_placeholder') || 'Çözüm');
+        addFiveWhysNode(node.id, 'solution', t('whys_solution_placeholder'));
       }
     },
     [addFiveWhysNode, t]
@@ -120,20 +120,20 @@ function FiveWhysCanvasInner() {
                    {t('whys_empty')}
                  </h3>
                  <p className="text-slate-500 dark:text-slate-400 mb-6 text-sm">
-                   Kanvasa ilk "Ana Sorun" düğümünü ekleyerek analize başlayın.
+                   {t('whys_empty_hint')}
                  </p>
                  <div className="flex flex-col gap-3">
                    <button
                      onClick={() => addFiveWhysNode(null, 'problem', t('whys_placeholder'))}
                      className="w-full py-3 px-6 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold transition-all hover:shadow-lg hover:shadow-indigo-500/20 active:scale-95"
                    >
-                     Ana Sorun Ekle (Boş Tuval)
+                     {t('whys_add_root')}
                    </button>
                    <button
                      onClick={() => loadFiveWhysExample()}
                      className="w-full py-3 px-6 bg-indigo-100 hover:bg-indigo-200 dark:bg-indigo-900/50 dark:hover:bg-indigo-800 text-indigo-700 dark:text-indigo-300 rounded-xl font-bold transition-all active:scale-95"
                    >
-                     Örnek Şablon Yükle
+                     {t('load_example')}
                    </button>
                  </div>
                </div>

@@ -257,5 +257,19 @@
   "landing_cta_heading": "Comece a melhorar continuamente hoje mesmo.",
   "landing_cta_subtitle": "Resolver problemas e tomar decisões estratégicas nunca foi tão fácil. Experimente gratuitamente com a sua equipe.",
   "landing_cta_button": "Criar conta gratuita",
-  "landing_rights_reserved": "Todos os direitos reservados."
+  "landing_rights_reserved": "Todos os direitos reservados.",
+  "edit": "Editar",
+  "undo": "Desfazer (Ctrl+Z)",
+  "redo": "Refazer (Ctrl+Y)",
+  "share": "Compartilhar",
+  "copied": "Copiado",
+  "whys_solution_placeholder": "Solução",
+  "whys_empty_hint": "Comece a sua análise adicionando o primeiro nó \"Problema principal\" ao quadro.",
+  "whys_add_root": "Adicionar problema principal (quadro vazio)",
+  "load_example": "Carregar modelo de exemplo",
+  "swot_example_heading": "Não sabe por onde começar?",
+  "swot_example_hint": "Você pode carregar um modelo de exemplo para ver como uma análise SWOT é feita através de um cenário real.",
+  "eod_max_reached": "Você atingiu o limite máximo de metas (6). Exclua uma das metas existentes para adicionar uma nova.",
+  "fta_prob_placeholder": "ex.: 5",
+  "delete_error": "Erro ao excluir: "
 }

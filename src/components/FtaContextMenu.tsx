@@ -69,7 +69,7 @@ export default function FtaContextMenu({ x, y, node, onClose, onAddNode, onUpdat
           />
           {isBaseEvent && (
             <div className="flex items-center gap-2 mb-2">
-              <label className="text-xs text-slate-600 dark:text-slate-400 font-medium whitespace-nowrap">{t('fta_prob_input') || 'Olasılık (%):'}</label>
+              <label className="text-xs text-slate-600 dark:text-slate-400 font-medium whitespace-nowrap">{t('fta_prob_input')}</label>
               <input
                 type="number"
                 min="0"
@@ -78,7 +78,7 @@ export default function FtaContextMenu({ x, y, node, onClose, onAddNode, onUpdat
                 value={editProb}
                 onChange={(e) => setEditProb(e.target.value)}
                 className="w-full px-2 py-1 text-sm bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                placeholder="Örn: 5"
+                placeholder={t('fta_prob_placeholder')}
               />
             </div>
           )}
@@ -95,7 +95,7 @@ export default function FtaContextMenu({ x, y, node, onClose, onAddNode, onUpdat
           
           <div className="h-px bg-slate-100 dark:bg-slate-700/50 my-1"></div>
           
-          <div className="px-3 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider">{t('fta_events') || 'OLAYLAR'}</div>
+          <div className="px-3 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider">{t('fta_events')}</div>
           
           <button onClick={() => onAddNode('event', t('fta_new_event'))} className="w-full px-4 py-1.5 text-start text-sm text-amber-600 dark:text-amber-500 hover:bg-amber-50 dark:hover:bg-amber-900/20 flex items-center gap-2 transition-colors">
             <Box size={16} /> {t('fta_add_event')}
@@ -103,30 +103,30 @@ export default function FtaContextMenu({ x, y, node, onClose, onAddNode, onUpdat
           <button onClick={() => onAddNode('basicEvent', t('fta_new_basic'))} className="w-full px-4 py-1.5 text-start text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700/50 flex items-center gap-2 transition-colors">
             <CircleDot size={16} /> {t('fta_add_basic')}
           </button>
-          <button onClick={() => onAddNode('undevelopedEvent', t('fta_new_undeveloped') || 'Yeni Geliştirilmemiş Olay')} className="w-full px-4 py-1.5 text-start text-sm text-orange-600 dark:text-orange-500 hover:bg-orange-50 dark:hover:bg-orange-900/20 flex items-center gap-2 transition-colors">
-            <Diamond size={16} /> {t('fta_add_undeveloped') || 'Geliştirilmemiş Olay'}
+          <button onClick={() => onAddNode('undevelopedEvent', t('fta_new_undeveloped'))} className="w-full px-4 py-1.5 text-start text-sm text-orange-600 dark:text-orange-500 hover:bg-orange-50 dark:hover:bg-orange-900/20 flex items-center gap-2 transition-colors">
+            <Diamond size={16} /> {t('fta_add_undeveloped')}
           </button>
-          <button onClick={() => onAddNode('conditioningEvent', t('fta_new_conditioning') || 'Yeni Koşul')} className="w-full px-4 py-1.5 text-start text-sm text-lime-600 dark:text-lime-500 hover:bg-lime-50 dark:hover:bg-lime-900/20 flex items-center gap-2 transition-colors">
-            <Filter size={16} /> {t('fta_add_conditioning') || 'Koşul Olayı'}
+          <button onClick={() => onAddNode('conditioningEvent', t('fta_new_conditioning'))} className="w-full px-4 py-1.5 text-start text-sm text-lime-600 dark:text-lime-500 hover:bg-lime-50 dark:hover:bg-lime-900/20 flex items-center gap-2 transition-colors">
+            <Filter size={16} /> {t('fta_add_conditioning')}
           </button>
 
           <div className="h-px bg-slate-100 dark:bg-slate-700/50 my-1"></div>
-          <div className="px-3 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider">{t('fta_gates') || 'MANTIK KAPILARI'}</div>
+          <div className="px-3 py-1 text-[10px] font-bold text-slate-400 uppercase tracking-wider">{t('fta_gates')}</div>
 
           <button onClick={() => onAddNode('andGate', t('fta_add_and'))} className="w-full px-4 py-1.5 text-start text-sm text-indigo-600 dark:text-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 flex items-center gap-2 transition-colors">
             <span className="font-black text-lg w-4 text-center">&amp;</span> {t('fta_add_and')}
           </button>
-          <button onClick={() => onAddNode('priorityAndGate', t('fta_add_priority_and') || 'Priority AND Ekle')} className="w-full px-4 py-1.5 text-start text-sm text-violet-600 dark:text-violet-500 hover:bg-violet-50 dark:hover:bg-violet-900/20 flex items-center gap-2 transition-colors">
-            <ListOrdered size={16} /> {t('fta_add_priority_and') || 'Priority AND Kapısı'}
+          <button onClick={() => onAddNode('priorityAndGate', t('fta_add_priority_and'))} className="w-full px-4 py-1.5 text-start text-sm text-violet-600 dark:text-violet-500 hover:bg-violet-50 dark:hover:bg-violet-900/20 flex items-center gap-2 transition-colors">
+            <ListOrdered size={16} /> {t('fta_add_priority_and')}
           </button>
           <button onClick={() => onAddNode('orGate', t('fta_add_or'))} className="w-full px-4 py-1.5 text-start text-sm text-teal-600 dark:text-teal-500 hover:bg-teal-50 dark:hover:bg-teal-900/20 flex items-center gap-2 transition-colors">
             <span className="font-black text-sm w-4 text-center">≥1</span> {t('fta_add_or')}
           </button>
-          <button onClick={() => onAddNode('exclusiveOrGate', t('fta_add_xor') || 'XOR Ekle')} className="w-full px-4 py-1.5 text-start text-sm text-cyan-600 dark:text-cyan-500 hover:bg-cyan-50 dark:hover:bg-cyan-900/20 flex items-center gap-2 transition-colors">
-            <GitBranch size={16} /> {t('fta_add_xor') || 'Exclusive OR (XOR)'}
+          <button onClick={() => onAddNode('exclusiveOrGate', t('fta_add_xor'))} className="w-full px-4 py-1.5 text-start text-sm text-cyan-600 dark:text-cyan-500 hover:bg-cyan-50 dark:hover:bg-cyan-900/20 flex items-center gap-2 transition-colors">
+            <GitBranch size={16} /> {t('fta_add_xor')}
           </button>
-          <button onClick={() => onAddNode('inhibitGate', t('fta_add_inhibit') || 'Inhibit Ekle')} className="w-full px-4 py-1.5 text-start text-sm text-fuchsia-600 dark:text-fuchsia-500 hover:bg-fuchsia-50 dark:hover:bg-fuchsia-900/20 flex items-center gap-2 transition-colors">
-            <Hexagon size={16} /> {t('fta_add_inhibit') || 'Inhibit Kapısı'}
+          <button onClick={() => onAddNode('inhibitGate', t('fta_add_inhibit'))} className="w-full px-4 py-1.5 text-start text-sm text-fuchsia-600 dark:text-fuchsia-500 hover:bg-fuchsia-50 dark:hover:bg-fuchsia-900/20 flex items-center gap-2 transition-colors">
+            <Hexagon size={16} /> {t('fta_add_inhibit')}
           </button>
           
           {node.id !== 'root' && (

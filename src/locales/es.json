@@ -257,5 +257,19 @@
   "landing_cta_heading": "Empieza a mejorar continuamente hoy mismo.",
   "landing_cta_subtitle": "Resolver problemas y tomar decisiones estratégicas nunca ha sido tan fácil. Pruébalo gratis con tu equipo.",
   "landing_cta_button": "Crear cuenta gratis",
-  "landing_rights_reserved": "Todos los derechos reservados."
+  "landing_rights_reserved": "Todos los derechos reservados.",
+  "edit": "Editar",
+  "undo": "Deshacer (Ctrl+Z)",
+  "redo": "Rehacer (Ctrl+Y)",
+  "share": "Compartir",
+  "copied": "Copiado",
+  "whys_solution_placeholder": "Solución",
+  "whys_empty_hint": "Comienza tu análisis añadiendo el primer nodo \"Problema principal\" al lienzo.",
+  "whys_add_root": "Añadir problema principal (lienzo vacío)",
+  "load_example": "Cargar plantilla de ejemplo",
+  "swot_example_heading": "¿No sabes por dónde empezar?",
+  "swot_example_hint": "Puedes cargar una plantilla de ejemplo para ver cómo se realiza un análisis SWOT a través de un escenario real.",
+  "eod_max_reached": "Has alcanzado el límite máximo de objetivos (6). Elimina uno de los objetivos existentes para añadir uno nuevo.",
+  "fta_prob_placeholder": "p. ej. 5",
+  "delete_error": "Error al eliminar: "
 }

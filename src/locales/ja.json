@@ -257,5 +257,19 @@
   "landing_cta_heading": "継続的な改善を今日から始めましょう。",
   "landing_cta_subtitle": "問題解決と戦略的な意思決定が、かつてないほど簡単に。チームで無料でお試しください。",
   "landing_cta_button": "無料アカウントを作成",
-  "landing_rights_reserved": "無断転載を禁じます。"
+  "landing_rights_reserved": "無断転載を禁じます。",
+  "edit": "編集",
+  "undo": "元に戻す (Ctrl+Z)",
+  "redo": "やり直す (Ctrl+Y)",
+  "share": "共有",
+  "copied": "コピーしました",
+  "whys_solution_placeholder": "解決策",
+  "whys_empty_hint": "キャンバスに最初の「主な問題」ノードを追加して分析を始めましょう。",
+  "whys_add_root": "主な問題を追加（空のキャンバス）",
+  "load_example": "サンプルテンプレートを読み込む",
+  "swot_example_heading": "どこから始めればいいか迷っていますか？",
+  "swot_example_hint": "実際のシナリオを通してSWOT分析の進め方を見るには、サンプルテンプレートを読み込めます。",
+  "eod_max_reached": "目標の上限（6件）に達しました。新しい目標を追加するには、既存の目標を1つ削除してください。",
+  "fta_prob_placeholder": "例: 5",
+  "delete_error": "削除エラー: "
 }

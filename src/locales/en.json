@@ -257,5 +257,19 @@
   "landing_cta_heading": "Start improving continuously today.",
   "landing_cta_subtitle": "Solving problems and making strategic decisions has never been easier. Try it free with your team.",
   "landing_cta_button": "Create Free Account",
-  "landing_rights_reserved": "All rights reserved."
+  "landing_rights_reserved": "All rights reserved.",
+  "edit": "Edit",
+  "undo": "Undo (Ctrl+Z)",
+  "redo": "Redo (Ctrl+Y)",
+  "share": "Share",
+  "copied": "Copied",
+  "whys_solution_placeholder": "Solution",
+  "whys_empty_hint": "Start your analysis by adding the first \"Main Problem\" node to the canvas.",
+  "whys_add_root": "Add Main Problem (Empty Canvas)",
+  "load_example": "Load Example Template",
+  "swot_example_heading": "Not Sure Where to Start?",
+  "swot_example_hint": "You can load an example template to see how a SWOT analysis is done through a real scenario.",
+  "eod_max_reached": "You've reached the maximum goal limit (6). Delete one of the existing goals to add a new one.",
+  "fta_prob_placeholder": "e.g. 5",
+  "delete_error": "Delete error: "
 }

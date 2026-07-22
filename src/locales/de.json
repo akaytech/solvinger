@@ -257,5 +257,19 @@
   "landing_cta_heading": "Beginnen Sie noch heute mit kontinuierlicher Verbesserung.",
   "landing_cta_subtitle": "Probleme zu lösen und strategische Entscheidungen zu treffen war noch nie so einfach. Testen Sie es kostenlos mit Ihrem Team.",
   "landing_cta_button": "Kostenloses Konto erstellen",
-  "landing_rights_reserved": "Alle Rechte vorbehalten."
+  "landing_rights_reserved": "Alle Rechte vorbehalten.",
+  "edit": "Bearbeiten",
+  "undo": "Rückgängig (Ctrl+Z)",
+  "redo": "Wiederholen (Ctrl+Y)",
+  "share": "Teilen",
+  "copied": "Kopiert",
+  "whys_solution_placeholder": "Lösung",
+  "whys_empty_hint": "Beginnen Sie Ihre Analyse, indem Sie den ersten \"Hauptproblem\"-Knoten zur Arbeitsfläche hinzufügen.",
+  "whys_add_root": "Hauptproblem hinzufügen (leere Arbeitsfläche)",
+  "load_example": "Beispielvorlage laden",
+  "swot_example_heading": "Nicht sicher, wo Sie anfangen sollen?",
+  "swot_example_hint": "Sie können eine Beispielvorlage laden, um zu sehen, wie eine SWOT-Analyse anhand eines realen Szenarios durchgeführt wird.",
+  "eod_max_reached": "Sie haben das maximale Ziellimit (6) erreicht. Löschen Sie eines der vorhandenen Ziele, um ein neues hinzuzufügen.",
+  "fta_prob_placeholder": "z. B. 5",
+  "delete_error": "Löschfehler: "
 }

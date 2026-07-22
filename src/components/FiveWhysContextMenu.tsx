@@ -151,7 +151,7 @@ export default function FiveWhysContextMenu({ x, y, node, onClose, onAddNode, on
               <div className="w-7 h-7 rounded-md bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center shrink-0">
                 <Edit3 size={16} className="text-amber-600 dark:text-amber-400" />
               </div>
-              Düzenle
+              {t('edit')}
             </button>
 
             <button
