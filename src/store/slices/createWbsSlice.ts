@@ -295,6 +295,7 @@ export const createWbsSlice: StateCreator<
 
     set((s) => {
       let nextNodes = [...s.nodes, newNode];
+      nextNodes = cascadeStatus(nextNodes, newEdges, id);
       const { nodes: updatedNodes, edges: updatedEdges } = computeVisibility(nextNodes, newEdges);
       nextNodes = getLayoutedElements(updatedNodes, updatedEdges);
       const next = { ...s, nodes: nextNodes, edges: updatedEdges };
@@ -326,12 +327,21 @@ export const createWbsSlice: StateCreator<
 
   deleteGoal: (id) => {
     set((state) => {
+      const parentId = state.edges.find((e) => e.target === id)?.source;
       const descendants = getDescendants(id, state.edges);
       const toDelete = [id, ...descendants];
-      const nextNodes = state.nodes.filter((node) => !toDelete.includes(node.id));
+      let nextNodes = state.nodes.filter((node) => !toDelete.includes(node.id));
       const nextEdges = state.edges.filter(
         (edge) => !toDelete.includes(edge.source) && !toDelete.includes(edge.target)
       );
+
+      if (parentId) {
+        const survivingSiblings = getDirectChildren(parentId, nextEdges);
+        if (survivingSiblings.length > 0) {
+          nextNodes = cascadeStatus(nextNodes, nextEdges, survivingSiblings[0]);
+        }
+      }
+
       const { nodes: updatedNodes, edges: updatedEdges } = computeVisibility(nextNodes, nextEdges);
       const finalNodes = getLayoutedElements(updatedNodes, updatedEdges);
       const next = { ...state, nodes: finalNodes, edges: updatedEdges };
