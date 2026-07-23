@@ -52,20 +52,50 @@ export default function LandingPage() {
     setShowLanguagePicker(false);
   };
 
-  const tools = [
-    { id: 'wbs', icon: Network, title: t('tool_wbs'), desc: t('wbs_desc'), color: 'text-indigo-500', bg: 'bg-indigo-100 dark:bg-indigo-900/50' },
-    { id: '5whys', icon: Activity, title: t('tool_5whys'), desc: t('whys_desc'), color: 'text-emerald-500', bg: 'bg-emerald-100 dark:bg-emerald-900/50' },
-    { id: 'swot', icon: Target, title: t('tool_swot'), desc: t('swot_desc'), color: 'text-rose-500', bg: 'bg-rose-100 dark:bg-rose-900/50' },
-    { id: 'ishikawa', icon: Fish, title: t('tool_ishikawa'), desc: t('ishi_desc'), color: 'text-cyan-500', bg: 'bg-cyan-100 dark:bg-cyan-900/50' },
-    { id: 'pdca', icon: RefreshCcw, title: t('tool_pdca'), desc: t('pdca_desc'), color: 'text-indigo-500', bg: 'bg-indigo-100 dark:bg-indigo-900/50' },
-    { id: 'waterfall', icon: Layers, title: t('tool_waterfall'), desc: t('wf_desc'), color: 'text-blue-500', bg: 'bg-blue-100 dark:bg-blue-900/50' },
-    { id: 'fta', icon: AlertOctagon, title: t('fta_title'), desc: t('fta_desc'), color: 'text-rose-500', bg: 'bg-rose-100 dark:bg-rose-900/50' },
-    { id: 'decision', icon: Scale, title: t('decision_title'), desc: t('decision_desc'), color: 'text-violet-500', bg: 'bg-violet-100 dark:bg-violet-900/50' },
-    { id: 'flowchart', icon: GitMerge, title: t('tool_flowchart'), desc: t('flowchart_desc'), color: 'text-amber-500', bg: 'bg-amber-100 dark:bg-amber-900/50' },
-    { id: 'pareto', icon: BarChart2, title: t('tool_pareto'), desc: t('pareto_desc'), color: 'text-blue-500', bg: 'bg-blue-100 dark:bg-blue-900/50' },
-    { id: 'histogram', icon: BarChart, title: t('tool_histogram'), desc: t('histogram_desc'), color: 'text-indigo-500', bg: 'bg-indigo-100 dark:bg-indigo-900/50' },
-    { id: 'eod', icon: ListTodo, title: t('tool_eod'), desc: t('eod_desc'), color: 'text-orange-500', bg: 'bg-orange-100 dark:bg-orange-900/50' },
-    { id: 'notepad', icon: FileText, title: t('notepad_title'), desc: t('notepad_desc'), color: 'text-fuchsia-500', bg: 'bg-fuchsia-100 dark:bg-fuchsia-900/50' },
+  const categories = [
+    {
+      title: t('cat_root_cause'),
+      gridCols: "md:grid-cols-2 lg:grid-cols-3",
+      tools: [
+        { id: '5whys', icon: Activity, title: t('tool_5whys'), desc: t('whys_desc'), color: 'text-emerald-500', bg: 'bg-emerald-100 dark:bg-emerald-900/50' },
+        { id: 'ishikawa', icon: Fish, title: t('tool_ishikawa'), desc: t('ishi_desc'), color: 'text-cyan-500', bg: 'bg-cyan-100 dark:bg-cyan-900/50' },
+      ]
+    },
+    {
+      title: t('cat_data_stats'),
+      gridCols: "md:grid-cols-2 lg:grid-cols-3",
+      tools: [
+        { id: 'pareto', icon: BarChart2, title: t('tool_pareto'), desc: t('pareto_desc'), color: 'text-blue-500', bg: 'bg-blue-100 dark:bg-blue-900/50' },
+        { id: 'histogram', icon: BarChart, title: t('tool_histogram'), desc: t('histogram_desc'), color: 'text-indigo-500', bg: 'bg-indigo-100 dark:bg-indigo-900/50' },
+      ]
+    },
+    {
+      title: t('cat_strategy_decision_risk'),
+      gridCols: "md:grid-cols-2 lg:grid-cols-3",
+      tools: [
+        { id: 'swot', icon: Target, title: t('tool_swot'), desc: t('swot_desc'), color: 'text-rose-500', bg: 'bg-rose-100 dark:bg-rose-900/50' },
+        { id: 'decision', icon: Scale, title: t('decision_title'), desc: t('decision_desc'), color: 'text-violet-500', bg: 'bg-violet-100 dark:bg-violet-900/50' },
+        { id: 'fta', icon: AlertOctagon, title: t('fta_title'), desc: t('fta_desc'), color: 'text-rose-500', bg: 'bg-rose-100 dark:bg-rose-900/50' },
+      ]
+    },
+    {
+      title: t('cat_process_project'),
+      gridCols: "md:grid-cols-2 lg:grid-cols-4",
+      tools: [
+        { id: 'wbs', icon: Network, title: t('tool_wbs'), desc: t('wbs_desc'), color: 'text-indigo-500', bg: 'bg-indigo-100 dark:bg-indigo-900/50' },
+        { id: 'pdca', icon: RefreshCcw, title: t('tool_pdca'), desc: t('pdca_desc'), color: 'text-indigo-500', bg: 'bg-indigo-100 dark:bg-indigo-900/50' },
+        { id: 'waterfall', icon: Layers, title: t('tool_waterfall'), desc: t('wf_desc'), color: 'text-blue-500', bg: 'bg-blue-100 dark:bg-blue-900/50' },
+        { id: 'flowchart', icon: GitMerge, title: t('tool_flowchart'), desc: t('flowchart_desc'), color: 'text-amber-500', bg: 'bg-amber-100 dark:bg-amber-900/50' },
+      ]
+    },
+    {
+      title: t('cat_productivity_docs'),
+      gridCols: "md:grid-cols-2 lg:grid-cols-3",
+      tools: [
+        { id: 'eod', icon: ListTodo, title: t('tool_eod'), desc: t('eod_desc'), color: 'text-orange-500', bg: 'bg-orange-100 dark:bg-orange-900/50' },
+        { id: 'notepad', icon: FileText, title: t('notepad_title'), desc: t('notepad_desc'), color: 'text-fuchsia-500', bg: 'bg-fuchsia-100 dark:bg-fuchsia-900/50' },
+      ]
+    }
   ];
 
   return (
@@ -197,26 +227,33 @@ export default function LandingPage() {
             </p>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {tools.map((tool) => (
-              <button 
-                key={tool.id} 
-                onClick={() => setAuthModalOpen(true, 'register')}
-                className="group relative flex flex-col items-start text-start rounded-3xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 p-8 transition-all hover:shadow-2xl hover:-translate-y-1 motion-reduce:hover:translate-y-0 hover:border-indigo-500/30 dark:hover:border-indigo-500/30"
-              >
-                <div className={`mb-6 h-14 w-14 rounded-2xl ${tool.bg} flex items-center justify-center transition-transform group-hover:scale-110 motion-reduce:group-hover:scale-100 group-hover:rotate-3 motion-reduce:group-hover:rotate-0`}>
-                  <tool.icon size={28} className={tool.color} />
+          <div className="space-y-16">
+            {categories.map((cat, idx) => (
+              <div key={idx}>
+                <h3 className="mb-8 text-2xl font-bold text-slate-900 dark:text-white tracking-tight">{cat.title}</h3>
+                <div className={`grid gap-6 ${cat.gridCols}`}>
+                  {cat.tools.map((tool) => (
+                    <button 
+                      key={tool.id} 
+                      onClick={() => setAuthModalOpen(true, 'register')}
+                      className="group relative flex flex-col items-start text-start rounded-3xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 p-8 transition-all hover:shadow-2xl hover:-translate-y-1 motion-reduce:hover:translate-y-0 hover:border-indigo-500/30 dark:hover:border-indigo-500/30"
+                    >
+                      <div className={`mb-6 h-14 w-14 rounded-2xl ${tool.bg} flex items-center justify-center transition-transform group-hover:scale-110 motion-reduce:group-hover:scale-100 group-hover:rotate-3 motion-reduce:group-hover:rotate-0`}>
+                        <tool.icon size={28} className={tool.color} />
+                      </div>
+                      <h3 className="mb-3 text-xl font-bold text-slate-900 dark:text-white">{tool.title}</h3>
+                      <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed line-clamp-3">
+                        {tool.desc}
+                      </p>
+                      <div className="mt-6 pt-6 mt-auto border-t border-slate-200 dark:border-slate-800 w-full">
+                        <span className="flex items-center gap-2 text-sm font-bold text-indigo-600 dark:text-indigo-400 group-hover:text-indigo-700 dark:group-hover:text-indigo-300">
+                          {t('landing_use_now')} <ArrowRight size={16} className="transition-transform group-hover:translate-x-1 motion-reduce:group-hover:translate-x-0" />
+                        </span>
+                      </div>
+                    </button>
+                  ))}
                 </div>
-                <h3 className="mb-3 text-xl font-bold text-slate-900 dark:text-white">{tool.title}</h3>
-                <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed line-clamp-3">
-                  {tool.desc}
-                </p>
-                <div className="mt-6 pt-6 mt-auto border-t border-slate-200 dark:border-slate-800 w-full">
-                  <span className="flex items-center gap-2 text-sm font-bold text-indigo-600 dark:text-indigo-400 group-hover:text-indigo-700 dark:group-hover:text-indigo-300">
-                    {t('landing_use_now')} <ArrowRight size={16} className="transition-transform group-hover:translate-x-1 motion-reduce:group-hover:translate-x-0" />
-                  </span>
-                </div>
-              </button>
+              </div>
             ))}
           </div>
         </div>
