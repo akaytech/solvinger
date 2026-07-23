@@ -129,13 +129,13 @@ export default function LandingPage() {
             <div className="h-6 w-px bg-slate-200 dark:bg-slate-700 hidden sm:block"></div>
 
             <button
-              onClick={() => setAuthModalOpen(true)}
+              onClick={() => setAuthModalOpen(true, 'login')}
               className="rounded-full bg-slate-100 dark:bg-slate-800 px-4 sm:px-6 py-2.5 text-sm font-bold text-slate-700 dark:text-slate-200 transition-all hover:bg-slate-200 dark:hover:bg-slate-700"
             >
               {t('login')}
             </button>
             <button
-              onClick={() => setAuthModalOpen(true)}
+              onClick={() => setAuthModalOpen(true, 'register')}
               className="rounded-full bg-indigo-600 px-5 sm:px-6 py-2 sm:py-2.5 text-sm font-bold text-white shadow-lg shadow-indigo-600/30 transition-all hover:bg-indigo-700 hover:shadow-indigo-600/40 hover:-translate-y-0.5 active:translate-y-0"
             >
               {t('register')}
@@ -166,7 +166,7 @@ export default function LandingPage() {
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <button
-              onClick={() => setAuthModalOpen(true)}
+              onClick={() => setAuthModalOpen(true, 'register')}
               className="flex items-center gap-2 rounded-full bg-slate-900 dark:bg-white px-8 py-4 text-lg font-bold text-white dark:text-slate-900 shadow-xl shadow-slate-900/20 dark:shadow-white/10 transition-all hover:-translate-y-1 hover:shadow-2xl active:translate-y-0 w-full sm:w-auto justify-center"
             >
               {t('register')} <ArrowRight size={20} />
@@ -208,7 +208,7 @@ export default function LandingPage() {
                 </p>
                 <div className="mt-6 pt-6 mt-auto border-t border-slate-200 dark:border-slate-800 w-full">
                   <button 
-                    onClick={() => setAuthModalOpen(true)}
+                    onClick={() => setAuthModalOpen(true, 'register')}
                     className="flex items-center gap-2 text-sm font-bold text-indigo-600 dark:text-indigo-400 group-hover:text-indigo-700 dark:group-hover:text-indigo-300"
                   >
                     {t('landing_use_now')} <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
@@ -230,7 +230,7 @@ export default function LandingPage() {
             {t('landing_cta_subtitle')}
           </p>
           <button
-            onClick={() => setAuthModalOpen(true)}
+            onClick={() => setAuthModalOpen(true, 'register')}
             className="rounded-full bg-white px-10 py-5 text-xl font-black text-indigo-600 shadow-2xl transition-transform hover:scale-105 active:scale-95"
           >
             {t('landing_cta_button')}

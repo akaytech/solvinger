@@ -12,7 +12,8 @@ export default function AuthModal() {
   const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoginMode, setIsLoginMode] = useState(true);
+  const authModalMode = useAuthStore(state => state.authModalMode);
+  const [isLoginMode, setIsLoginMode] = useState(authModalMode !== 'register');
   const [error, setError] = useState('');
   const [legalType, setLegalType] = useState<'privacy' | 'terms' | null>(null);
   const [showPassword, setShowPassword] = useState(false);
