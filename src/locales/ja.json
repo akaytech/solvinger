@@ -328,5 +328,13 @@
   "forgot_password": "パスワードをお忘れですか",
   "password_reset_sent": "パスワードリセットメールを送信しました",
   "enter_email_for_reset": "まずメールアドレスを入力してください",
-  "more_options": "その他のオプション"
+  "more_options": "その他のオプション",
+  "landing_how_it_works_heading": "使い方",
+  "landing_how_it_works_subtitle": "3つの簡単なステップで複雑な問題を解決します。",
+  "landing_step1_title": "メソッドを選択",
+  "landing_step1_desc": "13の課題解決・分析ツールから最適なフレームワークを選択します。",
+  "landing_step2_title": "チームで分析",
+  "landing_step2_desc": "インタラクティブなキャンバスで作業し、チームとリアルタイムで進行します。",
+  "landing_step3_title": "共有して決定",
+  "landing_step3_desc": "結果をエクスポートまたは共有して、データに基づく意思決定を行います。"
 }

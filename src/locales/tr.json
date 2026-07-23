@@ -328,5 +328,13 @@
   "forgot_password": "Şifremi Unuttum",
   "password_reset_sent": "Şifre sıfırlama e-postası gönderildi",
   "enter_email_for_reset": "Lütfen önce e-posta adresinizi girin",
-  "more_options": "Daha fazla seçenek"
+  "more_options": "Daha fazla seçenek",
+  "landing_how_it_works_heading": "Nasıl Çalışır",
+  "landing_how_it_works_subtitle": "Karmaşık problemleri üç basit adımda çözün.",
+  "landing_step1_title": "Bir Yöntem Seçin",
+  "landing_step1_desc": "13 farklı problem çözme ve analiz aracı arasından ihtiyacınıza en uygun olanı seçin.",
+  "landing_step2_title": "Birlikte Analiz Edin",
+  "landing_step2_desc": "İnteraktif canvas üzerinde çalışın ve ekibinizle eş zamanlı ilerleyin.",
+  "landing_step3_title": "Paylaşın ve Karar Verin",
+  "landing_step3_desc": "Sonuçlarınızı dışa aktarın veya paylaşarak veriye dayalı kararlar alın."
 }

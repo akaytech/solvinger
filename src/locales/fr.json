@@ -328,5 +328,13 @@
   "forgot_password": "Mot de passe oublié",
   "password_reset_sent": "E-mail de réinitialisation du mot de passe envoyé",
   "enter_email_for_reset": "Veuillez d'abord saisir votre adresse e-mail",
-  "more_options": "Plus d'options"
+  "more_options": "Plus d'options",
+  "landing_how_it_works_heading": "Comment ça marche",
+  "landing_how_it_works_subtitle": "Résolvez des problèmes complexes en trois étapes simples.",
+  "landing_step1_title": "Choisissez une Méthode",
+  "landing_step1_desc": "Sélectionnez le cadre le plus approprié parmi nos 13 outils de résolution de problèmes.",
+  "landing_step2_title": "Analysez Ensemble",
+  "landing_step2_desc": "Travaillez sur une toile interactive et progressez en temps réel avec votre équipe.",
+  "landing_step3_title": "Partagez et Décidez",
+  "landing_step3_desc": "Exportez vos résultats ou partagez-les pour prendre des décisions éclairées."
 }

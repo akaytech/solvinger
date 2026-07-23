@@ -328,5 +328,13 @@
   "forgot_password": "Esqueci a senha",
   "password_reset_sent": "E-mail de redefinição de senha enviado",
   "enter_email_for_reset": "Por favor, insira seu endereço de e-mail primeiro",
-  "more_options": "Mais opções"
+  "more_options": "Mais opções",
+  "landing_how_it_works_heading": "Como Funciona",
+  "landing_how_it_works_subtitle": "Resolva problemas complexos em três etapas simples.",
+  "landing_step1_title": "Escolha um Método",
+  "landing_step1_desc": "Selecione a estrutura mais adequada entre nossas 13 ferramentas de análise.",
+  "landing_step2_title": "Analise em Equipe",
+  "landing_step2_desc": "Trabalhe em uma tela interativa e progrida em tempo real com sua equipe.",
+  "landing_step3_title": "Compartilhe e Decida",
+  "landing_step3_desc": "Exporte seus resultados ou compartilhe-os para tomar decisões baseadas em dados."
 }

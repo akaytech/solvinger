@@ -328,5 +328,13 @@
   "forgot_password": "هل نسيت كلمة المرور",
   "password_reset_sent": "تم إرسال بريد إعادة تعيين كلمة المرور",
   "enter_email_for_reset": "يرجى إدخال عنوان بريدك الإلكتروني أولاً",
-  "more_options": "المزيد من الخيارات"
+  "more_options": "المزيد من الخيارات",
+  "landing_how_it_works_heading": "كيف تعمل",
+  "landing_how_it_works_subtitle": "حل المشكلات المعقدة في ثلاث خطوات بسيطة.",
+  "landing_step1_title": "اختر طريقة",
+  "landing_step1_desc": "اختر الإطار الأنسب من بين 13 أداة لتحليل وحل المشكلات.",
+  "landing_step2_title": "حللوا معاً",
+  "landing_step2_desc": "اعمل على لوحة تفاعلية وتقدم في الوقت الفعلي مع فريقك.",
+  "landing_step3_title": "شارك وقرر",
+  "landing_step3_desc": "قم بتصدير نتائجك أو مشاركتها لاتخاذ قرارات مدروسة."
 }

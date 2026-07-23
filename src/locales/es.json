@@ -328,5 +328,13 @@
   "forgot_password": "Olvidé mi contraseña",
   "password_reset_sent": "Correo de restablecimiento de contraseña enviado",
   "enter_email_for_reset": "Por favor, introduzca su correo electrónico primero",
-  "more_options": "Más opciones"
+  "more_options": "Más opciones",
+  "landing_how_it_works_heading": "Cómo Funciona",
+  "landing_how_it_works_subtitle": "Resuelve problemas complejos en tres sencillos pasos.",
+  "landing_step1_title": "Elige un Método",
+  "landing_step1_desc": "Selecciona el marco más adecuado entre nuestras 13 herramientas de análisis.",
+  "landing_step2_title": "Analiza en Equipo",
+  "landing_step2_desc": "Trabaja en un lienzo interactivo y avanza en tiempo real con tu equipo.",
+  "landing_step3_title": "Comparte y Decide",
+  "landing_step3_desc": "Exporta tus resultados o compártelos para tomar decisiones basadas en datos."
 }

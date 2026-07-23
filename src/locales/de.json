@@ -328,5 +328,13 @@
   "forgot_password": "Passwort vergessen",
   "password_reset_sent": "E-Mail zum Zurücksetzen des Passworts gesendet",
   "enter_email_for_reset": "Bitte geben Sie zuerst Ihre E-Mail-Adresse ein",
-  "more_options": "Weitere Optionen"
+  "more_options": "Weitere Optionen",
+  "landing_how_it_works_heading": "Wie es funktioniert",
+  "landing_how_it_works_subtitle": "Lösen Sie komplexe Probleme in drei einfachen Schritten.",
+  "landing_step1_title": "Methode wählen",
+  "landing_step1_desc": "Wählen Sie das am besten geeignete Framework aus unseren 13 Problemlösungs-Tools.",
+  "landing_step2_title": "Gemeinsam analysieren",
+  "landing_step2_desc": "Arbeiten Sie auf einer interaktiven Leinwand und machen Sie Fortschritte mit Ihrem Team.",
+  "landing_step3_title": "Teilen & Entscheiden",
+  "landing_step3_desc": "Exportieren Sie Ihre Ergebnisse oder teilen Sie sie, um fundierte Entscheidungen zu treffen."
 }

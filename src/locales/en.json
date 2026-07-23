@@ -328,5 +328,13 @@
   "forgot_password": "Forgot Password",
   "password_reset_sent": "Password reset email sent",
   "enter_email_for_reset": "Please enter your email address first",
-  "more_options": "More options"
+  "more_options": "More options",
+  "landing_how_it_works_heading": "How It Works",
+  "landing_how_it_works_subtitle": "Solve complex problems in three simple steps.",
+  "landing_step1_title": "Choose a Method",
+  "landing_step1_desc": "Select the most suitable framework from our 13 problem-solving and analysis tools.",
+  "landing_step2_title": "Analyze Together",
+  "landing_step2_desc": "Work on an interactive canvas and progress in real-time with your team.",
+  "landing_step3_title": "Share & Decide",
+  "landing_step3_desc": "Export your results or share them to make data-driven decisions."
 }
