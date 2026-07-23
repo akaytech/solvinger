@@ -81,7 +81,7 @@ const NotepadCanvas: React.FC = () => {
   };
 
   return (
-    <div className="flex h-full w-full bg-slate-50 dark:bg-slate-900 overflow-hidden text-slate-800 dark:text-slate-200">
+    <div className="flex h-full w-full bg-slate-50 dark:bg-slate-900 overflow-hidden text-slate-800 dark:text-slate-200 pt-16 md:pt-20">
       
       {/* Sidebar */}
       <div className="w-72 bg-white/60 dark:bg-slate-800/60 backdrop-blur-md border-r border-slate-200 dark:border-slate-700/50 flex flex-col transition-all duration-300 shadow-sm z-10">
