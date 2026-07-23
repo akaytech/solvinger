@@ -109,7 +109,7 @@ export default function TopRightUserMenu() {
       </button>
 
       <div 
-        className={`absolute end-0 top-12 w-64 origin-top-right rounded-2xl bg-white dark:bg-slate-800 p-2 shadow-xl border border-slate-200 dark:border-slate-700 transition-all duration-200 ease-out ${isOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}
+        className={`absolute end-0 top-12 w-64 origin-top-right rtl:origin-top-left rounded-2xl bg-white dark:bg-slate-800 p-2 shadow-xl border border-slate-200 dark:border-slate-700 transition-all duration-200 ease-out ${isOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-95 pointer-events-none'}`}
       >
         {!showLanguagePicker ? (
           <>
