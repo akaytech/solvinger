@@ -71,7 +71,7 @@ export const DecisionMatrixCanvas: React.FC<DecisionMatrixCanvasProps> = ({ proj
   };
 
   return (
-    <div className="flex-1 bg-slate-50 dark:bg-slate-900 overflow-auto p-4 md:p-8">
+    <div className="flex-1 bg-slate-50 dark:bg-slate-900 overflow-auto p-4 pt-20 md:p-8 md:pt-20">
       <div className="max-w-7xl mx-auto space-y-6">
         
         {/* Header Section */}
