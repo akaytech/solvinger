@@ -53,7 +53,7 @@ const UndoRedoControls: React.FC = () => {
   }, [handleUndo, handleRedo]);
 
   return (
-    <div className="absolute top-4 left-4 z-[100] flex items-center gap-1 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+    <div className="absolute top-4 start-4 z-[100] flex items-center gap-1 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md p-1.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
       <button
         onClick={handleUndo}
         disabled={!canUndo}
