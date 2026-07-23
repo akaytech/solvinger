@@ -195,9 +195,10 @@ export default function LandingPage() {
 
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {tools.map((tool) => (
-              <div 
+              <button 
                 key={tool.id} 
-                className="group relative flex flex-col items-start rounded-3xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 p-8 transition-all hover:shadow-2xl hover:-translate-y-1 hover:border-indigo-500/30 dark:hover:border-indigo-500/30"
+                onClick={() => setAuthModalOpen(true, 'register')}
+                className="group relative flex flex-col items-start text-start rounded-3xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 p-8 transition-all hover:shadow-2xl hover:-translate-y-1 hover:border-indigo-500/30 dark:hover:border-indigo-500/30"
               >
                 <div className={`mb-6 h-14 w-14 rounded-2xl ${tool.bg} flex items-center justify-center transition-transform group-hover:scale-110 group-hover:rotate-3`}>
                   <tool.icon size={28} className={tool.color} />
@@ -207,14 +208,11 @@ export default function LandingPage() {
                   {tool.desc}
                 </p>
                 <div className="mt-6 pt-6 mt-auto border-t border-slate-200 dark:border-slate-800 w-full">
-                  <button 
-                    onClick={() => setAuthModalOpen(true, 'register')}
-                    className="flex items-center gap-2 text-sm font-bold text-indigo-600 dark:text-indigo-400 group-hover:text-indigo-700 dark:group-hover:text-indigo-300"
-                  >
+                  <span className="flex items-center gap-2 text-sm font-bold text-indigo-600 dark:text-indigo-400 group-hover:text-indigo-700 dark:group-hover:text-indigo-300">
                     {t('landing_use_now')} <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
-                  </button>
+                  </span>
                 </div>
-              </div>
+              </button>
             ))}
           </div>
         </div>
