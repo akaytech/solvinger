@@ -2,23 +2,25 @@ import { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRoadmapStore } from '../store/useRoadmapStore';
 import { useShallow } from 'zustand/react/shallow';
-import { Plus, Trash2, BarChart } from 'lucide-react';
+import { Plus, Trash2, BarChart, Edit2 } from 'lucide-react';
 import { v4 as uuidv4 } from 'uuid';
 
 export default function HistogramCanvas() {
   const { t } = useTranslation();
-  const {  currentProjectId, histogram, addHistogramProject, addHistogramItem, updateHistogramItem, deleteHistogramItem  } = useRoadmapStore(useShallow((state) => ({
+  const {  currentProjectId, histogram, addHistogramProject, addHistogramItem, updateHistogramItem, deleteHistogramItem, updateHistogramTitle  } = useRoadmapStore(useShallow((state) => ({
       currentProjectId: state.currentProjectId,
       histogram: state.histogram,
       addHistogramProject: state.addHistogramProject,
       addHistogramItem: state.addHistogramItem,
       updateHistogramItem: state.updateHistogramItem,
-      deleteHistogramItem: state.deleteHistogramItem
+      deleteHistogramItem: state.deleteHistogramItem,
+      updateHistogramTitle: state.updateHistogramTitle
     })));
   
   const activeHistogramList = histogram || [];
 
   const [activeHistogramId, setActiveHistogramId] = useState<string | null>(activeHistogramList.length > 0 ? activeHistogramList[0].id : null);
+  const [isEditingTitle, setIsEditingTitle] = useState(false);
 
   const activeHistogram = activeHistogramList.find(p => p.id === activeHistogramId);
 
@@ -88,21 +90,40 @@ export default function HistogramCanvas() {
   const actualBarWidth = Math.max(1, barWidth - gap);
 
   return (
-    <div className="flex-1 flex h-full overflow-hidden bg-slate-50 dark:bg-slate-900">
+    <div className="flex-1 flex h-full overflow-hidden bg-slate-50 dark:bg-slate-900 pt-16 md:pt-20">
       
       {/* LEFT PANEL: Data Entry Table */}
       <div className="w-1/3 flex flex-col border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/50 overflow-hidden">
         <div className="p-4 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center bg-slate-50 dark:bg-slate-800">
-          <select 
-            className="bg-transparent text-lg font-bold text-slate-800 dark:text-slate-100 focus:outline-none cursor-pointer"
-            value={activeHistogramId || ''}
-            onChange={(e) => setActiveHistogramId(e.target.value)}
-          >
-            {activeHistogramList.map(p => (
-              <option key={p.id} value={p.id}>{p.title}</option>
-            ))}
-          </select>
-          <button onClick={handleCreateAnalysis} className="p-2 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors" title={t('histogram_add_analysis')}>
+          {isEditingTitle && activeHistogram && currentProjectId ? (
+             <input 
+               autoFocus
+               type="text"
+               value={activeHistogram.title}
+               onChange={(e) => updateHistogramTitle(currentProjectId, activeHistogram.id, e.target.value)}
+               onBlur={() => setIsEditingTitle(false)}
+               onKeyDown={(e) => { if(e.key === 'Enter') setIsEditingTitle(false); }}
+               className="bg-transparent text-lg font-bold text-slate-800 dark:text-slate-100 focus:outline-none flex-1 min-w-0 mr-2 border-b border-indigo-500"
+             />
+          ) : (
+            <div className="flex items-center gap-2 flex-1 min-w-0">
+              <select 
+                className="bg-transparent text-lg font-bold text-slate-800 dark:text-slate-100 focus:outline-none cursor-pointer max-w-[80%] truncate"
+                value={activeHistogramId || ''}
+                onChange={(e) => setActiveHistogramId(e.target.value)}
+              >
+                {activeHistogramList.map(p => (
+                  <option key={p.id} value={p.id}>{p.title}</option>
+                ))}
+              </select>
+              {activeHistogram && (
+                <button onClick={() => setIsEditingTitle(true)} className="p-1.5 text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors shrink-0" title={t('rename_title')}>
+                  <Edit2 size={16} />
+                </button>
+              )}
+            </div>
+          )}
+          <button onClick={handleCreateAnalysis} className="p-2 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors shrink-0" title={t('histogram_add_analysis')}>
             <Plus size={20} />
           </button>
         </div>
