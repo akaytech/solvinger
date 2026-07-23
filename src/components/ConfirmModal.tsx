@@ -90,7 +90,7 @@ export default function ConfirmModal({
             ref={closeBtnRef}
             onClick={onClose}
             aria-label={t('close_modal', { defaultValue: 'Close' })}
-            className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+            className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1 dark:focus:ring-offset-slate-900"
           >
             <X size={18} />
           </button>
@@ -106,7 +106,7 @@ export default function ConfirmModal({
           <button
             ref={cancelBtnRef}
             onClick={onClose}
-            className="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-colors"
+            className="px-4 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1 dark:focus:ring-offset-slate-900"
           >
             {cancelText || t('cancel_btn')}
           </button>
@@ -116,7 +116,7 @@ export default function ConfirmModal({
               onConfirm();
               onClose();
             }}
-            className="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 shadow-sm shadow-red-600/20 rounded-lg transition-colors"
+            className="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 shadow-sm shadow-red-600/20 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1 dark:focus:ring-offset-slate-900"
           >
             {confirmText || t('delete')}
           </button>
