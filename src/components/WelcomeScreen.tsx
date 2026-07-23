@@ -31,9 +31,9 @@ export default function WelcomeScreen() {
     return (
       <button
         onClick={() => handleToolClick(id)}
-        className={`group flex flex-col items-start rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 transition-all hover:-translate-y-1 hover:shadow-xl ${theme.hoverBorder} text-start ${featured ? 'p-8 md:p-10 shadow-sm' : 'p-6'}`}
+        className={`group flex flex-col items-start rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 transition-all hover:-translate-y-1 hover:shadow-xl motion-reduce:hover:translate-y-0 ${theme.hoverBorder} text-start ${featured ? 'p-8 md:p-10 shadow-sm' : 'p-6'}`}
       >
-        <div className={`mb-4 flex h-14 w-14 items-center justify-center rounded-2xl ${theme.bg} transition-transform group-hover:scale-110 group-hover:rotate-3`}>
+        <div className={`mb-4 flex h-14 w-14 items-center justify-center rounded-2xl ${theme.bg} transition-transform group-hover:scale-110 group-hover:rotate-3 motion-reduce:group-hover:scale-100 motion-reduce:group-hover:rotate-0`}>
           <Icon size={28} className={theme.text} />
         </div>
         <h3 className={`font-bold text-slate-800 dark:text-slate-100 ${featured ? 'mb-3 text-2xl' : 'mb-2 text-lg'}`}>{title}</h3>
@@ -63,12 +63,10 @@ export default function WelcomeScreen() {
           </div>
           <div className="grid gap-6 md:grid-cols-2">
             <ToolCard 
-              id="swot" icon={Target} title={t('tool_swot')} desc={t('swot_desc')} 
-              color="text-rose-500" bg="bg-rose-100 dark:bg-rose-900/40" featured={true} 
+              id="swot" icon={Target} title={t('tool_swot')} desc={t('swot_desc')} featured={true} 
             />
             <ToolCard 
-              id="5whys" icon={Activity} title={t('tool_5whys')} desc={t('whys_desc')} 
-              color="text-emerald-500" bg="bg-emerald-100 dark:bg-emerald-900/40" featured={true} 
+              id="5whys" icon={Activity} title={t('tool_5whys')} desc={t('whys_desc')} featured={true} 
             />
           </div>
         </section>
@@ -79,43 +77,43 @@ export default function WelcomeScreen() {
           <section>
             <h3 className="mb-6 text-xl font-bold text-slate-700 dark:text-slate-300">{t('cat_root_cause')}</h3>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              <ToolCard id="5whys" icon={Activity} title={t('tool_5whys')} desc={t('whys_desc')} color="text-emerald-500" bg="bg-emerald-100 dark:bg-emerald-900/40" />
-              <ToolCard id="ishikawa" icon={Fish} title={t('tool_ishikawa')} desc={t('ishi_desc')} color="text-cyan-500" bg="bg-cyan-100 dark:bg-cyan-900/40" />
+              <ToolCard id="5whys" icon={Activity} title={t('tool_5whys')} desc={t('whys_desc')} />
+              <ToolCard id="ishikawa" icon={Fish} title={t('tool_ishikawa')} desc={t('ishi_desc')} />
             </div>
           </section>
 
           <section>
             <h3 className="mb-6 text-xl font-bold text-slate-700 dark:text-slate-300">{t('cat_data_stats')}</h3>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              <ToolCard id="pareto" icon={BarChart2} title={t('tool_pareto')} desc={t('pareto_desc')} color="text-blue-500" bg="bg-blue-100 dark:bg-blue-900/40" />
-              <ToolCard id="histogram" icon={BarChart} title={t('tool_histogram')} desc={t('histogram_desc')} color="text-indigo-500" bg="bg-indigo-100 dark:bg-indigo-900/40" />
+              <ToolCard id="pareto" icon={BarChart2} title={t('tool_pareto')} desc={t('pareto_desc')} />
+              <ToolCard id="histogram" icon={BarChart} title={t('tool_histogram')} desc={t('histogram_desc')} />
             </div>
           </section>
 
           <section>
             <h3 className="mb-6 text-xl font-bold text-slate-700 dark:text-slate-300">{t('cat_strategy_decision_risk')}</h3>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              <ToolCard id="swot" icon={Target} title={t('tool_swot')} desc={t('swot_desc')} color="text-rose-500" bg="bg-rose-100 dark:bg-rose-900/40" />
-              <ToolCard id="decision" icon={Scale} title={t('decision_title')} desc={t('decision_desc')} color="text-violet-500" bg="bg-violet-100 dark:bg-violet-900/40" />
-              <ToolCard id="fta" icon={AlertOctagon} title={t('fta_title')} desc={t('fta_desc')} color="text-rose-500" bg="bg-rose-100 dark:bg-rose-900/40" />
+              <ToolCard id="swot" icon={Target} title={t('tool_swot')} desc={t('swot_desc')} />
+              <ToolCard id="decision" icon={Scale} title={t('decision_title')} desc={t('decision_desc')} />
+              <ToolCard id="fta" icon={AlertOctagon} title={t('fta_title')} desc={t('fta_desc')} />
             </div>
           </section>
 
           <section>
             <h3 className="mb-6 text-xl font-bold text-slate-700 dark:text-slate-300">{t('cat_process_project')}</h3>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-              <ToolCard id="wbs" icon={Network} title={t('tool_wbs')} desc={t('wbs_desc')} color="text-indigo-500" bg="bg-indigo-100 dark:bg-indigo-900/40" />
-              <ToolCard id="pdca" icon={RefreshCcw} title={t('tool_pdca')} desc={t('pdca_desc')} color="text-teal-500" bg="bg-teal-100 dark:bg-teal-900/40" />
-              <ToolCard id="waterfall" icon={Layers} title={t('tool_waterfall')} desc={t('wf_desc')} color="text-blue-500" bg="bg-blue-100 dark:bg-blue-900/40" />
-              <ToolCard id="flowchart" icon={GitMerge} title={t('tool_flowchart')} desc={t('flowchart_desc')} color="text-amber-500" bg="bg-amber-100 dark:bg-amber-900/40" />
+              <ToolCard id="wbs" icon={Network} title={t('tool_wbs')} desc={t('wbs_desc')} />
+              <ToolCard id="pdca" icon={RefreshCcw} title={t('tool_pdca')} desc={t('pdca_desc')} />
+              <ToolCard id="waterfall" icon={Layers} title={t('tool_waterfall')} desc={t('wf_desc')} />
+              <ToolCard id="flowchart" icon={GitMerge} title={t('tool_flowchart')} desc={t('flowchart_desc')} />
             </div>
           </section>
 
           <section>
             <h3 className="mb-6 text-xl font-bold text-slate-700 dark:text-slate-300">{t('cat_productivity_docs')}</h3>
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              <ToolCard id="eod" icon={ListTodo} title={t('tool_eod')} desc={t('eod_desc')} color="text-orange-500" bg="bg-orange-100 dark:bg-orange-900/40" />
-              <ToolCard id="notepad" icon={FileText} title={t('notepad_title')} desc={t('notepad_desc')} color="text-fuchsia-500" bg="bg-fuchsia-100 dark:bg-fuchsia-900/40" />
+              <ToolCard id="eod" icon={ListTodo} title={t('tool_eod')} desc={t('eod_desc')} />
+              <ToolCard id="notepad" icon={FileText} title={t('notepad_title')} desc={t('notepad_desc')} />
             </div>
           </section>
 
