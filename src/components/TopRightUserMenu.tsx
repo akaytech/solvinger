@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRoadmapStore } from '../store/useRoadmapStore';
+import { useUIStore } from '../store/useUIStore';
 import { useAuthStore } from '../store/useAuthStore';
 import { useShallow } from 'zustand/react/shallow';
 import { signOut } from 'firebase/auth';
@@ -36,7 +37,8 @@ export default function TopRightUserMenu() {
       resetState();
     }
   };
-  const [isOpen, setIsOpen] = useState(false);
+  const { activeTopMenu, setActiveTopMenu } = useUIStore(useShallow((state) => ({ activeTopMenu: state.activeTopMenu, setActiveTopMenu: state.setActiveTopMenu })));
+  const isOpen = activeTopMenu === 'user';
   const [isDarkMode, setIsDarkMode] = useState(() => document.documentElement.classList.contains('dark'));
   const [legalType, setLegalType] = useState<'privacy' | 'terms' | null>(null);
   const [showLanguagePicker, setShowLanguagePicker] = useState(false);
@@ -45,11 +47,18 @@ export default function TopRightUserMenu() {
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
+        if (useUIStore.getState().activeTopMenu === 'user') {
+          useUIStore.getState().setActiveTopMenu(null);
+        }
         setShowLanguagePicker(false);
       }
     }
-    const forceClose = () => { setIsOpen(false); setShowLanguagePicker(false); };
+    const forceClose = () => {
+      if (useUIStore.getState().activeTopMenu === 'user') {
+        useUIStore.getState().setActiveTopMenu(null);
+      }
+      setShowLanguagePicker(false);
+    };
 
     document.addEventListener("mousedown", handleClickOutside, { capture: true });
     document.addEventListener("close-menus", forceClose);
@@ -94,12 +103,12 @@ export default function TopRightUserMenu() {
       <button 
         onClick={(e) => {
            e.stopPropagation();
-           setIsOpen(!isOpen);
+           setActiveTopMenu(isOpen ? null : 'user');
            if (isOpen) {
              setShowLanguagePicker(false);
            }
         }}
-        className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 shadow-md hover:scale-105 transition-transform text-indigo-500 dark:text-indigo-400 overflow-hidden focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+        className="hidden sm:flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 shadow-md hover:scale-105 transition-transform text-indigo-500 dark:text-indigo-400 overflow-hidden focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
       >
         {user.photoURL ? (
           <img src={user.photoURL} alt={user.name || 'User'} className="h-full w-full rounded-full object-cover" />

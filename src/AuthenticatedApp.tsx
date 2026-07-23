@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import TopRightUserMenu from './components/TopRightUserMenu';
 import TopRightProjectsMenu from './components/TopRightProjectsMenu';
+import TopRightMobileMoreMenu from './components/TopRightMobileMoreMenu';
 import { useRoadmapStore } from './store/useRoadmapStore';
 import { useAuthStore } from './store/useAuthStore';
 import { useShallow } from 'zustand/react/shallow';
@@ -111,6 +112,7 @@ export default function AuthenticatedApp() {
       <div className="relative flex-1 flex flex-col h-full w-full overflow-hidden bg-slate-50 dark:bg-slate-900">
         <TopRightUserMenu />
         <TopRightProjectsMenu />
+        <TopRightMobileMoreMenu />
         <Suspense fallback={
           <div className="flex h-full w-full items-center justify-center bg-slate-50 dark:bg-slate-900">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>

@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useRoadmapStore } from '../store/useRoadmapStore';
+import { useUIStore } from '../store/useUIStore';
 import { useShallow } from 'zustand/react/shallow';
 import ConfirmModal from './ConfirmModal';
 import { Folder, Plus, Trash2, ChevronDown, ChevronRight, GitCommit, Target, HelpCircle, Fish, RefreshCcw, Layers, Pencil, AlertOctagon, Scale, GitMerge, BarChart2, BarChart, FileText, ListTodo, Activity, Network, Check } from 'lucide-react';
@@ -379,7 +380,8 @@ function ProjectTreeItem({ project, isCurrent, onClose, requestDelete }: { proje
 }
 
 export default function TopRightProjectsMenu() {
-  const [isOpen, setIsOpen] = useState(false);
+  const { activeTopMenu, setActiveTopMenu } = useUIStore(useShallow((state) => ({ activeTopMenu: state.activeTopMenu, setActiveTopMenu: state.setActiveTopMenu })));
+  const isOpen = activeTopMenu === 'projects';
   const [isCreating, setIsCreating] = useState(false);
   const [newProjectName, setNewProjectName] = useState('');
   const [selectedTool, setSelectedTool] = useState<string | null>(null);
@@ -397,10 +399,16 @@ export default function TopRightProjectsMenu() {
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
+        if (useUIStore.getState().activeTopMenu === 'projects') {
+          useUIStore.getState().setActiveTopMenu(null);
+        }
       }
     }
-    const forceClose = () => setIsOpen(false);
+    const forceClose = () => {
+      if (useUIStore.getState().activeTopMenu === 'projects') {
+        useUIStore.getState().setActiveTopMenu(null);
+      }
+    };
 
     document.addEventListener("mousedown", handleClickOutside, { capture: true });
     document.addEventListener("close-menus", forceClose);
@@ -417,8 +425,8 @@ export default function TopRightProjectsMenu() {
       className="absolute top-4 end-20 sm:end-24 z-50 flex flex-col items-end"
     >
       <button 
-        onClick={() => setIsOpen(!isOpen)}
-        className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 shadow-md hover:scale-105 transition-transform text-indigo-500 dark:text-indigo-400 overflow-hidden"
+        onClick={() => setActiveTopMenu(isOpen ? null : 'projects')}
+        className="hidden sm:flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 shadow-md hover:scale-105 transition-transform text-indigo-500 dark:text-indigo-400 overflow-hidden"
       >
         <Folder size={20} className={isOpen ? 'fill-indigo-500' : ''} />
       </button>
@@ -504,7 +512,7 @@ export default function TopRightProjectsMenu() {
               key={p.id} 
               project={p} 
               isCurrent={p.id === currentProjectId} 
-              onClose={() => setIsOpen(false)}
+              onClose={() => setActiveTopMenu(null)}
               requestDelete={requestDelete}
             />
           ))}

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useUIStore } from '../store/useUIStore';
 import { Camera, Loader2 } from 'lucide-react';
 import { toPng } from 'html-to-image';
 import { toast } from 'sonner';
@@ -11,15 +12,14 @@ const GlobalExportButton: React.FC = () => {
   const [isExporting, setIsExporting] = useState(false);
   const activeTool = useRoadmapStore(s => s.activeTool);
   const { getNodes } = useReactFlow();
+  const setTriggerExport = useUIStore(s => s.setTriggerExport);
 
-  if (!activeTool) return null;
-
-  const handleExport = async () => {
+  const handleExport = useCallback(async () => {
     if (isExporting) return;
     setIsExporting(true);
 
     try {
-      const isReactFlowTool = ['wbs', '5whys', 'fta', 'flowchart'].includes(activeTool);
+      const isReactFlowTool = ['wbs', '5whys', 'fta', 'flowchart'].includes(activeTool as string);
 
       if (isReactFlowTool) {
         const nodes = getNodes();
@@ -101,13 +101,22 @@ const GlobalExportButton: React.FC = () => {
     } finally {
       setIsExporting(false);
     }
-  };
+  }, [activeTool, getNodes, isExporting, t]);
+
+  useEffect(() => {
+    setTriggerExport(handleExport);
+    return () => setTriggerExport(() => {});
+  }, [handleExport, setTriggerExport]);
+
+  if (!activeTool) return null;
+
+
 
   return (
     <button
       onClick={handleExport}
       disabled={isExporting}
-      className={`flex items-center gap-2 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm transition-colors text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 font-medium text-sm ${isExporting ? 'opacity-75 cursor-not-allowed' : ''}`}
+      className={`hidden sm:flex items-center gap-2 bg-white/90 dark:bg-slate-800/90 backdrop-blur-md px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm transition-colors text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 font-medium text-sm ${isExporting ? 'opacity-75 cursor-not-allowed' : ''}`}
       title={t('export_image')} aria-label={t('export_image')}
     >
       {isExporting ? <Loader2 size={18} className="animate-spin" /> : <Camera size={18} />}
