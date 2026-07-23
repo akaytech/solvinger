@@ -5,6 +5,7 @@ import { useShallow } from 'zustand/react/shallow';
 import ConfirmModal from './ConfirmModal';
 import { Folder, Plus, Trash2, ChevronDown, ChevronRight, GitCommit, Target, HelpCircle, Fish, RefreshCcw, Layers, Pencil, AlertOctagon, Scale, GitMerge, BarChart2, BarChart, FileText, ListTodo, Activity, Network, Check } from 'lucide-react';
 import type { Project } from '../store/useRoadmapStore';
+import { toolTheme } from '../config/toolTheme';
 
 const TOOL_OPTIONS = [
   { id: 'wbs', icon: Network, label: 'tool_wbs', color: 'text-indigo-500', bg: 'bg-indigo-100 dark:bg-indigo-900/40' },
@@ -428,8 +429,9 @@ export default function TopRightProjectsMenu() {
                 
                 // Parse tailwind color classes to handle dynamic construction safely if needed,
                 // but since we provide full classes in the object, we just use them.
-                const borderColor = isSelected ? `border-${tool.color.split('-')[1]}-500` : 'border-slate-200 dark:border-slate-700';
-                const bgColor = isSelected ? tool.bg.split(' ')[0] + ' ' + tool.bg.split(' ')[1].replace('/40', '/20') : 'bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/50';
+                const theme = toolTheme[tool.id] || toolTheme.wbs;
+                const borderColor = isSelected ? theme.border : 'border-slate-200 dark:border-slate-700';
+                const bgColor = isSelected ? theme.bgSelected : 'bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700/50';
 
                 return (
                   <button

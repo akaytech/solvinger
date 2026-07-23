@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useRoadmapStore } from '../store/useRoadmapStore';
 import { useShallow } from 'zustand/react/shallow';
 import { logAppEvent } from '../firebase';
+import { toolTheme } from '../config/toolTheme';
 
 export default function WelcomeScreen() {
   const { setActiveTool, projects, createProject } = useRoadmapStore(useShallow((state) => ({
@@ -25,18 +26,21 @@ export default function WelcomeScreen() {
     setActiveTool(tool);
   };
 
-  const ToolCard = ({ id, icon: Icon, title, desc, color, bg, featured = false }: any) => (
-    <button
-      onClick={() => handleToolClick(id)}
-      className={`group flex flex-col items-start rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 transition-all hover:-translate-y-1 hover:shadow-xl dark:hover:border-${color.split('-')[1]}-500/50 hover:border-${color.split('-')[1]}-500/50 text-start ${featured ? 'p-8 md:p-10 shadow-sm' : 'p-6'}`}
-    >
-      <div className={`mb-4 flex h-14 w-14 items-center justify-center rounded-2xl ${bg} transition-transform group-hover:scale-110 group-hover:rotate-3`}>
-        <Icon size={28} className={color} />
-      </div>
-      <h3 className={`font-bold text-slate-800 dark:text-slate-100 ${featured ? 'mb-3 text-2xl' : 'mb-2 text-lg'}`}>{title}</h3>
-      <p className={`text-slate-500 dark:text-slate-400 ${featured ? 'text-base' : 'text-sm'}`}>{desc}</p>
-    </button>
-  );
+  const ToolCard = ({ id, icon: Icon, title, desc, featured = false }: any) => {
+    const theme = toolTheme[id] || toolTheme.wbs;
+    return (
+      <button
+        onClick={() => handleToolClick(id)}
+        className={`group flex flex-col items-start rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 transition-all hover:-translate-y-1 hover:shadow-xl ${theme.hoverBorder} text-start ${featured ? 'p-8 md:p-10 shadow-sm' : 'p-6'}`}
+      >
+        <div className={`mb-4 flex h-14 w-14 items-center justify-center rounded-2xl ${theme.bg} transition-transform group-hover:scale-110 group-hover:rotate-3`}>
+          <Icon size={28} className={theme.text} />
+        </div>
+        <h3 className={`font-bold text-slate-800 dark:text-slate-100 ${featured ? 'mb-3 text-2xl' : 'mb-2 text-lg'}`}>{title}</h3>
+        <p className={`text-slate-500 dark:text-slate-400 ${featured ? 'text-base' : 'text-sm'}`}>{desc}</p>
+      </button>
+    );
+  };
 
   return (
     <div className="flex h-full w-full flex-col items-center bg-slate-50 dark:bg-slate-950 p-6 md:p-10 overflow-y-auto custom-scrollbar">
