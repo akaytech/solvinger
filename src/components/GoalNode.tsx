@@ -138,7 +138,7 @@ export default function GoalNode({ data, selected }: { data: GoalNodeData; selec
               placeholder={t('double_click_edit')}
             />
           ) : (
-            <h3 className="text-sm font-bold leading-snug line-clamp-3 cursor-text select-none" title={t('double_click_edit')} aria-label={t('double_click_edit')}>{data.label}</h3>
+            <h3 className="text-sm font-bold leading-snug line-clamp-3 cursor-text select-none" title={t('double_click_edit')}>{data.label}</h3>
           )}
         </div>
       </div>
