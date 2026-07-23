@@ -76,11 +76,11 @@ export default function LandingPage() {
         <div className="container mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <img src={`${import.meta.env.BASE_URL}logo.jpg`} alt="Solvinger Logo" className="h-10 w-10 rounded-xl shadow-sm" />
-            <span className="text-2xl font-black tracking-tight">Solvinger</span>
+            <span className="hidden sm:inline text-2xl font-black tracking-tight">Solvinger</span>
           </div>
           <div className="flex items-center gap-2 sm:gap-4">
             
-            <div className="flex items-center gap-1 sm:gap-2 me-2">
+            <div className="flex items-center gap-0.5 sm:gap-2 me-2">
               {/* Theme Toggle */}
               <button
                 onClick={toggleDarkMode}
