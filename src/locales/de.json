@@ -322,5 +322,10 @@
   "collapse_sidebar": "Seitenleiste minimieren",
   "desc_save": "Beschreibung speichern",
   "goal_realign": "Neu ausrichten",
-  "change_language_settings": "Sprache"
+  "change_language_settings": "Sprache",
+  "show_password": "Passwort anzeigen",
+  "hide_password": "Passwort verbergen",
+  "forgot_password": "Passwort vergessen",
+  "password_reset_sent": "E-Mail zum Zurücksetzen des Passworts gesendet",
+  "enter_email_for_reset": "Bitte geben Sie zuerst Ihre E-Mail-Adresse ein"
 }

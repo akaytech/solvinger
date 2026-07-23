@@ -322,5 +322,10 @@
   "collapse_sidebar": "Recolher barra lateral",
   "desc_save": "Salvar descrição",
   "goal_realign": "Realinhar",
-  "change_language_settings": "Idioma"
+  "change_language_settings": "Idioma",
+  "show_password": "Mostrar senha",
+  "hide_password": "Ocultar senha",
+  "forgot_password": "Esqueci a senha",
+  "password_reset_sent": "E-mail de redefinição de senha enviado",
+  "enter_email_for_reset": "Por favor, insira seu endereço de e-mail primeiro"
 }

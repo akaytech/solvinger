@@ -322,5 +322,10 @@
   "collapse_sidebar": "طي الشريط الجانبي",
   "desc_save": "حفظ الوصف",
   "goal_realign": "إعادة محاذاة",
-  "change_language_settings": "اللغة"
+  "change_language_settings": "اللغة",
+  "show_password": "إظهار كلمة المرور",
+  "hide_password": "إخفاء كلمة المرور",
+  "forgot_password": "هل نسيت كلمة المرور",
+  "password_reset_sent": "تم إرسال بريد إعادة تعيين كلمة المرور",
+  "enter_email_for_reset": "يرجى إدخال عنوان بريدك الإلكتروني أولاً"
 }

@@ -322,5 +322,10 @@
   "collapse_sidebar": "Свернуть боковую панель",
   "desc_save": "Сохранить описание",
   "goal_realign": "Выровнять",
-  "change_language_settings": "Язык"
+  "change_language_settings": "Язык",
+  "show_password": "Показать пароль",
+  "hide_password": "Скрыть пароль",
+  "forgot_password": "Забыли пароль",
+  "password_reset_sent": "Письмо для сброса пароля отправлено",
+  "enter_email_for_reset": "Пожалуйста, сначала введите свой адрес электронной почты"
 }

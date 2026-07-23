@@ -322,5 +322,10 @@
   "collapse_sidebar": "Collapse sidebar",
   "desc_save": "Save description",
   "goal_realign": "Realign layout",
-  "change_language_settings": "Language"
+  "change_language_settings": "Language",
+  "show_password": "Show password",
+  "hide_password": "Hide password",
+  "forgot_password": "Forgot Password",
+  "password_reset_sent": "Password reset email sent",
+  "enter_email_for_reset": "Please enter your email address first"
 }

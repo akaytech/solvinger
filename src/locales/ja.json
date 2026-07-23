@@ -322,5 +322,10 @@
   "collapse_sidebar": "サイドバーを折りたたむ",
   "desc_save": "説明を保存",
   "goal_realign": "再配置",
-  "change_language_settings": "言語"
+  "change_language_settings": "言語",
+  "show_password": "パスワードを表示",
+  "hide_password": "パスワードを隠す",
+  "forgot_password": "パスワードをお忘れですか",
+  "password_reset_sent": "パスワードリセットメールを送信しました",
+  "enter_email_for_reset": "まずメールアドレスを入力してください"
 }

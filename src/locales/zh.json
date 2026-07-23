@@ -322,5 +322,10 @@
   "collapse_sidebar": "收起侧边栏",
   "desc_save": "保存描述",
   "goal_realign": "重新对齐",
-  "change_language_settings": "语言"
+  "change_language_settings": "语言",
+  "show_password": "显示密码",
+  "hide_password": "隐藏密码",
+  "forgot_password": "忘记密码",
+  "password_reset_sent": "密码重置邮件已发送",
+  "enter_email_for_reset": "请先输入您的电子邮件地址"
 }

@@ -2,7 +2,9 @@ import { useState } from 'react';
 import { useAuthStore } from '../store/useAuthStore';
 import { useShallow } from 'zustand/react/shallow';
 import { auth } from '../firebaseCore';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail } from 'firebase/auth';
+import { Eye, EyeOff, Loader2 } from 'lucide-react';
+import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
 import LegalModal from './LegalModal';
 
@@ -13,6 +15,8 @@ export default function AuthModal() {
   const [isLoginMode, setIsLoginMode] = useState(true);
   const [error, setError] = useState('');
   const [legalType, setLegalType] = useState<'privacy' | 'terms' | null>(null);
+  const [showPassword, setShowPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   const { setAuthModalOpen } = useAuthStore(useShallow((state) => ({
       setAuthModalOpen: state.setAuthModalOpen
@@ -47,7 +51,9 @@ export default function AuthModal() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isSubmitting) return;
     setError('');
+    setIsSubmitting(true);
 
     try {
       if (isLoginMode) {
@@ -58,11 +64,31 @@ export default function AuthModal() {
       setAuthModalOpen(false);
     } catch (err: any) {
       setError(mapAuthError(err));
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    if (!email) {
+      toast.error(t('enter_email_for_reset'));
+      return;
+    }
+    setIsSubmitting(true);
+    try {
+      await sendPasswordResetEmail(auth, email);
+      toast.success(t('password_reset_sent'));
+    } catch (err: any) {
+      toast.error(mapAuthError(err));
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   const handleGoogleLogin = async () => {
+    if (isSubmitting) return;
     setError('');
+    setIsSubmitting(true);
     try {
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
@@ -71,6 +97,8 @@ export default function AuthModal() {
       setAuthModalOpen(false);
     } catch (err: any) {
       setError(mapAuthError(err));
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -172,21 +200,44 @@ export default function AuthModal() {
             </div>
             <div>
               <label className="mb-1 block text-sm font-semibold text-slate-700 dark:text-slate-300">{t('password')}</label>
-              <input
-                type="password"
-                required
-                minLength={6}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-4 py-3 text-sm outline-none transition-colors focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-indigo-500/20 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500"
-              />
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  required
+                  minLength={6}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-4 py-3 pe-12 text-sm outline-none transition-colors focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-indigo-500/20 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? t('hide_password') : t('show_password')}
+                  className="absolute end-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
+                >
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              </div>
+              {isLoginMode && (
+                <div className="mt-2 text-end">
+                  <button
+                    type="button"
+                    onClick={handleForgotPassword}
+                    className="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline"
+                  >
+                    {t('forgot_password')}
+                  </button>
+                </div>
+              )}
             </div>
             
             <button
               type="submit"
-              className="mt-6 w-full rounded-xl bg-slate-800 dark:bg-slate-100 px-4 py-3 font-bold text-white dark:text-slate-900 transition-transform hover:scale-[1.02] active:scale-[0.98]"
+              disabled={isSubmitting}
+              className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-slate-800 dark:bg-slate-100 px-4 py-3 font-bold text-white dark:text-slate-900 transition-transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-70 disabled:hover:scale-100"
             >
+              {isSubmitting && <Loader2 size={18} className="animate-spin" />}
               {isLoginMode ? t('login') : t('register')}
             </button>
           </form>
@@ -199,9 +250,14 @@ export default function AuthModal() {
 
           <button
             onClick={handleGoogleLogin}
-            className="flex w-full items-center justify-center gap-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-3 font-bold text-slate-700 dark:text-slate-200 transition-colors hover:bg-slate-50 dark:hover:bg-slate-700"
+            disabled={isSubmitting}
+            className="flex w-full items-center justify-center gap-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-3 font-bold text-slate-700 dark:text-slate-200 transition-colors hover:bg-slate-50 dark:hover:bg-slate-700 disabled:opacity-70"
           >
-            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" className="h-5 w-5" />
+            {isSubmitting ? (
+              <Loader2 size={20} className="animate-spin text-slate-500" />
+            ) : (
+              <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" className="h-5 w-5" />
+            )}
             {t('continue_google')}
           </button>
 

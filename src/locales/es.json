@@ -322,5 +322,10 @@
   "collapse_sidebar": "Contraer barra lateral",
   "desc_save": "Guardar descripción",
   "goal_realign": "Realinear",
-  "change_language_settings": "Idioma"
+  "change_language_settings": "Idioma",
+  "show_password": "Mostrar contraseña",
+  "hide_password": "Ocultar contraseña",
+  "forgot_password": "Olvidé mi contraseña",
+  "password_reset_sent": "Correo de restablecimiento de contraseña enviado",
+  "enter_email_for_reset": "Por favor, introduzca su correo electrónico primero"
 }

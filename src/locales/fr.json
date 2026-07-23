@@ -322,5 +322,10 @@
   "collapse_sidebar": "Réduire la barre latérale",
   "desc_save": "Enregistrer la description",
   "goal_realign": "Réaligner",
-  "change_language_settings": "Langue"
+  "change_language_settings": "Langue",
+  "show_password": "Afficher le mot de passe",
+  "hide_password": "Masquer le mot de passe",
+  "forgot_password": "Mot de passe oublié",
+  "password_reset_sent": "E-mail de réinitialisation du mot de passe envoyé",
+  "enter_email_for_reset": "Veuillez d'abord saisir votre adresse e-mail"
 }
