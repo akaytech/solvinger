@@ -176,6 +176,7 @@ export default function LandingPage() {
         </div>
       </header>
 
+      <main className="flex-1 flex flex-col">
       {/* Hero Section */}
       <section className="relative overflow-hidden pt-24 pb-32 lg:pt-36 lg:pb-40">
         <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-indigo-100 via-slate-50 to-slate-50 dark:from-indigo-900/20 dark:via-slate-900 dark:to-slate-900"></div>
@@ -211,6 +212,36 @@ export default function LandingPage() {
             >
               {t('landing_explore_tools')}
             </button>
+          </div>
+        </div>
+      </section>
+
+      {/* How it Works Section */}
+      <section className="py-24 bg-slate-50 dark:bg-slate-900 relative border-t border-slate-200/50 dark:border-slate-800/50">
+        <div className="container mx-auto px-6">
+          <div className="text-center max-w-3xl mx-auto mb-24">
+            <h2 className="text-3xl md:text-5xl font-black mb-6 tracking-tight">{t('landing_how_it_works_heading')}</h2>
+            <p className="text-lg text-slate-500 dark:text-slate-400 leading-relaxed">
+              {t('landing_how_it_works_subtitle')}
+            </p>
+          </div>
+          
+          <div className="grid gap-12 md:gap-8 md:grid-cols-3 pt-6">
+            {[
+              { num: "1", title: t('landing_step1_title'), desc: t('landing_step1_desc') },
+              { num: "2", title: t('landing_step2_title'), desc: t('landing_step2_desc') },
+              { num: "3", title: t('landing_step3_title'), desc: t('landing_step3_desc') }
+            ].map((step, idx) => (
+              <div key={idx} className="relative p-8 pt-10 rounded-3xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 shadow-sm transition-transform hover:-translate-y-1 motion-reduce:hover:translate-y-0 text-center flex flex-col items-center group">
+                <div className="absolute -top-8 bg-indigo-100 dark:bg-indigo-900/80 text-indigo-600 dark:text-indigo-400 font-black text-2xl w-16 h-16 rounded-2xl flex items-center justify-center shadow-xl shadow-indigo-500/10 dark:shadow-indigo-900/20 border border-white dark:border-slate-800 transition-transform group-hover:scale-110 motion-reduce:group-hover:scale-100 group-hover:rotate-6 motion-reduce:group-hover:rotate-0">
+                  {step.num}
+                </div>
+                <h3 className="mt-4 mb-3 text-xl font-bold text-slate-900 dark:text-white">{step.title}</h3>
+                <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                  {step.desc}
+                </p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -281,6 +312,7 @@ export default function LandingPage() {
           </button>
         </div>
       </section>
+      </main>
 
       {/* Footer */}
       <footer className="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 py-12">
