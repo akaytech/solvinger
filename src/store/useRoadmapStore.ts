@@ -6,6 +6,7 @@ import { doc, setDoc, deleteDoc, collection, query, where, onSnapshot, or, array
 import { db, logAppEvent } from '../firebase';
 import i18n from '../i18n';
 import { useAuthStore } from './useAuthStore';
+import { toast } from 'sonner';
 
 export let isRemoteUpdate = false;
 
@@ -217,6 +218,7 @@ export const useRoadmapStore = create<RoadmapState>()(
               // projesi silinmiş/boşalmış gibi görünmesine ve sonraki kaydetmenin
               // gerçek veriyi ezmesine yol açıyordu. Bunun yerine listeden çıkarıyoruz.
               console.error("Parse doc error for project ID", doc.id, error);
+              toast.error(i18n.t('error_parse_doc', { defaultValue: 'Error parsing document' }), { id: 'error-parse-doc' });
               return null;
             }
           };
@@ -268,6 +270,7 @@ export const useRoadmapStore = create<RoadmapState>()(
             }, 0);
           }, (error) => {
             console.error("Fetch projects error:", error);
+            toast.error(i18n.t('error_fetch_projects', { defaultValue: 'Error fetching projects' }), { id: 'error-fetch-projects' });
             if (error.code === 'permission-denied' && useAuthStore.getState().user?.uid === userId) {
               setTimeout(() => get().fetchProjects(userId), 1500);
             }
@@ -276,6 +279,7 @@ export const useRoadmapStore = create<RoadmapState>()(
           set({ projectUnsubscribe: unsubscribe });
         } catch (error) {
           console.error("Setup listen projects error:", error);
+          toast.error(i18n.t('error_setup_listen', { defaultValue: 'Error listening to projects' }), { id: 'error-setup-listen' });
         }
       },
 
@@ -437,6 +441,7 @@ export const useRoadmapStore = create<RoadmapState>()(
           await setDoc(doc(db, 'projects', id), { isPublic }, { merge: true });
         } catch (error) {
           console.error("setProjectPublic error:", error);
+          toast.error(i18n.t('error_set_public', { defaultValue: 'Error sharing project' }), { id: 'error-set-public' });
         }
       },
 
@@ -456,6 +461,7 @@ export const useRoadmapStore = create<RoadmapState>()(
           return false;
         } catch (error) {
           console.error("joinSharedProject error:", error);
+          toast.error(i18n.t('error_join_project', { defaultValue: 'Error joining project' }), { id: 'error-join-project' });
           return false;
         }
       },
@@ -571,6 +577,7 @@ let isSyncing = false;
 const writeProject = (projectId: string, project: Project) => {
   setDoc(doc(db, 'projects', projectId), project, { merge: true }).catch((err) => {
     console.error("Firestore Save Error:", err);
+    toast.error(i18n.t('save_failed', { defaultValue: 'Failed to save to cloud' }), { id: 'save-failed' });
   });
 };
 

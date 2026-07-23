@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Camera, Loader2 } from 'lucide-react';
 import { toPng } from 'html-to-image';
+import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
 import { useRoadmapStore } from '../store/useRoadmapStore';
 import { getNodesBounds, getViewportForBounds, useReactFlow } from '@xyflow/react';
@@ -24,6 +25,7 @@ const GlobalExportButton: React.FC = () => {
         const nodes = getNodes();
         if (nodes.length === 0) {
           setIsExporting(false);
+          toast.error(t('export_empty', { defaultValue: 'Nothing to export' }));
           return;
         }
         
@@ -58,11 +60,15 @@ const GlobalExportButton: React.FC = () => {
         a.download = `${activeTool}-export.png`;
         a.href = dataUrl;
         a.click();
+        toast.success(t('export_success', { defaultValue: 'Exported successfully' }));
       } else {
         // HTML tool
         const element = document.querySelector('.flex-1.overflow-auto > div') || document.querySelector('.flex-1.overflow-auto');
         
-        if (!element) throw new Error("Export container not found");
+        if (!element) {
+          toast.error(t('export_empty', { defaultValue: 'Nothing to export' }));
+          throw new Error("Export container not found");
+        }
         
         // Temporarily ensure no scrollbars or clipped content in the capture
         const originalOverflow = (element as HTMLElement).style.overflow;
@@ -87,9 +93,11 @@ const GlobalExportButton: React.FC = () => {
         a.download = `${activeTool}-export.png`;
         a.href = dataUrl;
         a.click();
+        toast.success(t('export_success', { defaultValue: 'Exported successfully' }));
       }
     } catch (error) {
       console.error('Export failed:', error);
+      toast.error(t('export_failed', { defaultValue: 'Export failed' }));
     } finally {
       setIsExporting(false);
     }

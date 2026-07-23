@@ -20,6 +20,27 @@ export default function AuthModal() {
 
   // Not: Oturumu store'a yazmak artık firebaseCore'daki onAuthStateChanged
   // listener'ının işi. Burada sadece başarılı girişte modalı kapatıyoruz.
+  
+  const mapAuthError = (err: any) => {
+    const code = err?.code;
+    switch (code) {
+      case 'auth/invalid-credential':
+      case 'auth/user-not-found':
+      case 'auth/wrong-password':
+        return t('auth_invalid_credential', { defaultValue: 'Invalid email or password' });
+      case 'auth/email-already-in-use':
+        return t('auth_email_in_use', { defaultValue: 'Email already in use' });
+      case 'auth/weak-password':
+        return t('auth_weak_password', { defaultValue: 'Password is too weak' });
+      case 'auth/too-many-requests':
+        return t('auth_too_many_requests', { defaultValue: 'Too many requests, try again later' });
+      case 'auth/invalid-email':
+        return t('auth_invalid_email', { defaultValue: 'Invalid email address' });
+      default:
+        return t('auth_error_generic', { defaultValue: 'An error occurred during authentication' });
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -32,7 +53,7 @@ export default function AuthModal() {
       }
       setAuthModalOpen(false);
     } catch (err: any) {
-      setError(err.message || t('auth_error_generic'));
+      setError(mapAuthError(err));
     }
   };
 

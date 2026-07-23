@@ -299,5 +299,20 @@
   "whys_why": "Neden?",
   "whys_why_placeholder": "Nedeni buraya yazın...",
   "ws_subtitle": "Proje yönetimi ve problem çözme metodolojilerini tek bir platformda birleştirin. Başlamak için kullanmak istediğiniz aracı seçin.",
-  "ws_title": "Proje Yönetim Araçları"
+  "ws_title": "Proje Yönetim Araçları",
+  "export_empty": "Dışa aktarılacak içerik yok",
+  "export_success": "Başarıyla dışa aktarıldı",
+  "export_failed": "Dışa aktarma başarısız oldu",
+  "share_failed": "Paylaşım başarısız oldu",
+  "save_failed": "Buluta kaydetme başarısız oldu",
+  "auth_invalid_credential": "Geçersiz e-posta veya şifre",
+  "auth_email_in_use": "Bu e-posta zaten kullanımda",
+  "auth_weak_password": "Şifre çok zayıf",
+  "auth_too_many_requests": "Çok fazla istek, lütfen daha sonra tekrar deneyin",
+  "auth_invalid_email": "Geçersiz e-posta adresi",
+  "error_parse_doc": "Belge ayrıştırma hatası",
+  "error_fetch_projects": "Projeleri getirme hatası",
+  "error_setup_listen": "Projeleri dinleme hatası",
+  "error_set_public": "Projeyi paylaşma hatası",
+  "error_join_project": "Projeye katılma hatası"
 }

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, Check, Loader2 } from 'lucide-react';
+import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
 import { useRoadmapStore } from '../store/useRoadmapStore';
 
@@ -27,6 +28,7 @@ const GlobalShareButton: React.FC = () => {
       setTimeout(() => setIsCopied(false), 2000);
     } catch (error) {
       console.error("Failed to share:", error);
+      toast.error(t('share_failed', { defaultValue: 'Share failed' }));
     } finally {
       setIsLoading(false);
     }
