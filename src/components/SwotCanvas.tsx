@@ -92,7 +92,7 @@ export default function SwotCanvas() {
               <button
                 onClick={() => deleteSwot(safeId)}
                 className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-xl transition-all"
-                title={t('delete')}
+                title={t('delete')} aria-label={t('delete')}
               >
                 <Trash2 size={18} />
               </button>

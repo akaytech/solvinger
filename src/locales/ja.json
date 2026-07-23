@@ -316,5 +316,10 @@
   "error_set_public": "プロジェクトの共有エラー",
   "error_join_project": "プロジェクトへの参加エラー",
   "auth_popup_closed": "ユーザーによってポップアップが閉じられました",
-  "auth_popup_blocked": "ブラウザによってポップアップがブロックされました"
+  "auth_popup_blocked": "ブラウザによってポップアップがブロックされました",
+  "close_modal": "閉じる",
+  "expand_sidebar": "サイドバーを展開",
+  "collapse_sidebar": "サイドバーを折りたたむ",
+  "desc_save": "説明を保存",
+  "goal_realign": "再配置"
 }

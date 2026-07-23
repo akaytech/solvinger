@@ -316,5 +316,10 @@
   "error_set_public": "Erro ao compartilhar projeto",
   "error_join_project": "Erro ao participar do projeto",
   "auth_popup_closed": "Janela pop-up fechada pelo usuário",
-  "auth_popup_blocked": "Janela pop-up bloqueada pelo navegador"
+  "auth_popup_blocked": "Janela pop-up bloqueada pelo navegador",
+  "close_modal": "Fechar",
+  "expand_sidebar": "Expandir barra lateral",
+  "collapse_sidebar": "Recolher barra lateral",
+  "desc_save": "Salvar descrição",
+  "goal_realign": "Realinhar"
 }

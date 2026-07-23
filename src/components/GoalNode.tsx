@@ -83,7 +83,8 @@ export default function GoalNode({ data, selected }: { data: GoalNodeData; selec
             realignChildren(nodeId);
           }}
           className="absolute -top-3 left-4 flex h-7 w-7 items-center justify-center rounded-full bg-indigo-500 hover:bg-indigo-600 text-white shadow-md border border-indigo-400 transition-all z-10"
-          title="Yeniden Hizala (Re-layout)"
+          title={t('goal_realign', { defaultValue: 'Realign layout' })}
+          aria-label={t('goal_realign', { defaultValue: 'Realign layout' })}
         >
           <LayoutGrid size={14} />
         </button>
@@ -137,7 +138,7 @@ export default function GoalNode({ data, selected }: { data: GoalNodeData; selec
               placeholder={t('double_click_edit')}
             />
           ) : (
-            <h3 className="text-sm font-bold leading-snug line-clamp-3 cursor-text select-none" title={t('double_click_edit')}>{data.label}</h3>
+            <h3 className="text-sm font-bold leading-snug line-clamp-3 cursor-text select-none" title={t('double_click_edit')} aria-label={t('double_click_edit')}>{data.label}</h3>
           )}
         </div>
       </div>

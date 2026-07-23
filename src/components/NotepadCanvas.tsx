@@ -93,7 +93,7 @@ const NotepadCanvas: React.FC = () => {
           <button
             onClick={handleAddNote}
             className="p-2 hover:bg-indigo-50 dark:hover:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 rounded-lg transition-colors group"
-            title={t('notepad_add_note')}
+            title={t('notepad_add_note')} aria-label={t('notepad_add_note')}
           >
             <Plus className="w-5 h-5 group-hover:scale-110 transition-transform" />
           </button>

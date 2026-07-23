@@ -316,5 +316,10 @@
   "error_set_public": "Error al compartir proyecto",
   "error_join_project": "Error al unirse al proyecto",
   "auth_popup_closed": "Ventana emergente cerrada por el usuario",
-  "auth_popup_blocked": "Ventana emergente bloqueada por el navegador"
+  "auth_popup_blocked": "Ventana emergente bloqueada por el navegador",
+  "close_modal": "Cerrar",
+  "expand_sidebar": "Expandir barra lateral",
+  "collapse_sidebar": "Contraer barra lateral",
+  "desc_save": "Guardar descripción",
+  "goal_realign": "Realinear"
 }

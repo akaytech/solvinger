@@ -39,7 +39,7 @@ const GlobalShareButton: React.FC = () => {
       onClick={handleShare}
       disabled={isLoading}
       className={`flex items-center gap-2 bg-indigo-50/90 dark:bg-indigo-900/40 backdrop-blur-md px-3 py-2 rounded-xl border border-indigo-200 dark:border-indigo-700 shadow-sm transition-colors text-indigo-700 dark:text-indigo-300 hover:bg-indigo-100 dark:hover:bg-indigo-900/60 font-medium text-sm ${isLoading ? 'opacity-75 cursor-not-allowed' : ''}`}
-      title={t('share')}
+      title={t('share')} aria-label={t('share')}
     >
       {isLoading ? (
         <Loader2 size={18} className="animate-spin" />

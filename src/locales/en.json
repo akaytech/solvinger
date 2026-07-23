@@ -316,5 +316,10 @@
   "error_set_public": "Error sharing project",
   "error_join_project": "Error joining project",
   "auth_popup_closed": "Sign-in popup was closed by the user",
-  "auth_popup_blocked": "Sign-in popup was blocked by the browser"
+  "auth_popup_blocked": "Sign-in popup was blocked by the browser",
+  "close_modal": "Close",
+  "expand_sidebar": "Expand sidebar",
+  "collapse_sidebar": "Collapse sidebar",
+  "desc_save": "Save description",
+  "goal_realign": "Realign layout"
 }

@@ -62,7 +62,7 @@ const UndoRedoControls: React.FC = () => {
             ? 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
             : 'text-slate-300 dark:text-slate-600 cursor-not-allowed'
         }`}
-        title={t('undo')}
+        title={t('undo')} aria-label={t('undo')}
       >
         <Undo2 size={18} />
       </button>
@@ -74,7 +74,7 @@ const UndoRedoControls: React.FC = () => {
             ? 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700'
             : 'text-slate-300 dark:text-slate-600 cursor-not-allowed'
         }`}
-        title={t('redo')}
+        title={t('redo')} aria-label={t('redo')}
       >
         <Redo2 size={18} />
       </button>

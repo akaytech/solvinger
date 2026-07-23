@@ -44,6 +44,7 @@ export default function InlineDescriptionMenu({
         <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">{t('desc_task')}</span>
         <button 
           onClick={handleSaveAndClose}
+          aria-label={t('desc_save', { defaultValue: 'Save description' })}
           className="flex h-6 w-6 items-center justify-center rounded-full bg-indigo-100 dark:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-500 hover:text-white transition-colors"
         >
           <Check size={14} />

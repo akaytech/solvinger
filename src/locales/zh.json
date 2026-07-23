@@ -316,5 +316,10 @@
   "error_set_public": "分享项目时出错",
   "error_join_project": "加入项目时出错",
   "auth_popup_closed": "弹窗被用户关闭",
-  "auth_popup_blocked": "弹窗被浏览器拦截"
+  "auth_popup_blocked": "弹窗被浏览器拦截",
+  "close_modal": "关闭",
+  "expand_sidebar": "展开侧边栏",
+  "collapse_sidebar": "收起侧边栏",
+  "desc_save": "保存描述",
+  "goal_realign": "重新对齐"
 }

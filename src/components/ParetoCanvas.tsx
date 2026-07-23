@@ -134,7 +134,7 @@ export default function ParetoCanvas() {
               )}
             </div>
           )}
-          <button onClick={handleCreateAnalysis} className="p-2 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors shrink-0" title={t('pareto_add_analysis')}>
+          <button onClick={handleCreateAnalysis} className="p-2 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-lg transition-colors shrink-0" title={t('pareto_add_analysis')} aria-label={t('pareto_add_analysis')}>
             <Plus size={20} />
           </button>
         </div>

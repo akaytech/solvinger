@@ -58,6 +58,8 @@ export default function Navbar() {
           e.stopPropagation();
           setIsExpanded(!isExpanded);
         }}
+        aria-label={t(isExpanded ? 'collapse_sidebar' : 'expand_sidebar', { defaultValue: 'Toggle sidebar' })}
+        aria-expanded={isExpanded}
         className={clsx(
           "absolute top-1/2 -translate-y-1/2 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 shadow-md hover:bg-slate-50 dark:hover:bg-slate-700 z-10 text-slate-500 dark:text-slate-400 transition-all hover:scale-110 active:scale-95 rtl:rotate-180",
           isExpanded ? "-end-5" : "start-4"

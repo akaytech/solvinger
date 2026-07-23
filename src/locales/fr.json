@@ -316,5 +316,10 @@
   "error_set_public": "Erreur lors du partage du projet",
   "error_join_project": "Erreur lors de la jonction au projet",
   "auth_popup_closed": "Fenêtre contextuelle fermée par l'utilisateur",
-  "auth_popup_blocked": "Fenêtre contextuelle bloquée par le navigateur"
+  "auth_popup_blocked": "Fenêtre contextuelle bloquée par le navigateur",
+  "close_modal": "Fermer",
+  "expand_sidebar": "Développer la barre latérale",
+  "collapse_sidebar": "Réduire la barre latérale",
+  "desc_save": "Enregistrer la description",
+  "goal_realign": "Réaligner"
 }

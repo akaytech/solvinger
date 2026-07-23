@@ -316,5 +316,10 @@
   "error_set_public": "Fehler beim Teilen des Projekts",
   "error_join_project": "Fehler beim Beitreten zum Projekt",
   "auth_popup_closed": "Popup vom Benutzer geschlossen",
-  "auth_popup_blocked": "Popup vom Browser blockiert"
+  "auth_popup_blocked": "Popup vom Browser blockiert",
+  "close_modal": "Schließen",
+  "expand_sidebar": "Seitenleiste erweitern",
+  "collapse_sidebar": "Seitenleiste minimieren",
+  "desc_save": "Beschreibung speichern",
+  "goal_realign": "Neu ausrichten"
 }

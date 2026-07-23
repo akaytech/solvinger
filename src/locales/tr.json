@@ -316,5 +316,10 @@
   "error_set_public": "Projeyi paylaşma hatası",
   "error_join_project": "Projeye katılma hatası",
   "auth_popup_closed": "Giriş penceresi kullanıcı tarafından kapatıldı",
-  "auth_popup_blocked": "Giriş penceresi tarayıcı tarafından engellendi"
+  "auth_popup_blocked": "Giriş penceresi tarayıcı tarafından engellendi",
+  "close_modal": "Kapat",
+  "expand_sidebar": "Yan menüyü genişlet",
+  "collapse_sidebar": "Yan menüyü daralt",
+  "desc_save": "Açıklamayı kaydet",
+  "goal_realign": "Yeniden Hizala (Re-layout)"
 }
