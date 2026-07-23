@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuthStore } from '../store/useAuthStore';
 import { useShallow } from 'zustand/react/shallow';
 import { Network, Activity, Target, Fish, RefreshCcw, Layers, AlertOctagon, Scale, GitMerge, BarChart2, BarChart, ListTodo, ArrowRight, FileText, Sun, Moon, Languages, Check } from 'lucide-react';
+import LegalModal from './LegalModal';
 
 const SUPPORTED_LANGUAGES = [
   { code: 'tr', nativeName: 'Türkçe' },
@@ -23,6 +24,7 @@ export default function LandingPage() {
 
   const [isDarkMode, setIsDarkMode] = useState(() => document.documentElement.classList.contains('dark'));
   const [showLanguagePicker, setShowLanguagePicker] = useState(false);
+  const [legalType, setLegalType] = useState<'privacy' | 'terms' | null>(null);
   const langMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -287,11 +289,28 @@ export default function LandingPage() {
             <img src={`${import.meta.env.BASE_URL}logo.jpg`} alt="Solvinger Logo" className="h-8 w-8 rounded-lg grayscale opacity-50" />
             <span className="text-lg font-bold text-slate-400">Solvinger</span>
           </div>
+          
+          <div className="flex items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
+            <button onClick={() => setLegalType('terms')} className="hover:text-slate-700 dark:hover:text-slate-300 hover:underline transition-colors">
+              {t('terms_of_use_title', { defaultValue: 'Terms of Use' })}
+            </button>
+            <button onClick={() => setLegalType('privacy')} className="hover:text-slate-700 dark:hover:text-slate-300 hover:underline transition-colors">
+              {t('privacy_policy_title', { defaultValue: 'Privacy Policy' })}
+            </button>
+          </div>
+
           <div className="text-sm text-slate-500 dark:text-slate-400">
             &copy; {new Date().getFullYear()} Solvinger. {t('landing_rights_reserved')}
           </div>
         </div>
       </footer>
+
+      <LegalModal 
+        isOpen={legalType !== null} 
+        onClose={() => setLegalType(null)} 
+        type={legalType || 'privacy'} 
+      />
+      
       
     </div>
   );
