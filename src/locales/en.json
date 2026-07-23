@@ -314,5 +314,7 @@
   "error_fetch_projects": "Error fetching projects",
   "error_setup_listen": "Error listening to projects",
   "error_set_public": "Error sharing project",
-  "error_join_project": "Error joining project"
+  "error_join_project": "Error joining project",
+  "auth_popup_closed": "Sign-in popup was closed by the user",
+  "auth_popup_blocked": "Sign-in popup was blocked by the browser"
 }

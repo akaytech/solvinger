@@ -314,5 +314,7 @@
   "error_fetch_projects": "Projeleri getirme hatası",
   "error_setup_listen": "Projeleri dinleme hatası",
   "error_set_public": "Projeyi paylaşma hatası",
-  "error_join_project": "Projeye katılma hatası"
+  "error_join_project": "Projeye katılma hatası",
+  "auth_popup_closed": "Giriş penceresi kullanıcı tarafından kapatıldı",
+  "auth_popup_blocked": "Giriş penceresi tarayıcı tarafından engellendi"
 }

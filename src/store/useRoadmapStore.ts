@@ -316,7 +316,10 @@ export const useRoadmapStore = create<RoadmapState>()(
         };
 
         // Save immediately
-        setDoc(doc(db, 'projects', newProject.id), newProject).catch(console.error);
+        setDoc(doc(db, 'projects', newProject.id), newProject).catch((err) => {
+          console.error(err);
+          toast.error(i18n.t('save_failed', { defaultValue: 'Failed to save to cloud' }), { id: 'save-failed' });
+        });
 
         set((state) => ({
           projects: [newProject, ...state.projects],
@@ -386,7 +389,10 @@ export const useRoadmapStore = create<RoadmapState>()(
       updateProjectName: (id, name) => {
         const user = useAuthStore.getState().user;
         if (user) {
-           setDoc(doc(db, 'projects', id), { name, updatedAt: Date.now() }, { merge: true }).catch(console.error);
+           setDoc(doc(db, 'projects', id), { name, updatedAt: Date.now() }, { merge: true }).catch((err) => {
+             console.error(err);
+             toast.error(i18n.t('save_failed', { defaultValue: 'Failed to save to cloud' }), { id: 'save-failed' });
+           });
         }
         set((state) => ({
           projects: state.projects.map((p) =>
@@ -488,7 +494,10 @@ export const useRoadmapStore = create<RoadmapState>()(
             }
             nextP.updatedAt = Date.now();
             if (useAuthStore.getState().user) {
-              setDoc(doc(db, 'projects', p.id), nextP, { merge: true }).catch(console.error);
+              setDoc(doc(db, 'projects', p.id), nextP, { merge: true }).catch((err) => {
+                console.error(err);
+                toast.error(i18n.t('save_failed', { defaultValue: 'Failed to save to cloud' }), { id: 'save-failed' });
+              });
             }
             return nextP;
           }

@@ -67,7 +67,7 @@ const GlobalExportButton: React.FC = () => {
         
         if (!element) {
           toast.error(t('export_empty', { defaultValue: 'Nothing to export' }));
-          throw new Error("Export container not found");
+          return;
         }
         
         // Temporarily ensure no scrollbars or clipped content in the capture

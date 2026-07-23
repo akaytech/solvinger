@@ -36,6 +36,10 @@ export default function AuthModal() {
         return t('auth_too_many_requests', { defaultValue: 'Too many requests, try again later' });
       case 'auth/invalid-email':
         return t('auth_invalid_email', { defaultValue: 'Invalid email address' });
+      case 'auth/popup-closed-by-user':
+        return t('auth_popup_closed', { defaultValue: 'Sign-in popup was closed by the user' });
+      case 'auth/popup-blocked-by-browser':
+        return t('auth_popup_blocked', { defaultValue: 'Sign-in popup was blocked by the browser' });
       default:
         return t('auth_error_generic', { defaultValue: 'An error occurred during authentication' });
     }
@@ -62,9 +66,11 @@ export default function AuthModal() {
     try {
       const provider = new GoogleAuthProvider();
       await signInWithPopup(auth, provider);
+      
+      // onAuthStateChanged halledecek
       setAuthModalOpen(false);
     } catch (err: any) {
-      setError(err.message || t('auth_error_google'));
+      setError(mapAuthError(err));
     }
   };
 
