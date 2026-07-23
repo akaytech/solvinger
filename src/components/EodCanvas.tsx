@@ -75,7 +75,7 @@ function SortableTaskItem({
         {...attributes} 
         {...listeners}
         className={clsx(
-          "mt-1 text-slate-300 dark:text-slate-600 transition-colors shrink-0 outline-none rounded p-0.5",
+          "mt-1 text-slate-300 dark:text-slate-600 transition-colors shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-1 dark:focus-visible:ring-offset-slate-800 rounded p-0.5",
           !isEditing && "cursor-grab active:cursor-grabbing hover:text-slate-500 dark:hover:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
         )}
       >
