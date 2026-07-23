@@ -80,7 +80,7 @@ export default function LandingPage() {
           </div>
           <div className="flex items-center gap-2 sm:gap-4">
             
-            <div className="flex items-center gap-1 sm:gap-2 mr-2">
+            <div className="flex items-center gap-1 sm:gap-2 me-2">
               {/* Theme Toggle */}
               <button
                 onClick={toggleDarkMode}
