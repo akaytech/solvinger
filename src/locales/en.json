@@ -321,5 +321,6 @@
   "expand_sidebar": "Expand sidebar",
   "collapse_sidebar": "Collapse sidebar",
   "desc_save": "Save description",
-  "goal_realign": "Realign layout"
+  "goal_realign": "Realign layout",
+  "change_language_settings": "Change Language Settings"
 }

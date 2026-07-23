@@ -321,5 +321,6 @@
   "expand_sidebar": "Yan menüyü genişlet",
   "collapse_sidebar": "Yan menüyü daralt",
   "desc_save": "Açıklamayı kaydet",
-  "goal_realign": "Yeniden Hizala (Re-layout)"
+  "goal_realign": "Yeniden Hizala (Re-layout)",
+  "change_language_settings": "Dil Ayarlarını Değiştir"
 }

@@ -321,5 +321,6 @@
   "expand_sidebar": "Expandir barra lateral",
   "collapse_sidebar": "Contraer barra lateral",
   "desc_save": "Guardar descripción",
-  "goal_realign": "Realinear"
+  "goal_realign": "Realinear",
+  "change_language_settings": "Cambiar la configuración del idioma"
 }

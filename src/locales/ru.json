@@ -321,5 +321,6 @@
   "expand_sidebar": "Развернуть боковую панель",
   "collapse_sidebar": "Свернуть боковую панель",
   "desc_save": "Сохранить описание",
-  "goal_realign": "Выровнять"
+  "goal_realign": "Выровнять",
+  "change_language_settings": "Изменить настройки языка"
 }
