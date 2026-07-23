@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useAuthStore } from '../store/useAuthStore';
 import { useShallow } from 'zustand/react/shallow';
 import { auth } from '../firebaseCore';
@@ -18,10 +18,56 @@ export default function AuthModal() {
   const [legalType, setLegalType] = useState<'privacy' | 'terms' | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const modalRef = useRef<HTMLDivElement>(null);
+  const emailInputRef = useRef<HTMLInputElement>(null);
   
   const { setAuthModalOpen } = useAuthStore(useShallow((state) => ({
       setAuthModalOpen: state.setAuthModalOpen
     })));
+
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setAuthModalOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleEscape);
+    
+    // Auto-focus email input on mount
+    const timer = setTimeout(() => {
+      emailInputRef.current?.focus();
+    }, 50);
+
+    return () => {
+      window.removeEventListener('keydown', handleEscape);
+      clearTimeout(timer);
+    };
+  }, [setAuthModalOpen]);
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key !== 'Tab') return;
+    
+    const focusableElements = modalRef.current?.querySelectorAll<HTMLElement>(
+      'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    );
+    
+    if (!focusableElements || focusableElements.length === 0) return;
+
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements[focusableElements.length - 1];
+
+    if (e.shiftKey) {
+      if (document.activeElement === firstElement) {
+        lastElement.focus();
+        e.preventDefault();
+      }
+    } else {
+      if (document.activeElement === lastElement) {
+        firstElement.focus();
+        e.preventDefault();
+      }
+    }
+  };
 
   // Not: Oturumu store'a yazmak artık firebaseCore'daki onAuthStateChanged
   // listener'ının işi. Burada sadece başarılı girişte modalı kapatıyoruz.
@@ -131,7 +177,14 @@ export default function AuthModal() {
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/50 backdrop-blur-md p-4 md:p-8">
-      <div className="relative flex w-full max-w-6xl overflow-hidden rounded-3xl bg-white dark:bg-slate-900 shadow-2xl flex-col md:flex-row h-auto md:h-[600px]">
+      <div 
+        ref={modalRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="auth-modal-title"
+        onKeyDown={handleKeyDown}
+        className="relative flex w-full max-w-6xl overflow-hidden rounded-3xl bg-white dark:bg-slate-900 shadow-2xl flex-col md:flex-row h-auto md:h-[600px]"
+      >
         
         {/* Close Button */}
         <button 
@@ -177,7 +230,7 @@ export default function AuthModal() {
         {/* Right Side (1/3) - Form */}
         <div className="flex w-full md:w-1/3 flex-col justify-center p-8 lg:p-10 overflow-y-auto">
           <div className="mb-8 text-center md:text-start">
-            <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100">Solvinger</h2>
+            <h2 id="auth-modal-title" className="text-2xl font-black text-slate-800 dark:text-slate-100">Solvinger</h2>
             <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">{t('welcome_msg')}</p>
           </div>
 
@@ -191,6 +244,7 @@ export default function AuthModal() {
             <div>
               <label className="mb-1 block text-sm font-semibold text-slate-700 dark:text-slate-300">{t('email')}</label>
               <input
+                ref={emailInputRef}
                 type="email"
                 required
                 value={email}
