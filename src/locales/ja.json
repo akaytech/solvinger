@@ -327,5 +327,6 @@
   "hide_password": "パスワードを隠す",
   "forgot_password": "パスワードをお忘れですか",
   "password_reset_sent": "パスワードリセットメールを送信しました",
-  "enter_email_for_reset": "まずメールアドレスを入力してください"
+  "enter_email_for_reset": "まずメールアドレスを入力してください",
+  "more_options": "その他のオプション"
 }

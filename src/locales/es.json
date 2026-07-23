@@ -327,5 +327,6 @@
   "hide_password": "Ocultar contraseña",
   "forgot_password": "Olvidé mi contraseña",
   "password_reset_sent": "Correo de restablecimiento de contraseña enviado",
-  "enter_email_for_reset": "Por favor, introduzca su correo electrónico primero"
+  "enter_email_for_reset": "Por favor, introduzca su correo electrónico primero",
+  "more_options": "Más opciones"
 }

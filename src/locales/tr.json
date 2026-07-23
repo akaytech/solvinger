@@ -327,5 +327,6 @@
   "hide_password": "Şifreyi gizle",
   "forgot_password": "Şifremi Unuttum",
   "password_reset_sent": "Şifre sıfırlama e-postası gönderildi",
-  "enter_email_for_reset": "Lütfen önce e-posta adresinizi girin"
+  "enter_email_for_reset": "Lütfen önce e-posta adresinizi girin",
+  "more_options": "Daha fazla seçenek"
 }

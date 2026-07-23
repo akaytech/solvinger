@@ -327,5 +327,6 @@
   "hide_password": "隐藏密码",
   "forgot_password": "忘记密码",
   "password_reset_sent": "密码重置邮件已发送",
-  "enter_email_for_reset": "请先输入您的电子邮件地址"
+  "enter_email_for_reset": "请先输入您的电子邮件地址",
+  "more_options": "更多选项"
 }
