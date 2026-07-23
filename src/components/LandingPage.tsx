@@ -184,7 +184,11 @@ export default function LandingPage() {
       </section>
 
       {/* Tools Section */}
-      <section id="tools" className="py-24 bg-white dark:bg-slate-950 relative border-t border-slate-100 dark:border-slate-900 scroll-mt-24">
+      <section 
+        id="tools" 
+        className="py-24 bg-white dark:bg-slate-950 relative border-t border-slate-100 dark:border-slate-900"
+        style={{ scrollMarginTop: '6rem' }}
+      >
         <div className="container mx-auto px-6">
           <div className="text-center max-w-3xl mx-auto mb-20">
             <h2 className="text-3xl md:text-5xl font-black mb-6 tracking-tight">{t('landing_tools_heading')}</h2>
