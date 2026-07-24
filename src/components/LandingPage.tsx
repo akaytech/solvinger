@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useAuthStore } from '../store/useAuthStore';
-import { useShallow } from 'zustand/react/shallow';
 import { Network, Activity, Target, Fish, RefreshCcw, Layers, AlertOctagon, Scale, GitMerge, BarChart2, BarChart, ListTodo, ArrowRight, FileText, Sun, Moon, Languages, Check } from 'lucide-react';
 import LegalModal from './LegalModal';
 
@@ -20,7 +19,7 @@ const SUPPORTED_LANGUAGES = [
 
 export default function LandingPage() {
   const { t, i18n } = useTranslation();
-  const setAuthModalOpen = useAuthStore(useShallow((state) => state.setAuthModalOpen));
+  const navigate = useNavigate();
 
   const [isDarkMode, setIsDarkMode] = useState(() => document.documentElement.classList.contains('dark'));
   const [showLanguagePicker, setShowLanguagePicker] = useState(false);
@@ -161,13 +160,13 @@ export default function LandingPage() {
             <div className="h-6 w-px bg-slate-200 dark:bg-slate-700 hidden sm:block"></div>
 
             <button
-              onClick={() => setAuthModalOpen(true, 'login')}
+              onClick={() => navigate('/login')}
               className="rounded-full bg-slate-100 dark:bg-slate-800 px-4 sm:px-6 py-2.5 text-sm font-bold text-slate-700 dark:text-slate-200 transition-all hover:bg-slate-200 dark:hover:bg-slate-700"
             >
               {t('login')}
             </button>
             <button
-              onClick={() => setAuthModalOpen(true, 'register')}
+              onClick={() => navigate('/register')}
               className="rounded-full bg-indigo-600 px-5 sm:px-6 py-2 sm:py-2.5 text-sm font-bold text-white shadow-lg shadow-indigo-600/30 transition-all hover:bg-indigo-700 hover:shadow-indigo-600/40 hover:-translate-y-0.5 motion-reduce:hover:translate-y-0 active:translate-y-0"
             >
               {t('register')}
@@ -199,7 +198,7 @@ export default function LandingPage() {
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <button
-              onClick={() => setAuthModalOpen(true, 'register')}
+              onClick={() => navigate('/register')}
               className="flex items-center gap-2 rounded-full bg-slate-900 dark:bg-white px-8 py-4 text-lg font-bold text-white dark:text-slate-900 shadow-xl shadow-slate-900/20 dark:shadow-white/10 transition-all hover:-translate-y-1 motion-reduce:hover:translate-y-0 hover:shadow-2xl active:translate-y-0 w-full sm:w-auto justify-center"
             >
               {t('register')} <ArrowRight size={20} />
@@ -268,7 +267,7 @@ export default function LandingPage() {
                   {cat.tools.map((tool) => (
                     <button 
                       key={tool.id} 
-                      onClick={() => setAuthModalOpen(true, 'register')}
+                      onClick={() => navigate('/register')}
                       className="group relative flex flex-col items-start text-start rounded-3xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 p-8 transition-all hover:shadow-2xl hover:-translate-y-1 motion-reduce:hover:translate-y-0 hover:border-indigo-500/30 dark:hover:border-indigo-500/30"
                     >
                       <div className={`mb-6 h-14 w-14 rounded-2xl ${tool.bg} flex items-center justify-center transition-transform group-hover:scale-110 motion-reduce:group-hover:scale-100 group-hover:rotate-3 motion-reduce:group-hover:rotate-0`}>
@@ -305,7 +304,7 @@ export default function LandingPage() {
             {t('landing_cta_subtitle')}
           </p>
           <button
-            onClick={() => setAuthModalOpen(true, 'register')}
+            onClick={() => navigate('/register')}
             className="rounded-full bg-white px-10 py-5 text-xl font-black text-indigo-600 shadow-2xl transition-transform hover:scale-105 motion-reduce:hover:scale-100 active:scale-95 motion-reduce:active:scale-100"
           >
             {t('landing_cta_button')}
