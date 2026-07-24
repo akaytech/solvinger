@@ -324,7 +324,10 @@ export default function AuthModal() {
           <p className="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
             {isLoginMode ? t('no_account') : t('have_account')}
             <button 
-              onClick={() => setIsLoginMode(!isLoginMode)}
+              onClick={() => {
+                setIsLoginMode(!isLoginMode);
+                setError('');
+              }}
               className="font-bold text-indigo-600 dark:text-indigo-400 hover:underline"
             >
               {isLoginMode ? t('register_now') : t('login')}
