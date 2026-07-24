@@ -9,6 +9,7 @@ const LandingPage = React.lazy(() => import('./components/LandingPage'));
 
 function App() {
   const user = useAuthStore(state => state.user);
+  const isAuthLoading = useAuthStore(state => state.isAuthLoading);
   const location = useLocation();
   const isAuthRoute = location.pathname === '/login' || location.pathname === '/register';
   
@@ -32,7 +33,11 @@ function App() {
     <div className="flex h-screen w-screen overflow-hidden bg-slate-50 dark:bg-slate-900 font-sans text-slate-800 dark:text-slate-100 transition-colors">
       <Toaster position="bottom-center" theme={theme} richColors />
       
-      {!user ? (
+      {isAuthLoading ? (
+        <div className="flex h-screen w-screen items-center justify-center bg-slate-50 dark:bg-slate-900">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+        </div>
+      ) : !user ? (
         isAuthRoute ? (
           <Suspense fallback={
             <div className="flex h-screen w-screen items-center justify-center bg-slate-50 dark:bg-slate-900">
