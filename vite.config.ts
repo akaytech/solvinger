@@ -10,6 +10,9 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'logo.jpg'],
+      workbox: {
+        navigateFallbackDenylist: [/^\/__\//],
+      },
       manifest: {
         name: 'Solvinger',
         short_name: 'Solvinger',
