@@ -230,6 +230,11 @@ export default function AuthModal() {
         {/* Right Side (1/3) - Form */}
         <div className="flex w-full md:w-1/3 flex-col justify-center p-8 lg:p-10 overflow-y-auto">
           <div className="mb-8 text-center md:text-start">
+            <img 
+              src={`${import.meta.env.BASE_URL}logo.jpg`} 
+              alt="Solvinger Logo" 
+              className="h-12 w-12 rounded-xl shadow-sm mx-auto mb-4 md:hidden" 
+            />
             <h2 id="auth-modal-title" className="text-2xl font-black text-slate-800 dark:text-slate-100">Solvinger</h2>
             <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">{t('welcome_msg')}</p>
           </div>
@@ -334,7 +339,7 @@ export default function AuthModal() {
             </button>
           </p>
 
-          <p className="mt-8 text-center text-xs text-slate-400 dark:text-slate-500 leading-relaxed">
+          <p className="mt-8 text-center text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
             {renderLegalConsent()}
           </p>
         </div>
