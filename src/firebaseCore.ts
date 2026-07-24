@@ -5,7 +5,7 @@ import { toast } from 'sonner';
 import i18n from './i18n';
 const firebaseConfig = {
   apiKey: "AIzaSyCIUiD3Pk3x6LE0YkPWg8caib_8XVakT90",
-  authDomain: "probsolve-1f6eb.firebaseapp.com",
+  authDomain: "probsolve-1f6eb.web.app",
   projectId: "probsolve-1f6eb",
   storageBucket: "probsolve-1f6eb.firebasestorage.app",
   messagingSenderId: "949061584581",
