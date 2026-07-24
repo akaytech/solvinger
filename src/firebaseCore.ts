@@ -1,7 +1,8 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, getRedirectResult } from 'firebase/auth';
 import { useAuthStore } from './store/useAuthStore';
-
+import { toast } from 'sonner';
+import i18n from './i18n';
 const firebaseConfig = {
   apiKey: "AIzaSyCIUiD3Pk3x6LE0YkPWg8caib_8XVakT90",
   authDomain: "probsolve-1f6eb.firebaseapp.com",
@@ -23,6 +24,11 @@ let authListenerStarted = false;
 export const initAuthListener = () => {
   if (authListenerStarted) return;
   authListenerStarted = true;
+
+  getRedirectResult(auth).catch((err) => {
+    console.error('Redirect sign-in error:', err);
+    toast.error(i18n.t('auth_error_generic', { defaultValue: 'An error occurred during authentication' }), { id: 'redirect-auth-error' });
+  });
 
   onAuthStateChanged(auth, (firebaseUser) => {
     const { login, logout, user: cachedUser } = useAuthStore.getState();

@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { auth } from '../firebaseCore';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithRedirect, sendPasswordResetEmail } from 'firebase/auth';
 import { Eye, EyeOff, Loader2, ArrowLeft } from 'lucide-react';
 import { toast } from 'sonner';
 import { useTranslation } from 'react-i18next';
@@ -100,8 +100,9 @@ export default function AuthPage({ mode }: { mode: 'login' | 'register' }) {
     setIsSubmitting(true);
     try {
       const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
-      // onAuthStateChanged will handle the redirect.
+      await signInWithRedirect(auth, provider);
+      // Sayfa Google'a yönlenecek; dönüşte firebaseCore.ts'teki
+      // getRedirectResult + onAuthStateChanged süreci tamamlayacak.
     } catch (err: any) {
       setError(mapAuthError(err));
       setIsSubmitting(false);
