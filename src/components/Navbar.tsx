@@ -10,16 +10,17 @@ import { useTranslation } from 'react-i18next';
 export default function Navbar() {
   const { t } = useTranslation();
   const [isExpanded, setIsExpanded] = useState(false);
-  const {  activeTool, setActiveTool, projects, createProject  } = useRoadmapStore(useShallow((state) => ({
+  const {  activeTool, setActiveTool, projects, createProject, currentProjectId  } = useRoadmapStore(useShallow((state) => ({
       activeTool: state.activeTool,
       setActiveTool: state.setActiveTool,
       projects: state.projects,
-      createProject: state.createProject
+      createProject: state.createProject,
+      currentProjectId: state.currentProjectId
     })));
   const menuRef = useRef<HTMLDivElement>(null);
 
   const handleToolClick = (tool: any) => {
-    if (projects.length === 0) {
+    if (!currentProjectId || !projects.some(p => p.id === currentProjectId)) {
       createProject(t('new_project'), tool);
     }
     setActiveTool(tool);

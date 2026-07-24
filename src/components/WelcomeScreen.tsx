@@ -7,10 +7,11 @@ import { logAppEvent } from '../firebase';
 import { toolTheme } from '../config/toolTheme';
 
 export default function WelcomeScreen() {
-  const { setActiveTool, projects, createProject } = useRoadmapStore(useShallow((state) => ({
+  const { setActiveTool, projects, createProject, currentProjectId } = useRoadmapStore(useShallow((state) => ({
     setActiveTool: state.setActiveTool,
     projects: state.projects,
-    createProject: state.createProject
+    createProject: state.createProject,
+    currentProjectId: state.currentProjectId
   })));
   const { t } = useTranslation();
 
@@ -20,7 +21,7 @@ export default function WelcomeScreen() {
 
   const handleToolClick = (tool: any) => {
     logAppEvent('tool_selected', { tool });
-    if (projects.length === 0) {
+    if (!currentProjectId || !projects.some(p => p.id === currentProjectId)) {
       createProject(t('new_project'), tool);
     }
     setActiveTool(tool);
