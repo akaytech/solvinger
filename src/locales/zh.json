@@ -337,5 +337,6 @@
   "landing_step2_desc": "在交互式画布上工作，与团队实时共享进度。",
   "landing_step3_title": "分享与决策",
   "landing_step3_desc": "导出结果或进行分享，以制定基于数据的决策。",
-  "email_placeholder": "you@example.com"
+  "email_placeholder": "you@example.com",
+  "back_to_home": "返回首页"
 }

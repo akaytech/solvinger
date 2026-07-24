@@ -337,5 +337,6 @@
   "landing_step2_desc": "インタラクティブなキャンバスで作業し、チームとリアルタイムで進行します。",
   "landing_step3_title": "共有して決定",
   "landing_step3_desc": "結果をエクスポートまたは共有して、データに基づく意思決定を行います。",
-  "email_placeholder": "you@example.com"
+  "email_placeholder": "you@example.com",
+  "back_to_home": "ホームに戻る"
 }

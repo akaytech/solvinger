@@ -337,5 +337,6 @@
   "landing_step2_desc": "İnteraktif canvas üzerinde çalışın ve ekibinizle eş zamanlı ilerleyin.",
   "landing_step3_title": "Paylaşın ve Karar Verin",
   "landing_step3_desc": "Sonuçlarınızı dışa aktarın veya paylaşarak veriye dayalı kararlar alın.",
-  "email_placeholder": "ornek@sirket.com"
+  "email_placeholder": "ornek@sirket.com",
+  "back_to_home": "Ana Sayfa"
 }

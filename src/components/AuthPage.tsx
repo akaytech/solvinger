@@ -139,10 +139,10 @@ export default function AuthPage({ mode }: { mode: 'login' | 'register' }) {
       <div className="hidden md:flex flex-col justify-between w-2/3 bg-slate-50 dark:bg-slate-800 p-12 border-r border-slate-200 dark:border-slate-700 relative">
         <button 
           onClick={() => navigate('/')}
-          className="absolute top-8 left-8 flex items-center gap-2 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-100 font-semibold transition-colors"
+          className="absolute top-8 start-8 flex items-center gap-2 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-100 font-semibold transition-colors"
         >
-          <ArrowLeft size={20} />
-          {t('back_to_home', { defaultValue: 'Ana Sayfa' })}
+          <ArrowLeft size={20} className="rtl:rotate-180" />
+          {t('back_to_home')}
         </button>
         
         <div className="mt-12">
@@ -181,8 +181,8 @@ export default function AuthPage({ mode }: { mode: 'login' | 'register' }) {
           onClick={() => navigate('/')}
           className="md:hidden self-start mb-6 flex items-center gap-2 text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-100 font-semibold transition-colors"
         >
-          <ArrowLeft size={20} />
-          {t('back_to_home', { defaultValue: 'Ana Sayfa' })}
+          <ArrowLeft size={20} className="rtl:rotate-180" />
+          {t('back_to_home')}
         </button>
 
         <div className="mb-8 text-center md:text-start">

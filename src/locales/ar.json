@@ -337,5 +337,6 @@
   "landing_step2_desc": "اعمل على لوحة تفاعلية وتقدم في الوقت الفعلي مع فريقك.",
   "landing_step3_title": "شارك وقرر",
   "landing_step3_desc": "قم بتصدير نتائجك أو مشاركتها لاتخاذ قرارات مدروسة.",
-  "email_placeholder": "you@example.com"
+  "email_placeholder": "you@example.com",
+  "back_to_home": "العودة إلى الرئيسية"
 }

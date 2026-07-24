@@ -337,5 +337,6 @@
   "landing_step2_desc": "Работайте на интерактивном холсте и продвигайтесь в реальном времени с командой.",
   "landing_step3_title": "Делитесь и решайте",
   "landing_step3_desc": "Экспортируйте результаты или делитесь ими для принятия обоснованных решений.",
-  "email_placeholder": "name@example.com"
+  "email_placeholder": "name@example.com",
+  "back_to_home": "Вернуться на Главную"
 }
