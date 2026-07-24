@@ -18,6 +18,7 @@ export default function AuthModal() {
   const [legalType, setLegalType] = useState<'privacy' | 'terms' | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
   const emailInputRef = useRef<HTMLInputElement>(null);
   
@@ -26,9 +27,18 @@ export default function AuthModal() {
     })));
 
   useEffect(() => {
+    setIsVisible(true);
+  }, []);
+
+  const handleClose = () => {
+    setIsVisible(false);
+    setTimeout(() => setAuthModalOpen(false), 200);
+  };
+
+  useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        setAuthModalOpen(false);
+        handleClose();
       }
     };
     window.addEventListener('keydown', handleEscape);
@@ -108,7 +118,7 @@ export default function AuthModal() {
       } else {
         await createUserWithEmailAndPassword(auth, email, password);
       }
-      setAuthModalOpen(false);
+      handleClose();
     } catch (err: any) {
       setError(mapAuthError(err));
     } finally {
@@ -141,7 +151,7 @@ export default function AuthModal() {
       await signInWithPopup(auth, provider);
       
       // onAuthStateChanged halledecek
-      setAuthModalOpen(false);
+      handleClose();
     } catch (err: any) {
       setError(mapAuthError(err));
     } finally {
@@ -176,19 +186,19 @@ export default function AuthModal() {
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/50 backdrop-blur-md p-4 md:p-8">
+    <div className={`fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/50 backdrop-blur-md p-4 md:p-8 transition-opacity duration-200 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
       <div 
         ref={modalRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="auth-modal-title"
         onKeyDown={handleKeyDown}
-        className="relative flex w-full max-w-6xl overflow-hidden rounded-3xl bg-white dark:bg-slate-900 shadow-2xl flex-col md:flex-row h-auto md:h-[600px]"
+        className={`relative flex w-full max-w-6xl overflow-hidden rounded-3xl bg-white dark:bg-slate-900 shadow-2xl flex-col md:flex-row h-auto md:h-[600px] transition-all duration-200 ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
       >
         
         {/* Close Button */}
         <button 
-          onClick={() => setAuthModalOpen(false)}
+          onClick={handleClose}
           aria-label={t('close_modal', { defaultValue: 'Close' })}
           className="absolute top-4 end-4 z-10 rounded-full p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-300 transition-colors"
         >
