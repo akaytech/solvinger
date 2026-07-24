@@ -336,5 +336,6 @@
   "landing_step2_title": "Analysez Ensemble",
   "landing_step2_desc": "Travaillez sur une toile interactive et progressez en temps réel avec votre équipe.",
   "landing_step3_title": "Partagez et Décidez",
-  "landing_step3_desc": "Exportez vos résultats ou partagez-les pour prendre des décisions éclairées."
+  "landing_step3_desc": "Exportez vos résultats ou partagez-les pour prendre des décisions éclairées.",
+  "email_placeholder": "vous@exemple.com"
 }

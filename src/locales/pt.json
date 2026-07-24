@@ -336,5 +336,6 @@
   "landing_step2_title": "Analise em Equipe",
   "landing_step2_desc": "Trabalhe em uma tela interativa e progrida em tempo real com sua equipe.",
   "landing_step3_title": "Compartilhe e Decida",
-  "landing_step3_desc": "Exporte seus resultados ou compartilhe-os para tomar decisões baseadas em dados."
+  "landing_step3_desc": "Exporte seus resultados ou compartilhe-os para tomar decisões baseadas em dados.",
+  "email_placeholder": "voce@exemplo.com"
 }

@@ -336,5 +336,6 @@
   "landing_step2_title": "Analyze Together",
   "landing_step2_desc": "Work on an interactive canvas and progress in real-time with your team.",
   "landing_step3_title": "Share & Decide",
-  "landing_step3_desc": "Export your results or share them to make data-driven decisions."
+  "landing_step3_desc": "Export your results or share them to make data-driven decisions.",
+  "email_placeholder": "you@example.com"
 }

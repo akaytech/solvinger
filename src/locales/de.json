@@ -336,5 +336,6 @@
   "landing_step2_title": "Gemeinsam analysieren",
   "landing_step2_desc": "Arbeiten Sie auf einer interaktiven Leinwand und machen Sie Fortschritte mit Ihrem Team.",
   "landing_step3_title": "Teilen & Entscheiden",
-  "landing_step3_desc": "Exportieren Sie Ihre Ergebnisse oder teilen Sie sie, um fundierte Entscheidungen zu treffen."
+  "landing_step3_desc": "Exportieren Sie Ihre Ergebnisse oder teilen Sie sie, um fundierte Entscheidungen zu treffen.",
+  "email_placeholder": "name@beispiel.com"
 }

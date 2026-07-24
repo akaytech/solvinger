@@ -336,5 +336,6 @@
   "landing_step2_title": "Analiza en Equipo",
   "landing_step2_desc": "Trabaja en un lienzo interactivo y avanza en tiempo real con tu equipo.",
   "landing_step3_title": "Comparte y Decide",
-  "landing_step3_desc": "Exporta tus resultados o compártelos para tomar decisiones basadas en datos."
+  "landing_step3_desc": "Exporta tus resultados o compártelos para tomar decisiones basadas en datos.",
+  "email_placeholder": "tu@ejemplo.com"
 }

@@ -249,7 +249,7 @@ export default function AuthModal() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="ornek@sirket.com"
+                placeholder={t('email_placeholder')}
                 className="w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 px-4 py-3 text-sm outline-none transition-colors focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-indigo-500/20 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500"
               />
             </div>
