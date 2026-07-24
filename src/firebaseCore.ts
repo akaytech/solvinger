@@ -31,7 +31,7 @@ export const initAuthListener = () => {
   });
 
   onAuthStateChanged(auth, (firebaseUser) => {
-    const { login, logout, user: cachedUser } = useAuthStore.getState();
+    const { login, logout, user: cachedUser, setAuthLoading } = useAuthStore.getState();
     if (firebaseUser) {
       login(
         firebaseUser.uid,
@@ -42,5 +42,6 @@ export const initAuthListener = () => {
     } else {
       logout();
     }
+    setAuthLoading(false);
   });
 };
