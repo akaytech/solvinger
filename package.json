@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:firebase": "tsc -b && cross-env VITE_DEPLOY_TARGET=firebase vite build",
     "lint": "oxlint",
     "preview": "vite preview",
     "export-code": "node scripts/export_code.cjs"
@@ -41,6 +42,7 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.3",
     "autoprefixer": "^10.5.3",
+    "cross-env": "^10.1.0",
     "oxlint": "^1.71.0",
     "postcss": "^8.5.19",
     "tailwindcss": "^4.3.2",

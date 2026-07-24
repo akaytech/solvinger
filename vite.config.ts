@@ -32,5 +32,5 @@ export default defineConfig({
       }
     })
   ],
-  base: '/solvinger/'
+  base: process.env.VITE_DEPLOY_TARGET === 'firebase' ? '/' : '/solvinger/'
 })
